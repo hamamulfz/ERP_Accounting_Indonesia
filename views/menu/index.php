@@ -15,6 +15,12 @@
 //		'message'=>'I am really a very simple notification')
 //	);
 ?>
+<?php
+        $isExist = is_file(Yii::app()->basePath . "/views/site/theme.php");
+        if ($isExist) {
+        	$this->renderPartial('/site/theme');
+		} 
+?>
 
 <div class="row">
     <div class="span8">
@@ -27,7 +33,7 @@
                 $this->renderPartial("_tabNewEmployee");
         }
 
-        echo $this->renderPartial("_tabMailbox", array("dataProvider" => $dataProviderInbox), true);
+        echo $this->renderPartial("_tabMailbox", array(), true);
 
         $this->renderPartial("_tabCompanyDocuments");
         ?>

@@ -197,7 +197,7 @@ return array(
               ),
              */
 
-            /*
+            /**/
               array(
               'class' => 'ext.db_profiler.DbProfileLogRoute',
               'countLimit' => 1, // How many times the same query should be executed to be considered inefficient
@@ -211,7 +211,7 @@ return array(
               'enabled'=>true,
               'levels'=>'error',//You can replace trace,info,warning,error
               ),
-             */
+             /**/
             ),
         ),
     ),

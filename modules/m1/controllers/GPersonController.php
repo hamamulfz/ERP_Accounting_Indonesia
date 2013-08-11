@@ -83,11 +83,22 @@ class GPersonController extends Controller {
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['gPersonCareer'])) {
-            $model->attributes = $_POST['gPersonCareer'];
+            $model->attributes1 = $_POST['gPersonCareer'];
             $model->parent_id = $id;
 
-            if ($model->save())
+            if ($model->save()) {
+
+				Notification::newInbox(
+						$model->parent->userid, "New Career Added. You have new career added by HR Admin", "Dear " . $model->parent->employee_name . ",<br/> 
+					HR Admin has just added new Career on " . $model->start_date . "  as " . $model->job_title . " at " . $model->company->name . " 
+					" . $model->department->name . ", and the level is " . $model->level->name . " <br/> 
+					Thank You.. <br/><br/>
+					APHRIS"
+				);
+
                 $this->redirect(array('view', 'id' => $id, 'tab' => 'Internal Career'));
+            }    
+            
         }
 
         return $model;
@@ -636,8 +647,6 @@ class GPersonController extends Controller {
                 )
         );
 
-        Yii::app()->user->setFlash('info', '<strong>Selamat Berpuasa!</strong> Team APHRIS mengucapkan selamat menjalankan ibadah puasa... ');
-
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'model' => $model,
@@ -1021,7 +1030,18 @@ class GPersonController extends Controller {
             $model->parent_id = $id;
 
             if ($model->save()) {
+
+				Notification::newInbox(
+						$model->parent->userid, "New Career Added. You have new career added by HR Admin", "Dear " . $model->parent->employee_name . ",<br/> 
+					HR Admin has just added new Career on " . $model->start_date . "  as " . $model->job_title . " at " . $model->company->name . " 
+					" . $model->department->name . ", and the level is " . $model->level->name . " <br/> 
+					Thank You.. <br/><br/>
+					APHRIS"
+				);
+
                 EQuickDlgs::checkDialogJsScript();
+
+
                 $this->redirect(array('view', 'id' => $id, 'tab' => 'Internal Career'));
             }
         }
@@ -1156,5 +1176,25 @@ class GPersonController extends Controller {
 
         EQuickDlgs::render('_formOther', array('model' => $model));
     }
+
+    public function actionStatusAjax() {
+        $model = new gPersonStatus;
+		
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'g-person-status-form') {
+            echo CActiveForm::validate($model);
+            //$this->redirect(array('view','id'=>$_POST['parent_id']));
+            Yii::app()->end();
+        }
+
+        if (isset($_POST['gPersonStatus'])) {
+            $model->attributes = $_POST['gPersonStatus'];
+            $model->parent_id = $_POST['parent_id'];
+            return $model->save();
+	        //Yii::app()->end();
+        }
+
+        return false;
+    }
+
 
 }

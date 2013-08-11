@@ -27,6 +27,7 @@ class fLogin extends CFormModel {
             array('rememberMe', 'boolean'),
             // password needs to be authenticated
             array('password', 'authenticate', 'skipOnError' => true),
+            array('username', 'userexist', 'skipOnError' => true),
         );
     }
 
@@ -60,9 +61,18 @@ class fLogin extends CFormModel {
     public function authenticate($attribute, $params) {
         $this->_identity = new UserIdentity($this->username, $this->password);
         if (!$this->_identity->authenticate())
-            $this->addError('password', 'Incorrect username or password.');
+            $this->addError('password', 'Incorrect password...');
     }
 
+
+    public function userexist($attribute, $params) {
+        $user = sUser::model()->find('LOWER(username)=?', array(strtolower($this->username)));
+        if ($user === null)
+            $this->addError('username', 'not registered username... ');
+
+        if ($user !== null && $user->status_id != 1)
+            $this->addError('username', 'username has been de-activated...');
+    }
     /**
      * Logs in the user using the given username and password in the model.
      * @return boolean whether login is successful

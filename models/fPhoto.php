@@ -18,6 +18,7 @@ class fPhoto extends CFormModel {
             array('datetime,title, description', 'required'),
             array('datetime', 'date', 'format' => 'dd-MM-yyyy'),
             array('title', 'length', 'max' => 100),
+            array('images', 'safe'),
             array('description', 'length', 'max' => 5000),
         );
     }

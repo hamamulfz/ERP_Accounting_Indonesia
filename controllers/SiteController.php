@@ -96,13 +96,12 @@ class SiteController extends Controller {
         }
 
 
-        if (Yii::app()->user->isGuest) {
-            //Yii::app()->user->setFlash('info','<strong>MAINTENANCE DOMAIN!!</strong>
-            //Jika alamat URL di browser adalah: http://202.158.114.128 . JANGAN PANIK!!! Untuk sementara waktu URL www.agungpodomoro-aphris.com belum bisa digunakan 
-            //karena masih dalam tahap progasi domain yang berlansung selama kurang lebih 24 jam. Besok (2 Juli 2013), mestinya domain sudah bisa berfungsi normal kembali');
-
+        if (Yii::app()->user->isGuest) {	
+        
             $this->render('login', array('model' => $model));
         } else {
+
+	        Yii::app()->user->setFlash('info', '<strong>Minal Aidin Wal Faidzin!</strong> Selamat Hari Raya Idul Fitri ');
             $this->redirect(array('/menu'));
         }
     }

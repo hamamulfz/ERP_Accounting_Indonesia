@@ -8,14 +8,26 @@ class uSupplierController extends Controller {
      */
     public $layout = '//layouts/column2';
 
-    /**
-     * @return array action filters
-     */
-    public function filters() {
-        return array(
-            'rights',
-        );
-    }
+	/**
+
+	 * @return array action filters
+
+	 */
+
+	public function filters()
+
+	{
+
+		return array(
+
+			'rights', // perform access control for CRUD operations
+
+		);
+
+	}
+
+
+
 
     /**
      * Displays a particular model.

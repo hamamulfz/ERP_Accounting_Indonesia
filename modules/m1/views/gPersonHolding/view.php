@@ -64,7 +64,7 @@ $this->renderPartial('_search', array(
                 //array('id'=>'tab2','label'=>'Potential','content'=>$this->renderPartial("_tabPotential", array("model"=>$model,"modelPotential"=>$modelPotential), true)),
                 array('id' => 'tab3', 'label' => 'Career-Experience-Status', 'content' => $this->renderPartial("_mainCareerExperienceStatus", array("model" => $model), true), 'active' => true),
                 array('id' => 'tab4', 'label' => 'Education', 'content' => $this->renderPartial("_mainEducation", array("model" => $model), true)),
-                //array('id'=>'tab5','label'=>'Family','content'=>$this->renderPartial("/gPerson/_tabFamily", array("model"=>$model), true)),
+                array('id'=>'tab5','label'=>'Family','content'=>$this->renderPartial("/gPerson/_tabFamily", array("model"=>$model), true)),
                 array('id' => 'tab6', 'label' => 'Detail', 'content' => $this->renderPartial("/gPerson/_tabDetail", array("model" => $model), true)),
             ),
         ));

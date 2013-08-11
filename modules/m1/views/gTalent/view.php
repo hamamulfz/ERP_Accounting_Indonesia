@@ -57,11 +57,11 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gT
             'type' => 'tabs', // 'tabs' or 'pills'
             'tabs' => array(
                 array('id' => 'tab1', 'label' => 'Performance', 'content' => $this->renderPartial("_tabPerformance", array("model" => $model, "modelPerformance" => $modelPerformance), true), 'active' => true),
-                array('id' => 'tab2', 'label' => 'Potential', 'content' => $this->renderPartial("_tabPotential", array("model" => $model, "modelPotential" => $modelPotential), true)),
-                array('id' => 'tab3', 'label' => 'Career-Experience-Status', 'content' => $this->renderPartial("_mainCareerExperienceStatus", array("model" => $model), true)),
-                array('id' => 'tab4', 'label' => 'Education', 'content' => $this->renderPartial("_mainEducation", array("model" => $model), true)),
-                //array('id'=>'tab5','label'=>'Family','content'=>$this->renderPartial("/gPerson/_tabFamily", array("model"=>$model), true)),
-                array('id' => 'tab6', 'label' => 'Detail', 'content' => $this->renderPartial("/gPerson/_tabDetail", array("model" => $model), true)),
+                //array('id' => 'tab2', 'label' => 'Performance OLD', 'content' => $this->renderPartial("_tabPerformance2", array("model" => $model, "modelPerformance2" => $modelPerformance2), true)),
+                array('id' => 'tab3', 'label' => 'Potential', 'content' => $this->renderPartial("_tabPotential", array("model" => $model, "modelPotential" => $modelPotential), true)),
+                array('id' => 'tab4', 'label' => 'Career-Experience-Status', 'content' => $this->renderPartial("_mainCareerExperienceStatus", array("model" => $model), true)),
+                array('id' => 'tab5', 'label' => 'Education', 'content' => $this->renderPartial("_mainEducation", array("model" => $model), true)),
+                array('id' => 'tab7', 'label' => 'Detail', 'content' => $this->renderPartial("/gPerson/_personalInfo", array("model" => $model), true)),
             ),
         ));
         ?>

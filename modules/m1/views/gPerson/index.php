@@ -47,9 +47,6 @@ if (isset($_GET['pid'])) {
 
 <?php
 $this->widget('bootstrap.widgets.TbListView', array(
-    //$this->widget('ext.EColumnListView', array(
-    //'span' => 3,
-    //'columns'=>2,
     'dataProvider' => $dataProvider,
     'template' => '{items}{pager}',
     'itemView' => '/gPerson/_view',

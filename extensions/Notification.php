@@ -32,6 +32,9 @@ Class Notification {
         else
             $model->company_id = $company;
 
+        if (!Yii::app()->user->isGuest) 
+	        $model->author_name = Yii::app()->user->name;
+
         $model->photo_path = $photopath;
 
 

@@ -24,7 +24,9 @@ class TClosingController extends Controller {
         Yii::app()->settings->set("System", "cCurrentPeriod", $_nextPeriod, $toDatabase = true);
 
         Yii::app()->user->setFlash('success', '<strong>Great!</strong> Closing Period has been successful...');
+
         $this->redirect(array('index'));
+		//return true;
     }
 
 }

@@ -92,6 +92,7 @@ class gBiPerson extends BaseModel {
             'bank_name' => 'Bank Name',
             'education' => 'Education',
             'experience' => 'Experience',
+            'c_pathfoto' => 'PhotoPath',
         );
     }
 

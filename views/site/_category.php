@@ -9,21 +9,28 @@ if ($models) {
         'title' => $models[0]->category->category_name,
         'headerIcon' => 'icon-fa-globe',
         'htmlHeaderOptions' => array('style' => 'border-radius:4px'),
-        'htmlContentOptions' => array('style' => 'border:none;padding-top:0'),
+        'htmlContentOptions' => array('style' => 'border:none;'),
     ));
     ?>
 
 
 
     <?php foreach ($models as $model) { ?>
-        <?php //echo CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/FA-logo-APL-mini.jpg", 'logo', array("class"=>"media-object")); ?>
-        <h5>
+		<div class="media">
+		<a class="pull-left" href="#">
+	        <?php echo CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/logoAlt3.jpg", 'logo', array("class"=>"media-object")); ?>
+		</a>
+		<div class="media-body">
+
+        <h5 class="media-heading">
             <?php echo CHtml::link(CHtml::encode($model->title), Yii::app()->createUrl('/sCompanyNews/view', array("id" => $model->id))); ?>
         </h5>
 
         <strong><?php echo date('d-m-Y', strtotime($model->publish_date)); ?>: </strong>
 
         <?php echo peterFunc::shorten_string(strip_tags($model->content), 40); ?>
+    	</div>
+    	</div>
 
     <?php } ?>
 

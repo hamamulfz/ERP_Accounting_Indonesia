@@ -73,9 +73,13 @@ class uSupplier extends BaseModel {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'sort_po_created' => array(self::HAS_ONE, 'vPorder', 'supplier_id', 'order' => 'sort_po_created.created_date DESC'),
-            'sort_po_updated' => array(self::HAS_ONE, 'vPorder', 'supplier_id', 'order' => 'sort_po_updated.updated_date DESC'),
             'status' => array(self::HAS_ONE, 'sParameter', array('code' => 'status_id'), 'condition' => 'type = \'cStatusP\''),
+            'po' => array(self::STAT, 'uPo', 'supplier_id', 
+	            'select' => 'sum( (select sum(ap.total_amount) from u_ap ap where t.id = ap.id )   )'),
+            'poPayment' => array(self::STAT, 'uPo', 'supplier_id', 
+   		         'select' => 'sum( (select sum(p.amount) from u_ap ap inner join u_ap_payment p ON 
+        	    ap.id = p.parent_id where t.id = ap.id group by ap.id)   )'),
+            
         );
     }
 
@@ -135,6 +139,21 @@ class uSupplier extends BaseModel {
         ));
     }
 
+    public function apSupplier() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+        $criteria->condition = '(select count(po.id) from u_po po where t.id = po.supplier_id ) <> 0';
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 50,
+            )
+        ));
+    }
+
     public static function items() {
         $_items = array();
         $models = self::model()->findAll(array(
@@ -150,9 +169,8 @@ class uSupplier extends BaseModel {
     public static function getTopCreated() {
 
         $criteria = new CDbCriteria;
-        $criteria->with = array('sort_po_created');
         $criteria->limit = 10;
-        $criteria->order = 'sort_po_created.created_date DESC';
+        $criteria->order = 'created_date DESC';
         $models = self::model()->findAll($criteria);
 
         $returnarray = array();
@@ -167,9 +185,8 @@ class uSupplier extends BaseModel {
     public static function getTopUpdated() {
 
         $criteria = new CDbCriteria;
-        $criteria->with = array('sort_po_updated');
         $criteria->limit = 10;
-        $criteria->order = 'sort_po_updated.updated_date DESC';
+        $criteria->order = 'updated_date DESC';
         $models = self::model()->findAll($criteria);
 
         $models = self::model()->findAll($criteria);
@@ -205,7 +222,7 @@ class uSupplier extends BaseModel {
         $returnarray = array();
 
         foreach ($models as $model) {
-            $returnarray[] = array('id' => $model->name, 'label' => $model->name, 'url' => array('view', 'id' => $model->id));
+            $returnarray[] = array('id' => $model->company_name, 'label' => $model->company_name, 'url' => array('view', 'id' => $model->id));
         }
 
         return $returnarray;

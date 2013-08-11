@@ -64,6 +64,14 @@ $this->renderPartial('_menuEss', array('model' => $model));
 <br/>
 
 <div style="border-bottom:solid;border-width:1px;border-color:#D5D5D5;padding:0;margin:10px 0;">
+    <h4>Personal Mailbox</h4>
+</div>
+
+<?php echo $this->renderPartial("_tabMailbox", array(), true); ?>
+
+<br/>
+
+<div style="border-bottom:solid;border-width:1px;border-color:#D5D5D5;padding:0;margin:10px 0;">
     <h4>Quote of the Day</h4>
 </div>
 

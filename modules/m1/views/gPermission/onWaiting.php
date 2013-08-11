@@ -76,7 +76,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 								});
 								}',
                         ),
-                        'class' => 'btn btn-mini',
+                        'class' => 'btn btn-mini btn-primary',
                     ),
                 ),
             ),

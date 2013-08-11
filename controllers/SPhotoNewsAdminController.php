@@ -29,12 +29,40 @@ class sPhotoNewsAdminController extends Controller {
 
                 mkdir(Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title);
 
-                $images = CUploadedFile::getInstancesByName($model->images);
-                $images2 = CUploadedFile::getInstancesByName($model->images);
+				//Make XML
+				$File = Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title . ".xml";
+				$Handle = fopen($File, 'w');
+				$Data = '<?xml version="1.0" encoding="ISO-8859-1"?>';
+				fwrite($Handle, $Data);
+				$Data = "<album>";
+				fwrite($Handle, $Data);
+				$Data = "<title>";
+				fwrite($Handle, $Data);
+				$Data = $model->title;
+				fwrite($Handle, $Data);
+				$Data = "</title>";
+				fwrite($Handle, $Data);
+				$Data = "<description>";
+				fwrite($Handle, $Data);
+				$Data = $model->description;
+				fwrite($Handle, $Data);
+				$Data = "</description>";
+				fwrite($Handle, $Data);
+				$Data = "<publish_date>";
+				fwrite($Handle, $Data);
+				$Data = $model->datetime;
+				fwrite($Handle, $Data);
+				$Data = "</publish_date>";
+				fwrite($Handle, $Data);
+				$Data = "</album>";
+				fwrite($Handle, $Data);
+				fclose($Handle);
 
-                if (isset($images) && count($images) > 0) {
+                $model->images = CUploadedFile::getInstances($model,'images');
 
-                    foreach ($images as $image => $pic) {
+                if (isset($model->images) && count($model->images) > 0) {
+
+                    foreach ($model->images as $pic) {
                         $pic->saveAs(Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title . '/' . $pic->name);
                     }
 
@@ -50,34 +78,6 @@ class sPhotoNewsAdminController extends Controller {
                     //change permission
                     chmod(Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title . ".jpg", "0777");
 
-                    //Make XML
-                    $File = Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title . ".xml";
-                    $Handle = fopen($File, 'w');
-                    $Data = '<?xml version="1.0" encoding="ISO-8859-1"?>';
-                    fwrite($Handle, $Data);
-                    $Data = "<album>";
-                    fwrite($Handle, $Data);
-                    $Data = "<title>";
-                    fwrite($Handle, $Data);
-                    $Data = $model->title;
-                    fwrite($Handle, $Data);
-                    $Data = "</title>";
-                    fwrite($Handle, $Data);
-                    $Data = "<description>";
-                    fwrite($Handle, $Data);
-                    $Data = $model->description;
-                    fwrite($Handle, $Data);
-                    $Data = "</description>";
-                    fwrite($Handle, $Data);
-                    $Data = "<publish_date>";
-                    fwrite($Handle, $Data);
-                    $Data = $model->datetime;
-                    fwrite($Handle, $Data);
-                    $Data = "</publish_date>";
-                    fwrite($Handle, $Data);
-                    $Data = "</album>";
-                    fwrite($Handle, $Data);
-                    fclose($Handle);
 
                     $model = new fPhoto;
                 }

@@ -19,19 +19,5 @@ $this->menu5 = array('Customer');
     </h1>
 </div>
 
-<?php
-$this->widget('bootstrap.widgets.TbDetailView', array(
-    'data' => $model,
-    'attributes' => array(
-        'pic',
-        'address',
-        'city',
-        'pos_code',
-        'province',
-        'telephone',
-        'fax',
-        'email',
-        'status_id',
-    ),
-));
-?>
+
+<?php $this->renderPartial('_detail', array('model' => $model)); ?>

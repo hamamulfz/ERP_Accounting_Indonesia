@@ -16,34 +16,28 @@
             | <?php echo CHtml::link('rights', Yii::app()->createUrl('/rights/assignment/user', array('id' => $data->id))); ?>
             <small><?php echo waktu::nicetime($data->last_login); ?></small>
         </h4>
+			<?php
 
-        <b><?php echo CHtml::tag("span", array('class' => 'badge badge-info'), $data->getAttributeLabel('full_name')); ?>:</b>
-        <?php echo CHtml::encode($data->full_name); ?>
-        <br />
-
-        <b><?php echo CHtml::tag("span", array('class' => 'badge badge-info'), "SSO"); ?>:</b>
-        <?php
-        echo CHtml::encode($data->sso());
-        ?>
-        <br />
-
-        <?php echo CHtml::tag("span", array('class' => 'badge badge-info'), "Module " . $data->moduleCount) ?>
-        <?php echo implode(" | ", $data->moduleMember); ?>	
-        <br />
-
-        <?php echo CHtml::tag("span", array('class' => 'badge badge-info'), "Rights " . $data->rightCount); ?>
-        <?php echo implode(" | ", $data->rightMember); ?>	
-        <br />
-
-
-        <?php echo CHtml::tag("span", array('class' => 'badge badge-info'), "Group " . ($data->groupCount + 1)); ?>
-        <?php echo implode(" | ", $data->groupMember); ?>	
-        <br />
-
-        <b><?php echo CHtml::tag("span", array('class' => 'badge badge-info'), $data->getAttributeLabel('status_id')); ?></b>
-        <?php echo $data->status->name; ?>
-
+			$this->widget('bootstrap.widgets.TbDetailView', array(
+				'data' => array(
+					'id' => 1,
+					'full_name' => $data->full_name,
+					'sso' => $data->sso(),
+					'module' => implode(" | ", $data->moduleMember),
+					'right' => implode(" | ", $data->rightMember),
+					'groupmember' => implode(" | ", $data->myGroupMember),
+					'status' => $data->status->name,
+				),
+				'attributes' => array(
+					array('name' => 'full_name', 'label' => 'Full Name'),
+					array('name' => 'sso', 'label' => 'SSO'),
+					array('name' => 'module', 'label' => 'Module List '. CHtml::tag("span", array('class' => 'badge badge-info'), $data->moduleCount)),
+					array('name' => 'right', 'label' => 'Right List ' . CHtml::tag("span", array('class' => 'badge badge-info'), $data->rightCount)),
+					array('name' => 'groupmember', 'label' => 'Group Member '.CHtml::tag("span", array('class' => 'badge badge-info'), $data->groupCount + 1)),
+					array('name' => 'status', 'label' => 'Status'),
+				),
+			));
+			?>
     </div>
 </div>
-<br />
 

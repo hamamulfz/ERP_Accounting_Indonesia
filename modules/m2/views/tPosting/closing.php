@@ -48,6 +48,7 @@ Yii::app()->clientScript->registerScript('myCap', "
 		data: '',
 		success : function(r){
 		$('#mydialog').dialog('open');
+		$('#periode').text('Current Period: ".peterFunc::cBeginDateAfter(Yii::app()->settings->get("System", "cCurrentPeriod"))."');
 		//Loading.hide();
 
 }
@@ -68,13 +69,14 @@ Yii::app()->clientScript->registerScript('myCap', "
 
 <?php
 //Yii::app()->settings->set("System", "cCurrentPeriod", 201306, $toDatabase=true);
+//Yii::app()->settings->set("System", "cCurrentPeriod", 201307, $toDatabase=true);
 //$_nextPeriod = peterFunc::cBeginDateAfter(Yii::app()->settings->get("System", "cCurrentPeriod"));
 //Yii::app()->settings->set("System", "cCurrentPeriod", $_nextPeriod, $toDatabase=true);
 ?>
 
 <div class="row">
     <div class="span12">
-        <h2>
+        <h2 id="periode">
             Current Period:
             <?php echo Yii::app()->settings->get("System", "cCurrentPeriod"); ?>	
         </h2>
@@ -85,35 +87,27 @@ Yii::app()->clientScript->registerScript('myCap', "
     <div class="span12">
         <p>When Button "Closing Month Period" executed, it will do this 3
             following steps.</p>
-        <p>#1. It will check, of any unposted journal on Current Period, will
+        <p> &#10003; #1. It will check, of any unposted journal on Current Period, will
             marked as Locked</p>
-        <p>#2. It will move each End-Balance Account on Current Month Period
+        <p> &#10003; #2. It will move each End-Balance Account on Current Month Period
             and transfer into following Month Period.</p>
-        <p>#3. Change Current Period into following Month Period. When this
+        <p> &#10003; #3. Change Current Period into following Month Period. When this
             process done, all existing journal become unavailable to edit and
             delete</p>
     </div>
 </div>
 
 <p>
-    <?php /*
-    $this->widget('zii.widgets.jui.CJuiButton', array(
+    <?php 
+    $this->widget('bootstrap.widgets.TbButton', array(
         'buttonType' => 'link',
         'id' => 'myCap',
-        'name' => 'btnGo7',
+        'type' => 'primary',
+        'size' => 'large',
         'url' => Yii::app()->createUrl("/m2/tClosing/closingPeriodExecution"),
-        'caption' => 'Closing Month Period',
-        'options' => array(
-        //'icons'=>'js:{secondary:"ui-icon-extlink"}',
-        //'onclick'=>'js:{Loading.show();}',
-        ),
-        'htmlOptions' => array(
-            'class' => 'ui-button-primary',
-        ),
-    ));  */
+        'label' => 'Closing Month Period',
+    ));  
     
-    	echo CHtml::link('Closing Month Period and Process to Next Period',
-    	Yii::app()->createUrl("/m2/tClosing/closingPeriodExecution"),array('class'=>'btn btn-primary'));
     ?>
 </p>
 

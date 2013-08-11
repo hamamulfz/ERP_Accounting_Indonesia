@@ -309,6 +309,14 @@ class SAdminController extends Controller {
         $msg->save(false);
     }
 
+    public function actionUpdateSso() {
+        $random = peterFunc::rand_string(16);
+        $_time = strtotime("+1 week");
+        gPerson::model()->updateByPk($id, array('activation_code' => $random, 'activation_expire' => $_time));
+
+        $this->redirect(array('view', "id" => $id));
+    }
+
     public function actionYiiLog() {
         $rawData = Yii::app()->db->createCommand('SELECT * FROM YiiLog')->queryAll();
         $dataProvider = new CArrayDataProvider($rawData, array(
@@ -327,6 +335,10 @@ class SAdminController extends Controller {
         ));
 
         $this->render('yiiLog', array('dataProvider' => $dataProvider));
+    }
+    
+    public function actionProgress() {
+        $this->render('progress', array());
     }
 
 }

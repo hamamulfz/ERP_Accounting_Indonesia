@@ -13,6 +13,10 @@ class GLeaveController extends Controller {
      */
     public function filters() {
         return array(
+            //array(
+			//	'CHttpCacheFilter + index',
+				//'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`updated_date`) FROM g_leave")->queryScalar(),
+       		 //),
             'rights',
             'ajaxOnly + approved',
         );
@@ -410,7 +414,7 @@ class GLeaveController extends Controller {
         Notification::newInbox(
                 $modelBalance->userid, "Leave Approved. Your Leave has been approved by HR Admin", "Dear " . $modelBalance->employee_name . ",<br/> 
 			Your leave request on " . $model->start_date . " has been approved by HR Admin. <br/> 
-			Thank You.. <br/>
+			Thank You.. <br/><br/>
 			APHRIS"
         );
     }

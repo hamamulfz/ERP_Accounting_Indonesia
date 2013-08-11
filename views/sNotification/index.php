@@ -56,22 +56,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'header' => 'Time',
             'value' => 'waktu::nicetime($data->expire)',
-        )
-    //array(
-    //'name'=>'title',
-    //),
-    //array(
-    //	'name'=>'alert_after_date',
-    //	'value'=>'date("d-m-Y",$data->alert_after_date)',
-    //),
-    //array(
-    //	'name'=>'alert_before_date',
-    //	'value'=>'date("d-m-Y",$data->alert_before_date)',
-    //),
-    //array(
-    //	'header'=>'Read',
-    //	'value'=>'($data->reads ==null) ? "UnRead":"Read"'
-    //),
+        ),
+        'author_name',
     ),
 ));
 ?>

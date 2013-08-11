@@ -15,7 +15,7 @@ if ($model != false) {
         'title' => false,
         'headerIcon' => 'icon-globe',
         'htmlHeaderOptions' => array('style' => 'background:white'),
-        'htmlContentOptions' => array('style' => 'background:#FFA573'),
+        'htmlContentOptions' => array('style' => 'background:#cbcbcb'),
     ));
     ?>
 

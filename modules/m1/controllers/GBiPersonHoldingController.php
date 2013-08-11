@@ -83,10 +83,10 @@ class GBiPersonHoldingController extends Controller {
             if (isset($matharray)) {
                 $math = implode(",", $matharray);
                 $field = $math . "," . $field;
-                $sql = 'SELECT min(id) as id,' . $field . ' FROM g_bi_person ';
+                $sql = 'SELECT min(id) as id, c_pathfoto, ' . $field . ' FROM g_bi_person ';
             }
             else
-                $sql = 'SELECT id, ' . $field . ' FROM g_bi_person ';
+                $sql = 'SELECT id, c_pathfoto, ' . $field . ' FROM g_bi_person ';
 
 
             //FILTER
@@ -154,6 +154,14 @@ class GBiPersonHoldingController extends Controller {
 
                 $fieldresult[] = $fieldres;
             }
+
+            $fieldres['header'] = "Photo";
+			$fieldres['type'] = 'raw';
+			$fieldres['value'] = '($data["c_pathfoto"] != null) ? CHtml::image(Yii::app()->request->baseUrl . "/shareimages/hr/employee/thumb/" . $data["c_pathfoto"]) : ""';
+			$html["width"] = "60px";
+            $fieldres['htmlOptions'] =  $html;
+            $fieldresult[] = $fieldres;
+
 
             if ($_POST['fBusinessIntellegence']['export']) {
                 $production = 'export';

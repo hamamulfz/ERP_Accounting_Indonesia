@@ -12,6 +12,7 @@ $this->widget('TbGridView', array(
                 'url' => $this->createUrl('/m1/gHrParameter/updateParamLevelAjax'),
                 'placement' => 'right',
                 'inputclass' => 'span3',
+                'title' => 'Custom Title',
             )
         ),
         array(

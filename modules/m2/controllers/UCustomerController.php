@@ -8,14 +8,26 @@ class uCustomerController extends Controller {
      */
     public $layout = '//layouts/column2';
 
-    /**
-     * @return array action filters
-     */
-    public function filters() {
-        return array(
-            'rights',
-        );
-    }
+	/**
+
+	 * @return array action filters
+
+	 */
+
+	public function filters()
+
+	{
+
+		return array(
+
+			'rights', // perform access control for CRUD operations
+
+		);
+
+	}
+
+
+
 
     /**
      * Displays a particular model.
@@ -116,7 +128,7 @@ class uCustomerController extends Controller {
      * @param CModel the model to be validated
      */
     protected function performAjaxValidation($model) {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'c-supplier-form') {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'c-customer-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

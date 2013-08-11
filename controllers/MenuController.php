@@ -29,32 +29,13 @@ class MenuController extends Controller {
     }
 
     public function actionIndex() {
-        $dataProviderInbox = $this->listInbox();
-
         if (!Yii::app()->user->isGuest) {
-
             $this->render('index', array(
-                'dataProviderInbox' => $dataProviderInbox,
+            
             ));
         }
         else
             $this->redirect(array('site/login'));
-    }
-
-    public function listInbox($ajax = null) {
-        Yii::app()->getModule('mailbox')->registerConfig($this->getAction()->getId());
-
-        $dependency = new CDbCacheDependency('SELECT MAX(message_id) FROM s_mailbox_message');
-
-        //if (!Yii::app()->cache->get('mailbb'.Yii::app()->user->id)) {
-
-        $dataProvider = new CActiveDataProvider(Mailbox::model()->inbox(Yii::app()->user->id));
-
-        //	Yii::app()->cache->set('mailbox1'.Yii::app()->user->id,$dataProvider,0,$dependency);
-        //} else
-        //	$dataProvider=Yii::app()->cache->get('mailbb'.Yii::app()->user->id);
-
-        return $dataProvider;
     }
 
     /**

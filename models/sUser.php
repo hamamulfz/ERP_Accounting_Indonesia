@@ -247,7 +247,7 @@ class sUser extends CActiveRecord {
     public function getMyGroupMember() {
         $_items[] = $this->organization->name;
 
-        foreach ($this->myGroupList as $model)
+        foreach ($this->groupList as $model)
             $_items[] = $model->name;
 
         return $_items;

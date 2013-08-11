@@ -15,8 +15,7 @@ Yii::app()->clientScript->registerScript('datepicker2', "
 		");
 ?>
 
-<div class="row">
-    <div class="span9">
+    <div class="form">
 
         <?php
         $form = $this->beginWidget('TbActiveForm', array(
@@ -38,16 +37,34 @@ Yii::app()->clientScript->registerScript('datepicker2', "
 
         <div class="form-actions">
             <?php
-            $this->widget('bootstrap.widgets.TbButton', array(
-                'buttonType' => 'submit',
-                'type' => 'primary',
-                'label' => $model->isNewRecord ? 'Create' : 'Save',
-            ));
+            //$this->widget('bootstrap.widgets.TbButton', array(
+            //    'buttonType' => 'submit',
+            //    'type' => 'primary',
+            //    'label' => $model->isNewRecord ? 'Create' : 'Save',
+            //));
+         
+		  echo CHtml::ajaxSubmitButton($model->isNewRecord ? 'Create' : 'Save', 
+				 CHtml::normalizeUrl(array('/m1/gPerson/statusAjax')), 
+				 array(
+					  'data'=>'js:jQuery(this).parents("form").serialize() + "&parent_id='.$id.'"', 
+					  'success'=>'function(data){
+							$.fn.yiiGridView.update("g-person-status-grid", {
+								data: $(this).serialize()
+							});
+						}'
+
+				  ), 
+				 array(
+					  'id'=>'ajaxSubmitBtn', 
+					  'name'=>'ajaxSubmitBtn',
+					  'class'=>'btn btn-primary',
+				 )); 
+
+
             ?>
         </div>
 
         <?php $this->endWidget(); ?>
 
     </div>
-</div>
-<!-- form -->
+

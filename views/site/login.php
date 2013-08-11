@@ -1,3 +1,11 @@
+<?php
+        $isExist = is_file(Yii::app()->basePath . "/views/site/theme.php");
+        if ($isExist) {
+        	$this->renderPartial('theme');
+		} 
+?>
+
+
 <div class="row">
     <div class="span6">
         <?php

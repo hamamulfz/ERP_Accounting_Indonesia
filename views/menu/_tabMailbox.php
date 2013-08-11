@@ -1,3 +1,14 @@
+<?php 
+        Yii::app()->getModule('mailbox')->registerConfig($this->getAction()->getId());
+
+        $dependency = new CDbCacheDependency('SELECT MAX(message_id) FROM s_mailbox_message');
+
+        //if (!Yii::app()->cache->get('mailbb'.Yii::app()->user->id)) {
+
+        $dataProvider = new CActiveDataProvider(Mailbox::model()->inbox(Yii::app()->user->id));
+
+?>
+
 <div style="border-bottom:solid;border-width:1px;border-color:#D5D5D5;padding:0;margin:10px 0;">
     <ul class="nav nav-list">
         <li class="nav-header"><i class="icon-fa-envelope"></i><?php echo Yii::t('basic', ' Personal Mailbox') ?></span>

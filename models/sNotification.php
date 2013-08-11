@@ -40,6 +40,7 @@ class sNotification extends BaseModel {
             array('company_id, group_id, expire, alert_after_date, alert_before_date', 'numerical', 'integerOnly' => true),
             array('content, title, alert_after_date, alert_before_date, group_id, link', 'safe'),
             array('photo_path', 'length', 'max' => 100),
+            array('author_name', 'length', 'max' => 50),
             array('id, expire, alert_after_date, alert_before_date, content, group_id, link, title', 'safe', 'on' => 'search'),
         );
     }
