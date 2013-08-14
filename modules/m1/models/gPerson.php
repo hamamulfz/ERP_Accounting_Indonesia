@@ -442,8 +442,13 @@ class gPerson extends BaseModel {
             $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
             $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
 
-            return $years . " years, " . $months . " months, " . $days . " days";
-        }
+			if ($years == 0 && $months == 0 ) 
+	            return $days . " days";
+  			elseif (!$years != 0 ) 
+	            return $months . " months, " . $days . " days";
+  			else 
+	            return $years . " years, " . $months . " months, " . $days . " days";
+      }
         else
             return null;
     }
@@ -917,10 +922,12 @@ class gPerson extends BaseModel {
 
     public function afterSave() {
         if ($this->isNewRecord) {
-            Notification::create(
-                    1, 'm1/gPerson/view/id/' . $this->id, 'Person. New Employee created: ' . strtoupper($this->employee_name)
-                    //'Person. New Employee created: '.$this->employee_name .' at '. (isset($this->companyfirst)) ? $this->companyfirst->company->name : ''
-            );
+            $model= new sNotification;
+            $model->group_id = 1;
+            $model->link = 'm1/gPerson/view/id/' . $this->id;
+            $model->content = 'Person. New Employee created for <read>' . $this->employee_name .'</read>';
+            $model->save();
+			
             self::model()->updateByPk((int) $this->id, array('employee_code_global' => $this->lastID));
         }
         return true;

@@ -88,17 +88,16 @@ class GPersonController extends Controller {
 
             if ($model->save()) {
 
-				Notification::newInbox(
-						$model->parent->userid, "New Career Added. You have new career added by HR Admin", "Dear " . $model->parent->employee_name . ",<br/> 
+                Notification::newInbox(
+                        $model->parent->userid, "New Career Added. You have new career added by HR Admin", "Dear " . $model->parent->employee_name . ",<br/> 
 					HR Admin has just added new Career on " . $model->start_date . "  as " . $model->job_title . " at " . $model->company->name . " 
 					" . $model->department->name . ", and the level is " . $model->level->name . " <br/> 
 					Thank You.. <br/><br/>
 					APHRIS"
-				);
+                );
 
                 $this->redirect(array('view', 'id' => $id, 'tab' => 'Internal Career'));
-            }    
-            
+            }
         }
 
         return $model;
@@ -1031,13 +1030,13 @@ class GPersonController extends Controller {
 
             if ($model->save()) {
 
-				Notification::newInbox(
-						$model->parent->userid, "New Career Added. You have new career added by HR Admin", "Dear " . $model->parent->employee_name . ",<br/> 
+                Notification::newInbox(
+                        $model->parent->userid, "New Career Added. You have new career added by HR Admin", "Dear " . $model->parent->employee_name . ",<br/> 
 					HR Admin has just added new Career on " . $model->start_date . "  as " . $model->job_title . " at " . $model->company->name . " 
 					" . $model->department->name . ", and the level is " . $model->level->name . " <br/> 
 					Thank You.. <br/><br/>
 					APHRIS"
-				);
+                );
 
                 EQuickDlgs::checkDialogJsScript();
 
@@ -1179,7 +1178,7 @@ class GPersonController extends Controller {
 
     public function actionStatusAjax() {
         $model = new gPersonStatus;
-		
+
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'g-person-status-form') {
             echo CActiveForm::validate($model);
             //$this->redirect(array('view','id'=>$_POST['parent_id']));
@@ -1190,11 +1189,10 @@ class GPersonController extends Controller {
             $model->attributes = $_POST['gPersonStatus'];
             $model->parent_id = $_POST['parent_id'];
             return $model->save();
-	        //Yii::app()->end();
+            //Yii::app()->end();
         }
 
         return false;
     }
-
 
 }

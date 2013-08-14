@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Image tag plugin file.
  * @filesource
@@ -34,59 +33,49 @@
  */ // }}}
 Class xml2pdf_tag_image {
     // class properties {{{
-
     /**
      * image file name.
      * @var string
      */
     public $file = null;
-
     /**
      * top margin.
      * @var float
      */
     public $top = 0;
-
     /**
      * left margin.
      * @var float
      */
     public $left = 0;
-
     /**
      * image width.
      * @var float
      */
     public $width = 0;
-
     /**
      * image height.
      * @var float
      */
     public $height = 0;
-
     /**
      * positioning mode.
      * @var string
      */
     public $position = 'relative';
-
     /**
      * image's type
      * @var string
      */
     public $type = 'png';
-
     /**
      * parent tag
      * @var object
      */
     private $_parent;
     protected $pdf;
-
     // }}}
     // xml2pdf_tag_image::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -116,14 +105,11 @@ Class xml2pdf_tag_image {
         if (isset($tagProperties['TYPE'])) {
             $this->type = $tagProperties['TYPE'];
         }
-
         $this->_parent = $parent;
         $this->pdf = Pdf::singleton();
     }
-
     // }}}
     // xml2pdf_tag_image::addContent(string) {{{
-
     /**
      * Add content.
      *
@@ -132,10 +118,8 @@ Class xml2pdf_tag_image {
     public function addContent($content) {
         $this->file = base64_decode($content);
     }
-
     // }}}
     // xml2pdf_tag_image::close() {{{
-
     /**
      * close the tag.
      *
@@ -153,8 +137,6 @@ Class xml2pdf_tag_image {
             $this->pdf->Image((string) $this->file, $this->left, $this->top, $this->width, $this->height, $this->type);
         }
     }
-
     // }}}
 }
-
 ?>

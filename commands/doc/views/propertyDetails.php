@@ -12,13 +12,9 @@
             <?php endif; ?>
         </span>
     </div>
-
     <div class="signature">
         <?php echo $this->renderPropertySignature($property); ?>
     </div>
-
     <p><?php echo $property->description; ?></p>
-
     <?php $this->renderPartial('seeAlso', array('object' => $property)); ?>
-
 <?php endforeach; ?>

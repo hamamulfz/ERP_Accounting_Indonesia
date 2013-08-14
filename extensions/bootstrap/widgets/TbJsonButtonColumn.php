@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbJsonButtonColumn class
  * Works in conjunction with TbJsonGridView. Renders HTML or returns JSON according to the request to the Grid.
@@ -10,12 +9,10 @@
  * @package YiiBooster bootstrap.widgets
  */
 Yii::import('bootstrap.widgets.TbButtonColumn');
-
 /**
  * @property TbJsonGridView $grid
  */
 class TbJsonButtonColumn extends TbButtonColumn {
-
     /**
      * Renders|returns the header cell.
      */
@@ -25,12 +22,10 @@ class TbJsonButtonColumn extends TbButtonColumn {
             $this->renderHeaderCellContent();
             $content = ob_get_contents();
             ob_end_clean();
-
             return array('id' => $this->id, 'content' => $content);
         }
         parent::renderHeaderCell();
     }
-
     /**
      * Renders|returns the data cell
      * @param int $row
@@ -47,10 +42,8 @@ class TbJsonButtonColumn extends TbButtonColumn {
             $col['attrs'] = '';
             return $col;
         }
-
         parent::renderDataCell($row);
     }
-
     /**
      * Initializes the default buttons (view, update and delete).
      */
@@ -61,5 +54,4 @@ class TbJsonButtonColumn extends TbButtonColumn {
          */
         $this->buttons['delete']['click'] = strtr($this->buttons['delete']['click'], array('yiiGridView' => 'yiiJsonGridView'));
     }
-
 }

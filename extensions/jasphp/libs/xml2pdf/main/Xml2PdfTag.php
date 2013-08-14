@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Xml2PdfTag.
  * @filesource
@@ -12,7 +11,6 @@
  * @version CVS: $Id: Xml2PdfTag.php,v 1.4 2007/01/05 23:07:31 geelweb Exp $
  */
 // doc {{{
-
 /**
  * Class Xml2PdfTag.
  *
@@ -31,28 +29,23 @@
  */ // }}}
 Class Xml2PdfTag {
     // class properties {{{
-
     /**
      * Pdf object.
      * @var Pdf
      */
     public $pdf;
-
     /**
      * Tag content.
      * @var string
      */
     public $content = '';
-
     /**
      * Tag identifiant
      * @var string
      */
     public $id = false;
-
     // }}}
     // Xml2PdfTag::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -68,10 +61,8 @@ Class Xml2PdfTag {
             $this->pdf->SetLink($this->pdf->linksIds[$this->id], -1);
         }
     }
-
     // }}}
     // Xml2PdfTag::addContent() {{{
-
     /**
      * Add content.
      *
@@ -82,10 +73,8 @@ Class Xml2PdfTag {
     public function addContent($content) {
         $this->content .= $content;
     }
-
     // }}}
     // Xml2PdfTag::close() {{{
-
     /**
      * Close tag.
      *
@@ -94,8 +83,6 @@ Class Xml2PdfTag {
     public function close() {
         return true;
     }
-
     // }}}
 }
-
 ?>

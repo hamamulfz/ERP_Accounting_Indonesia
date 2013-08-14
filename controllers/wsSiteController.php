@@ -1,7 +1,5 @@
 <?php
-
 class wsSiteController extends CController implements IWebServiceProvider {
-
     public function actions() {
         return array(
             'user' => array(
@@ -12,7 +10,6 @@ class wsSiteController extends CController implements IWebServiceProvider {
             ),
         );
     }
-
     public function actionTest() {
         $wsdlUrl = Yii::app()->request->hostInfo . $this->createUrl('user');
         $client = new SoapClient($wsdlUrl);
@@ -27,7 +24,6 @@ class wsSiteController extends CController implements IWebServiceProvider {
         echo "<br/>";
         echo Yii::app()->request->hostInfo . $this->createUrl('user');
         echo "<br/>";
-
         echo "\ninserting a new contact...";
         $model = new sUser;
         $model->username = 'Tester';
@@ -41,10 +37,8 @@ class wsSiteController extends CController implements IWebServiceProvider {
         echo "done\n\n";
         echo "fetching all contacts\n";
         print_r($client->getUsers());
-
         echo "</pre>";
     }
-
     /**
      * This method is required by IWebServiceProvider.
      * It makes sure the user is logged in before making changes to data.
@@ -62,17 +56,13 @@ class wsSiteController extends CController implements IWebServiceProvider {
         else
             throw new CException('Login required.');
     }
-
     /**
      * This method is required by IWebServiceProvider.
      * @param CWebService the currently requested Web service.
      */
     public function afterWebMethod($service) {
-        
     }
-
     /*     * * The following methods are Web service APIs ** */
-
     /**
      * @param string username
      * @param string password
@@ -85,7 +75,6 @@ class wsSiteController extends CController implements IWebServiceProvider {
             Yii::app()->user->login($identity);
         return $identity->isAuthenticated;
     }
-
     /**
      * Returns all User records.
      * @return sUser[] the User records
@@ -94,7 +83,6 @@ class wsSiteController extends CController implements IWebServiceProvider {
     public function getUsers() {
         return sUser::model()->findAll();
     }
-
     /**
      * Deletes the specified user record.
      * @param integer ID of the contact to be deleted
@@ -105,7 +93,6 @@ class wsSiteController extends CController implements IWebServiceProvider {
     //{
     //	return sUser::model()->deleteByPk($id);
     //}
-
     /**
      * Updates or inserts a user.
      * If the ID is null, an insertion will be performed;
@@ -129,5 +116,4 @@ class wsSiteController extends CController implements IWebServiceProvider {
             return $sUser->save();
         }
     }
-
 }

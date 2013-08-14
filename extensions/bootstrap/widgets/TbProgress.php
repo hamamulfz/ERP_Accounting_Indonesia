@@ -1,5 +1,4 @@
 <?php
-
 /* ## TbProgress class file.
  *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
@@ -8,49 +7,40 @@
  * @package bootstrap.widgets
  * @since 0.9.10
  */
-
 /**
  * Bootstrap progress bar widget.
  * @see <http://twitter.github.com/bootstrap/components.html#progress>
  */
 class TbProgress extends CWidget {
     // Progress bar types.
-
     const TYPE_INFO = 'info';
     const TYPE_SUCCESS = 'success';
     const TYPE_WARNING = 'warning';
     const TYPE_DANGER = 'danger';
-
     /**
      * @var string the bar type. Valid values are 'info', 'success', and 'danger'.
      */
     public $type;
-
     /**
      * @var boolean indicates whether the bar is striped.
      */
     public $striped = false;
-
     /**
      * @var boolean indicates whether the bar is animated.
      */
     public $animated = false;
-
     /**
      * @var integer the amount of progress in percent.
      */
     public $percent = 0;
-
     /**
      * @var array the HTML attributes for the widget container.
      */
     public $htmlOptions = array();
-
     /**
      * @var string div content
      */
     public $content;
-
     /**
      * @var array $stacked set to an array of progress bar values to display stacked progress bars
      * <pre>
@@ -62,7 +52,6 @@ class TbProgress extends CWidget {
      * @since 9/21/12 8:14 PM antonio ramirez <antonio@clevertech.biz>
      */
     public $stacked;
-
     /**
      * ### .init()
      *
@@ -72,20 +61,17 @@ class TbProgress extends CWidget {
         $classes = array('progress');
         if (empty($this->stacked)) {
             $validTypes = array(self::TYPE_INFO, self::TYPE_SUCCESS, self::TYPE_WARNING, self::TYPE_DANGER);
-
             if (isset($this->type) && in_array($this->type, $validTypes))
                 $classes[] = 'progress-' . $this->type;
             if ($this->striped)
                 $classes[] = 'progress-striped';
             if ($this->animated)
                 $classes[] = 'active';
-
             if ($this->percent < 0)
                 $this->percent = 0;
             else if ($this->percent > 100)
                 $this->percent = 100;
         }
-
         if (!empty($classes)) {
             $classes = implode(' ', $classes);
             if (isset($this->htmlOptions['class']))
@@ -94,7 +80,6 @@ class TbProgress extends CWidget {
                 $this->htmlOptions['class'] = $classes;
         }
     }
-
     /**
      * ### .run()
      *
@@ -114,17 +99,14 @@ class TbProgress extends CWidget {
                 else
                     $options['style'] .= ' ';
                 $options['style'] .= 'width: ' . $bar['percent'] . '%';
-
                 if (empty($options['class']))
                     $options['class'] = '';
                 else
                     $options['style'] .= ' ';
                 $options['class'] .= 'bar bar-' . $bar['type'];
-
                 echo '<div ' . CHtml::renderAttributes($options) . '>' . @$bar['content'] . '</div>';
             }
         }
         echo '</div>';
     }
-
 }

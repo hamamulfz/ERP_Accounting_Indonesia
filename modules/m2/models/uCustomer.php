@@ -74,12 +74,11 @@ class uCustomer extends BaseModel {
         // class name for the relations automatically generated below.
         return array(
             'status' => array(self::HAS_ONE, 'sParameter', array('code' => 'status_id'), 'condition' => 'type = \'cStatusP\''),
-            'so' => array(self::STAT, 'uSo', 'customer_id', 
-	            'select' => 'sum( (select sum(ar.total_amount) from u_ar ar where t.id = ar.id )   )'),
-            'soPayment' => array(self::STAT, 'uSo', 'customer_id', 
-   		         'select' => 'sum( (select sum(p.amount) from u_ar ar inner join u_ar_payment p ON 
+            'so' => array(self::STAT, 'uSo', 'customer_id',
+                'select' => 'sum( (select sum(ar.total_amount) from u_ar ar where t.id = ar.id )   )'),
+            'soPayment' => array(self::STAT, 'uSo', 'customer_id',
+                'select' => 'sum( (select sum(p.amount) from u_ar ar inner join u_ar_payment p ON 
         	    ar.id = p.parent_id where t.id = ar.id group by ar.id)   )'),
-            
         );
     }
 

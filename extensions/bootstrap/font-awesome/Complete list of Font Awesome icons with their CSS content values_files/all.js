@@ -1,5 +1,4 @@
 /*1368593660,180686681,JIT Construction: v815671,en_US*/
-
 /**
  * Copyright Facebook Inc.
  *
@@ -14,7 +13,6 @@ try {
         function emptyFunction() {
         }
         ;
-
         var require, __d;
         (function(a) {
             var b = {}, c = {}, d = ['global', 'require', 'requireDynamic', 'requireLazy', 'module', 'exports'];
@@ -614,7 +612,6 @@ try {
             ES5 = require('ES5');
             return ES5.apply(null, arguments);
         };
-
         __d("sdk.RuntimeConfig", [], {"locale": "en_US", "rtl": false});
         __d("SDKConfig", [], {"bustCache": true, "tagCountLogRate": 0.01, "errorHandling": {"rate": 4}, "usePluginPipe": true, "features": {"xfbml_profile_pic_server": true, "error_handling": 4, "oauth_ping": false}, "api": {"mode": "warn", "whitelist": ["Canvas", "Canvas.Prefetcher", "Canvas.Prefetcher.addStaticResource", "Canvas.Prefetcher.setCollectionMode", "Canvas.getPageInfo", "Canvas.hideFlashElement", "Canvas.scrollTo", "Canvas.setAutoGrow", "Canvas.setDoneLoading", "Canvas.setSize", "Canvas.setUrlHandler", "Canvas.showFlashElement", "Canvas.startTimer", "Canvas.stopTimer", "Data", "Data.process", "Data.query", "Data.query:wait", "Data.waitOn", "Data.waitOn:wait", "Event", "Event.subscribe", "Event.unsubscribe", "Music.flashCallback", "Music.init", "Music.send", "Payment", "Payment.cancelFlow", "Payment.continueFlow", "Payment.init", "Payment.parse", "Payment.setSize", "ThirdPartyProvider", "ThirdPartyProvider.init", "ThirdPartyProvider.sendData", "UA", "UA.nativeApp", "XFBML", "XFBML.RecommendationsBar", "XFBML.RecommendationsBar.markRead", "XFBML.parse", "addFriend", "api", "getAccessToken", "getAuthResponse", "getLoginStatus", "getUserID", "init", "login", "logout", "publish", "share", "ui", "ui:subscribe"]}, "initSitevars": {"enableMobileComments": 1, "iframePermissions": {"read_stream": false, "manage_mailbox": false, "manage_friendlists": false, "read_mailbox": false, "publish_checkins": true, "status_update": true, "photo_upload": true, "video_upload": true, "sms": false, "create_event": true, "rsvp_event": true, "offline_access": true, "email": true, "xmpp_login": false, "create_note": true, "share_item": true, "export_stream": false, "publish_stream": true, "publish_likes": true, "ads_management": false, "contact_email": true, "access_private_data": false, "read_insights": false, "read_requests": false, "read_friendlists": true, "manage_pages": false, "physical_login": false, "manage_groups": false, "read_deals": false}}});
         __d("UrlMapConfig", [], {"www": "www.facebook.com", "m": "m.facebook.com", "connect": "connect.facebook.net", "api_https": "api.facebook.com", "api_read_https": "api-read.facebook.com", "graph_https": "graph.facebook.com", "fbcdn_http": "static.ak.fbcdn.net", "fbcdn_https": "fbstatic-a.akamaihd.net", "cdn_http": "static.ak.facebook.com", "cdn_https": "s-static.ak.facebook.com"});

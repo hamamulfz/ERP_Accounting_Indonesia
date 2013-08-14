@@ -1,5 +1,4 @@
 <?php
-
 /**
  * code39 extended barcode plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Barcode
  */
 // dependances {{{
-
 /**
  *
  */
 require_once(XML2PDF_PLUGINS_BARCODES_PATH . '/xml2pdf.barcode.code39.php');
-
 // }}}
 // doc {{{
-
 /**
  * code 39 extended barcode plugin.
  *
@@ -34,23 +30,16 @@ require_once(XML2PDF_PLUGINS_BARCODES_PATH . '/xml2pdf.barcode.code39.php');
  * @subpackage Barcode
  */ // }}}
 class xml2pdf_barcode_code39extend extends xml2pdf_barcode_code39 {
-
     // xml2pdf_barcode_code39extend::__construct() {{{
-
     public function __construct() {
-        
     }
-
     // }}}
     // xml2pdf_barcode_code39extend::render() {{{
-
     public static function render($barcode) {
         $width = $barcode->width ? $barcode->width : 0.4;
         $height = $barcode->height ? $barcode->height : 20;
         xml2pdf_barcode_code39::Code39($barcode->x, $barcode->y, $barcode->barcode, true, false, $width, $height, true, $barcode->pdf);
     }
-
     // }}}
 }
-
 ?>

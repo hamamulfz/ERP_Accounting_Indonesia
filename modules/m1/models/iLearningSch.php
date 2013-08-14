@@ -240,9 +240,12 @@ class iLearningSch extends BaseModel {
 
     public function afterSave() {
         if ($this->isNewRecord) {
-            Notification::create(
-                    1, 'm1/iLearning/viewDetail/id/' . $this->id, 'Learning Schedule. New Schedule created: ' . $this->schedule_date . ' for ' . strtoupper($this->getparent->learning_title)
-            );
+            $model= new sNotification;
+            $model->group_id = 1;
+            $model->link = 'm1/iLearning/viewDetail/id/' . $this->id;
+            $model->link2 = 'm1/iLearning/view/id/' . $this->parent_id;
+            $model->content = 'Learning Schedule. New Schedule created: <read>' . $this->schedule_date . '</read> for <link2>' . $this->getparent->learning_title .'</link2>';
+            $model->save();
         }
         return true;
     }

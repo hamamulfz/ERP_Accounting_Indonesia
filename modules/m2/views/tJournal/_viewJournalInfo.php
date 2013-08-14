@@ -20,10 +20,9 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
         array('name' => 'input_date', 'label' => 'Input Date'),
         array('name' => 'yearmonth_periode', 'label' => 'Periode'),
         array('name' => 'module', 'label' => 'Module'),
-        array('name' => 'cb_custom1', 'label' => 'Receiver', 'visible' => ($data->journal_type_id == 1)),
-        array('name' => 'cb_custom1', 'label' => 'Received From', 'visible' => ($data->journal_type_id == 2)),
+        array('name' => 'cb_custom1', 'label' => $data->user_reff, 'visible' => $data->user_reff),
         array('name' => 'created', 'label' => 'Created By'),
-        array('name' => 'posted', 'label' => 'Posted By','visible'=>($data->posted != null)),
+        array('name' => 'posted', 'label' => 'Posted By', 'visible' => ($data->posted != null)),
         array('name' => 'total', 'label' => 'Total'),
     ),
 ));

@@ -10,9 +10,9 @@
         echo $form->textField($model, "[$key]description");
         echo $form->error($model, "[$key]description");
         ?>
- 
+
     </div>
- 
+
     <div class="span3">
         <?php
         echo $form->labelEx($model, "[$key]qty");
@@ -20,29 +20,29 @@
         echo $form->error($model, "[$key]qty");
         ?>
     </div>
- 
- <?php /*
-    <div class="span3">
-        <?php
-        echo $form->labelEx($model, "[$key]schedule");
- 
-        $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-            'model' => $model,
-            'attribute' => "[$key]schedule",
-            'options' => array(
-                'showAnim' => 'fold',
-            ),
-            'htmlOptions' => array(
-                'style' => 'height:20px;'
-            ),
-        ));
-        echo $form->error($model, "[$key]schedule");
-        ?>
-    </div>
- */ ?>
+
+    <?php /*
+      <div class="span3">
+      <?php
+      echo $form->labelEx($model, "[$key]schedule");
+
+      $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+      'model' => $model,
+      'attribute' => "[$key]schedule",
+      'options' => array(
+      'showAnim' => 'fold',
+      ),
+      'htmlOptions' => array(
+      'style' => 'height:20px;'
+      ),
+      ));
+      echo $form->error($model, "[$key]schedule");
+      ?>
+      </div>
+     */ ?>
 
     <div class="span3">
- 
-            <?php echo $form->deleteRowButton($row_id, $key); ?>
-        </div>
+
+        <?php echo $form->deleteRowButton($row_id, $key); ?>
+    </div>
 </div>

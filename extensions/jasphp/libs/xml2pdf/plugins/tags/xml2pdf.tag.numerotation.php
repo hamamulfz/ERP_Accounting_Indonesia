@@ -1,5 +1,4 @@
 <?php
-
 /**
  * numerotation tag plugin file.
  * @filesource
@@ -14,15 +13,12 @@
  *
  */
 // dependances {{{
-
 /**
  * Parent class
  */
 require_once('xml2pdf.tag.paragraph.php');
-
 // }}}
 // doc {{{
-
 /**
  * <numerotation> tag.
  * 
@@ -41,7 +37,6 @@ require_once('xml2pdf.tag.paragraph.php');
  */ // }}}
 class xml2pdf_tag_numerotation extends xml2pdf_tag_paragraph {
     // xml2pdf_tag_numerotation::close() {{{
-
     /**
      * Add the tag to the footer or header elements.
      *
@@ -52,8 +47,6 @@ class xml2pdf_tag_numerotation extends xml2pdf_tag_paragraph {
         $this->content = 'page %s/{nb}';
         $this->parent->elements[] = $this;
     }
-
     // }}}
 }
-
 ?>

@@ -13,11 +13,22 @@
     $notifiche = sNotification::getUnreadNotifications();
 
     foreach ($notifiche as $notifica) {
-        echo CHtml::openTag('li', array());
-        //echo $notifica->photo_path;
-        echo CHtml::link($notifica->content, Yii::app()->createUrl('/sNotification/read', array('id' => $notifica->id)));
-        echo CHtml::tag('i', array('style' => 'color:grey;font-size:11px; margin-bottom:10px;'), '  (' . waktu::nicetime($notifica->expire) . ' by '.$notifica->author_name . ')');
-        echo CHtml::closeTag('li');
+        echo CHtml::openTag('div', array('class'=>'media','style'=>'margin-top:0;'));
+			echo CHtml::openTag('p', array('class'=>'pull-left','style'=>'width:30px'));
+				if (!isset($notifica->photo_path))
+					echo CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/logoAlt4.jpg", 'logo', array("class" => "media-object")); 
+				else
+					echo $notifica->photo_path; 
+			echo CHtml::closeTag('p');
+
+			echo CHtml::openTag('div', array('class'=>'media-body'));
+			echo CHtml::openTag('p', array('class'=>'media-heading'));
+				//echo CHtml::link($notifica->content, Yii::app()->createUrl('/sNotification/read', array('id' => $notifica->id)));
+				echo $notifica->linkReplace;
+				echo CHtml::tag('i', array('style' => 'color:grey;font-size:11px; margin-bottom:10px;'), '  (' . waktu::nicetime($notifica->expire) . ' by ' . $notifica->author_name . ')');
+			echo CHtml::closeTag('p');
+			echo CHtml::closeTag('div');
+        echo CHtml::closeTag('div');
     }
     ?>
 </ul>
@@ -29,3 +40,5 @@
 </div>
 
 <br/>
+
+

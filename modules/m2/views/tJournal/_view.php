@@ -17,9 +17,9 @@ $this->beginWidget('bootstrap.widgets.TbBox', array(
         <p>
             <?php
             if ($data->state_id != 4) {
-                echo CHtml::link('<i class="fam-delete"></i>', "#", array("class" => "btn btn-mini", "submit" => array('delete', 'id' => $data->id), 'confirm' => 'Are you sure to delete this journal?'));
+                echo CHtml::link('delete', "#", array("class" => "btn btn-mini", "submit" => array('delete', 'id' => $data->id), 'confirm' => 'Are you sure to delete this journal?'));
                 echo " ";
-                echo CHtml::link('<i class="fam-comment-edit"></i>', Yii::app()->createUrl($this->module->id . '/' . $this->id . '/update', array("id" => $data->id)), array("class" => "btn btn-mini"));
+                echo CHtml::link('update', Yii::app()->createUrl($this->module->id . '/' . $this->id . '/update', array("id" => $data->id)), array("class" => "btn btn-mini"));
                 echo " ";
             }
             echo CHtml::link('<i class="fam-printer"></i>', Yii::app()->createUrl($this->module->id . '/' . $this->id . '/print', array("id" => $data->id)), array('target' => '_blank', "class" => "btn btn-mini"));

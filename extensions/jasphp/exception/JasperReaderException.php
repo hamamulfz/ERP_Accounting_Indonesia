@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperReaderException
  *
@@ -9,5 +8,4 @@
  * @since 1.0
  */
 class JasperReaderException extends \Exception {
-    
 }

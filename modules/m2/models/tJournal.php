@@ -208,14 +208,48 @@ class tJournal extends BaseModel {
 
         return $_format;
     }
-    
+
+    public function getUser_reff() {
+        $_state = null;
+
+        if ($this->journal_type_id == 2)
+            $_state = "Received From";
+		elseif ($this->journal_type_id == 3)
+            $_state = "Receiver";
+		else
+			$_state = false;
+			
+        return $_state;
+    }
+
     public function getLinkUrl() {
-		if ($this->journal_type_id == 3) { 
-			$_url = CHtml::link($this->system_reff,Yii::app()->createUrl("/m2/tJournal/view",array("id"=>$this->id)));
-		} else 
-			$_url = CHtml::link($this->system_reff,Yii::app()->createUrl("/m2/mCashbank/view",array("id"=>$this->id)));
-   
-   		return $_url; 
+        if ($this->module_id == 1) {
+            $_url = CHtml::link($this->system_reff, Yii::app()->createUrl("/m2/tJournal/view", array("id" => $this->id)));
+        }
+        else
+            $_url = CHtml::link($this->system_reff, Yii::app()->createUrl("/m2/mCashbank/view", array("id" => $this->id)));
+
+        return $_url;
+    }
+
+    public function getLinkUrlUpdate() {
+        if ($this->module_id == 1) {
+            $_url = Yii::app()->createUrl("/m2/tJournal/update", array("id" => $this->id));
+        }
+        else
+            $_url = Yii::app()->createUrl("/m2/mCashbank/update", array("id" => $this->id));
+
+        return $_url;
+    }
+
+    public function getLinkUrlDelete() {
+        if ($this->module_id == 1) {
+            $_url = Yii::app()->createUrl("/m2/tJournal/update", array("id" => $this->id));
+        }
+        else
+            $_url = Yii::app()->createUrl("/m2/mCashbank/update", array("id" => $this->id));
+
+        return $_url;
     }
 
 }

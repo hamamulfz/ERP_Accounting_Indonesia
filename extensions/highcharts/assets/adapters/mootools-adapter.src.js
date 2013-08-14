@@ -6,12 +6,9 @@
  *
  * License: www.highcharts.com/license
  */
-
 // JSLint options:
 /*global Fx, $, $extend, $each, $merge, Events, Event, DOMEvent */
-
 (function() {
-
     var win = window,
             doc = document,
             mooVersion = win.MooTools.version.substring(0, 3), // Get the first three characters of the version number
@@ -20,7 +17,6 @@
             $extend = win.$extend || function() {
         return Object.append.apply(Object, arguments);
     };
-
     win.HighchartsAdapter = {
         /**
          * Initialize the adapter. This is run once as Highcharts is first run.
@@ -31,13 +27,11 @@
                     fxStart = fxProto.start,
                     morphProto = Fx.Morph.prototype,
                     morphCompute = morphProto.compute;
-
             // override Fx.start to allow animation of SVG element wrappers
             /*jslint unparam: true*//* allow unused parameters in fx functions */
             fxProto.start = function(from, to) {
                 var fx = this,
                         elem = fx.element;
-
                 // special for animating paths
                 if (from.d) {
                     //this.fromD = this.element.d.split(' ');
@@ -48,15 +42,12 @@
                             );
                 }
                 fxStart.apply(fx, arguments);
-
                 return this; // chainable
             };
-
             // override Fx.step to allow animation of SVG element wrappers
             morphProto.compute = function(from, to, delta) {
                 var fx = this,
                         paths = fx.paths;
-
                 if (paths) {
                     fx.element.attr(
                             'd',
@@ -74,7 +65,6 @@
          * @param {String} method Which method to run on the wrapped element
          */
         adapterRun: function(el, method) {
-
             // This currently works for getting inner width and height. If adding
             // more methods later, we need a conditional implementation for each.
             if (method === 'width' || method === 'height') {
@@ -90,11 +80,9 @@
             // We cannot assume that Assets class from mootools-more is available so instead insert a script tag to download script.
             var head = doc.getElementsByTagName('head')[0];
             var script = doc.createElement('script');
-
             script.type = 'text/javascript';
             script.src = scriptLocation;
             script.onload = callback;
-
             head.appendChild(script);
         },
         /**
@@ -107,7 +95,6 @@
             var isSVGElement = el.attr,
                     effect,
                     complete = options && options.complete;
-
             if (isSVGElement && !el.setStyle) {
                 // add setStyle and getStyle methods for internal use in Moo
                 el.getStyle = el.attr;
@@ -120,10 +107,8 @@
                     return true;
                 };
             }
-
             // stop running animations
             win.HighchartsAdapter.stop(el);
-
             // define and run the effect
             effect = new Fx.Morph(
                     isSVGElement ? el : $(el),
@@ -131,25 +116,20 @@
                 transition: Fx.Transitions.Quad.easeInOut
             }, options)
                     );
-
             // Make sure that the element reference is set when animating svg elements
             if (isSVGElement) {
                 effect.element = el;
             }
-
             // special treatment for paths
             if (params.d) {
                 effect.toD = params.d;
             }
-
             // jQuery-like events
             if (complete) {
                 effect.addEvent('complete', complete);
             }
-
             // run
             effect.start(params);
-
             // record for use in stop method
             el.fx = effect;
         },
@@ -216,13 +196,10 @@
          */
         addEvent: function(el, type, fn) {
             if (typeof type === 'string') { // chart broke due to el being string, type function
-
                 if (type === 'unload') { // Moo self destructs before custom unload events
                     type = 'beforeunload';
                 }
-
                 win.HighchartsAdapter.extendWithEvents(el);
-
                 el.addEvent(type, fn);
             }
         },
@@ -231,13 +208,11 @@
                 // el.removeEvents below apperantly calls this method again. Do not quite understand why, so for now just bail out.
                 return;
             }
-
             if (el.addEvent) { // If el doesn't have an addEvent method, there are no events to remove
                 if (type) {
                     if (type === 'unload') { // Moo self destructs before custom unload events
                         type = 'beforeunload';
                     }
-
                     if (fn) {
                         el.removeEvent(type, fn);
                     } else if (el.removeEvents) { // #958
@@ -256,12 +231,10 @@
             // create an event object that keeps all functions
             event = legacyEvent ? new Event(eventArgs) : new DOMEvent(eventArgs);
             event = $extend(event, eventArguments);
-
             // When running an event on the Chart.prototype, MooTools nests the target in event.event
             if (!event.target && event.event) {
                 event.target = event.event.target;
             }
-
             // override the preventDefault function to be able to use
             // this for custom events
             event.preventDefault = function() {
@@ -272,7 +245,6 @@
             if (el.fireEvent) {
                 el.fireEvent(event.type, event);
             }
-
             // fire the default if it is passed and it is not prevented above
             if (defaultFunction) {
                 defaultFunction(event);
@@ -297,5 +269,4 @@
             }
         }
     };
-
 }());

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperTextElement
  *
@@ -8,13 +7,9 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="textElement") */
 class JasperTextElement extends AbstractJasper {
-
     public $textAlignment = null;
-
     /** @BeanAnnotation(className="JasperFont") */
     public $font = null;
-
 }

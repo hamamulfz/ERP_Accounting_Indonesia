@@ -2,11 +2,8 @@
  * Tables.less
  * Tables for, you guessed it, tabular data
  * ---------------------------------------- */
-
-
 // BASELINE STYLES
 // ---------------
-
 table {
   width: 100%;
   margin-bottom: @baseline;
@@ -34,8 +31,6 @@ table {
     vertical-align: top;
   }
 }
-
-
 // CONDENSED VERSION
 // -----------------
 .condensed-table {
@@ -44,11 +39,8 @@ table {
     padding: 5px 5px 4px;
   }
 }
-
-
 // BORDERED VERSION
 // ----------------
-
 .bordered-table {
   border: 1px solid #ddd;
   border-collapse: separate; // Done so we can round those corners!
@@ -74,11 +66,8 @@ table {
     .border-radius(0 0 4px 0);
   }
 }
-
-
 // TABLE CELL SIZES
 // ----------------
-
 // This is a duplication of the main grid .columns() mixin, but subtracts 20px to account for input padding and border
 .tableColumns(@columnSpan: 1) {
   width: ((@gridColumnWidth - 20) * @columnSpan) + ((@gridColumnWidth - 20) * (@columnSpan - 1));
@@ -102,11 +91,8 @@ table {
   .span15    { .tableColumns(15); }
   .span16    { .tableColumns(16); }
 }
-
-
 // ZEBRA-STRIPING
 // --------------
-
 // Default zebra-stripe styles (alternating gray and transparent backgrounds)
 .zebra-striped {
   tbody {
@@ -120,7 +106,6 @@ table {
     }
   }
 }
-
 table {
   // Tablesorting styles w/ jQuery plugin
   .header {

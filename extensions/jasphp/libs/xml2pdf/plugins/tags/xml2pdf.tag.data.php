@@ -1,5 +1,4 @@
 <?php
-
 /**
  * data tag plugin file.
  * @filesource
@@ -12,15 +11,12 @@
  * @deprecated 0.6.10.8
  */
 // dependances {{{
-
 /**
  * parent class
  */
 require_once('xml2pdf.tag.paragraph.php');
-
 // }}}
 // doc {{{
-
 /**
  * <data> tag.
  *
@@ -34,7 +30,5 @@ require_once('xml2pdf.tag.paragraph.php');
  * @deprecated 0.6.10.8
  */ // }}}
 class xml2pdf_tag_data extends xml2pdf_tag_paragraph {
-    
 }
-
 ?>

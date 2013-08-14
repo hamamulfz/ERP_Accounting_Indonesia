@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Xml2Pdf vertical bar graph plugin file
  * @filesource
@@ -13,7 +12,6 @@
  * @subpackage Graph
  */
 // doc {{{
-
 /**
  * Plugin class xml2pdf_graph_vbar
  * 
@@ -38,18 +36,14 @@
  */ // }}}
 class xml2pdf_graph_vbar {
     // xml2pdf_graph_vbar::__construct() {{{    
-
     /**
      * Constructeur
      *
      */
     public function __construct() {
-        
     }
-
     // }}}
     // xml2pdf_graph_vbar::render() {{{
-
     /**
      * Draw a vertical bar graph.
      *
@@ -59,7 +53,6 @@ class xml2pdf_graph_vbar {
     public static function render($graph) {
         $graph->pdf->SetFont('Courier', '', $graph->fontSize);
         $graph->setLegends();
-
         $XPage = $graph->pdf->GetX();
         $YPage = $graph->pdf->GetY();
         $marge = 2;
@@ -81,10 +74,8 @@ class xml2pdf_graph_vbar {
         $hBaton = floor($lDiag / ($graph->nbVal + 1));
         $lDiag = $hBaton * ($graph->nbVal + 1);
         $eBaton = floor($hBaton * 80 / 100);
-
         $graph->pdf->SetLineWidth(0.2);
         $graph->pdf->Rect($XDiag, $YDiag, $lDiag, $hDiag);
-
         //Echelles
         $tab = Xml2Pdf::ConvertColor('#dcdcdc');
         $graph->pdf->SetDrawColor($tab['r'], $tab['g'], $tab['b']);
@@ -116,8 +107,6 @@ class xml2pdf_graph_vbar {
             $i++;
         }
     }
-
     // }}}    
 }
-
 ?>

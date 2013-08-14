@@ -1,5 +1,4 @@
 <?php
-
 /* * *****************************************************************************
  * Utility to generate font definition files                                    *
  *                                                                              *
@@ -7,9 +6,7 @@
  * Date:    2011-06-18                                                          *
  * Author:  Olivier PLATHEY                                                     *
  * ***************************************************************************** */
-
 require('ttfparser.php');
-
 function Message($txt, $severity = '') {
     if (PHP_SAPI == 'cli') {
         if ($severity)
@@ -22,20 +19,16 @@ function Message($txt, $severity = '') {
         echo "$txt<br>";
     }
 }
-
 function Notice($txt) {
     Message($txt, 'Notice');
 }
-
 function Warning($txt) {
     Message($txt, 'Warning');
 }
-
 function Error($txt) {
     Message($txt, 'Error');
     exit;
 }
-
 function LoadMap($enc) {
     $file = dirname(__FILE__) . '/' . strtolower($enc) . '.map';
     $a = file($file);
@@ -51,7 +44,6 @@ function LoadMap($enc) {
     }
     return $map;
 }
-
 function GetInfoFromTrueType($file, $embed, $map) {
     // Return informations from a TrueType font
     $ttf = new TTFParser();
@@ -89,7 +81,6 @@ function GetInfoFromTrueType($file, $embed, $map) {
     $info['Widths'] = $widths;
     return $info;
 }
-
 function GetInfoFromType1($file, $embed, $map) {
     // Return informations from a Type1 font
     if ($embed) {
@@ -113,7 +104,6 @@ function GetInfoFromType1($file, $embed, $map) {
         $info['Size1'] = $size1;
         $info['Size2'] = $size2;
     }
-
     $afm = substr($file, 0, -3) . 'afm';
     if (!file_exists($afm))
         Error('AFM font file not found: ' . $afm);
@@ -152,7 +142,6 @@ function GetInfoFromType1($file, $embed, $map) {
         elseif ($entry == 'StdVW')
             $info['StdVW'] = (int) $e[1];
     }
-
     if (!isset($info['FontName']))
         Error('FontName missing in AFM file');
     $info['Bold'] = isset($info['Weight']) && preg_match('/bold|black/i', $info['Weight']);
@@ -173,7 +162,6 @@ function GetInfoFromType1($file, $embed, $map) {
     $info['Widths'] = $widths;
     return $info;
 }
-
 function MakeFontDescriptor($info) {
     // Ascent
     $fd = "array('Ascent'=>" . $info['Ascender'];
@@ -209,7 +197,6 @@ function MakeFontDescriptor($info) {
     $fd .= ",'MissingWidth'=>" . $info['MissingWidth'] . ')';
     return $fd;
 }
-
 function MakeWidthArray($widths) {
     $s = "array(\n\t";
     for ($c = 0; $c <= 255; $c++) {
@@ -230,7 +217,6 @@ function MakeWidthArray($widths) {
     $s .= ')';
     return $s;
 }
-
 function MakeFontEncoding($map) {
     // Build differences from reference encoding
     $ref = LoadMap('cp1252');
@@ -246,7 +232,6 @@ function MakeFontEncoding($map) {
     }
     return rtrim($s);
 }
-
 function SaveToFile($file, $s, $mode) {
     $f = fopen($file, 'w' . $mode);
     if (!$f)
@@ -254,7 +239,6 @@ function SaveToFile($file, $s, $mode) {
     fwrite($f, $s, strlen($s));
     fclose($f);
 }
-
 function MakeDefinitionFile($file, $type, $enc, $embed, $map, $info) {
     $s = "<?php\n";
     $s .= '$type = \'' . $type . "';\n";
@@ -279,13 +263,11 @@ function MakeDefinitionFile($file, $type, $enc, $embed, $map, $info) {
     $s .= "?>\n";
     SaveToFile($file, $s, 't');
 }
-
 function MakeFont($fontfile, $enc = 'cp1252', $embed = true) {
     // Generate a font definition file
     if (get_magic_quotes_runtime())
         @set_magic_quotes_runtime(0);
     ini_set('auto_detect_line_endings', '1');
-
     if (!file_exists($fontfile))
         Error('Font file not found: ' . $fontfile);
     $ext = strtolower(substr($fontfile, -3));
@@ -295,14 +277,11 @@ function MakeFont($fontfile, $enc = 'cp1252', $embed = true) {
         $type = 'Type1';
     else
         Error('Unrecognized font file extension: ' . $ext);
-
     $map = LoadMap($enc);
-
     if ($type == 'TrueType')
         $info = GetInfoFromTrueType($fontfile, $embed, $map);
     else
         $info = GetInfoFromType1($fontfile, $embed, $map);
-
     $basename = substr(basename($fontfile), 0, -4);
     if ($embed) {
         if (function_exists('gzcompress')) {
@@ -315,11 +294,9 @@ function MakeFont($fontfile, $enc = 'cp1252', $embed = true) {
             Notice('Font file could not be compressed (zlib extension not available)');
         }
     }
-
     MakeDefinitionFile($basename . '.php', $type, $enc, $embed, $map, $info);
     Message('Font definition file generated: ' . $basename . '.php');
 }
-
 if (PHP_SAPI == 'cli') {
     // Command-line interface
     if ($argc == 1)

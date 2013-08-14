@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbEditableColumn.php
  *
@@ -9,29 +8,23 @@
  * @package YiiBooster bootstrap.widgets
  */
 Yii::import('bootstrap.widgets.TbDataColumn');
-
 class TbJEditableColumn extends TbDataColumn {
-
     /**
      * @var string $saveURL the route to make AJAX calls to
      */
     public $saveURL;
-
     /**
      * @var array $jEditableOptions the jEditable jquery plugin options
      */
     public $jEditableOptions = array();
-
     /**
      * @var string $cssClass the class that
      */
     public $cssClass = 'tbjeditable-column';
-
     /**
      * @var string $event the event jEditable plugin should be displayed (ie dbclick, click...)
      */
     protected $event;
-
     /**
      * @var array the jEditable jquery plugin default options
      * @see http://www.appelsiini.net/projects/jeditable
@@ -72,34 +65,25 @@ class TbJEditableColumn extends TbDataColumn {
             //'dateformat' => 'yyyy/mm/dd', /* you can use this configuration when using the date plugin */
             //'colorformat' => 'rgb' /*  rgb | hex | rgba you can use this parameter when using color picker plugin @see www.eyecon.ro/bootstrap-colorpicker/ */
     );
-
     /**
      * Initializes the column.
      */
     public function init() {
-
         parent::init();
-
         $this->jEditableOptions = CMap::mergeArray($this->defaultJEditableOptions, $this->jEditableOptions);
-
         if (!isset($this->jEditableOptions['type']))
             $this->jEditableOptions['type'] = 'text';
         if ($this->jEditableOptions['type'] == 'select' && (!isset($this->jEditableOptions['loadurl']) && !isset($this->jEditableOptions['data'])))
             throw new CException('zii', 'When jeditable type is "select", "loadurl" or "data" must be configured properly. The data loaded must be in "json" format.');
         if (!isset($this->jEditableOptions['id']))
             $this->jEditableOptions['id'] = @$this->htmlOptions['id'] ? $this->htmlOptions['id'] : $this->id;
-
         $this->event = (isset($this->jEditableOptions['event'])) ? $this->jEditableOptions['event'] : 'click';
-
         $this->jEditableOptions['event'] = null;
-
         if (!$this->saveURL)
             $this->saveURL = Yii::app()->getRequest()->requestUri;
         $this->cssClass .= '-' . $this->id;
-
         $this->registerClientScript();
     }
-
     /**
      * Renders a data cell.
      * @param integer $row the row number (zero-based)
@@ -120,7 +104,6 @@ class TbJEditableColumn extends TbDataColumn {
         echo '</span>';
         echo '</td>';
     }
-
     /**
      * Helper function to return the primary key of the $data
      * IMPORTANT: composite keys on CActiveDataProviders will return the keys joined by comma
@@ -135,10 +118,8 @@ class TbJEditableColumn extends TbDataColumn {
         }
         if ($this->grid->dataProvider instanceof CArrayDataProvider || $this->grid->dataProvider instanceof CSqlDataProvider)
             return is_object($data) ? $data->{$this->grid->dataProvider->keyField} : $data[$this->grid->dataProvider->keyField];
-
         return null;
     }
-
     /**
      * Registers client javascript
      * @throws CException
@@ -148,14 +129,12 @@ class TbJEditableColumn extends TbDataColumn {
         $cs = Yii::app()->getClientScript();
         $assetsUrl = Yii::app()->bootstrap->getAssetsUrl();
         $cs->registerScriptFile($assetsUrl . '/js/jquery.jeditable.js', CClientScript::POS_END);
-
         $cs->registerCss('TbJEditableColumnTimepickerCSS#' . $this->id, "
 				.{$this->cssClass} select { width: 50px; height:25px; margin: 1px; }
 				.{$this->cssClass} button { margin: 1px; font-size: 10px; }
 			");
         if (!isset($this->jEditableOptions['indicator']))
             $this->jEditableOptions['indicator'] = CHtml::image($assetsUrl . '/img/loading.gif');
-
         switch ($this->jEditableOptions['type']) {
             case 'time':
                 $cs->registerScriptFile($assetsUrl . '/js/jquery.jeditable.time.js', CClientScript::POS_END);
@@ -167,10 +146,8 @@ class TbJEditableColumn extends TbDataColumn {
             case 'masked':
                 if (!isset($this->jEditableOptions['mask']))
                     throw new CException('zii', '"mask" setting is required to use the masked plugin');
-
                 $cs->registerScriptFile($assetsUrl . '/js/jquery.maskedInput.js', CClientScript::POS_END)
                         ->registerScriptFile($assetsUrl . '/js/jquery.jeditable.masked.js', CClientScript::POS_END);
-
                 break;
             case 'bdatepicker':
                 $cs->registerCssFile($assetsUrl . '/css/bootstrap-datepicker.css')
@@ -185,7 +162,6 @@ class TbJEditableColumn extends TbDataColumn {
                         ->registerScriptFile($assetsUrl . '/js/jquery.jeditable.bcolorpicker.js', CClientScript::POS_END);
                 break;
         }
-
         $options = CJavaScript::encode(array_filter($this->jEditableOptions));
         $cs->registerScript('TbJEditableColumn#' . $this->id, "
 			jQuery(document).on('{$this->event}','td:parent', function(){
@@ -196,5 +172,4 @@ class TbJEditableColumn extends TbDataColumn {
 			});
 		");
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Xml2Pdf horizontal bar graph plugin file.
  * @filesource
@@ -13,7 +12,6 @@
  * @subpackage Graph
  */
 // doc {{{
-
 /**
  * Plugin class xml2pdf_graph_hbar
  * 
@@ -38,18 +36,14 @@
  */ // }}}
 class xml2pdf_graph_hbar {
     // xml2pdf_graph_hbar::__construct() {{{
-
     /**
      * Constructor.
      *
      */
     public function __construct() {
-        
     }
-
     // }}}
     // xml2pdf_graph_hbar::render() {{{
-
     /**
      * Draw an horizontal bar graph.
      *
@@ -59,7 +53,6 @@ class xml2pdf_graph_hbar {
     public static function render($graph) {
         $graph->pdf->SetFont('Courier', '', $graph->fontSize);
         $graph->setLegends();
-
         $XPage = $graph->pdf->GetX();
         $YPage = $graph->pdf->GetY();
         $marge = 2;
@@ -81,10 +74,8 @@ class xml2pdf_graph_hbar {
         $hBaton = floor($hDiag / ($graph->nbVal + 1));
         $hDiag = $hBaton * ($graph->nbVal + 1);
         $eBaton = floor($hBaton * 80 / 100);
-
         $graph->pdf->SetLineWidth(0.2);
         $graph->pdf->Rect($XDiag, $YDiag, $lDiag, $hDiag);
-
         //Echelles
         $tab = Xml2Pdf::ConvertColor('#dcdcdc');
         $graph->pdf->SetDrawColor($tab['r'], $tab['g'], $tab['b']);
@@ -98,7 +89,6 @@ class xml2pdf_graph_hbar {
             $ypos = $YDiag + $hDiag - $marge;
             $graph->pdf->Text($xpos, $ypos, $val);
         }
-
         $tab = Xml2Pdf::ConvertColor('#000000');
         $graph->pdf->SetDrawColor($tab['r'], $tab['g'], $tab['b']);
         $graph->pdf->SetFont('Courier', '', $graph->fontSize);
@@ -118,8 +108,6 @@ class xml2pdf_graph_hbar {
             $i++;
         }
     }
-
     // }}}
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbFormButtonElement class file.
  *
@@ -13,13 +12,11 @@
  * @package bootstrap.widgets
  */
 class TbFormButtonElement extends CFormElement {
-
     /**
      * @var string the button layout: set as TbButton->type in function render()
      * Valid values are 'primary', 'info', 'success', 'warning', 'danger' and 'inverse'.
      */
     public $layoutType;
-
     /**
      * @var array Core button types (alias=>CHtml method name)
      */
@@ -37,7 +34,6 @@ class TbFormButtonElement extends CFormElement {
         'ajaxButton' => 'ajaxButton',
         'ajaxSubmit' => 'ajaxSubmit',
     );
-
     /**
      * Prepare the options before running the TbButton widget
      *
@@ -52,18 +48,14 @@ class TbFormButtonElement extends CFormElement {
         //map $this->type to attribute buttonType of TbButton
         $options['buttonType'] = self::$TbButtonTypes[$this->type];
         unset($options['type']);
-
         //map layoutType to attribute type of TbButton
         if (isset($this->layoutType))
             $options['type'] = $this->layoutType;
-
         //move $options['name'] to htmlOptions
         $options['htmlOptions']['name'] = $this->name;
         unset($options['name']);
-
         return $options;
     }
-
     /**
      * Run TbButton widget
      *
@@ -72,13 +64,10 @@ class TbFormButtonElement extends CFormElement {
     public function render() {
         if (!empty(self::$TbButtonTypes[$this->type])) {
             $attributes = $this->prepareWidgetOptions($this->attributes);
-
             ob_start();
             Yii::app()->controller->widget('TbButton', $attributes);
             return ob_get_clean();
         }
-
         return parent::render();
     }
-
 }

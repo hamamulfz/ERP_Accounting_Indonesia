@@ -64,7 +64,6 @@ class fLogin extends CFormModel {
             $this->addError('password', 'Incorrect password...');
     }
 
-
     public function userexist($attribute, $params) {
         $user = sUser::model()->find('LOWER(username)=?', array(strtolower($this->username)));
         if ($user === null)
@@ -73,6 +72,7 @@ class fLogin extends CFormModel {
         if ($user !== null && $user->status_id != 1)
             $this->addError('username', 'username has been de-activated...');
     }
+
     /**
      * Logs in the user using the given username and password in the model.
      * @return boolean whether login is successful

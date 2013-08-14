@@ -1,5 +1,4 @@
 <?php
-
 /**
  * date tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Tag
  */
 // dependances {{{
-
 /**
  * parent class
  */
 require_once('xml2pdf.tag.paragraph.php');
-
 // }}}
 // doc {{{
-
 /**
  * <date> tag.
  * 
@@ -46,16 +42,13 @@ require_once('xml2pdf.tag.paragraph.php');
  */ // }}}
 class xml2pdf_tag_date extends xml2pdf_tag_paragraph {
     // class properties {{{
-
     /**
      * date format.
      * @var string 
      */
     public $format = 'd/m/Y';
-
     // }}}
     // xml2pdf_tag_date::__construct() {{{
-
     /**
      * Constructor.
      * 
@@ -69,10 +62,8 @@ class xml2pdf_tag_date extends xml2pdf_tag_paragraph {
             $this->format = $attributes['FORMAT'];
         }
     }
-
     // }}} 
     // xml2pdf_tag_date::close() {{{
-
     /**
      * Add the date in header or footer.
      *
@@ -82,8 +73,6 @@ class xml2pdf_tag_date extends xml2pdf_tag_paragraph {
         $this->content = date($this->format);
         $this->parent->elements[] = $this;
     }
-
     // }}}
 }
-
 ?>

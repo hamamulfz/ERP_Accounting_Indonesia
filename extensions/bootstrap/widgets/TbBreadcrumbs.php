@@ -6,20 +6,16 @@
  * @license [New BSD License](http://www.opensource.org/licenses/bsd-license.php) 
  * @package bootstrap.widgets
  */
-
 Yii::import('zii.widgets.CBreadcrumbs');
-
 /**
  * Bootstrap breadcrumb widget.
  * @see <http://twitter.github.com/bootstrap/components.html#breadcrumbs>
  */
 class TbBreadcrumbs extends CBreadcrumbs {
-
     /**
      * @var string the separator between links in the breadcrumbs. Defaults to '/'.
      */
     public $separator = '/';
-
     /**
      * ### .init()
      *
@@ -30,11 +26,9 @@ class TbBreadcrumbs extends CBreadcrumbs {
             $this->htmlOptions['class'] .= ' breadcrumb';
         else
             $this->htmlOptions['class'] = 'breadcrumb';
-
         // apply bootstrap style
         $this->separator = '<span class="divider">' . $this->separator . '</span>';
     }
-
     /**
      * ### .run()
      *
@@ -46,15 +40,12 @@ class TbBreadcrumbs extends CBreadcrumbs {
         // Hide empty breadcrumbs.
         if (empty($this->links))
             return;
-
         $links = '';
-
         if (!isset($this->homeLink)) {
             $content = CHtml::link(Yii::t('zii', 'Home'), Yii::app()->homeUrl);
             $links .= $this->renderItem($content);
         } else if ($this->homeLink !== false)
             $links .= $this->renderItem($this->homeLink);
-
         $count = count($this->links);
         $counter = 0;
         foreach ($this->links as $label => $url) {
@@ -66,10 +57,8 @@ class TbBreadcrumbs extends CBreadcrumbs {
             else
                 $links .= $this->renderItem($this->encodeLabel ? CHtml::encode($url) : $url, ($counter === $count));
         }
-
         echo CHtml::tag('ul', $this->htmlOptions, $links);
     }
-
     /**
      * ### .renderItem()
      *
@@ -88,5 +77,4 @@ class TbBreadcrumbs extends CBreadcrumbs {
         echo '</li>';
         return ob_get_clean();
     }
-
 }

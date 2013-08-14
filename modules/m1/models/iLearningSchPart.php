@@ -174,12 +174,16 @@ class iLearningSchPart extends BaseModel {
 
     public function afterSave() {
         if ($this->isNewRecord && strtotime($this->getparent->schedule_date) > time()) {
-            Notification::create(
-                    3, //Learning Group 
-                    'm1/iLearning/viewDetail/id/' . $this->parent_id, strtoupper($this->employee->employee_name) . ' from ' . $this->employee->mCompany() . ' has been added to '
-                    . strtoupper($this->getparent->getparent->learning_title) . ' on '
-                    . $this->getparent->schedule_date
-            );
+            $model= new sNotification;
+            $model->group_id = 3;
+            $model->link = 'm1/iLearning/viewDetail/id/' . $this->parent_id;
+            $model->link2 = 'm1/iLearning/view/id/' . $this->getparent->parent_id;
+            $model->link3 = 'm1/gPerson/view/id/' . $this->employee_id;
+            $model->content = '<link3>'.$this->employee->employee_name . '</link3> from ' . $this->employee->mCompany() . ' has been added to <link2>'
+                    . $this->getparent->getparent->learning_title . '</link2> on <read>'
+                    . $this->getparent->schedule_date .'</read>';
+            $model->save();
+
         }
         return true;
     }

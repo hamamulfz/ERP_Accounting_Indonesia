@@ -19,172 +19,162 @@
  * @property integer $approved_date
  * @property integer $approved_by
  */
-class uSo extends BaseModel
-{
+class uSo extends BaseModel {
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'u_so';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'u_so';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('input_date', 'required'),
-			array('state_id, entity_id, customer_id, so_type_id, created_date, created_by, updated_date, updated_by, approved_date, approved_by', 'numerical', 'integerOnly'=>true),
-			array('system_ref', 'length', 'max'=>100),
-			array('remark', 'safe'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, entity_id, customer_id, input_date, system_ref, so_type_id, remark, created_date, created_by, updated_date, updated_by, approved_date, approved_by', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('input_date', 'required'),
+            array('state_id, entity_id, customer_id, so_type_id, created_date, created_by, updated_date, updated_by, approved_date, approved_by', 'numerical', 'integerOnly' => true),
+            array('system_ref', 'length', 'max' => 100),
+            array('remark', 'safe'),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('id, entity_id, customer_id, input_date, system_ref, so_type_id, remark, created_date, created_by, updated_date, updated_by, approved_date, approved_by', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
             'entity' => array(self::BELONGS_TO, 'aOrganization', 'entity_id'),
             'customer' => array(self::BELONGS_TO, 'uCustomer', 'customer_id'),
             'ar' => array(self::HAS_ONE, 'uAr', 'id'),
             'soDetail' => array(self::HAS_MANY, 'uSoDetail', 'parent_id'),
             'soSum' => array(self::STAT, 'uSoDetail', 'parent_id', 'select' => 'sum(qty*amount)'),
-		);
-	}
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'entity_id' => 'Entity',
-			'customer_id' => 'Customer',
-			'input_date' => 'Input Date',
-			'system_ref' => 'System Ref',
-			'so_type_id' => 'SO Type',
-			'state_id' => 'Status',
-			'remark' => 'Remark',
-			'created_date' => 'Created Date',
-			'created_by' => 'Created By',
-			'updated_date' => 'Updated Date',
-			'updated_by' => 'Updated By',
-			'approved_date' => 'Approved Date',
-			'approved_by' => 'Approved By',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => 'ID',
+            'entity_id' => 'Entity',
+            'customer_id' => 'Customer',
+            'input_date' => 'Input Date',
+            'system_ref' => 'System Ref',
+            'so_type_id' => 'SO Type',
+            'state_id' => 'Status',
+            'remark' => 'Remark',
+            'created_date' => 'Created Date',
+            'created_by' => 'Created By',
+            'updated_date' => 'Updated Date',
+            'updated_by' => 'Updated By',
+            'approved_date' => 'Approved Date',
+            'approved_by' => 'Approved By',
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search() {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('entity_id',$this->entity_id);
-		$criteria->compare('customer_id',$this->customer_id);
-		$criteria->compare('input_date',$this->input_date,true);
-		$criteria->compare('system_ref',$this->system_ref,true);
-		$criteria->compare('so_type_id',$this->so_type_id);
-		$criteria->compare('remark',$this->remark,true);
-		$criteria->compare('created_date',$this->created_date);
-		$criteria->compare('created_by',$this->created_by);
-		$criteria->compare('updated_date',$this->updated_date);
-		$criteria->compare('updated_by',$this->updated_by);
-		$criteria->compare('approved_date',$this->approved_date);
-		$criteria->compare('approved_by',$this->approved_by);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('entity_id', $this->entity_id);
+        $criteria->compare('customer_id', $this->customer_id);
+        $criteria->compare('input_date', $this->input_date, true);
+        $criteria->compare('system_ref', $this->system_ref, true);
+        $criteria->compare('so_type_id', $this->so_type_id);
+        $criteria->compare('remark', $this->remark, true);
+        $criteria->compare('created_date', $this->created_date);
+        $criteria->compare('created_by', $this->created_by);
+        $criteria->compare('updated_date', $this->updated_date);
+        $criteria->compare('updated_by', $this->updated_by);
+        $criteria->compare('approved_date', $this->approved_date);
+        $criteria->compare('approved_by', $this->approved_by);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
 
-	public function newEntry()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+    public function newEntry() {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('state_id',1); //New Entry
+        $criteria->compare('state_id', 1); //New Entry
 
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
 
-	public function delivered()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+    public function delivered() {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('state_id',2); //Delivered
-
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
-
-	public function newSo()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->with=array('ar','ar.payment');
-		$criteria->together=true;
-		$criteria->condition='t.state_id = 2  AND (ar.id is null or payment.id is null)';
+        $criteria->compare('state_id', 2); //Delivered
 
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
 
-	public function arCustomerView($id)
-	{
+    public function newSo() {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
-		$criteria->compare('customer_id',$id);
-		//$criteria->with=array('ar','ar.payment');
-		//$criteria->together=true;
-		//$criteria->condition='t.state_id = 2  AND (ar.id is null or payment.id is null)';
+        $criteria = new CDbCriteria;
+
+        $criteria->with = array('ar', 'ar.payment');
+        $criteria->together = true;
+        $criteria->condition = 't.state_id = 2  AND (ar.id is null or payment.id is null)';
 
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-			'pagination'=>array(
-				'pageSize'=>100,
-			)
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+    public function arCustomerView($id) {
+
+        $criteria = new CDbCriteria;
+        $criteria->compare('customer_id', $id);
+        //$criteria->with=array('ar','ar.payment');
+        //$criteria->together=true;
+        //$criteria->condition='t.state_id = 2  AND (ar.id is null or payment.id is null)';
+
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 100,
+            )
+        ));
+    }
 
     public static function getTopCreated() {
 
@@ -241,16 +231,14 @@ class uSo extends BaseModel
         return $returnarray;
     }
 
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return uSo the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return uSo the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
 }

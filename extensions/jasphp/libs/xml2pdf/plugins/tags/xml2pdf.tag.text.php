@@ -1,5 +1,4 @@
 <?php
-
 /**
  * text tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @version CVS: $Id: xml2pdf.tag.text.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  */
 // dependances {{{
-
 /**
  * include parent class
  */
 Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
-
 // }}}
 // doc {{{
-
 /**
  * <text> tag.
  *
@@ -38,7 +34,6 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  */ // }}}
 Class xml2pdf_tag_text extends Xml2PdfTextTag {
     // xml2pdf_tag_text::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -52,8 +47,6 @@ Class xml2pdf_tag_text extends Xml2PdfTextTag {
             $this->useStyle = $tagProperties['USESTYLE'];
         }
     }
-
     // }}}
 }
-
 ?>

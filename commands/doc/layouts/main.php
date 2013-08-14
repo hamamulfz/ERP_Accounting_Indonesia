@@ -8,10 +8,8 @@
         <script type="text/javascript" src="js/jquery.js"></script>
         <title><?php echo isset($this->pageTitle) ? $this->pageTitle : $this->name . ' Class Reference'; ?></title>
     </head>
-
     <body>
         <div id="apiPage">
-
             <div id="apiHeader">
                 <?php if (YII_PATH === $this->basePath): ?>
                     <a href="http://www.yiiframework.com"><?php echo $this->name; ?></a> v<?php echo Yii::getVersion(); ?> Class Reference
@@ -23,16 +21,13 @@
                     <?php endif; ?>
                 <?php endif; ?>
             </div><!-- end of header -->
-
             <div id="content">
                 <?php echo $content; ?>
             </div><!-- end of content -->
-
             <div id="apiFooter">
                 Copyright &copy; 2008-2011 by <a href="http://www.yiisoft.com">Yii Software LLC</a><br/>
                 All Rights Reserved.<br/>
             </div><!-- end of footer -->
-
             <script type="text/javascript">
                 /*<![CDATA[*/
                 $("a.toggle").toggle(function() {
@@ -54,7 +49,6 @@
                 });
                 /*]]>*/
             </script>
-
         </div><!-- end of page -->
     </body>
 </html>

@@ -185,7 +185,5 @@
             'Support project development and we will place here info about you': 'Support project development and we will place here info about you',
             'Contacts us if you need help integrating elFinder in you products': 'Contacts us if you need help integrating elFinder in you products',
             'helpText': 'elFinder bilgisayarınızdaki Dosya Yöneticisine benzer çalışır. <br /> üst çubuğu, menü veya klavye kısayol düğmeleri kullanarak dosyalarını işlemek. Basitçe, dosya / klasör taşımak istediğinizde klasör simgesini taşımak için kullanabilirsiniz.<br/>ElFinder aşağıdaki klavye kısayollarını destekler:'
-
         };
-
 })(jQuery);

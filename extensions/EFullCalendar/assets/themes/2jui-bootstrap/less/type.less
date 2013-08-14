@@ -1,11 +1,8 @@
 /* Typography.less
  * Headings, body text, lists, code, and more for a versatile and durable typography system
  * ---------------------------------------------------------------------------------------- */
-
-
 // BODY TEXT
 // ---------
-
 p {
   #font > .shorthand(normal,@basefont,@baseline);
   margin-bottom: @baseline / 2;
@@ -14,11 +11,8 @@ p {
     color: @grayLight;
   }
 }
-
-
 // HEADINGS
 // --------
-
 h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
   color: @grayDark;
@@ -64,11 +58,8 @@ h6 {
   color: @grayLight;
   text-transform: uppercase;
 }
-
-
 // COLORS
 // ------
-
 // Unordered and Ordered lists
 ul, ol {
   margin: 0 0 @baseline 25px;
@@ -93,7 +84,6 @@ ul.unstyled {
   list-style: none;
   margin-left: 0;
 }
-
 // Description Lists
 dl {
   margin-bottom: @baseline;
@@ -107,17 +97,14 @@ dl {
     margin-left: @baseline / 2;
   }
 }
-
 // MISC
 // ----
-
 // Horizontal rules
 hr {
   margin: 20px 0 19px;
   border: 0;
   border-bottom: 1px solid #eee;
 }
-
 // Emphasis
 strong {
   font-style: inherit;
@@ -131,7 +118,6 @@ em {
 .muted {
   color: @grayLight;
 }
-
 // Blockquotes
 blockquote {
   margin-bottom: @baseline;
@@ -150,14 +136,12 @@ blockquote {
     }
   }
 }
-
 // Addresses
 address {
   display: block;
   line-height: @baseline;
   margin-bottom: @baseline;
 }
-
 // Inline and block code styles
 code, pre {
   padding: 0 3px 2px;
@@ -183,5 +167,4 @@ pre {
   white-space: pre;
   white-space: pre-wrap;
   word-wrap: break-word;
-
 }

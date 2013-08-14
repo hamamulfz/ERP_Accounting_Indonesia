@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperConnectExpression
  *
@@ -8,10 +7,7 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="connectionExpression") */
 class JasperConnectExpression extends AbstractJasper {
-
     public $content = null;
-
 }

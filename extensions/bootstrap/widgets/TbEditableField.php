@@ -1,5 +1,4 @@
 <?php
-
 /* ## EditableField class file.
  * @see <https://github.com/vitalets/x-editable-yii>
  *
@@ -9,78 +8,65 @@
  * @package bootstrap.widgets
  * @version 1.0.0
  */
-
 /**
  * EditableField widget makes editable single attribute of model.
  *
  * @package widgets
  */
 class TbEditableField extends CWidget {
-
     //note: only most usefull options are on first level of config.
     // --- start of X-editable options ----
     /**
      * @var CActiveRecord ActiveRecord to be updated.
      */
     public $model = null;
-
     /**
      * @var string attribute name.
      */
     public $attribute = null;
-
     /**
      * @var string parent ID.
      */
     public $parentid = null;
-
     /**
      * @var string type of editable widget. Can be `text`, `textarea`, `select`, `date`, `checklist`, etc.
      * @see x-editable
      */
     public $type = null;
-
     /**
      * @var string url to submit value. Can be string or array containing Yii route, e.g. `array('site/updateUser')`
      * @see x-editable
      */
     public $url = null;
-
     /**
      * @var array additional params to send on server
      * @see x-editable
      */
     public $params = null;
-
     /**
      * @var string css class of input. If `null` - default X-editable value is used: `input-medium`
      * @see x-editable
      */
     public $inputclass = null;
-
     /**
      * @var string text to be shown as element content
      */
     public $text = null;
-
     /**
      * @var mixed initial value. If not set - will be take from text
      * @see x-editable
      */
     public $value = null;
-
     /**
      * @var string placement of popup. Can be `left`, `top`, `right`, `bottom`. If `null` - default X-editable value is used: `top`
      * @see x-editable
      */
     public $placement = null;
-
     /**
      * @var string text shown on empty field. If `null` - default X-editable value is used: `Empty`
      * @see x-editable
      */
     public $emptytext = null;
-
     /**
      * @var boolean will editable be initially disabled. It means editable plugin will be applied to element,
      * but you should call `.editable('enable')` method to activate it.
@@ -102,7 +88,6 @@ class TbEditableField extends CWidget {
      * @see x-editable
      */
     public $format = null;
-
     /**
      * @var string format to display date in element. If `null` - equals to **format** option.
      * @package date
@@ -125,7 +110,6 @@ class TbEditableField extends CWidget {
      * @example
      */
     public $validate = null;
-
     /**
      * A javascript function that will be invoked to process successful server response.
      * Example:
@@ -140,7 +124,6 @@ class TbEditableField extends CWidget {
      * @see x-editable
      */
     public $success = null;
-
     /**
      * A javascript function that will be invoked to custom display value.
      * Example:
@@ -164,7 +147,6 @@ class TbEditableField extends CWidget {
      * @see x-editable
      */
     public $onInit;
-
     /**
      * A javascript function that will be invoked when editable form is shown
      * Example:
@@ -180,7 +162,6 @@ class TbEditableField extends CWidget {
      * @see x-editable
      */
     public $onShown;
-
     /**
      * A javascript function that will be invoked when new value is saved
      * Example:
@@ -195,7 +176,6 @@ class TbEditableField extends CWidget {
      * @see x-editable
      */
     public $onSave;
-
     /**
      * A javascript function that will be invoked when editable form is hidden
      * Example:
@@ -213,28 +193,23 @@ class TbEditableField extends CWidget {
      * @see x-editable
      */
     public $onHidden;
-
     /**
      * @var array all config options of x-editable. See full list <a href="http://vitalets.github.com/x-editable/docs.html#editable">here</a>.
      */
     public $options = array();
-
     /**
      * @var array HTML options of element
      */
     public $htmlOptions = array();
-
     /**
      * @var boolean whether to HTML encode text on output
      */
     public $encode = true;
-
     /**
      * @var boolean whether to apply 'editable' to element.
      * If `null` - will be automatically set to `true` for **safe** attributes and `false` for **unsafe**.
      */
     public $apply = null;
-
     /**
      * @var string title of popup. If `null` - will be generated automatically from attribute label.
      * Can have token {label} inside that will be replaced with actual attribute label.
@@ -246,23 +221,19 @@ class TbEditableField extends CWidget {
      * If not set, default Yii's theme will be used.
      */
     public $themeUrl;
-
     /**
      * @var string for jQuery UI only. The JUI theme name.
      */
     public $theme = 'base';
-
     /**
      * @var mixed for jQuery UI only. The theme CSS file name. By default Yii's jquery UI css used.
      */
     public $cssFile = 'jquery-ui.css';
-
     /**
      * @var string mode popup or inline
      */
     public $mode = 'popup';
     private $_prepareToAutotext = false;
-
     /**
      * ### .init()
      *
@@ -271,24 +242,18 @@ class TbEditableField extends CWidget {
      */
     public function init() {
         parent::init();
-
         if (!$this->model) {
             throw new CException('Parameter "model" should be provided for Editable');
         }
-
         if (!$this->attribute) {
             throw new CException('Parameter "attribute" should be provided for Editable');
         }
-
         $originalText = strlen($this->text) ? $this->text : CHtml::value($this->model, $this->attribute);
-
         //if apply set to false --> just print text
         if ($this->apply === false) {
             $this->text = $originalText;
             return;
         }
-
-
         //resolve model and attribute for related model
         $resolved = self::resolveModel($this->model, $this->attribute);
         if ($resolved === false) {
@@ -298,7 +263,6 @@ class TbEditableField extends CWidget {
         } else {
             list($this->model, $this->attribute) = $resolved;
         }
-
         //commented to be able to work with virtual attributes
         //see https://github.com/vitalets/yii-bootstrap-editable/issues/15
         /*
@@ -306,18 +270,15 @@ class TbEditableField extends CWidget {
           throw new CException('Model "'.get_class($this->model).'" does not have attribute "'.$this->attribute.'"');
           }
          */
-
         //if `apply` not defined directly, set it to true only for safe attributes
         if ($this->apply === null) {
             $this->apply = $this->model->isAttributeSafe($this->attribute);
         }
-
         //if apply = false --> just print text (see 'run' method)
         if ($this->apply === false) {
             $this->text = $originalText;
             return;
         }
-
         /*
           try to detect type from metadata if not set
          */
@@ -331,12 +292,10 @@ class TbEditableField extends CWidget {
                     $this->type = 'textarea';
             }
         }
-
         /*
           If set this flag to true --> element content will stay empty and value will be rendered to data-value attribute to apply autotext.
          */
         $this->_prepareToAutotext = (!isset($this->options['autotext']) || $this->options['autotext'] !== 'never') && in_array($this->type, array('select', 'checklist', 'date', 'dateui'));
-
         /*
           If text not defined, generate it from model attribute for types except lists ('select', 'checklist' etc)
           For lists keep it empty to apply autotext
@@ -344,16 +303,13 @@ class TbEditableField extends CWidget {
         if (!strlen($this->text) && !$this->_prepareToAutotext) {
             $this->text = $originalText;
         }
-
         $this->buildHtmlOptions();
         $this->buildJsOptions();
         $this->registerAssets();
     }
-
     /*
      * ### .buildHtmlOptions()
      */
-
     public function buildHtmlOptions() {
         //html options
         $htmlOptions = array(
@@ -361,13 +317,11 @@ class TbEditableField extends CWidget {
             'rel' => $this->getSelector(),
             'data-pk' => $this->encodeDataPk($this->model->primaryKey),
         );
-
         //if preparing to autotext we need to define value directly in data-value.
         if ($this->_prepareToAutotext) {
             //for date we use 'format' to put it into value (if text not defined)
             if ($this->type == 'date') {
                 $this->value = $this->model->getAttribute($this->attribute);
-
                 //if date comes as object, format it to string
                 if ($this->value instanceOf DateTime) {
                     /*
@@ -380,20 +334,16 @@ class TbEditableField extends CWidget {
                         $format = str_replace('M', 'MMM', $format, $count);
                     if (!$count)
                         $format = str_replace('m', 'M', $format);
-
                     $this->value = Yii::app()->dateFormatter->format($format, $this->value->getTimestamp());
                 }
             } else {
                 $this->value = $this->model->getAttribute($this->attribute);
             }
-
             $this->htmlOptions['data-value'] = $this->value;
         }
-
         //merging options
         $this->htmlOptions = CMap::mergeArray($this->htmlOptions, $htmlOptions);
     }
-
     /**
      * Encodes primary key if it is composite,
      * else returns source value.
@@ -404,15 +354,12 @@ class TbEditableField extends CWidget {
     private function encodeDataPk($value) {
         return is_array($value) ? implode('-', array_values($value)) : $value;
     }
-
     /*
      * ### .buildJsOptions()
      */
-
     public function buildJsOptions() {
         //normalize url from array
         $this->url = CHtml::normalizeUrl($this->url);
-
         //generate title from attribute label
         if ($this->title === null) {
             $titles = array(
@@ -429,21 +376,18 @@ class TbEditableField extends CWidget {
         } else {
             $this->title = strtr($this->title, array('{label}' => $this->model->getAttributeLabel($this->attribute)));
         }
-
         $options = array(
             'type' => $this->type,
             'url' => $this->url,
             'name' => $this->attribute,
             'title' => CHtml::encode($this->title),
         );
-
         //options set directly in config
         foreach (array('placement', 'emptytext', 'params', 'inputclass', 'format', 'viewformat') as $option) {
             if ($this->$option) {
                 $options[$option] = $this->$option;
             }
         }
-
         if ($this->source) {
             //if source is array --> convert it to x-editable format.
             //Note: source with count = 1 is Yii route
@@ -461,15 +405,11 @@ class TbEditableField extends CWidget {
                 $options['source'] = CHtml::normalizeUrl($this->source);
             }
         }
-
         //TODO: language for datepicker: use yii config's value if not defined directly
-
         /*
           unfortunatly datepicker's format does not match Yii locale dateFormat
           so we cannot take format from application locale
-
           see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
-
           if ($this->type == 'date' && $this->format === null) {
           $this->format = Yii::app()->locale->getDateFormat();
           }
@@ -477,29 +417,24 @@ class TbEditableField extends CWidget {
         if (!isset($this->options['datepicker']['language'])) {
             $this->options['datepicker']['language'] = substr(Yii::app()->getLanguage(), 0, 2);
         }
-
         //callbacks
         foreach (array('validate', 'success', 'display') as $method) {
             if (isset($this->$method)) {
                 $options[$method] = (strpos($this->$method, 'js:') !== 0 ? 'js:' : '') . $this->$method;
             }
         }
-
         //merging options
         $this->options = CMap::mergeArray($this->options, $options);
     }
-
     /*
      * ### .registerClientScript()
      */
-
     public function registerClientScript() {
         // target the specific field if parent ID is specified
         if ($this->parentid)
             $script = "$('#{$this->parentid} a[rel={$this->htmlOptions['rel']}]')";
         else
             $script = "$('a[rel={$this->htmlOptions['rel']}]')";
-
         //attach events
         foreach (array('init', 'shown', 'save', 'hidden') as $event) {
             $eventName = 'on' . ucfirst($event);
@@ -510,24 +445,19 @@ class TbEditableField extends CWidget {
                 $script .= "\n.on('" . $event . "', " . CJavaScript::encode($eventJs) . ")";
             }
         }
-
         //apply editable
         $options = CJavaScript::encode($this->options);
         $script .= ".editable($options);";
-
         // unique script ID depending on the parent
         if ($this->parentid)
             Yii::app()->getClientScript()->registerScript(__CLASS__ . '#' . $this->parentid . '-' . $this->id, $script);
         else
             Yii::app()->getClientScript()->registerScript(__CLASS__ . '#' . $this->id, $script);
-
         return $script;
     }
-
     /*
      * ### .registerAssets()
      */
-
     public function registerAssets() {
         Yii::app()->bootstrap->registerAssetCss('bootstrap-editable' . (!YII_DEBUG ? '.min' : '') . '.css');
         Yii::app()->bootstrap->registerAssetJs($this->mode === 'popup' ? 'bootstrap-editable' . (!YII_DEBUG ? '.min' : '') . '.js' : 'bootstrap-editable-inline.js', CClientScript::POS_END);
@@ -535,11 +465,9 @@ class TbEditableField extends CWidget {
         $widget = Yii::app()->widgetFactory->createWidget($this->getOwner(), 'bootstrap.widgets.TbDatePicker', array('options' => $this->options['datepicker']));
         $widget->registerLanguageScript();
     }
-
     /*
      * ### .run()
      */
-
     public function run() {
         if ($this->apply) {
             $this->registerClientScript();
@@ -548,21 +476,17 @@ class TbEditableField extends CWidget {
             $this->renderText();
         }
     }
-
     /*
      * ### .renderLink()
      */
-
     public function renderLink() {
         echo CHtml::openTag('a', $this->htmlOptions);
         $this->renderText();
         echo CHtml::closeTag('a');
     }
-
     /*
      * ### .renderText()
      */
-
     public function renderText() {
         $encodedText = $this->encode ? CHtml::encode($this->text) : $this->text;
         if ($this->type == 'textarea') {
@@ -570,15 +494,12 @@ class TbEditableField extends CWidget {
         }
         echo $encodedText;
     }
-
     /*
      * ### .getSelector()
      */
-
     public function getSelector() {
         return get_class($this->model) . '_' . $this->attribute . ($this->encodeDataPk($this->model->primaryKey) ? '_' . $this->encodeDataPk($this->model->primaryKey) : '_new');
     }
-
     /*
      * ### .resolveModel()
      *
@@ -587,7 +508,6 @@ class TbEditableField extends CWidget {
      * @param mixed $model
      * @param mixed $attribute
      */
-
     public static function resolveModel($model, $attribute) {
         $explode = explode('.', $attribute);
         if (count($explode) > 1) {
@@ -605,7 +525,6 @@ class TbEditableField extends CWidget {
         }
         return array($model, $attribute);
     }
-
     /**
      * ### .registerJQueryUI()
      *
@@ -621,5 +540,4 @@ class TbEditableField extends CWidget {
         $cs->registerCssFile($this->themeUrl . '/' . $this->theme . '/' . $this->cssFile);
         $cs->registerPackage('jquery.ui');
     }
-
 }

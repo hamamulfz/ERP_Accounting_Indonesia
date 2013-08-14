@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CssMin - A (simple) css minifier with benefits
  * 
@@ -32,7 +31,6 @@
  * @license		http://opensource.org/licenses/mit-license.php MIT License
  * @version		3.0.1
  */
-
 /**
  * Abstract definition of a CSS token class.
  * 
@@ -46,7 +44,6 @@
  * @version		3.0.1
  */
 abstract class aCssToken {
-
     /**
      * Returns the token as string.
      * 
@@ -54,7 +51,6 @@ abstract class aCssToken {
      */
     abstract public function __toString();
 }
-
 /**
  * Abstract definition of a for a ruleset start token.
  *
@@ -66,9 +62,7 @@ abstract class aCssToken {
  * @version		3.0.1
  */
 abstract class aCssRulesetStartToken extends aCssToken {
-    
 }
-
 /**
  * Abstract definition of a for ruleset end token.
  *
@@ -80,7 +74,6 @@ abstract class aCssRulesetStartToken extends aCssToken {
  * @version		3.0.1
  */
 abstract class aCssRulesetEndToken extends aCssToken {
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -89,9 +82,7 @@ abstract class aCssRulesetEndToken extends aCssToken {
     public function __toString() {
         return "}";
     }
-
 }
-
 /**
  * Abstract definition of a parser plugin.
  * 
@@ -106,28 +97,24 @@ abstract class aCssRulesetEndToken extends aCssToken {
  * @version		3.0.1
  */
 abstract class aCssParserPlugin {
-
     /**
      * Plugin configuration.
      * 
      * @var array
      */
     protected $configuration = array();
-
     /**
      * The CssParser of the plugin.
      * 
      * @var CssParser
      */
     protected $parser = null;
-
     /**
      * Plugin buffer.
      * 
      * @var string
      */
     protected $buffer = "";
-
     /**
      * Constructor.
      * 
@@ -139,21 +126,18 @@ abstract class aCssParserPlugin {
         $this->configuration = $configuration;
         $this->parser = $parser;
     }
-
     /**
      * Returns the array of chars triggering the parser plugin.
      * 
      * @return array
      */
     abstract public function getTriggerChars();
-
     /**
      * Returns the array of states triggering the parser plugin or FALSE if every state will trigger the parser plugin.
      * 
      * @return array
      */
     abstract public function getTriggerStates();
-
     /**
      * Parser routine of the plugin.
      * 
@@ -164,7 +148,6 @@ abstract class aCssParserPlugin {
      */
     abstract public function parse($index, $char, $previousChar, $state);
 }
-
 /**
  * Abstract definition of a minifier plugin class. 
  * 
@@ -179,21 +162,18 @@ abstract class aCssParserPlugin {
  * @version		3.0.1
  */
 abstract class aCssMinifierPlugin {
-
     /**
      * Plugin configuration.
      * 
      * @var array
      */
     protected $configuration = array();
-
     /**
      * The CssMinifier of the plugin.
      * 
      * @var CssMinifier
      */
     protected $minifier = null;
-
     /**
      * Constructor.
      * 
@@ -205,7 +185,6 @@ abstract class aCssMinifierPlugin {
         $this->configuration = $configuration;
         $this->minifier = $minifier;
     }
-
     /**
      * Apply the plugin to the token.
      * 
@@ -213,7 +192,6 @@ abstract class aCssMinifierPlugin {
      * @return boolean Return TRUE to break the processing of this token; FALSE to continue
      */
     abstract public function apply(aCssToken &$token);
-
     /**
      * --
      * 
@@ -221,7 +199,6 @@ abstract class aCssMinifierPlugin {
      */
     abstract public function getTriggerTokens();
 }
-
 /**
  * Abstract definition of a minifier filter class. 
  * 
@@ -236,21 +213,18 @@ abstract class aCssMinifierPlugin {
  * @version		3.0.1
  */
 abstract class aCssMinifierFilter {
-
     /**
      * Filter configuration.
      * 
      * @var array
      */
     protected $configuration = array();
-
     /**
      * The CssMinifier of the filter.
      * 
      * @var CssMinifier
      */
     protected $minifier = null;
-
     /**
      * Constructor.
      * 
@@ -262,7 +236,6 @@ abstract class aCssMinifierFilter {
         $this->configuration = $configuration;
         $this->minifier = $minifier;
     }
-
     /**
      * Filter the tokens.
      * 
@@ -271,7 +244,6 @@ abstract class aCssMinifierFilter {
      */
     abstract public function apply(array &$tokens);
 }
-
 /**
  * Abstract formatter definition.
  * 
@@ -285,28 +257,24 @@ abstract class aCssMinifierFilter {
  * @version		3.0.1
  */
 abstract class aCssFormatter {
-
     /**
      * Indent string.
      * 
      * @var string
      */
     protected $indent = "    ";
-
     /**
      * Declaration padding.
      * 
      * @var integer
      */
     protected $padding = 0;
-
     /**
      * Tokens.
      * 
      * @var array
      */
     protected $tokens = array();
-
     /**
      * Constructor.
      * 
@@ -319,7 +287,6 @@ abstract class aCssFormatter {
         $this->indent = !is_null($indent) ? $indent : $this->indent;
         $this->padding = !is_null($padding) ? $padding : $this->padding;
     }
-
     /**
      * Returns the array of aCssToken as formatted string.
      * 
@@ -327,7 +294,6 @@ abstract class aCssFormatter {
      */
     abstract public function __toString();
 }
-
 /**
  * Abstract definition of a ruleset declaration token.
  *
@@ -339,35 +305,30 @@ abstract class aCssFormatter {
  * @version		3.0.1
  */
 abstract class aCssDeclarationToken extends aCssToken {
-
     /**
      * Is the declaration flagged as important?
      * 
      * @var boolean
      */
     public $IsImportant = false;
-
     /**
      * Is the declaration flagged as last one of the ruleset?
      * 
      * @var boolean
      */
     public $IsLast = false;
-
     /**
      * Property name of the declaration.
      * 
      * @var string
      */
     public $Property = "";
-
     /**
      * Value of the declaration.
      * 
      * @var string
      */
     public $Value = "";
-
     /**
      * Set the properties of the @font-face declaration. 
      * 
@@ -383,7 +344,6 @@ abstract class aCssDeclarationToken extends aCssToken {
         $this->IsImportant = $isImportant;
         $this->IsLast = $isLast;
     }
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -392,9 +352,7 @@ abstract class aCssDeclarationToken extends aCssToken {
     public function __toString() {
         return $this->Property . ":" . $this->Value . ($this->IsImportant ? " !important" : "") . ($this->IsLast ? "" : ";");
     }
-
 }
-
 /**
  * Abstract definition of a for at-rule block start token.
  *
@@ -406,9 +364,7 @@ abstract class aCssDeclarationToken extends aCssToken {
  * @version		3.0.1
  */
 abstract class aCssAtBlockStartToken extends aCssToken {
-    
 }
-
 /**
  * Abstract definition of a for at-rule block end token.
  *
@@ -420,7 +376,6 @@ abstract class aCssAtBlockStartToken extends aCssToken {
  * @version		3.0.1
  */
 abstract class aCssAtBlockEndToken extends aCssToken {
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -429,9 +384,7 @@ abstract class aCssAtBlockEndToken extends aCssToken {
     public function __toString() {
         return "}";
     }
-
 }
-
 /**
  * {@link aCssFromatter Formatter} returning the CSS source in {@link http://goo.gl/etzLs Whitesmiths indent style}.
  * 
@@ -443,7 +396,6 @@ abstract class aCssAtBlockEndToken extends aCssToken {
  * @version		3.0.1
  */
 class CssWhitesmithsFormatter extends aCssFormatter {
-
     /**
      * Implements {@link aCssFormatter::__toString()}.
      * 
@@ -504,9 +456,7 @@ class CssWhitesmithsFormatter extends aCssFormatter {
         }
         return implode("\n", $r);
     }
-
 }
-
 /**
  * This {@link aCssMinifierPlugin} will process var-statement and sets the declaration value to the variable value. 
  * 
@@ -535,21 +485,18 @@ class CssWhitesmithsFormatter extends aCssFormatter {
  * @version		3.0.1
  */
 class CssVariablesMinifierPlugin extends aCssMinifierPlugin {
-
     /**
      * Regular expression matching a value.
      * 
      * @var string
      */
     private $reMatch = "/var\((.+)\)/iSU";
-
     /**
      * Parsed variables.
      * 
      * @var array
      */
     private $variables = null;
-
     /**
      * Returns the variables.
      * 
@@ -558,7 +505,6 @@ class CssVariablesMinifierPlugin extends aCssMinifierPlugin {
     public function getVariables() {
         return $this->variables;
     }
-
     /**
      * Implements {@link aCssMinifierPlugin::minify()}.
      * 
@@ -588,7 +534,6 @@ class CssVariablesMinifierPlugin extends aCssMinifierPlugin {
         }
         return false;
     }
-
     /**
      * Implements {@link aMinifierPlugin::getTriggerTokens()}
      * 
@@ -602,7 +547,6 @@ class CssVariablesMinifierPlugin extends aCssMinifierPlugin {
             "CssRulesetDeclarationToken"
         );
     }
-
     /**
      * Sets the variables.
      * 
@@ -612,9 +556,7 @@ class CssVariablesMinifierPlugin extends aCssMinifierPlugin {
     public function setVariables(array $variables) {
         $this->variables = $variables;
     }
-
 }
-
 /**
  * This {@link aCssMinifierFilter minifier filter} will parse the variable declarations out of @variables at-rule 
  * blocks. The variables will get store in the {@link CssVariablesMinifierPlugin} that will apply the variables to 
@@ -628,7 +570,6 @@ class CssVariablesMinifierPlugin extends aCssMinifierPlugin {
  * @version		3.0.1
  */
 class CssVariablesMinifierFilter extends aCssMinifierFilter {
-
     /**
      * Implements {@link aCssMinifierFilter::filter()}.
      * 
@@ -690,9 +631,7 @@ class CssVariablesMinifierFilter extends aCssMinifierFilter {
         }
         return count($remove);
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for preserve parsing url() values.
  * 
@@ -706,7 +645,6 @@ class CssVariablesMinifierFilter extends aCssMinifierFilter {
  * @version		3.0.1
  */
 class CssUrlParserPlugin extends aCssParserPlugin {
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -715,7 +653,6 @@ class CssUrlParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("(", ")");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -724,7 +661,6 @@ class CssUrlParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return false;
     }
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -760,9 +696,7 @@ class CssUrlParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for preserve parsing string values.
  * 
@@ -776,14 +710,12 @@ class CssUrlParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssStringParserPlugin extends aCssParserPlugin {
-
     /**
      * Current string delimiter char.
      * 
      * @var string
      */
     private $delimiterChar = null;
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -792,7 +724,6 @@ class CssStringParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("\"", "'", "\n");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -801,7 +732,6 @@ class CssStringParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return false;
     }
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -854,9 +784,7 @@ class CssStringParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  * This {@link aCssMinifierFilter minifier filter} sorts the ruleset declarations of a ruleset by name.
  * 
@@ -868,7 +796,6 @@ class CssStringParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssSortRulesetPropertiesMinifierFilter extends aCssMinifierFilter {
-
     /**
      * Implements {@link aCssMinifierFilter::filter()}.
      * 
@@ -937,7 +864,6 @@ class CssSortRulesetPropertiesMinifierFilter extends aCssMinifierFilter {
         }
         return $r;
     }
-
     /**
      * User defined sort function.
      * 
@@ -946,9 +872,7 @@ class CssSortRulesetPropertiesMinifierFilter extends aCssMinifierFilter {
     public static function userDefinedSort1($a, $b) {
         return strcmp($a->Property, $b->Property);
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the start of a ruleset.
  * 
@@ -960,14 +884,12 @@ class CssSortRulesetPropertiesMinifierFilter extends aCssMinifierFilter {
  * @version		3.0.1
  */
 class CssRulesetStartToken extends aCssRulesetStartToken {
-
     /**
      * Array of selectors.
      * 
      * @var array
      */
     public $Selectors = array();
-
     /**
      * Set the properties of a ruleset token.
      * 
@@ -977,7 +899,6 @@ class CssRulesetStartToken extends aCssRulesetStartToken {
     public function __construct(array $selectors = array()) {
         $this->Selectors = $selectors;
     }
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -986,9 +907,7 @@ class CssRulesetStartToken extends aCssRulesetStartToken {
     public function __toString() {
         return implode(",", $this->Selectors) . "{";
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for parsing ruleset block with including declarations.
  * 
@@ -1003,7 +922,6 @@ class CssRulesetStartToken extends aCssRulesetStartToken {
  * @version		3.0.1
  */
 class CssRulesetParserPlugin extends aCssParserPlugin {
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -1012,7 +930,6 @@ class CssRulesetParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array(",", "{", "}", ":", ";");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -1021,14 +938,12 @@ class CssRulesetParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return array("T_DOCUMENT", "T_AT_MEDIA", "T_RULESET::SELECTORS", "T_RULESET", "T_RULESET_DECLARATION");
     }
-
     /**
      * Selectors.
      * 
      * @var array
      */
     private $selectors = array();
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -1100,9 +1015,7 @@ class CssRulesetParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  *  This {@link aCssToken CSS token} represents the end of a ruleset.
  *
@@ -1114,9 +1027,7 @@ class CssRulesetParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssRulesetEndToken extends aCssRulesetEndToken {
-    
 }
-
 /**
  * This {@link aCssToken CSS token} represents a ruleset declaration.
  *
@@ -1128,14 +1039,12 @@ class CssRulesetEndToken extends aCssRulesetEndToken {
  * @version		3.0.1
  */
 class CssRulesetDeclarationToken extends aCssDeclarationToken {
-
     /**
      * Media types of the declaration.
      * 
      * @var array
      */
     public $MediaTypes = array("all");
-
     /**
      * Set the properties of a ddocument- or at-rule @media level declaration. 
      * 
@@ -1150,9 +1059,7 @@ class CssRulesetDeclarationToken extends aCssDeclarationToken {
         parent::__construct($property, $value, $isImportant, $isLast);
         $this->MediaTypes = $mediaTypes ? $mediaTypes : array("all");
     }
-
 }
-
 /**
  * This {@link aCssMinifierFilter minifier filter} sets the IsLast property of any last declaration in a ruleset, 
  * @font-face at-rule or @page at-rule block. If the property IsLast is TRUE the decrations will get stringified 
@@ -1166,7 +1073,6 @@ class CssRulesetDeclarationToken extends aCssDeclarationToken {
  * @version		3.0.1
  */
 class CssRemoveLastDelarationSemiColonMinifierFilter extends aCssMinifierFilter {
-
     /**
      * Implements {@link aCssMinifierFilter::filter()}.
      * 
@@ -1185,9 +1091,7 @@ class CssRemoveLastDelarationSemiColonMinifierFilter extends aCssMinifierFilter 
         }
         return 0;
     }
-
 }
-
 /**
  * This {@link aCssMinifierFilter minifier filter} will remove any empty rulesets (including @keyframes at-rule block 
  * rulesets).
@@ -1200,7 +1104,6 @@ class CssRemoveLastDelarationSemiColonMinifierFilter extends aCssMinifierFilter 
  * @version		3.0.1
  */
 class CssRemoveEmptyRulesetsMinifierFilter extends aCssMinifierFilter {
-
     /**
      * Implements {@link aCssMinifierFilter::filter()}.
      * 
@@ -1223,9 +1126,7 @@ class CssRemoveEmptyRulesetsMinifierFilter extends aCssMinifierFilter {
         }
         return $r;
     }
-
 }
-
 /**
  * This {@link aCssMinifierFilter minifier filter} will remove any empty @font-face, @keyframes, @media and @page 
  * at-rule blocks.
@@ -1238,7 +1139,6 @@ class CssRemoveEmptyRulesetsMinifierFilter extends aCssMinifierFilter {
  * @version		3.0.1
  */
 class CssRemoveEmptyAtBlocksMinifierFilter extends aCssMinifierFilter {
-
     /**
      * Implements {@link aCssMinifierFilter::filter()}.
      * 
@@ -1262,9 +1162,7 @@ class CssRemoveEmptyAtBlocksMinifierFilter extends aCssMinifierFilter {
         }
         return $r;
     }
-
 }
-
 /**
  * This {@link aCssMinifierFilter minifier filter} will remove any comments from the array of parsed tokens.
  * 
@@ -1276,7 +1174,6 @@ class CssRemoveEmptyAtBlocksMinifierFilter extends aCssMinifierFilter {
  * @version		3.0.1
  */
 class CssRemoveCommentsMinifierFilter extends aCssMinifierFilter {
-
     /**
      * Implements {@link aCssMinifierFilter::filter()}.
      * 
@@ -1293,9 +1190,7 @@ class CssRemoveCommentsMinifierFilter extends aCssMinifierFilter {
         }
         return $r;
     }
-
 }
-
 /**
  * CSS Parser.
  * 
@@ -1307,63 +1202,54 @@ class CssRemoveCommentsMinifierFilter extends aCssMinifierFilter {
  * @version		3.0.1
  */
 class CssParser {
-
     /**
      * Parse buffer.
      * 
      * @var string
      */
     private $buffer = "";
-
     /**
      * {@link aCssParserPlugin Plugins}.
      * 
      * @var array
      */
     private $plugins = array();
-
     /**
      * Source to parse.
      * 
      * @var string
      */
     private $source = "";
-
     /**
      * Current state.
      * 
      * @var integer
      */
     private $state = "T_DOCUMENT";
-
     /**
      * Exclusive state.
      * 
      * @var string
      */
     private $stateExclusive = false;
-
     /**
      * Media types state.
      * 
      * @var mixed
      */
     private $stateMediaTypes = false;
-
     /**
      * State stack.
      * 
      * @var array
      */
     private $states = array("T_DOCUMENT");
-
     /**
      * Parsed tokens.
      * 
      * @var array
      */
     private $tokens = array();
-
     /**
      * Constructer.
      * 
@@ -1405,7 +1291,6 @@ class CssParser {
             $this->parse($source);
         }
     }
-
     /**
      * Append a token to the array of tokens.
      * 
@@ -1415,7 +1300,6 @@ class CssParser {
     public function appendToken(aCssToken $token) {
         $this->tokens[] = $token;
     }
-
     /**
      * Clears the current buffer.
      * 
@@ -1424,7 +1308,6 @@ class CssParser {
     public function clearBuffer() {
         $this->buffer = "";
     }
-
     /**
      * Returns and clear the current buffer.
      * 
@@ -1437,7 +1320,6 @@ class CssParser {
         $this->buffer = "";
         return $r;
     }
-
     /**
      * Returns the current buffer.
      * 
@@ -1455,7 +1337,6 @@ class CssParser {
         }
         return $r;
     }
-
     /**
      * Returns the current media types state.
      * 
@@ -1464,7 +1345,6 @@ class CssParser {
     public function getMediaTypes() {
         return $this->stateMediaTypes;
     }
-
     /**
      * Returns the CSS source.
      * 
@@ -1473,7 +1353,6 @@ class CssParser {
     public function getSource() {
         return $this->source;
     }
-
     /**
      * Returns the current state.
      * 
@@ -1482,7 +1361,6 @@ class CssParser {
     public function getState() {
         return $this->state;
     }
-
     /**
      * Returns a plugin by class name.
      * 
@@ -1499,7 +1377,6 @@ class CssParser {
         }
         return isset($index[$class]) ? $this->plugins[$index[$class]] : false;
     }
-
     /**
      * Returns the parsed tokens.
      * 
@@ -1508,7 +1385,6 @@ class CssParser {
     public function getTokens() {
         return $this->tokens;
     }
-
     /**
      * Returns if the current state equals the passed state.
      * 
@@ -1518,7 +1394,6 @@ class CssParser {
     public function isState($state) {
         return ($this->state == $state);
     }
-
     /**
      * Parse the CSS source and return a array with parsed tokens.
      * 
@@ -1616,7 +1491,6 @@ class CssParser {
         }
         return $this->tokens;
     }
-
     /**
      * Remove the last state of the state stack and return the removed stack value.
      * 
@@ -1627,7 +1501,6 @@ class CssParser {
         $this->state = $this->states[count($this->states) - 1];
         return $r;
     }
-
     /**
      * Adds a new state onto the state stack.
      * 
@@ -1639,7 +1512,6 @@ class CssParser {
         $this->state = $this->states[count($this->states) - 1];
         return $r;
     }
-
     /**
      * Sets/restores the buffer.
      * 
@@ -1649,7 +1521,6 @@ class CssParser {
     public function setBuffer($buffer) {
         $this->buffer = $buffer;
     }
-
     /**
      * Set the exclusive state.
      * 
@@ -1659,7 +1530,6 @@ class CssParser {
     public function setExclusive($exclusive) {
         $this->stateExclusive = $exclusive;
     }
-
     /**
      * Set the media types state.
      * 
@@ -1669,7 +1539,6 @@ class CssParser {
     public function setMediaTypes(array $mediaTypes) {
         $this->stateMediaTypes = $mediaTypes;
     }
-
     /**
      * Sets the current state in the state stack; equals to {@link CssParser::popState()} + {@link CssParser::pushState()}.
      * 
@@ -1682,7 +1551,6 @@ class CssParser {
         $this->state = $this->states[count($this->states) - 1];
         return $r;
     }
-
     /**
      * Removes the exclusive state.
      * 
@@ -1691,7 +1559,6 @@ class CssParser {
     public function unsetExclusive() {
         $this->stateExclusive = false;
     }
-
     /**
      * Removes the media types state.
      * 
@@ -1700,9 +1567,7 @@ class CssParser {
     public function unsetMediaTypes() {
         $this->stateMediaTypes = false;
     }
-
 }
-
 /**
  * {@link aCssFromatter Formatter} returning the CSS source in {@link http://goo.gl/j4XdU OTBS indent style} (The One True Brace Style).
  * 
@@ -1714,7 +1579,6 @@ class CssParser {
  * @version		3.0.1
  */
 class CssOtbsFormatter extends aCssFormatter {
-
     /**
      * Implements {@link aCssFormatter::__toString()}.
      * 
@@ -1769,9 +1633,7 @@ class CssOtbsFormatter extends aCssFormatter {
         }
         return implode("\n", $r);
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} is a utility token that extends {@link aNullToken} and returns only a empty string.
  *
@@ -1783,7 +1645,6 @@ class CssOtbsFormatter extends aCssFormatter {
  * @version		3.0.1
  */
 class CssNullToken extends aCssToken {
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -1792,9 +1653,7 @@ class CssNullToken extends aCssToken {
     public function __toString() {
         return "";
     }
-
 }
-
 /**
  * CSS Minifier.
  * 
@@ -1806,28 +1665,24 @@ class CssNullToken extends aCssToken {
  * @version		3.0.1
  */
 class CssMinifier {
-
     /**
      * {@link aCssMinifierFilter Filters}.
      *  
      * @var array
      */
     private $filters = array();
-
     /**
      * {@link aCssMinifierPlugin Plugins}.
      * 
      * @var array
      */
     private $plugins = array();
-
     /**
      * Minified source.
      * 
      * @var string
      */
     private $minified = "";
-
     /**
      * Constructer.
      * 
@@ -1890,7 +1745,6 @@ class CssMinifier {
             $this->minify($source);
         }
     }
-
     /**
      * Returns the minified Source.
      * 
@@ -1899,7 +1753,6 @@ class CssMinifier {
     public function getMinified() {
         return $this->minified;
     }
-
     /**
      * Returns a plugin by class name.
      * 
@@ -1916,7 +1769,6 @@ class CssMinifier {
         }
         return isset($index[$class]) ? $this->plugins[$index[$class]] : false;
     }
-
     /**
      * Minifies the CSS source.
      * 
@@ -1981,9 +1833,7 @@ class CssMinifier {
         $this->minified = $r;
         return $r;
     }
-
 }
-
 /**
  * CssMin - A (simple) css minifier with benefits
  * 
@@ -2017,28 +1867,24 @@ class CssMinifier {
  * @version		3.0.1
  */
 class CssMin {
-
     /**
      * Index of classes
      * 
      * @var array
      */
     private static $classIndex = array();
-
     /**
      * Parse/minify errors
      * 
      * @var array
      */
     private static $errors = array();
-
     /**
      * Verbose output.
      * 
      * @var boolean
      */
     private static $isVerbose = false;
-
     /**
      * {@link http://goo.gl/JrW54 Autoload} function of CssMin.
      * 
@@ -2050,7 +1896,6 @@ class CssMin {
             require(self::$classIndex[$class]);
         }
     }
-
     /**
      * Return errors
      * 
@@ -2059,7 +1904,6 @@ class CssMin {
     public static function getErrors() {
         return self::$errors;
     }
-
     /**
      * Returns if there were errors.
      * 
@@ -2068,7 +1912,6 @@ class CssMin {
     public static function hasErrors() {
         return count(self::$errors) > 0;
     }
-
     /**
      * Initialises CssMin.
      * 
@@ -2107,7 +1950,6 @@ class CssMin {
             }
         }
     }
-
     /**
      * Minifies CSS source.
      * 
@@ -2121,7 +1963,6 @@ class CssMin {
         $minifier = new CssMinifier($source, $filters, $plugins);
         return $minifier->getMinified();
     }
-
     /**
      * Parse the CSS source.
      * 
@@ -2134,7 +1975,6 @@ class CssMin {
         $parser = new CssParser($source, $plugins);
         return $parser->getTokens();
     }
-
     /**
      * --
      * 
@@ -2145,7 +1985,6 @@ class CssMin {
         self::$isVerbose = (boolean) $to;
         return self::$isVerbose;
     }
-
     /**
      * --
      * 
@@ -2158,12 +1997,9 @@ class CssMin {
             trigger_error((string) $error, E_USER_WARNING);
         }
     }
-
 }
-
 // Initialises CssMin
 CssMin::initialise();
-
 /**
  * This {@link aCssMinifierFilter minifier filter} import external css files defined with the @import at-rule into the 
  * current stylesheet. 
@@ -2176,14 +2012,12 @@ CssMin::initialise();
  * @version		3.0.1
  */
 class CssImportImportsMinifierFilter extends aCssMinifierFilter {
-
     /**
      * Array with already imported external stylesheets.
      * 
      * @var array
      */
     private $imported = array();
-
     /**
      * Implements {@link aCssMinifierFilter::filter()}.
      * 
@@ -2328,9 +2162,7 @@ class CssImportImportsMinifierFilter extends aCssMinifierFilter {
             }
         }
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for preserve parsing expression() declaration values.
  * 
@@ -2345,21 +2177,18 @@ class CssImportImportsMinifierFilter extends aCssMinifierFilter {
  * @version		3.0.1
  */
 class CssExpressionParserPlugin extends aCssParserPlugin {
-
     /**
      * Count of left braces.
      * 
      * @var integer
      */
     private $leftBraces = 0;
-
     /**
      * Count of right braces.
      * 
      * @var integer
      */
     private $rightBraces = 0;
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -2368,7 +2197,6 @@ class CssExpressionParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("(", ")", ";", "}");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -2377,7 +2205,6 @@ class CssExpressionParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return false;
     }
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -2410,9 +2237,7 @@ class CssExpressionParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  * CSS Error.
  * 
@@ -2424,35 +2249,30 @@ class CssExpressionParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssError {
-
     /**
      * File.
      * 
      * @var string
      */
     public $File = "";
-
     /**
      * Line.
      * 
      * @var integer
      */
     public $Line = 0;
-
     /**
      * Error message.
      * 
      * @var string
      */
     public $Message = "";
-
     /**
      * Source.
      * 
      * @var string
      */
     public $Source = "";
-
     /**
      * Constructor triggering the error.
      * 
@@ -2466,7 +2286,6 @@ class CssError {
         $this->Message = $message;
         $this->Source = $source;
     }
-
     /**
      * Returns the error as formatted string.
      * 
@@ -2475,9 +2294,7 @@ class CssError {
     public function __toString() {
         return $this->Message . ($this->Source ? ": <br /><code>" . $this->Source . "</code>" : "") . "<br />in file " . $this->File . " at line " . $this->Line;
     }
-
 }
-
 /**
  * This {@link aCssMinifierPlugin} will convert a color value in rgb notation to hexadecimal notation.
  * 
@@ -2499,14 +2316,12 @@ class CssError {
  * @version		3.0.1
  */
 class CssConvertRgbColorsMinifierPlugin extends aCssMinifierPlugin {
-
     /**
      * Regular expression matching the value.
      * 
      * @var string
      */
     private $reMatch = "/rgb\s*\(\s*([0-9%]+)\s*,\s*([0-9%]+)\s*,\s*([0-9%]+)\s*\)/iS";
-
     /**
      * Implements {@link aCssMinifierPlugin::minify()}.
      * 
@@ -2526,7 +2341,6 @@ class CssConvertRgbColorsMinifierPlugin extends aCssMinifierPlugin {
         }
         return false;
     }
-
     /**
      * Implements {@link aMinifierPlugin::getTriggerTokens()}
      * 
@@ -2540,9 +2354,7 @@ class CssConvertRgbColorsMinifierPlugin extends aCssMinifierPlugin {
             "CssRulesetDeclarationToken"
         );
     }
-
 }
-
 /**
  * This {@link aCssMinifierPlugin} will convert named color values to hexadecimal notation.
  * 
@@ -2566,21 +2378,18 @@ class CssConvertRgbColorsMinifierPlugin extends aCssMinifierPlugin {
  * @version		3.0.1
  */
 class CssConvertNamedColorsMinifierPlugin extends aCssMinifierPlugin {
-
     /**
      * Regular expression matching the value.
      * 
      * @var string
      */
     private $reMatch = null;
-
     /**
      * Regular expression replacing the value.
      * 
      * @var string
      */
     private $reReplace = "\"\${1}\" . \$this->transformation[strtolower(\"\${2}\")] . \"\${3}\"";
-
     /**
      * Transformation table used by the {@link CssConvertNamedColorsMinifierPlugin::$reReplace replace regular expression}.
      * 
@@ -2725,7 +2534,6 @@ class CssConvertNamedColorsMinifierPlugin extends aCssMinifierPlugin {
         "yellow" => "#ff0",
         "yellowgreen" => "#9acd32"
     );
-
     /**
      * Overwrites {@link aCssMinifierPlugin::__construct()}.
      * 
@@ -2740,7 +2548,6 @@ class CssConvertNamedColorsMinifierPlugin extends aCssMinifierPlugin {
         $this->reMatch = "/(^|\s)+(" . implode("|", array_keys($this->transformation)) . ")(\s|$)+/eiS";
         parent::__construct($minifier, $configuration);
     }
-
     /**
      * Implements {@link aCssMinifierPlugin::minify()}.
      * 
@@ -2759,7 +2566,6 @@ class CssConvertNamedColorsMinifierPlugin extends aCssMinifierPlugin {
         }
         return false;
     }
-
     /**
      * Implements {@link aMinifierPlugin::getTriggerTokens()}
      * 
@@ -2773,9 +2579,7 @@ class CssConvertNamedColorsMinifierPlugin extends aCssMinifierPlugin {
             "CssRulesetDeclarationToken"
         );
     }
-
 }
-
 /**
  * This {@link aCssMinifierFilter minifier filter} triggers on CSS Level 3 properties and will add declaration tokens
  * with browser-specific properties.
@@ -2788,7 +2592,6 @@ class CssConvertNamedColorsMinifierPlugin extends aCssMinifierPlugin {
  * @version		3.0.1
  */
 class CssConvertLevel3PropertiesMinifierFilter extends aCssMinifierFilter {
-
     /**
      * Css property transformations table. Used to convert CSS3 and proprietary properties to the browser-specific 
      * counterparts.
@@ -3000,7 +2803,6 @@ class CssConvertLevel3PropertiesMinifierFilter extends aCssMinifierFilter {
         "writing-mode" => array(null, "-webkit-writing-mode", null, "-ms-writing-mode"),
         "zoom" => array(null, null, null, "-ms-zoom")
     );
-
     /**
      * Implements {@link aCssMinifierFilter::filter()}.
      * 
@@ -3039,7 +2841,6 @@ class CssConvertLevel3PropertiesMinifierFilter extends aCssMinifierFilter {
         }
         return $r;
     }
-
     /**
      * Transforms the Internet Explorer specific declaration property "filter" to Internet Explorer 8+ compatible 
      * declaratiopn property "-ms-filter". 
@@ -3054,7 +2855,6 @@ class CssConvertLevel3PropertiesMinifierFilter extends aCssMinifierFilter {
         );
         return $r;
     }
-
     /**
      * Transforms "opacity: {value}" into browser specific counterparts.
      * 
@@ -3074,7 +2874,6 @@ class CssConvertLevel3PropertiesMinifierFilter extends aCssMinifierFilter {
         );
         return $r;
     }
-
     /**
      * Transforms "white-space: pre-wrap" into browser specific counterparts.
      * 
@@ -3101,9 +2900,7 @@ class CssConvertLevel3PropertiesMinifierFilter extends aCssMinifierFilter {
             return array();
         }
     }
-
 }
-
 /**
  * This {@link aCssMinifierFilter minifier filter} will convert @keyframes at-rule block to browser specific counterparts.
  * 
@@ -3115,7 +2912,6 @@ class CssConvertLevel3PropertiesMinifierFilter extends aCssMinifierFilter {
  * @version		3.0.1
  */
 class CssConvertLevel3AtKeyframesMinifierFilter extends aCssMinifierFilter {
-
     /**
      * Implements {@link aCssMinifierFilter::filter()}.
      * 
@@ -3159,9 +2955,7 @@ class CssConvertLevel3AtKeyframesMinifierFilter extends aCssMinifierFilter {
         }
         return $r;
     }
-
 }
-
 /**
  * This {@link aCssMinifierPlugin} will convert a color value in hsl notation to hexadecimal notation.
  * 
@@ -3183,14 +2977,12 @@ class CssConvertLevel3AtKeyframesMinifierFilter extends aCssMinifierFilter {
  * @version		3.0.1
  */
 class CssConvertHslColorsMinifierPlugin extends aCssMinifierPlugin {
-
     /**
      * Regular expression matching the value.
      * 
      * @var string
      */
     private $reMatch = "/^hsl\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*%\s*,\s*([0-9]+)\s*%\s*\)/iS";
-
     /**
      * Implements {@link aCssMinifierPlugin::minify()}.
      * 
@@ -3203,7 +2995,6 @@ class CssConvertHslColorsMinifierPlugin extends aCssMinifierPlugin {
         }
         return false;
     }
-
     /**
      * Implements {@link aMinifierPlugin::getTriggerTokens()}
      * 
@@ -3217,7 +3008,6 @@ class CssConvertHslColorsMinifierPlugin extends aCssMinifierPlugin {
             "CssRulesetDeclarationToken"
         );
     }
-
     /**
      * Convert a HSL value to hexadecimal notation.
      * 
@@ -3249,7 +3039,6 @@ class CssConvertHslColorsMinifierPlugin extends aCssMinifierPlugin {
         }
         return "#" . str_pad(dechex(round($red)), 2, "0", STR_PAD_LEFT) . str_pad(dechex(round($green)), 2, "0", STR_PAD_LEFT) . str_pad(dechex(round($blue)), 2, "0", STR_PAD_LEFT);
     }
-
     /**
      * Apply hue to a rgb color value.
      * 
@@ -3276,9 +3065,7 @@ class CssConvertHslColorsMinifierPlugin extends aCssMinifierPlugin {
         }
         return $v1;
     }
-
 }
-
 /**
  * This {@link aCssMinifierPlugin} will convert the font-weight values normal and bold to their numeric notation.
  * 
@@ -3302,7 +3089,6 @@ class CssConvertHslColorsMinifierPlugin extends aCssMinifierPlugin {
  * @version		3.0.1
  */
 class CssConvertFontWeightMinifierPlugin extends aCssMinifierPlugin {
-
     /**
      * Array of included declaration properties this plugin will process; others declaration properties will get
      * ignored. 
@@ -3314,21 +3100,18 @@ class CssConvertFontWeightMinifierPlugin extends aCssMinifierPlugin {
         "font",
         "font-weight"
     );
-
     /**
      * Regular expression matching the value.
      * 
      * @var string
      */
     private $reMatch = null;
-
     /**
      * Regular expression replace the value.
      * 
      * @var string
      */
     private $reReplace = "\"\${1}\" . \$this->transformation[\"\${2}\"] . \"\${3}\"";
-
     /**
      * Transformation table used by the {@link CssConvertFontWeightMinifierPlugin::$reReplace replace regular expression}.
      * 
@@ -3339,7 +3122,6 @@ class CssConvertFontWeightMinifierPlugin extends aCssMinifierPlugin {
         "normal" => "400",
         "bold" => "700"
     );
-
     /**
      * Overwrites {@link aCssMinifierPlugin::__construct()}.
      * 
@@ -3353,7 +3135,6 @@ class CssConvertFontWeightMinifierPlugin extends aCssMinifierPlugin {
         $this->reMatch = "/(^|\s)+(" . implode("|", array_keys($this->transformation)) . ")(\s|$)+/eiS";
         parent::__construct($minifier);
     }
-
     /**
      * Implements {@link aCssMinifierPlugin::minify()}.
      * 
@@ -3366,7 +3147,6 @@ class CssConvertFontWeightMinifierPlugin extends aCssMinifierPlugin {
         }
         return false;
     }
-
     /**
      * Implements {@link aMinifierPlugin::getTriggerTokens()}
      * 
@@ -3380,9 +3160,7 @@ class CssConvertFontWeightMinifierPlugin extends aCssMinifierPlugin {
             "CssRulesetDeclarationToken"
         );
     }
-
 }
-
 /**
  * This {@link aCssMinifierPlugin} will compress several unit values to their short notations. Examples:
  * 
@@ -3410,7 +3188,6 @@ class CssConvertFontWeightMinifierPlugin extends aCssMinifierPlugin {
  * @version		3.0.1
  */
 class CssCompressUnitValuesMinifierPlugin extends aCssMinifierPlugin {
-
     /**
      * Regular expression used for matching and replacing unit values.
      * 
@@ -3422,14 +3199,12 @@ class CssCompressUnitValuesMinifierPlugin extends aCssMinifierPlugin {
         "/(^| )-?(\.?)0(%|em|ex|px|in|cm|mm|pt|pc)/iS" => "\${1}0",
         "/(^0\s0\s0\s0)|(^0\s0\s0$)|(^0\s0$)/iS" => "0"
     );
-
     /**
      * Regular expression matching the value.
      * 
      * @var string
      */
     private $reMatch = "/(^| |-)0\.([0-9]+?)(0+)?(%|em|ex|px|in|cm|mm|pt|pc)|(^| )-?(\.?)0(%|em|ex|px|in|cm|mm|pt|pc)|(^0\s0\s0\s0$)|(^0\s0\s0$)|(^0\s0$)/iS";
-
     /**
      * Implements {@link aCssMinifierPlugin::minify()}.
      * 
@@ -3444,7 +3219,6 @@ class CssCompressUnitValuesMinifierPlugin extends aCssMinifierPlugin {
         }
         return false;
     }
-
     /**
      * Implements {@link aMinifierPlugin::getTriggerTokens()}
      * 
@@ -3458,9 +3232,7 @@ class CssCompressUnitValuesMinifierPlugin extends aCssMinifierPlugin {
             "CssRulesetDeclarationToken"
         );
     }
-
 }
-
 /**
  * This {@link aCssMinifierPlugin} compress the content of expresssion() declaration values.
  * 
@@ -3475,7 +3247,6 @@ class CssCompressUnitValuesMinifierPlugin extends aCssMinifierPlugin {
  * @version		3.0.1
  */
 class CssCompressExpressionValuesMinifierPlugin extends aCssMinifierPlugin {
-
     /**
      * Implements {@link aCssMinifierPlugin::minify()}.
      * 
@@ -3491,7 +3262,6 @@ class CssCompressExpressionValuesMinifierPlugin extends aCssMinifierPlugin {
         }
         return false;
     }
-
     /**
      * Implements {@link aMinifierPlugin::getTriggerTokens()}
      * 
@@ -3505,9 +3275,7 @@ class CssCompressExpressionValuesMinifierPlugin extends aCssMinifierPlugin {
             "CssRulesetDeclarationToken"
         );
     }
-
 }
-
 /**
  * This {@link aCssMinifierPlugin} will convert hexadecimal color value with 6 chars to their 3 char hexadecimal 
  * notation (if possible). 
@@ -3530,14 +3298,12 @@ class CssCompressExpressionValuesMinifierPlugin extends aCssMinifierPlugin {
  * @version		3.0.1
  */
 class CssCompressColorValuesMinifierPlugin extends aCssMinifierPlugin {
-
     /**
      * Regular expression matching 6 char hexadecimal color values.
      * 
      * @var string
      */
     private $reMatch = "/\#([0-9a-f]{6})/iS";
-
     /**
      * Implements {@link aCssMinifierPlugin::minify()}.
      * 
@@ -3553,7 +3319,6 @@ class CssCompressColorValuesMinifierPlugin extends aCssMinifierPlugin {
         }
         return false;
     }
-
     /**
      * Implements {@link aMinifierPlugin::getTriggerTokens()}
      * 
@@ -3567,9 +3332,7 @@ class CssCompressColorValuesMinifierPlugin extends aCssMinifierPlugin {
             "CssRulesetDeclarationToken"
         );
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents a CSS comment.
  * 
@@ -3581,14 +3344,12 @@ class CssCompressColorValuesMinifierPlugin extends aCssMinifierPlugin {
  * @version		3.0.1
  */
 class CssCommentToken extends aCssToken {
-
     /**
      * Comment as Text.
      * 
      * @var string
      */
     public $Comment = "";
-
     /**
      * Set the properties of a comment token.
      * 
@@ -3598,7 +3359,6 @@ class CssCommentToken extends aCssToken {
     public function __construct($comment) {
         $this->Comment = $comment;
     }
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -3607,9 +3367,7 @@ class CssCommentToken extends aCssToken {
     public function __toString() {
         return $this->Comment;
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for parsing comments.
  * 
@@ -3623,7 +3381,6 @@ class CssCommentToken extends aCssToken {
  * @version		3.0.1
  */
 class CssCommentParserPlugin extends aCssParserPlugin {
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -3632,7 +3389,6 @@ class CssCommentParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("*", "/");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -3641,14 +3397,12 @@ class CssCommentParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return false;
     }
-
     /**
      * Stored buffer for restore.
      * 
      * @var string
      */
     private $restoreBuffer = "";
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -3672,9 +3426,7 @@ class CssCommentParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the start of a @variables at-rule block.
  *
@@ -3686,14 +3438,12 @@ class CssCommentParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssAtVariablesStartToken extends aCssAtBlockStartToken {
-
     /**
      * Media types of the @variables at-rule block.
      * 
      * @var array
      */
     public $MediaTypes = array();
-
     /**
      * Set the properties of a @variables at-rule token.
      * 
@@ -3703,7 +3453,6 @@ class CssAtVariablesStartToken extends aCssAtBlockStartToken {
     public function __construct($mediaTypes = null) {
         $this->MediaTypes = $mediaTypes ? $mediaTypes : array("all");
     }
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -3712,9 +3461,7 @@ class CssAtVariablesStartToken extends aCssAtBlockStartToken {
     public function __toString() {
         return "";
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for parsing @variables at-rule block with including declarations.
  * 
@@ -3729,7 +3476,6 @@ class CssAtVariablesStartToken extends aCssAtBlockStartToken {
  * @version		3.0.1
  */
 class CssAtVariablesParserPlugin extends aCssParserPlugin {
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -3738,7 +3484,6 @@ class CssAtVariablesParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("@", "{", "}", ":", ";");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -3747,7 +3492,6 @@ class CssAtVariablesParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return array("T_DOCUMENT", "T_AT_VARIABLES::PREPARE", "T_AT_VARIABLES", "T_AT_VARIABLES_DECLARATION");
     }
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -3805,9 +3549,7 @@ class CssAtVariablesParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the end of a @variables at-rule block.
  *
@@ -3819,7 +3561,6 @@ class CssAtVariablesParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssAtVariablesEndToken extends aCssAtBlockEndToken {
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -3828,9 +3569,7 @@ class CssAtVariablesEndToken extends aCssAtBlockEndToken {
     public function __toString() {
         return "";
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents a declaration of a @variables at-rule block.
  * 
@@ -3842,7 +3581,6 @@ class CssAtVariablesEndToken extends aCssAtBlockEndToken {
  * @version		3.0.1
  */
 class CssAtVariablesDeclarationToken extends aCssDeclarationToken {
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -3851,9 +3589,7 @@ class CssAtVariablesDeclarationToken extends aCssDeclarationToken {
     public function __toString() {
         return "";
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the start of a @page at-rule block.
  *
@@ -3865,14 +3601,12 @@ class CssAtVariablesDeclarationToken extends aCssDeclarationToken {
  * @version		3.0.1
  */
 class CssAtPageStartToken extends aCssAtBlockStartToken {
-
     /**
      * Selector.
      * 
      * @var string
      */
     public $Selector = "";
-
     /**
      * Sets the properties of the @page at-rule.
      * 
@@ -3882,7 +3616,6 @@ class CssAtPageStartToken extends aCssAtBlockStartToken {
     public function __construct($selector = "") {
         $this->Selector = $selector;
     }
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -3891,9 +3624,7 @@ class CssAtPageStartToken extends aCssAtBlockStartToken {
     public function __toString() {
         return "@page" . ($this->Selector ? " " . $this->Selector : "") . "{";
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for parsing @page at-rule block with including declarations.
  * 
@@ -3908,7 +3639,6 @@ class CssAtPageStartToken extends aCssAtBlockStartToken {
  * @version		3.0.1
  */
 class CssAtPageParserPlugin extends aCssParserPlugin {
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -3917,7 +3647,6 @@ class CssAtPageParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("@", "{", "}", ":", ";");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -3926,7 +3655,6 @@ class CssAtPageParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return array("T_DOCUMENT", "T_AT_PAGE::SELECTOR", "T_AT_PAGE", "T_AT_PAGE_DECLARATION");
     }
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -3990,9 +3718,7 @@ class CssAtPageParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the end of a @page at-rule block.
  *
@@ -4004,9 +3730,7 @@ class CssAtPageParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssAtPageEndToken extends aCssAtBlockEndToken {
-    
 }
-
 /**
  * This {@link aCssToken CSS token} represents a declaration of a @page at-rule block.
  * 
@@ -4018,9 +3742,7 @@ class CssAtPageEndToken extends aCssAtBlockEndToken {
  * @version		3.0.1
  */
 class CssAtPageDeclarationToken extends aCssDeclarationToken {
-    
 }
-
 /**
  * This {@link aCssToken CSS token} represents the start of a @media at-rule block.
  *
@@ -4032,7 +3754,6 @@ class CssAtPageDeclarationToken extends aCssDeclarationToken {
  * @version		3.0.1
  */
 class CssAtMediaStartToken extends aCssAtBlockStartToken {
-
     /**
      * Sets the properties of the @media at-rule.
      * 
@@ -4042,7 +3763,6 @@ class CssAtMediaStartToken extends aCssAtBlockStartToken {
     public function __construct(array $mediaTypes = array()) {
         $this->MediaTypes = $mediaTypes;
     }
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -4051,9 +3771,7 @@ class CssAtMediaStartToken extends aCssAtBlockStartToken {
     public function __toString() {
         return "@media " . implode(",", $this->MediaTypes) . "{";
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for parsing @media at-rule block.
  * 
@@ -4069,7 +3787,6 @@ class CssAtMediaStartToken extends aCssAtBlockStartToken {
  * @version		3.0.1
  */
 class CssAtMediaParserPlugin extends aCssParserPlugin {
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -4078,7 +3795,6 @@ class CssAtMediaParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("@", "{", "}");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -4087,7 +3803,6 @@ class CssAtMediaParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return array("T_DOCUMENT", "T_AT_MEDIA::PREPARE", "T_AT_MEDIA");
     }
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -4116,9 +3831,7 @@ class CssAtMediaParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the end of a @media at-rule block.
  *
@@ -4130,9 +3843,7 @@ class CssAtMediaParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssAtMediaEndToken extends aCssAtBlockEndToken {
-    
 }
-
 /**
  * This {@link aCssToken CSS token} represents the start of a @keyframes at-rule block.
  *
@@ -4144,21 +3855,18 @@ class CssAtMediaEndToken extends aCssAtBlockEndToken {
  * @version		3.0.1
  */
 class CssAtKeyframesStartToken extends aCssAtBlockStartToken {
-
     /**
      * Name of the at-rule.
      * 
      * @var string
      */
     public $AtRuleName = "keyframes";
-
     /**
      * Name
      * 
      * @var string
      */
     public $Name = "";
-
     /**
      * Sets the properties of the @page at-rule.
      * 
@@ -4171,7 +3879,6 @@ class CssAtKeyframesStartToken extends aCssAtBlockStartToken {
             $this->AtRuleName = $atRuleName;
         }
     }
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -4180,9 +3887,7 @@ class CssAtKeyframesStartToken extends aCssAtBlockStartToken {
     public function __toString() {
         return "@" . $this->AtRuleName . " \"" . $this->Name . "\"{";
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the start of a ruleset of a @keyframes at-rule block.
  * 
@@ -4194,14 +3899,12 @@ class CssAtKeyframesStartToken extends aCssAtBlockStartToken {
  * @version		3.0.1
  */
 class CssAtKeyframesRulesetStartToken extends aCssRulesetStartToken {
-
     /**
      * Array of selectors.
      * 
      * @var array
      */
     public $Selectors = array();
-
     /**
      * Set the properties of a ruleset token.
      * 
@@ -4211,7 +3914,6 @@ class CssAtKeyframesRulesetStartToken extends aCssRulesetStartToken {
     public function __construct(array $selectors = array()) {
         $this->Selectors = $selectors;
     }
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -4220,9 +3922,7 @@ class CssAtKeyframesRulesetStartToken extends aCssRulesetStartToken {
     public function __toString() {
         return implode(",", $this->Selectors) . "{";
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the end of a ruleset of a @keyframes at-rule block.
  * 
@@ -4234,9 +3934,7 @@ class CssAtKeyframesRulesetStartToken extends aCssRulesetStartToken {
  * @version		3.0.1
  */
 class CssAtKeyframesRulesetEndToken extends aCssRulesetEndToken {
-    
 }
-
 /**
  * This {@link aCssToken CSS token} represents a ruleset declaration of a @keyframes at-rule block.
  *
@@ -4248,9 +3946,7 @@ class CssAtKeyframesRulesetEndToken extends aCssRulesetEndToken {
  * @version		3.0.1
  */
 class CssAtKeyframesRulesetDeclarationToken extends aCssDeclarationToken {
-    
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for parsing @keyframes at-rule blocks, rulesets and declarations.
  * 
@@ -4262,19 +3958,16 @@ class CssAtKeyframesRulesetDeclarationToken extends aCssDeclarationToken {
  * @version		3.0.1
  */
 class CssAtKeyframesParserPlugin extends aCssParserPlugin {
-
     /**
      * @var string Keyword
      */
     private $atRuleName = "";
-
     /**
      * Selectors.
      * 
      * @var array
      */
     private $selectors = array();
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -4283,7 +3976,6 @@ class CssAtKeyframesParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("@", "{", "}", ":", ",", ";");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -4292,7 +3984,6 @@ class CssAtKeyframesParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return array("T_DOCUMENT", "T_AT_KEYFRAMES::NAME", "T_AT_KEYFRAMES", "T_AT_KEYFRAMES_RULESETS", "T_AT_KEYFRAMES_RULESET", "T_AT_KEYFRAMES_RULESET_DECLARATION");
     }
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -4377,7 +4068,6 @@ class CssAtKeyframesParserPlugin extends aCssParserPlugin {
         // End of @keyframes ruleset
         elseif ($char === "}" && $state === "T_AT_KEYFRAMES_RULESET") {
             $this->parser->clearBuffer();
-
             $this->parser->popState();
             $this->parser->appendToken(new CssAtKeyframesRulesetEndToken());
         }
@@ -4391,9 +4081,7 @@ class CssAtKeyframesParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the end of a @keyframes at-rule block.
  *
@@ -4405,9 +4093,7 @@ class CssAtKeyframesParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssAtKeyframesEndToken extends aCssAtBlockEndToken {
-    
 }
-
 /**
  * This {@link aCssToken CSS token} represents a @import at-rule.
  * 
@@ -4419,21 +4105,18 @@ class CssAtKeyframesEndToken extends aCssAtBlockEndToken {
  * @version		3.0.1.b1 (2001-02-22)
  */
 class CssAtImportToken extends aCssToken {
-
     /**
      * Import path of the @import at-rule.
      * 
      * @var string
      */
     public $Import = "";
-
     /**
      * Media types of the @import at-rule.
      * 
      * @var array
      */
     public $MediaTypes = array();
-
     /**
      * Set the properties of a @import at-rule token.
      * 
@@ -4445,7 +4128,6 @@ class CssAtImportToken extends aCssToken {
         $this->Import = $import;
         $this->MediaTypes = $mediaTypes ? $mediaTypes : array();
     }
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -4454,9 +4136,7 @@ class CssAtImportToken extends aCssToken {
     public function __toString() {
         return "@import \"" . $this->Import . "\"" . (count($this->MediaTypes) > 0 ? " " . implode(",", $this->MediaTypes) : "") . ";";
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for parsing @import at-rule.
  * 
@@ -4470,7 +4150,6 @@ class CssAtImportToken extends aCssToken {
  * @version		3.0.1
  */
 class CssAtImportParserPlugin extends aCssParserPlugin {
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -4479,7 +4158,6 @@ class CssAtImportParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("@", ";", ",", "\n");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -4488,7 +4166,6 @@ class CssAtImportParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return array("T_DOCUMENT", "T_AT_IMPORT");
     }
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -4527,9 +4204,7 @@ class CssAtImportParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the start of a @font-face at-rule block.
  *
@@ -4541,7 +4216,6 @@ class CssAtImportParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssAtFontFaceStartToken extends aCssAtBlockStartToken {
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -4550,9 +4224,7 @@ class CssAtFontFaceStartToken extends aCssAtBlockStartToken {
     public function __toString() {
         return "@font-face{";
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for parsing @font-face at-rule block with including declarations.
  * 
@@ -4567,7 +4239,6 @@ class CssAtFontFaceStartToken extends aCssAtBlockStartToken {
  * @version		3.0.1
  */
 class CssAtFontFaceParserPlugin extends aCssParserPlugin {
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -4576,7 +4247,6 @@ class CssAtFontFaceParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("@", "{", "}", ":", ";");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -4585,7 +4255,6 @@ class CssAtFontFaceParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return array("T_DOCUMENT", "T_AT_FONT_FACE::PREPARE", "T_AT_FONT_FACE", "T_AT_FONT_FACE_DECLARATION");
     }
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -4648,9 +4317,7 @@ class CssAtFontFaceParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }
-
 /**
  * This {@link aCssToken CSS token} represents the end of a @font-face at-rule block.
  *
@@ -4662,9 +4329,7 @@ class CssAtFontFaceParserPlugin extends aCssParserPlugin {
  * @version		3.0.1
  */
 class CssAtFontFaceEndToken extends aCssAtBlockEndToken {
-    
 }
-
 /**
  * This {@link aCssToken CSS token} represents a declaration of a @font-face at-rule block.
  *
@@ -4676,9 +4341,7 @@ class CssAtFontFaceEndToken extends aCssAtBlockEndToken {
  * @version		3.0.1
  */
 class CssAtFontFaceDeclarationToken extends aCssDeclarationToken {
-    
 }
-
 /**
  * This {@link aCssToken CSS token} represents a @charset at-rule.
  * 
@@ -4690,14 +4353,12 @@ class CssAtFontFaceDeclarationToken extends aCssDeclarationToken {
  * @version		3.0.1
  */
 class CssAtCharsetToken extends aCssToken {
-
     /**
      * Charset of the @charset at-rule.
      * 
      * @var string
      */
     public $Charset = "";
-
     /**
      * Set the properties of @charset at-rule token. 
      * 
@@ -4707,7 +4368,6 @@ class CssAtCharsetToken extends aCssToken {
     public function __construct($charset) {
         $this->Charset = $charset;
     }
-
     /**
      * Implements {@link aCssToken::__toString()}.
      * 
@@ -4716,9 +4376,7 @@ class CssAtCharsetToken extends aCssToken {
     public function __toString() {
         return "@charset " . $this->Charset . ";";
     }
-
 }
-
 /**
  * {@link aCssParserPlugin Parser plugin} for parsing @charset at-rule.
  * 
@@ -4732,7 +4390,6 @@ class CssAtCharsetToken extends aCssToken {
  * @version		3.0.1
  */
 class CssAtCharsetParserPlugin extends aCssParserPlugin {
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerChars()}.
      * 
@@ -4741,7 +4398,6 @@ class CssAtCharsetParserPlugin extends aCssParserPlugin {
     public function getTriggerChars() {
         return array("@", ";", "\n");
     }
-
     /**
      * Implements {@link aCssParserPlugin::getTriggerStates()}.
      * 
@@ -4750,7 +4406,6 @@ class CssAtCharsetParserPlugin extends aCssParserPlugin {
     public function getTriggerStates() {
         return array("T_DOCUMENT", "T_AT_CHARSET");
     }
-
     /**
      * Implements {@link aCssParserPlugin::parse()}.
      * 
@@ -4773,5 +4428,4 @@ class CssAtCharsetParserPlugin extends aCssParserPlugin {
         }
         return true;
     }
-
 }

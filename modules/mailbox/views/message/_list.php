@@ -13,7 +13,7 @@ $username = $this->module->getFromLabel($counterUserId);
 
 if ($username && ($this->module->isAdmin() || $this->module->linkUser)) {
     //$url = $this->module->getUrl($counterUserId);
-    $url = Yii::app()->createUrl('sUser/viewPublic', array("id" => $counterUserId));
+    $url = Yii::app()->createUrl('sUser/viewAuthenticated', array("id" => $counterUserId));
     if ($url)
         $username = '<a href="' . $url . '">' . $username . '</a>';
 }

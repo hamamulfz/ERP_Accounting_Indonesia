@@ -17,6 +17,5 @@ Auto Index=Yes
 Create CHI file=No
 Full text search stop list file=
 Display compile notes=Yes
-
 [WINDOWS]
 main="Yii Framework v<?php echo Yii::getVersion(); ?> Class Reference","manual.hhc","manual.hhk","index.html","index.html",,,,,0x63520,250,0x104e,[10,10,900,700],0xb0000,,,,,,0

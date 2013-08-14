@@ -1,10 +1,7 @@
 <?php if (empty($class->events)) return; ?>
-
 <div class="summary docEvent">
     <h2>Events</h2>
-
     <p><a href="#" class="toggle">Hide inherited events</a></p>
-
     <table class="summaryTable">
         <colgroup>
             <col class="col-event" />

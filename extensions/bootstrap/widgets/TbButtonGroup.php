@@ -1,5 +1,4 @@
 <?php
-
 /* ##  TbButtonGroup class file.
  *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
@@ -8,72 +7,58 @@
  * @package bootstrap.widgets
  * @since 0.9.10
  */
-
 Yii::import('bootstrap.widgets.TbButton');
-
 /**
  * Bootstrap button group widget.
  * @see <http://twitter.github.com/bootstrap/components.html#buttonGroups>
  */
 class TbButtonGroup extends CWidget {
     // Toggle options.
-
     const TOGGLE_CHECKBOX = 'checkbox';
     const TOGGLE_RADIO = 'radio';
-
     /**
      * @var string the button callback type.
      * @see BootButton::buttonType
      */
     public $buttonType = TbButton::BUTTON_LINK;
-
     /**
      * @var string the button type.
      * @see BootButton::type
      */
     public $type;
-
     /**
      * @var string the button size.
      * @see BootButton::size
      */
     public $size;
-
     /**
      * @var boolean indicates whether to encode the button labels.
      */
     public $encodeLabel = true;
-
     /**
      * @var array the HTML attributes for the widget container.
      */
     public $htmlOptions = array();
-
     /**
      * @var array the button configuration.
      */
     public $buttons = array();
-
     /**
      * @var boolean indicates whether to enable button toggling.
      */
     public $toggle;
-
     /**
      * @var boolean indicates whether the button group appears vertically stacked. Defaults to 'false'.
      */
     public $stacked = false;
-
     /**
      * @var boolean indicates whether dropdowns should be dropups instead. Defaults to 'false'.
      */
     public $dropup = false;
-
     /**
      * @var boolean indicates whether button is disabled or not. Defaults to 'false'.
      */
     public $disabled = false;
-
     /**
      * ### .init()
      *
@@ -81,13 +66,10 @@ class TbButtonGroup extends CWidget {
      */
     public function init() {
         $classes = array('btn-group');
-
         if ($this->stacked === true)
             $classes[] = 'btn-group-vertical';
-
         if ($this->dropup === true)
             $classes[] = 'dropup';
-
         if (!empty($classes)) {
             $classes = implode(' ', $classes);
             if (isset($this->htmlOptions['class']))
@@ -95,13 +77,10 @@ class TbButtonGroup extends CWidget {
             else
                 $this->htmlOptions['class'] = $classes;
         }
-
         $validToggles = array(self::TOGGLE_CHECKBOX, self::TOGGLE_RADIO);
-
         if (isset($this->toggle) && in_array($this->toggle, $validToggles))
             $this->htmlOptions['data-toggle'] = 'buttons-' . $this->toggle;
     }
-
     /**
      * ### .run()
      *
@@ -109,11 +88,9 @@ class TbButtonGroup extends CWidget {
      */
     public function run() {
         echo CHtml::openTag('div', $this->htmlOptions);
-
         foreach ($this->buttons as $button) {
             if (isset($button['visible']) && $button['visible'] === false)
                 continue;
-
             $this->controller->widget('bootstrap.widgets.TbButton', array(
                 'buttonType' => isset($button['buttonType']) ? $button['buttonType'] : $this->buttonType,
                 'type' => isset($button['type']) ? $button['type'] : $this->type,
@@ -132,5 +109,4 @@ class TbButtonGroup extends CWidget {
         }
         echo '</div>';
     }
-
 }

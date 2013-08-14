@@ -1,4 +1,31 @@
 <?php
+Yii::app()->getClientScript()->registerCoreScript('jquery.ui');
+
+Yii::app()->clientScript->registerScript('autocom', "
+		$(function() {
+		
+		$( \"#" . CHtml::activeId($modelUserModule, 's_user_name') . "\" ).autocomplete({
+			'minLength' : 2,
+			'source': ' " . Yii::app()->createUrl('sUser/userAutoComplete') . "',
+			'focus': function( event, ui ) {
+			$(\"#" . CHtml::activeId($modelUserModule, 's_user_name') . "\").val(ui.item.label);
+			return false;
+			},
+			'select': function( event, ui ) {
+			$(\"#" . CHtml::activeId($modelUserModule, 's_user_id') . "\").val(ui.item.id);
+			return false;
+			}
+			
+		});
+		
+
+});
+
+		");
+?>
+
+
+<?php
 $this->breadcrumbs = array(
     'Module' => array('index'),
     $model->title,
@@ -35,7 +62,7 @@ $this->menu4 = sModule::getTopOther();
     <div class="span7">
         <?php
         $this->widget('bootstrap.widgets.TbDetailView', array(
-//$this->widget('bootstrap.widgets.TbEditableDetailView', array(
+		//$this->widget('bootstrap.widgets.TbEditableDetailView', array(
             'data' => $model,
             //'url' => $this->createUrl('sModule/updateAjax'), 
             'attributes' => array(
@@ -92,7 +119,8 @@ $this->menu4 = sModule::getTopOther();
         ?>
 
 
-        <?php echo $form->dropDownListRow($modelUserModule, 's_user_id', sUser::model()->allUsers()); ?>
+        <?php //echo $form->textField($modelUserModule, 's_user_id'); ?>
+        <?php echo $form->textFieldRow($modelUserModule, 's_user_name'); ?>
 
         <?php //echo $form->dropDownListRow($modelUserModule,'s_matrix_id', sMatrix::items('sMatrix'),array('class'=>'span3'));  ?>
         <?php echo $form->dropDownListRow($modelUserModule, 's_matrix_id', array("5" => "admin"), array('class' => 'span3')); ?>

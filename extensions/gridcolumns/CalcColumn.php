@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CalcColumn class file
  *
@@ -8,7 +7,6 @@
  * @license		BSD 3-Clause
  */
 Yii::import('zii.widgets.grid.CDataColumn');
-
 /**
  * CalcColumn class.
  * A CalcColumn calculates it's value based on other columns in the grid.
@@ -33,14 +31,12 @@ Yii::import('zii.widgets.grid.CDataColumn');
  * value to be used by other CalcColumns.
  */
 class CalcColumn extends CDataColumn {
-
     /**
      * @property boolean Whether to NULL data cells and display the grid's
      * nullDisplay property if the value is zero.
      * Note: Does not apply to the footer
      */
     public $nullOnZero = false;
-
     /**
      * @property string A PHP expression that will be evaluated for every data cell
      * and whose result will be rendered as the content of the cells. The
@@ -48,7 +44,6 @@ class CalcColumn extends CDataColumn {
      * and <code>$this</code> - the column object.
      */
     public $output;
-
     /**
      * @property mixed If $footerOutput===NULL the column does not have a footer.
      * If $footerOutput===TRUE the footer cell is rendered using the expression in
@@ -59,7 +54,6 @@ class CalcColumn extends CDataColumn {
      * value, and <code>$this</code> - the column object.
      */
     public $footerOutput;
-
     /**
      * @property mixed Either, float: the initial value of the total, or string: A
      * PHP expression that will be evaluated when the grid initialises and whose
@@ -67,17 +61,14 @@ class CalcColumn extends CDataColumn {
      * the variable <code>$this</code> - the column object.
      */
     public $init;
-
     /**
      * @var float The total.
      */
     private $_total = 0;
-
     /**
      * @var float The footer value.
      */
     private $_footerValue;
-
     /**
      * Initialises the column.
      * Checks that the value property is set
@@ -86,7 +77,6 @@ class CalcColumn extends CDataColumn {
         if ($this->value === null)
             throw new CException(Yii::t('cols', '"value" property must be specified for CalcColumn.'));
     }
-
     /**
      * Renders the data cell content.
      * This method evaluates the expression in the value property to obtain the
@@ -99,17 +89,13 @@ class CalcColumn extends CDataColumn {
         $value = $this->evaluateExpression($this->value, array_merge(
                         compact('data', 'row'), $this->cols($this, $row, $data)
         ));
-
         $this->_total+=$value;
-
         if ($value == 0 && $this->nullOnZero)
             $value = null;
-
         if ($this->output !== null && $value !== null)
             $value = $this->evaluateExpression($this->output, compact('data', 'row', 'value'));
         echo $value === null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value, $this->type);
     }
-
     /**
      * Renders the footer cell.
      * If $footerOutput is emtpy the footer cell is blank.
@@ -132,7 +118,6 @@ class CalcColumn extends CDataColumn {
         }
         echo trim($footer) !== '' ? $this->grid->getFormatter()->format($footer, $this->type) : $this->grid->blankDisplay;
     }
-
     /**
      * Returns the footer cell value for this column.
      * If $footer===TRUE the footer cell value is the column total.
@@ -169,7 +154,6 @@ class CalcColumn extends CDataColumn {
         }
         return $this->_footerValue;
     }
-
     /**
      * Returns whether this column has a footer cell.
      * This is determined based on whether footerOutput is set.
@@ -178,7 +162,6 @@ class CalcColumn extends CDataColumn {
     public function getHasFooter() {
         return !is_null($this->footerOutput);
     }
-
     private function cols($obj, $row, $data) {
         $cols = array();
         preg_match_all('/\$(c(\d+))/', $obj->value, $matches, PREG_SET_ORDER);
@@ -195,10 +178,8 @@ class CalcColumn extends CDataColumn {
                     ));
                 else
                     $value = CHtml::value($data, $col->name);
-
                 $cols[$match[1]] = $value;
             }
         return $cols;
     }
-
 }

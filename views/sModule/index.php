@@ -68,7 +68,11 @@ $this->menu4 = sModule::getTopOther();
                     'type' => 'raw',
                     'value' => 'CHtml::link(($data->parent_id == 0) ? $data->title : "--- ".$data->title,Yii::app()->createUrl("/sModule/view",array("id"=>$data->id)))'
                 ),
-                'link',
+                array(
+                    'name' => 'link',
+                    'type' => 'raw',
+                    'value' => 'CHtml::link($data->link,Yii::app()->createUrl($data->link))'
+                ),
                 'image'
             ),
         ));

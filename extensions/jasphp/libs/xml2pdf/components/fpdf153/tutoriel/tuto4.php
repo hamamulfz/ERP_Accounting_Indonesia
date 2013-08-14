@@ -1,18 +1,13 @@
 <?php
-
 require('../fpdf.php');
-
 class PDF extends FPDF {
-
 //Colonne courante
     var $col = 0;
 //Ordonn�e du d�but des colonnes
     var $y0;
-
     function Header() {
         //En-t�te
         global $titre;
-
         $this->SetFont('Arial', 'B', 15);
         $w = $this->GetStringWidth($titre) + 6;
         $this->SetX((210 - $w) / 2);
@@ -25,7 +20,6 @@ class PDF extends FPDF {
         //Sauvegarde de l'ordonn�e
         $this->y0 = $this->GetY();
     }
-
     function Footer() {
         //Pied de page
         $this->SetY(-15);
@@ -33,7 +27,6 @@ class PDF extends FPDF {
         $this->SetTextColor(128);
         $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
     }
-
     function SetCol($col) {
         //Positionnement sur une colonne
         $this->col = $col;
@@ -41,7 +34,6 @@ class PDF extends FPDF {
         $this->SetLeftMargin($x);
         $this->SetX($x);
     }
-
     function AcceptPageBreak() {
         //M�thode autorisant ou non le saut de page automatique
         if ($this->col < 2) {
@@ -58,7 +50,6 @@ class PDF extends FPDF {
             return true;
         }
     }
-
     function TitreChapitre($num, $lib) {
         //Titre
         $this->SetFont('Arial', '', 12);
@@ -68,7 +59,6 @@ class PDF extends FPDF {
         //Sauvegarde de l'ordonn�e
         $this->y0 = $this->GetY();
     }
-
     function CorpsChapitre($fichier) {
         //Lecture du fichier texte
         $f = fopen($fichier, 'r');
@@ -85,16 +75,13 @@ class PDF extends FPDF {
         //Retour en premi�re colonne
         $this->SetCol(0);
     }
-
     function AjouterChapitre($num, $titre, $fichier) {
         //Ajout du chapitre
         $this->AddPage();
         $this->TitreChapitre($num, $titre);
         $this->CorpsChapitre($fichier);
     }
-
 }
-
 $pdf = new PDF();
 $titre = 'Vingt mille lieues sous les mers';
 $pdf->SetTitle($titre);

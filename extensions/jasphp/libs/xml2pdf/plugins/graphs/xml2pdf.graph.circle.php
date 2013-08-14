@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Xml2Pdf circle graph plugin file
  * @filesource
@@ -13,7 +12,6 @@
  * @subpackage Graph
  */
 // doc {{{
-
 /**
  * plugin class xml2pdf_graph_circle
  * 
@@ -40,19 +38,15 @@
  * @tutorial Xml2Pdf/Xml2Pdf.Graph.circle.pkg
  */ // }}}
 class xml2pdf_graph_circle {
-
     // xml2pdf_graph_circle::__construct() {{{
     /**
      * Constructor.
      *
      */
     public function __construct() {
-        
     }
-
     // }}}
     // xml2pdf_graph_circle::render() {{{
-
     /**
      * Draw a circular graph
      *
@@ -62,7 +56,6 @@ class xml2pdf_graph_circle {
     public static function render($graph) {
         $graph->pdf->SetFont('Courier', '', $graph->fontSize);
         $graph->setLegends();
-
         $XPage = $graph->pdf->GetX();
         $YPage = $graph->pdf->GetY();
         $marge = 2;
@@ -73,9 +66,7 @@ class xml2pdf_graph_circle {
         $YDiag = $YPage + $marge + $rayon;
         //Secteurs
         $graph->pdf->SetLineWidth(0.2);
-
         $loop = $graph->mode == '3d' ? 4 : 1;
-
         for ($delta = 0; $delta < $loop; $delta++) {
             $angleDebut = 0;
             $angleFin = 0;
@@ -123,10 +114,8 @@ class xml2pdf_graph_circle {
             $y1 += $hLegende + $marge;
         }
     }
-
     // }}}
     // xml2pdf_graph_circle::sector() {{{
-
     /**
      * Draw a circle sector.
      *
@@ -199,10 +188,8 @@ class xml2pdf_graph_circle {
         //terminate drawing
         $pdf->_out($op);
     }
-
     // }}}
     // xml2pdf_graph_circle::arc() {{{
-
     /**
      * Draw an arc of circle
      *
@@ -219,8 +206,6 @@ class xml2pdf_graph_circle {
         $h = $pdf->h;
         $pdf->_out(sprintf('%.2f %.2f %.2f %.2f %.2f %.2f c', $x1 * $pdf->k, ($h - $y1) * $pdf->k, $x2 * $pdf->k, ($h - $y2) * $pdf->k, $x3 * $pdf->k, ($h - $y3) * $pdf->k));
     }
-
     // }}}   
 }
-
 ?>

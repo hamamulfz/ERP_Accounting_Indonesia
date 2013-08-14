@@ -187,5 +187,4 @@
             'elFinder support following shortcuts': 'elFinder supporta i seguenti tasti di scelta rapida',
             'helpText': 'elFinder funziona come un comune filemanager per PC. <br />Puoi manipolare i file tramite il pannello principale, il menu o i tasti di scelta rapida. Per spostare i file o le cartelle &egrave; sufficiente trascinarli nella cartella desiderata;	se si preme contemporaneamente anche il tasto Shift i file vengono copiati.'
         };
-
 })(jQuery);

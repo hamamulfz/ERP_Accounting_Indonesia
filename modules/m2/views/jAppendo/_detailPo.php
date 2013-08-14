@@ -37,7 +37,7 @@
         <?php if ($model->item_id == null): ?>
             <tr>
                 <td>
-                <?php echo CHtml::dropDownList('item_id[]', '', uProduct::items()); ?>
+                    <?php echo CHtml::dropDownList('item_id[]', '', uProduct::items()); ?>
                     <?php /*
                       $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
                       'name'=>'item_id[]',

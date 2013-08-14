@@ -9,7 +9,6 @@
  *	  http://www.gnu.org/licenses/lgpl.html
  *	  http://www.mozilla.org/MPL/MPL-1.1.html
  */
-
 (function($) {
     $.fn.ptags_add = function(textorarray) {
         if (!textorarray)
@@ -51,39 +50,31 @@
         }
         return ret_val;
     };
-
     $.fn.ptags = function(options) {
         // Build main options before element iteration.
         var opts = $.extend({}, $.fn.ptags.defaults, options);
-
         // Iterate and transform each matched element.
         var all_elements = this;
         all_elements.each(function() {
             var ptags = $(this);
             ptags.ptags_version = "1.1.2";
-
             // Check for the ptags class. If it has it, we've already transformed this element.
             if (ptags.hasClass("ui-ptags-tag-box"))
                 return true;
             // Add the ptags class.
             ptags.addClass("ui-ptags-tag-box");
-
             ptags.extend(ptags, opts);
-
             ptags.ptags_widget = $("<span />");
             ptags.ptags_container = $("<span />");
-
             // All arrays and objects in our options need to be copied,
             // since they just have a pointer to the defaults if we don't.
             ptags.ptags_tags = ptags.ptags_tags.slice();
-
             ptags.ptags_add = function(textorarray) {
                 $.merge(ptags.ptags_tags, (typeof textorarray == "string" ? [textorarray] : textorarray));
                 ptags.ptags_unique_check();
                 ptags.ptags_update_val();
                 ptags.ptags_update_tags();
             };
-
             ptags.ptags_remove = function(textorarray) {
                 $.each((typeof textorarray == "string" ? [textorarray] : textorarray), function() {
                     var i = $.inArray("" + this, ptags.ptags_tags);
@@ -93,13 +84,11 @@
                 ptags.ptags_update_val();
                 ptags.ptags_update_tags();
             };
-
             ptags.ptags_remove_all = function() {
                 ptags.ptags_tags = [];
                 ptags.ptags_update_val();
                 ptags.ptags_update_tags();
             };
-
             ptags.ptags_unique_check = function() {
                 for (var i = 0; i < ptags.ptags_tags.length; i++) {
                     if (ptags.ptags_trim_tags)
@@ -110,26 +99,22 @@
                     }
                 }
             };
-
             ptags.ptags_update_val = function() {
                 var oldval = ptags.val();
                 var newval = ptags.ptags_tags.join(ptags.ptags_delimiter);
                 if (oldval != newval)
                     ptags.val(newval).change();
             };
-
             ptags.ptags_sync_input = function() {
                 var oldval = ptags.ptags_tags.join(ptags.ptags_delimiter);
                 var newval = ptags.val();
                 if (newval == oldval)
                     return;
-
                 ptags.ptags_tags = newval.split(ptags.ptags_delimiter);
                 ptags.ptags_unique_check();
                 ptags.ptags_update_val();
                 ptags.ptags_update_tags();
             };
-
             ptags.ptags_update_tags = function() {
                 if (!ptags.ptags_show_tags)
                     return;
@@ -165,17 +150,14 @@
                     ptags.ptags_tag_container.append(tag_box);
                 });
             };
-
             ptags.ptags_widget.addClass("ui-ptags");
             ptags.wrapAll(ptags.ptags_widget);
             // Update the widget.
             ptags.ptags_widget = ptags.parent();
-
             ptags.ptags_container.addClass("ui-ptags-tag-box-container");
             ptags.wrapAll(ptags.ptags_container);
             // Update the container.
             ptags.ptags_container = ptags.parent();
-
             if (ptags.ptags_input_box) {
                 var input_box = $(ptags.get(0)).clone().val("").keydown(function(e) {
                     if (e.keyCode == 13 && !e.shiftKey) {
@@ -191,28 +173,22 @@
                 });
                 if (input_box.attr("id"))
                     input_box.attr("id", "__ptags_" + input_box.attr("id"));
-
                 if (input_box.attr("name"))
                     input_box.attr("name", "__ptags_" + input_box.attr("name"));
-
                 ptags.ptags_container.append(input_box);
             }
-
             if (ptags.ptags_current_text) {
                 var tmp_tags_arr = ptags.val().split(ptags.ptags_delimiter);
                 $.merge(ptags.ptags_tags, tmp_tags_arr);
                 ptags.ptags_unique_check();
                 ptags.ptags_update_val();
             }
-
             if (ptags.ptags_show_tags) {
                 ptags.ptags_tag_container = $("<span />").addClass("ui-ptags-tag-container");
                 ptags.ptags_widget.append(ptags.ptags_tag_container);
                 ptags.ptags_update_tags();
             }
-
             ptags.change(ptags.ptags_sync_input);
-
             if (ptags.ptags_sortable != false) {
                 ptags.ptags_tag_container
                         .sortable(ptags.ptags_sortable)
@@ -226,17 +202,13 @@
                     ptags.ptags_noclick = true;
                 });
             }
-
             if (!ptags.ptags_show_box)
                 ptags.css("display", "none");
-
             // Save the ptags object in the DOM, so we can access it.
             this.pines_tags = ptags;
         });
-
         return all_elements;
     };
-
     $.fn.ptags.defaults = {
         // The default tags.
         ptags_tags: [],

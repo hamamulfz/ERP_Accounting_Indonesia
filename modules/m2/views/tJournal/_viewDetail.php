@@ -4,7 +4,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'id' => 'u-journal-detail-grid',
     'dataProvider' => tJournalDetail::model()->search($data->id),
     'template' => '{items}{pager}',
-    'itemsCssClass' => 'table table-striped table-bordered table-condensed',
+    'enableSorting' => false,
+    'itemsCssClass' => 'table table-striped table-condensed',
     'htmlOptions' => array('style' => 'padding-top:0'),
     'columns' => array(
         array(
@@ -57,7 +58,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
           'style'=>'text-align: right; padding-right: 5px;'
           ),
           ), */
-        'user_remark',
+        'user_remarkk',
     //'system_remark',
     ),
 ));

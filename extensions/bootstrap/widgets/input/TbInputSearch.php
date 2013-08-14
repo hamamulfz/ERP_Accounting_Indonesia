@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbInputSearch class file.
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
@@ -8,13 +7,11 @@
  * @package bootstrap.widgets.input
  */
 Yii::import('bootstrap.widgets.input.TbInputInline');
-
 /**
  * Bootstrap vertical form input widget.
  * @since 0.9.8
  */
 class TbInputSearch extends TbInputInline {
-
     /**
      * Renders a text field.
      * @return string the rendered content
@@ -24,12 +21,10 @@ class TbInputSearch extends TbInputInline {
             $this->htmlOptions['class'] .= ' search-query';
         else
             $this->htmlOptions['class'] = 'search-query';
-
         $this->setPlaceholder();
         echo $this->getPrepend();
         echo $this->form->textField($this->model, $this->attribute, $this->htmlOptions);
         echo $this->getAppend();
         echo $this->getError() . $this->getHint();
     }
-
 }

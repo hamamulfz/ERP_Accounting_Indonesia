@@ -48,7 +48,7 @@ Yii::app()->clientScript->registerScript('myCap', "
 		data: '',
 		success : function(r){
 		$('#mydialog').dialog('open');
-		$('#periode').text('Current Period: ".peterFunc::cBeginDateAfter(Yii::app()->settings->get("System", "cCurrentPeriod"))."');
+		$('#periode').text('Current Period: " . peterFunc::cBeginDateAfter(Yii::app()->settings->get("System", "cCurrentPeriod")) . "');
 		//Loading.hide();
 
 }
@@ -98,7 +98,7 @@ Yii::app()->clientScript->registerScript('myCap', "
 </div>
 
 <p>
-    <?php 
+    <?php
     $this->widget('bootstrap.widgets.TbButton', array(
         'buttonType' => 'link',
         'id' => 'myCap',
@@ -106,8 +106,7 @@ Yii::app()->clientScript->registerScript('myCap', "
         'size' => 'large',
         'url' => Yii::app()->createUrl("/m2/tClosing/closingPeriodExecution"),
         'label' => 'Closing Month Period',
-    ));  
-    
+    ));
     ?>
 </p>
 

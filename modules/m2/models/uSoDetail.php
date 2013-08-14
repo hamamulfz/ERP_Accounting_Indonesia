@@ -18,111 +18,105 @@
  * @property integer $updated_date
  * @property string $updated_by
  */
-class uSoDetail extends BaseModel
-{
-	public $sub_total;
-	public $updateType;
-	
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return bPorderDetail the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+class uSoDetail extends BaseModel {
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'u_so_detail';
-	}
+    public $sub_total;
+    public $updateType;
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-				array('parent_id, item_id', 'required'),
-				array('parent_id, item_id, qty, created_date, updated_date', 'numerical', 'integerOnly'=>true),
-				array('description', 'length', 'max'=>500),
-				array('user', 'length', 'max'=>255),
-				array('uom, amount, created_by, updated_by', 'length', 'max'=>15),
-				array('need_date', 'safe'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, parent_id, item_id, payment_date, description, user, qty, uom, amount, need_date, created_date, created_by, updated_date, updated_by', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return bPorderDetail the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-				'so' => array(self::BELONGS_TO, 'uSo', 'parent_id'),
-				'item' => array(self::BELONGS_TO, 'uProduct', 'item_id'),
-		);
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'u_so_detail';
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-				'id' => 'ID',
-				'parent_id' => 'Parent',
-				'item_id' => 'Item',
-				'description' => 'Description',
-				'qty' => 'Qty',
-				'uom' => 'Uom',
-				'amount' => 'Amount',
-				'need_date' => 'Need Date',
-				'created_date' => 'Created Date',
-				'created_by' => 'Created By',
-				'updated_date' => 'Updated Date',
-				'updated_by' => 'Updated By',
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('parent_id, item_id', 'required'),
+            array('parent_id, item_id, qty, created_date, updated_date', 'numerical', 'integerOnly' => true),
+            array('description', 'length', 'max' => 500),
+            array('user', 'length', 'max' => 255),
+            array('uom, amount, created_by, updated_by', 'length', 'max' => 15),
+            array('need_date', 'safe'),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, parent_id, item_id, payment_date, description, user, qty, uom, amount, need_date, created_date, created_by, updated_date, updated_by', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function search($id)
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'so' => array(self::BELONGS_TO, 'uSo', 'parent_id'),
+            'item' => array(self::BELONGS_TO, 'uProduct', 'item_id'),
+        );
+    }
 
-		$criteria=new CDbCriteria;
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => 'ID',
+            'parent_id' => 'Parent',
+            'item_id' => 'Item',
+            'description' => 'Description',
+            'qty' => 'Qty',
+            'uom' => 'Uom',
+            'amount' => 'Amount',
+            'need_date' => 'Need Date',
+            'created_date' => 'Created Date',
+            'created_by' => 'Created By',
+            'updated_date' => 'Updated Date',
+            'updated_by' => 'Updated By',
+        );
+    }
 
-		$criteria->compare('parent_id',$id);
-		$criteria->order='id';
+    public function search($id) {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-				'pagination'=>array(
-						'pageSize'=>30
-				)
-		));
-	}
+        $criteria = new CDbCriteria;
 
-	public function amountf() {
-		$_format=Yii::app()->numberFormatter->format("#,##0.00",$this->amount);
+        $criteria->compare('parent_id', $id);
+        $criteria->order = 'id';
 
-		return $_format;
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 30
+            )
+        ));
+    }
 
-	public function totalf() {
-		$_format=Yii::app()->numberFormatter->format("#,##0.00",$this->qty*$this->amount);
+    public function amountf() {
+        $_format = Yii::app()->numberFormatter->format("#,##0.00", $this->amount);
 
-		return $_format;
-	}
+        return $_format;
+    }
+
+    public function totalf() {
+        $_format = Yii::app()->numberFormatter->format("#,##0.00", $this->qty * $this->amount);
+
+        return $_format;
+    }
 
 }

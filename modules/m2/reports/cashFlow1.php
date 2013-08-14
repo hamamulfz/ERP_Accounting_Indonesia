@@ -50,7 +50,7 @@ class cashFlow1 extends fpdf {
         $_s = 5;
 
 
-		//#1. BEGINNING BALANCE
+        //#1. BEGINNING BALANCE
         $_subtotal1 = 0;
         $criteria1 = new CDbCriteria;
         $criteria1->with = array('cashbank');
@@ -76,18 +76,17 @@ class cashFlow1 extends fpdf {
             else
                 $_balance1 = 0;
 
-            $this->Cell($w[1] + 5 , 4, $_balance1, 0, 0, 'R');
+            $this->Cell($w[1] + 5, 4, $_balance1, 0, 0, 'R');
             $this->Ln();
         }
 
         $this->SetFont('Arial', 'B', 8);
-        $this->Cell($_s,4,'');
+        $this->Cell($_s, 4, '');
         $this->Cell($w[0], 4, 'TOTAL Beginning Balance CASH and BANK');
         $this->Cell($w[1] + 5, 4, number_format($_subtotal1, 0, ',', '.'), 'T', 0, 'R');
         $this->Ln(8);
-		//#1. END BEGINNING BALANCE
-
-		//#2. END BALANCE
+        //#1. END BEGINNING BALANCE
+        //#2. END BALANCE
         $_subtotal2 = 0;
         $criteria2 = new CDbCriteria;
         $criteria2->with = array('cashbank', 'entity');
@@ -113,34 +112,34 @@ class cashFlow1 extends fpdf {
             else
                 $_balance2 = 0;
 
-            $this->Cell($w[1]+ 5, 4, $_balance2, 0, 0, 'R');
+            $this->Cell($w[1] + 5, 4, $_balance2, 0, 0, 'R');
             $this->Ln();
         }
 
         $this->SetFont('Arial', 'B', 8);
-        $this->Cell($_s,4,'');
+        $this->Cell($_s, 4, '');
         $this->Cell($w[0], 4, 'TOTAL End Balance CASH and BANK');
         $this->Cell($w[1] + 5, 4, number_format($_subtotal2, 0, ',', '.'), 'T', 0, 'R');
         $this->Ln(8);
-		//#2. END END-BALANCE
+        //#2. END END-BALANCE
 
-        $this->Cell($_s+5+array_sum($w), 4, '', 'T', 'B');
+        $this->Cell($_s + 5 + array_sum($w), 4, '', 'T', 'B');
         $this->Ln();
 
-		//#3. PENERIMAAN KAS
+        //#3. PENERIMAAN KAS
         $_subtotal3 = 0;
-		  $rawData3=Yii::app()->db->createCommand('
+        $rawData3 = Yii::app()->db->createCommand('
 			select dd.account_no_id, aa.account_name, aaa.account_name as acc_parent, sum(dd.credit) as xdebit, sum(dd.debit) as xcredit  
 			from t_journal_detail dd
 			inner join t_journal tt on tt.id = dd.parent_id
 			inner join t_account aa on aa.id = dd.account_no_id 
 			inner join t_account aaa on aaa.id = aa.parent_id 
-			where tt.yearmonth_periode = '.$periode_date.' 
-			and dd.account_no_id NOT IN ('.tAccount::getCashbankListComp().') 
+			where tt.yearmonth_periode = ' . $periode_date . ' 
+			and dd.account_no_id NOT IN (' . tAccount::getCashbankListComp() . ') 
 			and tt.id IN 
 				(select t.id from t_journal t
 				inner join t_journal_detail d on t.id = d.parent_id
-				where t.yearmonth_periode = '.$periode_date.' and d.account_no_id IN ('.tAccount::getCashbankListComp().')
+				where t.yearmonth_periode = ' . $periode_date . ' and d.account_no_id IN (' . tAccount::getCashbankListComp() . ')
 				group by t.id)
 
 			group by aa.account_name
@@ -149,61 +148,59 @@ class cashFlow1 extends fpdf {
 
 		  ')->queryAll();
 
-		$dataProvider3=new CArrayDataProvider($rawData3, array(
-			'id'=>'user',
-			'pagination'=>false,
-		));
-		
+        $dataProvider3 = new CArrayDataProvider($rawData3, array(
+            'id' => 'user',
+            'pagination' => false,
+        ));
+
         $this->SetFont('Arial', 'B', 8);
         $this->Cell($w[0], 4, 'PENERIMAAN KAS');
         $this->Ln();
 
-		$accparent3=null;
+        $accparent3 = null;
 
         foreach ($dataProvider3->getData() as $mod3) {
 
-			if($mod3['acc_parent'] != $accparent3) {
-	            $this->SetFont('Arial', 'B', 8);
-	            $this->Cell($_s, 4, '');
-				$this->Cell($w[0],4,'  '.$mod3['acc_parent'],0,0,'L');
-				$this->Ln();
-			}	
+            if ($mod3['acc_parent'] != $accparent3) {
+                $this->SetFont('Arial', 'B', 8);
+                $this->Cell($_s, 4, '');
+                $this->Cell($w[0], 4, '  ' . $mod3['acc_parent'], 0, 0, 'L');
+                $this->Ln();
+            }
 
             $this->SetFont('Arial', '', 8);
             $this->Cell($_s + 5, 4, '');
             $this->Cell($w[0], 4, $mod3['account_name']);
 
-                $_balance3 = number_format((int)$mod3['xdebit'], 0, ',', '.');
-                $_subtotal3 = $_subtotal3 + (int)$mod3['xdebit'];
+            $_balance3 = number_format((int) $mod3['xdebit'], 0, ',', '.');
+            $_subtotal3 = $_subtotal3 + (int) $mod3['xdebit'];
 
             $this->Cell($w[1], 4, $_balance3, 0, 0, 'R');
             $this->Ln();
-            
-        	$accparent3=$mod3['acc_parent'];
+
+            $accparent3 = $mod3['acc_parent'];
         }
 
         $this->SetFont('Arial', 'B', 8);
-        $this->Cell($_s,4,'');
-        $this->Cell($w[0]+ 5, 4, 'TOTAL PENERIMAAN KAS');
+        $this->Cell($_s, 4, '');
+        $this->Cell($w[0] + 5, 4, 'TOTAL PENERIMAAN KAS');
         $this->Cell($w[1], 4, number_format($_subtotal3, 0, ',', '.'), 'T', 0, 'R');
         $this->Ln(8);
-		//#3. END PENERIMAAN KAS
-
-
-		//#4. PENGELUARAN KAS
-          $_subtotal4 = 0;
-		  $rawData4=Yii::app()->db->createCommand('
+        //#3. END PENERIMAAN KAS
+        //#4. PENGELUARAN KAS
+        $_subtotal4 = 0;
+        $rawData4 = Yii::app()->db->createCommand('
 			select dd.account_no_id, aa.account_name, aaa.account_name as acc_parent, sum(dd.credit) as xdebit, sum(dd.debit) as xcredit  
 			from t_journal_detail dd
 			inner join t_journal tt on tt.id = dd.parent_id
 			inner join t_account aa on aa.id = dd.account_no_id 
 			inner join t_account aaa on aaa.id = aa.parent_id 
-			where tt.yearmonth_periode = '.$periode_date.' 
-			and dd.account_no_id NOT IN ('.tAccount::getCashbankListComp().') 
+			where tt.yearmonth_periode = ' . $periode_date . ' 
+			and dd.account_no_id NOT IN (' . tAccount::getCashbankListComp() . ') 
 			and tt.id IN 
 				(select t.id from t_journal t
 				inner join t_journal_detail d on t.id = d.parent_id
-				where t.yearmonth_periode = '.$periode_date.' and d.account_no_id IN ('.tAccount::getCashbankListComp().')
+				where t.yearmonth_periode = ' . $periode_date . ' and d.account_no_id IN (' . tAccount::getCashbankListComp() . ')
 				group by t.id)
 
 			group by aa.account_name
@@ -212,63 +209,60 @@ class cashFlow1 extends fpdf {
 
 		  ')->queryAll();
 
-		$dataProvider4=new CArrayDataProvider($rawData4, array(
-			'id'=>'user',
-			'pagination'=>false,
-		));
-		
+        $dataProvider4 = new CArrayDataProvider($rawData4, array(
+            'id' => 'user',
+            'pagination' => false,
+        ));
+
         $this->SetFont('Arial', 'B', 8);
         $this->Cell($w[0], 4, 'PENGELUARAN KAS');
         $this->Ln();
 
-		$accparent4=null;
+        $accparent4 = null;
 
         foreach ($dataProvider4->getData() as $mod4) {
-			if($mod4['acc_parent'] != $accparent4) {
-	            $this->SetFont('Arial', 'B', 8);
-	            $this->Cell($_s, 4, '');
-				$this->Cell($w[0],4,'  '.$mod4['acc_parent'],0,0,'L');
-				$this->Ln();
-			}	
+            if ($mod4['acc_parent'] != $accparent4) {
+                $this->SetFont('Arial', 'B', 8);
+                $this->Cell($_s, 4, '');
+                $this->Cell($w[0], 4, '  ' . $mod4['acc_parent'], 0, 0, 'L');
+                $this->Ln();
+            }
 
             $this->SetFont('Arial', '', 8);
-            $this->Cell($_s  + 5, 4, '');
+            $this->Cell($_s + 5, 4, '');
             $this->Cell($w[0], 4, $mod4['account_name']);
 
-                $_balance4 = number_format((int)$mod4['xcredit'], 0, ',', '.');
-                $_subtotal4 = $_subtotal4 + (int)$mod4['xcredit'];
+            $_balance4 = number_format((int) $mod4['xcredit'], 0, ',', '.');
+            $_subtotal4 = $_subtotal4 + (int) $mod4['xcredit'];
 
             $this->Cell($w[1], 4, $_balance4, 0, 0, 'R');
             $this->Ln();
 
-            $accparent4=$mod4['acc_parent'];
+            $accparent4 = $mod4['acc_parent'];
         }
 
         $this->SetFont('Arial', 'B', 8);
-        $this->Cell($_s,4,'');
-        $this->Cell($w[0]+ 5, 4, 'TOTAL PENGELUARAN KAS');
+        $this->Cell($_s, 4, '');
+        $this->Cell($w[0] + 5, 4, 'TOTAL PENGELUARAN KAS');
         $this->Cell($w[1], 4, number_format($_subtotal4, 0, ',', '.'), 'T', 0, 'R');
         $this->Ln(8);
 
 
-        $this->Cell($_s+5+array_sum($w), 4, '', 'T', 'B');
+        $this->Cell($_s + 5 + array_sum($w), 4, '', 'T', 'B');
         $this->Ln();
 
         $this->SetFont('Arial', 'B', 8);
         $this->Cell($w[0], 4, 'Calculation');
         $this->Ln();
-        
-        $this->Cell($_s,4,'');
+
+        $this->Cell($_s, 4, '');
         $this->Cell($w[0] + 5, 4, 'Beginning + In - Out');
-		$this->Cell($w[1], 4, number_format($_subtotal1 + $_subtotal3 - $_subtotal4,0,",",".") , 'T', 0, 'R');
-		$this->Ln();
+        $this->Cell($w[1], 4, number_format($_subtotal1 + $_subtotal3 - $_subtotal4, 0, ",", "."), 'T', 0, 'R');
+        $this->Ln();
 
-        $this->Cell($_s+ 5 + array_sum($w), 4, '', 'B', 'B');
+        $this->Cell($_s + 5 + array_sum($w), 4, '', 'B', 'B');
         $this->Ln(8);
-		//#4. PENGELUARAN KAS
-
-
-
+        //#4. PENGELUARAN KAS
     }
 
 }

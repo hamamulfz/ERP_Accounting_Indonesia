@@ -26,13 +26,13 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->textAreaRow($model, 'remark', array('rows' => 6, 'cols' => 50)); ?>
 
 <div class="form-actions">
-        <?php
-        $this->widget('bootstrap.widgets.TbButton', array(
-            'buttonType' => 'submit',
-            'type' => 'primary',
-            'label' => $model->isNewRecord ? 'Create' : 'Save',
-        ));
-        ?>
+    <?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'submit',
+        'type' => 'primary',
+        'label' => $model->isNewRecord ? 'Create' : 'Save',
+    ));
+    ?>
 </div>
 
 <?php $this->endWidget(); ?>

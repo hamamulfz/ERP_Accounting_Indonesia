@@ -1,7 +1,5 @@
 <?php
-
 Yii::import('zii.widgets.grid.CGridView');
-
 /**
  * A Grid View that groups rows by any column(s)
  *
@@ -11,25 +9,21 @@ Yii::import('zii.widgets.grid.CGridView');
  * @version        1.1
  */
 class GroupGridView extends CGridView {
-
     const MERGE_SIMPLE = 'simple';
     const MERGE_NESTED = 'nested';
     const MERGE_FIRSTROW = 'firstrow';
-
     public $mergeColumns = array();
     public $mergeType = self::MERGE_SIMPLE;
     public $mergeCellCss = 'text-align: center; vertical-align: middle';
     public $extraRowColumns = array();
     public $extraRowExpression;
     private $_changes;
-
     public function renderTableBody() {
         if (!empty($this->mergeColumns) || !empty($this->extraRowColumns)) {
             $this->groupByColumns();
         }
         parent::renderTableBody();
     }
-
     /**
      * find and store changing of group columns
      *
@@ -39,12 +33,10 @@ class GroupGridView extends CGridView {
         $data = $this->dataProvider->getData();
         if (count($data) == 0)
             return;
-
         if (!is_array($this->mergeColumns))
             $this->mergeColumns = array($this->mergeColumns);
         if (!is_array($this->extraRowColumns))
             $this->extraRowColumns = array($this->extraRowColumns);
-
         //store columns for group. Set object for existing columns in grid and string for attributes
         $groupColumns = array_unique(array_merge($this->mergeColumns, $this->extraRowColumns));
         foreach ($groupColumns as $key => $colName) {
@@ -55,8 +47,6 @@ class GroupGridView extends CGridView {
                 }
             }
         }
-
-
         //values for first row
         $lastStored = $this->getRowValues($groupColumns, $data[0], 0);
         foreach ($lastStored as $colName => $value) {
@@ -66,12 +56,10 @@ class GroupGridView extends CGridView {
                 'index' => 0,
             );
         }
-
         //iterate data
         for ($i = 1; $i < count($data); $i++) {
             //save row values in array
             $current = $this->getRowValues($groupColumns, $data[$i], $i);
-
             //define is change occured. Need this extra foreach for correctly proceed extraRows
             $changedColumns = array();
             foreach ($current as $colName => $curValue) {
@@ -79,13 +67,11 @@ class GroupGridView extends CGridView {
                     $changedColumns[] = $colName;
                 }
             }
-
             /*
               if this flag = true -> we will write change (to $this->_changes) for all grouping columns.
               It's required when change of any column from extraRowColumns occurs
              */
             $saveChangeForAllColumns = (count(array_intersect($changedColumns, $this->extraRowColumns)) > 0);
-
             /*
               this changeOccured related to foreach below. It is required only for mergeType == self::MERGE_NESTED,
               to write change for all nested columns when change of previous column occured
@@ -96,17 +82,14 @@ class GroupGridView extends CGridView {
                 $valueChanged = ($curValue != $lastStored[$colName]['value']);
                 //change already occured in this loop and mergeType set to MERGETYPE_NESTED
                 $saveChange = $valueChanged || ($changeOccured && $this->mergeType == self::MERGE_NESTED);
-
                 if ($saveChangeForAllColumns || $saveChange) {
                     $changeOccured = true;
-
                     //store in class var
                     $prevIndex = $lastStored[$colName]['index'];
                     $this->_changes[$prevIndex]['columns'][$colName] = $lastStored[$colName];
                     if (!isset($this->_changes[$prevIndex]['count'])) {
                         $this->_changes[$prevIndex]['count'] = $lastStored[$colName]['count'];
                     }
-
                     //update lastStored for particular column
                     $lastStored[$colName] = array(
                         'value' => $curValue,
@@ -118,7 +101,6 @@ class GroupGridView extends CGridView {
                 }
             }
         }
-
         //storing for last row
         foreach ($lastStored as $colName => $v) {
             $prevIndex = $v['index'];
@@ -128,7 +110,6 @@ class GroupGridView extends CGridView {
             }
         }
     }
-
     public function renderTableRow($row) {
         $change = false;
         if ($this->_changes && array_key_exists($row, $this->_changes)) {
@@ -139,7 +120,6 @@ class GroupGridView extends CGridView {
                 $this->renderExtraRow($row, $change, $columnsInExtra);
             }
         }
-
         // original CGridView code
         if ($this->rowCssClassExpression !== null) {
             $data = $this->dataProvider->data[$row];
@@ -148,24 +128,18 @@ class GroupGridView extends CGridView {
             echo '<tr class="' . $this->rowCssClass[$row % $n] . '">';
         else
             echo '<tr>';
-
-
         if (!$this->_changes) { //standart CGridview's render
             foreach ($this->columns as $column) {
                 $column->renderDataCell($row);
             }
         } else {  //for grouping
             foreach ($this->columns as $column) {
-
                 $isGroupColumn = property_exists($column, 'name') && in_array($column->name, $this->mergeColumns);
-
                 if (!$isGroupColumn) {
                     $column->renderDataCell($row);
                     continue;
                 }
-
                 $isChangedColumn = $change && array_key_exists($column->name, $change['columns']);
-
                 //for rowspan show only changes (with rowspan)
                 switch ($this->mergeType) {
                     case self::MERGE_SIMPLE:
@@ -180,7 +154,6 @@ class GroupGridView extends CGridView {
                             $column->htmlOptions = $options;
                         }
                         break;
-
                     case self::MERGE_FIRSTROW:
                         if ($isChangedColumn) {
                             $column->renderDataCell($row);
@@ -191,10 +164,8 @@ class GroupGridView extends CGridView {
                 }
             }
         }
-
         echo "</tr>\n";
     }
-
     /**
      * returns array of rendered column values (TD)
      *
@@ -215,10 +186,8 @@ class GroupGridView extends CGridView {
                 }
             }
         }
-
         return $result;
     }
-
     /**
      * renders extra row
      *
@@ -236,14 +205,11 @@ class GroupGridView extends CGridView {
             }
             $content = '<strong>' . implode(' :: ', $values) . '</strong>';
         }
-
         $colspan = count($this->columns);
-
         echo '<tr>';
         echo '<td class="extrarow" colspan="' . $colspan . '">' . $content . '</td>';
         echo '</tr>';
     }
-
     /**
      * need to rewrite this function as it is protected in CDataColumn: it is strange as all methods inside are public
      *
@@ -256,8 +222,6 @@ class GroupGridView extends CGridView {
             $value = $column->evaluateExpression($column->value, array('data' => $data, 'row' => $row));
         else if ($column->name !== null)
             $value = CHtml::value($data, $column->name);
-
         return $value === null ? $column->grid->nullDisplay : $column->grid->getFormatter()->format($value, $column->type);
     }
-
 }

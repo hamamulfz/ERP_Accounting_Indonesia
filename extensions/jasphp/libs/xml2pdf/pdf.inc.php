@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Define the pdf properties.
  *
@@ -18,7 +17,6 @@ if (!defined('FPDF_FONTPATH')) {
      */
     define('FPDF_FONTPATH', FPDF_CLASS_PATH . '/font/');
 }
-
 if (!defined('PDF_DEFAULT_FONT')) {
     /**
      * define the pdf default font.
@@ -26,7 +24,6 @@ if (!defined('PDF_DEFAULT_FONT')) {
      */
     define('PDF_DEFAULT_FONT', 'times');
 }
-
 if (!defined('PDF_DEFAULT_FONTSIZE')) {
     /**
      * define the pdf default font size.
@@ -34,7 +31,6 @@ if (!defined('PDF_DEFAULT_FONTSIZE')) {
      */
     define('PDF_DEFAULT_FONTSIZE', 10);
 }
-
 if (!defined('PDF_DEFAULT_FONTSTYLE')) {
     /**
      * define the pdf default font style.
@@ -43,7 +39,6 @@ if (!defined('PDF_DEFAULT_FONTSTYLE')) {
      */
     define('PDF_DEFAULT_FONTSTYLE', '');
 }
-
 if (!defined('PDF_DEFAULT_FONTCOLOR')) {
     /**
      * define the pdf default font color.
@@ -51,7 +46,6 @@ if (!defined('PDF_DEFAULT_FONTCOLOR')) {
      */
     define('PDF_DEFAULT_FONTCOLOR', '#000000');
 }
-
 if (!defined('PDF_DEFAULT_TEXTALIGN')) {
     /**
      * define the pdf default text alignment.
@@ -60,7 +54,6 @@ if (!defined('PDF_DEFAULT_TEXTALIGN')) {
      */
     define('PDF_DEFAULT_TEXTALIGN', 'L');
 }
-
 if (!defined('PDF_DEFAULT_LINEHEIGHT')) {
     /**
      * define the pdf default line height.
@@ -68,7 +61,6 @@ if (!defined('PDF_DEFAULT_LINEHEIGHT')) {
      */
     define('PDF_DEFAULT_LINEHEIGHT', 5);
 }
-
 if (!defined('PDF_DEFAULT_HEADER_FONT')) {
     /**
      * define the pdf default header font.
@@ -76,7 +68,6 @@ if (!defined('PDF_DEFAULT_HEADER_FONT')) {
      */
     define('PDF_DEFAULT_HEADER_FONT', 'times');
 }
-
 if (!defined('PDF_DEFAULT_HEADER_FONTSIZE')) {
     /**
      * define the pdf default header font size.
@@ -84,7 +75,6 @@ if (!defined('PDF_DEFAULT_HEADER_FONTSIZE')) {
      */
     define('PDF_DEFAULT_HEADER_FONTSIZE', 9);
 }
-
 if (!defined('PDF_DEFAULT_HEADER_FONTSTYLE')) {
     /**
      * define the pdf default header font style.
@@ -93,7 +83,6 @@ if (!defined('PDF_DEFAULT_HEADER_FONTSTYLE')) {
      */
     define('PDF_DEFAULT_HEADER_FONTSTYLE', '');
 }
-
 if (!defined('PDF_DEFAULT_HEADER_FONTCOLOR')) {
     /**
      * define the pdf default header font color.
@@ -101,7 +90,6 @@ if (!defined('PDF_DEFAULT_HEADER_FONTCOLOR')) {
      */
     define('PDF_DEFAULT_HEADER_FONTCOLOR', '#000000');
 }
-
 if (!defined('PDF_DEFAULT_FOOTER_FONT')) {
     /**
      * define the pdf default footer font.
@@ -109,7 +97,6 @@ if (!defined('PDF_DEFAULT_FOOTER_FONT')) {
      */
     define('PDF_DEFAULT_FOOTER_FONT', 'times');
 }
-
 if (!defined('PDF_DEFAULT_FOOTER_FONTSIZE')) {
     /**
      * define the pdf default footer font size.
@@ -117,7 +104,6 @@ if (!defined('PDF_DEFAULT_FOOTER_FONTSIZE')) {
      */
     define('PDF_DEFAULT_FOOTER_FONTSIZE', 8);
 }
-
 if (!defined('PDF_DEFAULT_FOOTER_FONTSTYLE')) {
     /**
      * define the pdf default footer font style.
@@ -126,7 +112,6 @@ if (!defined('PDF_DEFAULT_FOOTER_FONTSTYLE')) {
      */
     define('PDF_DEFAULT_FOOTER_FONTSTYLE', '');
 }
-
 if (!defined('PDF_DEFAULT_FOOTER_FONTCOLOR')) {
     /**
      * define the pdf default footer font color.
@@ -134,7 +119,6 @@ if (!defined('PDF_DEFAULT_FOOTER_FONTCOLOR')) {
      */
     define('PDF_DEFAULT_FOOTER_FONTCOLOR', '#000000');
 }
-
 if (!defined('PDF_DEFAULT_PARAGRAPH_BORDER')) {
     /**
      * define the default paragraph border.
@@ -143,7 +127,6 @@ if (!defined('PDF_DEFAULT_PARAGRAPH_BORDER')) {
      */
     define('PDF_DEFAULT_PARAGRAPH_BORDER', false);
 }
-
 if (!defined('PDF_DEFAULT_PARAGRAPH_BORDERCOLOR')) {
     /**
      * define the default paragraph border color.
@@ -151,7 +134,6 @@ if (!defined('PDF_DEFAULT_PARAGRAPH_BORDERCOLOR')) {
      */
     define('PDF_DEFAULT_PARAGRAPH_BORDERCOLOR', '#000000');
 }
-
 if (!defined('PDF_DEFAULT_PARAGRAPH_FILL')) {
     /**
      * define the default paragraph fill mode.
@@ -160,7 +142,6 @@ if (!defined('PDF_DEFAULT_PARAGRAPH_FILL')) {
      */
     define('PDF_DEFAULT_PARAGRAPH_FILL', false);
 }
-
 if (!defined('PDF_DEFAULT_PARAGRAPH_FILLCOLOR')) {
     /**
      * define the default paragraph fill color.
@@ -168,7 +149,6 @@ if (!defined('PDF_DEFAULT_PARAGRAPH_FILLCOLOR')) {
      */
     define('PDF_DEFAULT_PARAGRAPH_FILLCOLOR', '#ffffff');
 }
-
 if (!defined('PDF_DEFAULT_PARAGRAPH_POSITION')) {
     /**
      * define the default paragraph positioning mode.
@@ -177,7 +157,6 @@ if (!defined('PDF_DEFAULT_PARAGRAPH_POSITION')) {
      */
     define('PDF_DEFAULT_PARAGRAPH_POSITION', 'relative');
 }
-
 if (!defined('PDF_DEFAULT_PARAGRAPH_ALIGN')) {
     /**
      * define the default paragraph alignment.

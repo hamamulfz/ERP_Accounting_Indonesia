@@ -1,5 +1,4 @@
 <?php
-
 /* * *****************************************************************************
  * Utility to generate font definition files                                    *
  *                                                                              *
@@ -7,7 +6,6 @@
  * Date:    2008-08-03                                                          *
  * Author:  Olivier PLATHEY                                                     *
  * ***************************************************************************** */
-
 function ReadMap($enc) {
     //Read a map file
     $file = dirname(__FILE__) . '/' . strtolower($enc) . '.map';
@@ -29,7 +27,6 @@ function ReadMap($enc) {
     }
     return $cc2gn;
 }
-
 function ReadAFM($file, &$map) {
     //Read a font metric file
     $a = file($file);
@@ -119,7 +116,6 @@ function ReadAFM($file, &$map) {
     $fm['Widths'] = $widths;
     return $fm;
 }
-
 function MakeFontDescriptor($fm, $symbolic) {
     //Ascent
     $asc = (isset($fm['Ascender']) ? $fm['Ascender'] : 1000);
@@ -169,7 +165,6 @@ function MakeFontDescriptor($fm, $symbolic) {
     $fd.=')';
     return $fd;
 }
-
 function MakeWidthArray($fm) {
     //Make character width array
     $s = "array(\n\t";
@@ -192,7 +187,6 @@ function MakeWidthArray($fm) {
     $s.=')';
     return $s;
 }
-
 function MakeFontEncoding($map) {
     //Build differences from reference encoding
     $ref = ReadMap('cp1252');
@@ -208,7 +202,6 @@ function MakeFontEncoding($map) {
     }
     return rtrim($s);
 }
-
 function SaveToFile($file, $s, $mode) {
     $f = fopen($file, 'w' . $mode);
     if (!$f)
@@ -216,17 +209,14 @@ function SaveToFile($file, $s, $mode) {
     fwrite($f, $s, strlen($s));
     fclose($f);
 }
-
 function ReadShort($f) {
     $a = unpack('n1n', fread($f, 2));
     return $a['n'];
 }
-
 function ReadLong($f) {
     $a = unpack('N1N', fread($f, 4));
     return $a['N'];
 }
-
 function CheckTTF($file) {
     //Check if font license allows embedding
     $f = fopen($file, 'rb');
@@ -262,7 +252,6 @@ function CheckTTF($file) {
     if ($rl && !$pp && !$e)
         echo '<b>Warning:</b> font license does not allow embedding';
 }
-
 /* * *****************************************************************************
  * fontfile: path to TTF file (or empty string if not to be embedded)           *
  * afmfile:  path to AFM file                                                   *
@@ -270,7 +259,6 @@ function CheckTTF($file) {
  * patch:    optional patch for encoding                                        *
  * type:     font type if fontfile is empty                                     *
  * ***************************************************************************** */
-
 function MakeFont($fontfile, $afmfile, $enc = 'cp1252', $patch = array(), $type = 'TrueType') {
     //Generate a font definition file
     if (get_magic_quotes_runtime())
@@ -377,5 +365,4 @@ function MakeFont($fontfile, $afmfile, $enc = 'cp1252', $patch = array(), $type 
     SaveToFile($basename . '.php', $s, 't');
     echo 'Font definition file generated (' . $basename . '.php' . ')<br>';
 }
-
 ?>

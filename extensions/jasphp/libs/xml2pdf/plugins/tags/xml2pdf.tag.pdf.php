@@ -1,5 +1,4 @@
 <?php
-
 /**
  * pdf tag plugin file.
  * @filesource
@@ -13,7 +12,6 @@
  * @version CVS: $Id: xml2pdf.tag.pdf.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  */
 // doc {{{
-
 /**
  * <pdf> tag.
  *
@@ -33,7 +31,6 @@
  */ // }}}
 Class xml2pdf_tag_pdf {
     // xml2pdf_tag_pdf::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -52,10 +49,8 @@ Class xml2pdf_tag_pdf {
             $pdf->setCreator($tagProperties['CREATOR']);
         }
     }
-
     // }}}
     // xml2pdf_tag_pdf::addContent() {{{
-
     /**
      * add content.
      *
@@ -64,10 +59,8 @@ Class xml2pdf_tag_pdf {
     public function addContent($content) {
         return;
     }
-
     // }}}
     // xml2pdf_tag_pdf::close() {{{
-
     /**
      * Call when tag's closed.
      *
@@ -76,8 +69,6 @@ Class xml2pdf_tag_pdf {
     public function close() {
         return;
     }
-
     // }}}
 }
-
 ?>

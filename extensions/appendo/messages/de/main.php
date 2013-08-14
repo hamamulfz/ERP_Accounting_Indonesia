@@ -1,5 +1,4 @@
 <?php
-
 /**
  * German translation of JAppendo.
  *

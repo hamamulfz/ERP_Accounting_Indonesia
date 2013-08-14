@@ -1,5 +1,4 @@
 <?php
-
 /**
  * tt tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Tag
  */
 // dependances {{{
-
 /**
  * parent class.
  */
 require_once('xml2pdf.tag.tr.php');
-
 // }}}
 // doc {{{
-
 /**
  * <tt> tag.
  *
@@ -38,7 +34,6 @@ require_once('xml2pdf.tag.tr.php');
  */ // }}}
 class xml2pdf_tag_tt extends xml2pdf_tag_tr {
     // xml2pdf_tag_tt::close() {{{
-
     /**
      * Call when the tag's closed.
      *
@@ -47,10 +42,8 @@ class xml2pdf_tag_tt extends xml2pdf_tag_tr {
     public function close() {
         $this->table->title = $this;
     }
-
     // }}}
     // xml2pdf_tag_tt::render() {{{
-
     /**
      * Show table title.
      *
@@ -70,8 +63,6 @@ class xml2pdf_tag_tt extends xml2pdf_tag_tr {
         $y = $this->pdf->GetY();
         $this->pdf->MultiCell($this->table->width, $this->lineHeight, $this->content, $this->border, $this->textAlign, $this->fill);
     }
-
     // }}}
 }
-
 ?>

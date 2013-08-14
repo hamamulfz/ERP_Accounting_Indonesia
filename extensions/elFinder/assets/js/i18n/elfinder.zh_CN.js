@@ -124,7 +124,5 @@
             'Support project development and we will place here info about you': '支持产品开发，我们将在这里发布您的信息',
             'Contacts us if you need help integrating elFinder in you products': '如果你想在产品中集成elFinder，请与我们联系',
             'helpText': 'elFinder的工作方式类似于文件管理器您的计算机上。 <br />操作使用上的顶栏，上下文菜单上的按钮或键盘快捷方式的文件。移动文件/文件夹，只要将其移动到所需的文件夹图标。如果是文件夹Shift键将被复制。 <br/> <br/> ElFinder支持以下键盘快捷键：'
-
         };
-
 })(jQuery);

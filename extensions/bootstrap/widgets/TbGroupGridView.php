@@ -1,7 +1,5 @@
 <?php
-
 Yii::import('bootstrap.widgets.TbGridView');
-
 /**
  * A Grid View that groups rows by any column(s)
  *
@@ -15,62 +13,50 @@ Yii::import('bootstrap.widgets.TbGridView');
  * @author         antonio ramirez <antonio@clevertech.biz>
  * @package        yiibooster
  */
-
 /**
  * @property TbDataColumn[] $columns
  */
 class TbGroupGridView extends TbGridView {
-
     const MERGE_SIMPLE = 'simple';
     const MERGE_NESTED = 'nested';
     const MERGE_FIRSTROW = 'firstrow';
-
     /**
      * @var array $mergeColumns the columns to merge on the grid
      */
     public $mergeColumns = array();
-
     /**
      * @var string $mergeType the merge type. Defaults to MERGE_SIMPLE
      */
     public $mergeType = self::MERGE_SIMPLE;
-
     /**
      * @var string $mergeCellsCss the styles to apply to merged cells
      */
     public $mergeCellCss = 'text-align: center; vertical-align: middle';
-
     /**
      * @var array $extraRowColumns the group column names
      */
     public $extraRowColumns = array();
-
     /**
      * @var string $extraRowExpression
      */
     public $extraRowExpression;
-
     /**
      * @var array the HTML options for the extrarow cell tag.
      */
     public $extraRowHtmlOptions = array();
-
     /**
      * @var string $extraRowCssClass the class to be used to be set on the extrarow cell tag.
      */
     public $extraRowCssClass = 'extrarow';
-
     /**
      * @var array the column data changes
      */
     private $_changes;
-
     /**
      * Widget initialization
      */
     public function init() {
         parent::init();
-
         /**
          * check whether we have extraRowColumns set, forbid filters
          */
@@ -90,17 +76,14 @@ class TbGroupGridView extends TbGridView {
         else
             $this->extraRowHtmlOptions['class'] = $this->extraRowCssClass;
     }
-
     /**
      * Renders the table body.
      */
     public function renderTableBody() {
         if (!empty($this->mergeColumns) || !empty($this->extraRowColumns))
             $this->groupByColumns();
-
         parent::renderTableBody();
     }
-
     /**
      * find and store changing of group columns
      */
@@ -108,12 +91,10 @@ class TbGroupGridView extends TbGridView {
         $data = $this->dataProvider->getData();
         if (count($data) == 0)
             return;
-
         if (!is_array($this->mergeColumns))
             $this->mergeColumns = array($this->mergeColumns);
         if (!is_array($this->extraRowColumns))
             $this->extraRowColumns = array($this->extraRowColumns);
-
         //store columns for group. Set object for existing columns in grid and string for attributes
         $groupColumns = array_unique(array_merge($this->mergeColumns, $this->extraRowColumns));
         foreach ($groupColumns as $key => $colName) {
@@ -124,8 +105,6 @@ class TbGroupGridView extends TbGridView {
                 }
             }
         }
-
-
         //values for first row
         $lastStored = $this->getRowValues($groupColumns, $data[0], 0);
         foreach ($lastStored as $colName => $value) {
@@ -135,25 +114,21 @@ class TbGroupGridView extends TbGridView {
                 'index' => 0,
             );
         }
-
         //iterate data
         for ($i = 1; $i < count($data); $i++) {
             //save row values in array
             $current = $this->getRowValues($groupColumns, $data[$i], $i);
-
             //define is change occured. Need this extra foreach for correctly proceed extraRows
             $changedColumns = array();
             foreach ($current as $colName => $curValue) {
                 if ($curValue != $lastStored[$colName]['value'])
                     $changedColumns[] = $colName;
             }
-
             /**
              * if this flag = true -> we will write change (to $this->_changes) for all grouping columns.
              * It's required when change of any column from extraRowColumns occurs
              */
             $saveChangeForAllColumns = (count(array_intersect($changedColumns, $this->extraRowColumns)) > 0);
-
             /**
              * this changeOccurred related to foreach below. It is required only for mergeType == self::MERGE_NESTED,
              * to write change for all nested columns when change of previous column occurred
@@ -164,16 +139,13 @@ class TbGroupGridView extends TbGridView {
                 $valueChanged = ($curValue != $lastStored[$colName]['value']);
                 //change already occured in this loop and mergeType set to MERGETYPE_NESTED
                 $saveChange = $valueChanged || ($changeOccurred && $this->mergeType == self::MERGE_NESTED);
-
                 if ($saveChangeForAllColumns || $saveChange) {
                     $changeOccurred = true;
-
                     //store in class var
                     $prevIndex = $lastStored[$colName]['index'];
                     $this->_changes[$prevIndex]['columns'][$colName] = $lastStored[$colName];
                     if (!isset($this->_changes[$prevIndex]['count']))
                         $this->_changes[$prevIndex]['count'] = $lastStored[$colName]['count'];
-
                     //update lastStored for particular column
                     $lastStored[$colName] = array(
                         'value' => $curValue,
@@ -186,17 +158,14 @@ class TbGroupGridView extends TbGridView {
                 }
             }
         }
-
         //storing for last row
         foreach ($lastStored as $colName => $v) {
             $prevIndex = $v['index'];
             $this->_changes[$prevIndex]['columns'][$colName] = $v;
-
             if (!isset($this->_changes[$prevIndex]['count']))
                 $this->_changes[$prevIndex]['count'] = $v['count'];
         }
     }
-
     /**
      * Renders a table body row.
      * @param int $row
@@ -210,7 +179,6 @@ class TbGroupGridView extends TbGridView {
             if (count($columnsInExtra) > 0)
                 $this->renderExtraRow($row, $change, $columnsInExtra);
         }
-
         // original CGridView code
         if ($this->rowCssClassExpression !== null) {
             $data = $this->dataProvider->data[$row];
@@ -219,8 +187,6 @@ class TbGroupGridView extends TbGridView {
             echo '<tr class="' . $this->rowCssClass[$row % $n] . '">';
         else
             echo '<tr>';
-
-
         if (!$this->_changes) { //standart CGridview's render
             foreach ($this->columns as $column)
                 $column->renderDataCell($row);
@@ -231,9 +197,7 @@ class TbGroupGridView extends TbGridView {
                     $column->renderDataCell($row);
                     continue;
                 }
-
                 $isChangedColumn = $change && array_key_exists($column->name, $change['columns']);
-
                 //for rowspan show only changes (with rowspan)
                 switch ($this->mergeType) {
                     case self::MERGE_SIMPLE:
@@ -248,7 +212,6 @@ class TbGroupGridView extends TbGridView {
                             $column->htmlOptions = $options;
                         }
                         break;
-
                     case self::MERGE_FIRSTROW:
                         if ($isChangedColumn)
                             $column->renderDataCell($row);
@@ -258,10 +221,8 @@ class TbGroupGridView extends TbGridView {
                 }
             }
         }
-
         echo "</tr>\n";
     }
-
     /**
      * returns array of rendered column values (TD)
      *
@@ -286,7 +247,6 @@ class TbGroupGridView extends TbGridView {
         }
         return isset($result) ? $result : false;
     }
-
     /**
      * renders extra row
      *
@@ -302,12 +262,9 @@ class TbGroupGridView extends TbGridView {
             $values = array();
             foreach ($columnsInExtra as $c)
                 $values[] = $change['columns'][$c]['value'];
-
             $content = '<strong>' . implode(' :: ', $values) . '</strong>';
         }
-
         $colspan = count($this->columns);
-
         echo '<tr>';
         $this->extraRowHtmlOptions['colspan'] = $colspan;
         echo CHtml::openTag('td', $this->extraRowHtmlOptions);
@@ -315,7 +272,6 @@ class TbGroupGridView extends TbGridView {
         echo CHtml::closeTag('td');
         echo '</tr>';
     }
-
     /**
      * need to rewrite this function as it is protected in CDataColumn: it is strange as all methods inside are public
      *
@@ -329,8 +285,6 @@ class TbGroupGridView extends TbGridView {
             $value = $column->evaluateExpression($column->value, array('data' => $data, 'row' => $row));
         else if ($column->name !== null)
             $value = CHtml::value($data, $column->name);
-
         return !isset($value) ? $column->grid->nullDisplay : $column->grid->getFormatter()->format($value, $column->type);
     }
-
 }

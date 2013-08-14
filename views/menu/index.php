@@ -16,10 +16,10 @@
 //	);
 ?>
 <?php
-        $isExist = is_file(Yii::app()->basePath . "/views/site/theme.php");
-        if ($isExist) {
-        	$this->renderPartial('/site/theme');
-		} 
+$isExist = is_file(Yii::app()->basePath . "/views/site/theme.php");
+if ($isExist) {
+    $this->renderPartial('/site/theme');
+}
 ?>
 
 <div class="row">
@@ -29,7 +29,7 @@
 
         $isExist = is_file(Yii::app()->basePath . "/modules/m1/models/gPerson.php");
         if ($isExist) {
-            if (sUser::model()->myGroup != 1100 || Yii::app()->user->name == "admin")
+            //if (sUser::model()->myGroup != 1100 || Yii::app()->user->name == "admin")
                 $this->renderPartial("_tabNewEmployee");
         }
 

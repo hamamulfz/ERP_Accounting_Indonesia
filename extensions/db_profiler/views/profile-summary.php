@@ -23,11 +23,9 @@
         $max = sprintf('%0.5f', $entry[3]);
         $total = sprintf('%0.5f', $entry[4]);
         $average = sprintf('%0.5f', $entry[4] / $entry[1]);
-
         if ($max > $slowQueryMin || $entry[1] > $countLimit) {
             $color = '#FFEEEE';
         }
-
         echo <<<EOD
 	<tr style="background:{$color}">
 		<td style="background:{$color}">{$proc}</td>

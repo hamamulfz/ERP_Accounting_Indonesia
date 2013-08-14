@@ -15,7 +15,7 @@ class journalVoucherList1 extends fpdf {
     }
 
     //Page header
-    function myHeader($models, $begindate,$acc_id) {
+    function myHeader($models, $begindate, $acc_id) {
         $this->y0 = $this->GetY();
         $this->Cell(0, 5, '', 'T', 0, 'C');
         $this->Image('shareimages/company/logoAlt1.jpg', 15, 12, 30);
@@ -39,20 +39,20 @@ class journalVoucherList1 extends fpdf {
         $this->SetFont('Arial', '', 10);
         $this->Cell(25, 6, 'Account No', 'L');
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(0, 6, ': ' . tAccount::model()->findByPk((int)$acc_id)->account_concat, 'R');
+        $this->Cell(0, 6, ': ' . tAccount::model()->findByPk((int) $acc_id)->account_concat, 'R');
         $this->Ln();
         $this->SetFont('Arial', '', 10);
         $this->Cell(25, 6, 'Periode: ', 'L');
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(0, 6, ': ' . $begindate , 'R');
+        $this->Cell(0, 6, ': ' . $begindate, 'R');
         $this->Ln();
         $this->Cell(190, 0, '', 'B');
 
         $this->Ln(8);
     }
 
-    function report($models, $begindate,$acc_id) {
-        $this->myHeader($models, $begindate,$acc_id);
+    function report($models, $begindate, $acc_id) {
+        $this->myHeader($models, $begindate, $acc_id);
 
         //if ($post_id != 0)
         //    $criteria->compare('state_id', $post_id);
@@ -92,10 +92,10 @@ class journalVoucherList1 extends fpdf {
             $modeld = tJournalDetail::model()->findAll('parent_id = ' . $model->parent_id);
             foreach ($modeld as $mod) {
                 $this->SetFont('Arial', '', 8);
-                $this->Cell($w[0], 4, peterFunc::shorten_string($mod->account->account_concat,5), 'LR');
+                $this->Cell($w[0], 4, peterFunc::shorten_string($mod->account->account_concat, 5), 'LR');
                 $this->Cell($w[1], 4, number_format($mod->debit, 0, ',', '.'), 'LR', 0, 'R');
                 $this->Cell($w[2], 4, number_format($mod->credit, 0, ',', '.'), 'R', 0, 'R');
-                $this->Cell($w[3], 4, peterFunc::shorten_string($mod->user_remark,6), 'R');
+                $this->Cell($w[3], 4, peterFunc::shorten_string($mod->user_remark, 6), 'R');
                 $this->Ln();
             }
 
@@ -110,7 +110,7 @@ class journalVoucherList1 extends fpdf {
 
             if ($this->GetY() >= 215) {
                 $this->AddPage();
-		        $this->myHeader($models, $begindate,$acc_id);
+                $this->myHeader($models, $begindate, $acc_id);
             }
         }
     }

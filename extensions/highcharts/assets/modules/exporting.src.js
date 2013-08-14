@@ -6,12 +6,9 @@
  *
  * License: www.highcharts.com/license
  */
-
 // JSLint options:
 /*global Highcharts, document, window, Math, setTimeout */
-
 (function(Highcharts) { // encapsulate
-
 // create shortcuts
     var Chart = Highcharts.Chart,
             addEvent = Highcharts.addEvent,
@@ -39,7 +36,6 @@
             symbols = Highcharts.Renderer.prototype.symbols,
             defaultOptions = Highcharts.getOptions(),
             buttonOffset;
-
     // Add language
     extend(defaultOptions.lang, {
         printChart: 'Print chart',
@@ -49,7 +45,6 @@
         downloadSVG: 'Download SVG vector image',
         contextButtonTitle: 'Chart context menu'
     });
-
 // Buttons and menus are collected in a separate config option set called 'navigation'.
 // This can be extended later to add control buttons like zoom and pan right click menus.
     defaultOptions.navigation = {
@@ -87,9 +82,6 @@
             width: 24
         }
     };
-
-
-
 // Add the export related options
     defaultOptions.exporting = {
         //enabled: true,
@@ -140,13 +132,11 @@
                     // Enable this block to add "View SVG" to the dropdown menu
                     /*
                      ,{
-                     
                      text: 'View SVG',
                      onclick: function () {
                      var svg = this.getSVG()
                      .replace(/</g, '\n&lt;')
                      .replace(/>/g, '&gt;');
-                     
                      doc.body.innerHTML = '<pre>' + svg + '</pre>';
                      }
                      } // */
@@ -154,12 +144,10 @@
             }
         }
     };
-
 // Add the Highcharts.post utility
     Highcharts.post = function(url, data) {
         var name,
                 form;
-
         // create the form
         form = createElement('form', {
             method: 'post',
@@ -168,7 +156,6 @@
         }, {
             display: NONE
         }, doc.body);
-
         // add the data
         for (name in data) {
             createElement('input', {
@@ -177,14 +164,11 @@
                 value: data[name]
             }, null, form);
         }
-
         // submit
         form.submit();
-
         // clean up
         discardElement(form);
     };
-
     extend(Chart.prototype, {
         /**
          * Return an SVG representation of the chart
@@ -202,7 +186,6 @@
                     cssWidth,
                     cssHeight,
                     options = merge(chart.options, additionalOptions); // copy the options and add extra options
-
             // IE compatibility hack for generating SVG content that it doesn't really understand
             if (!doc.createElementNS) {
                 /*jslint unparam: true*//* allow unused parameter ns in function below */
@@ -211,7 +194,6 @@
                 };
                 /*jslint unparam: false*/
             }
-
             // create a sandbox where a new chart will be generated
             sandbox = createElement(DIV, null, {
                 position: ABSOLUTE,
@@ -219,7 +201,6 @@
                 width: chart.chartWidth + PX,
                 height: chart.chartHeight + PX
             }, doc.body);
-
             // get the source size
             cssWidth = chart.renderTo.style.width;
             cssHeight = chart.renderTo.style.height;
@@ -231,7 +212,6 @@
                     options.chart.height ||
                     (/px$/.test(cssHeight) && parseInt(cssHeight, 10)) ||
                     400;
-
             // override some options
             extend(options.chart, {
                 animation: false,
@@ -241,7 +221,6 @@
                 height: sourceHeight
             });
             options.exporting.enabled = false; // hide buttons in print
-
             // prepare for replicating the chart
             options.series = [];
             each(chart.series, function(serie) {
@@ -250,15 +229,12 @@
                     showCheckbox: false,
                     visible: serie.visible
                 });
-
                 if (!seriesOptions.isInternal) { // used for the navigator series that has its own option set
                     options.series.push(seriesOptions);
                 }
             });
-
             // generate the chart copy
             chartCopy = new Highcharts.Chart(options, chart.callback);
-
             // reflect axis extremes in the export
             each(['xAxis', 'yAxis'], function(axisType) {
                 each(chart[axisType], function(axis, i) {
@@ -266,21 +242,17 @@
                             extremes = axis.getExtremes(),
                             userMin = extremes.userMin,
                             userMax = extremes.userMax;
-
                     if (userMin !== UNDEFINED || userMax !== UNDEFINED) {
                         axisCopy.setExtremes(userMin, userMax, true, false);
                     }
                 });
             });
-
             // get the SVG from the container's innerHTML
             svg = chartCopy.container.innerHTML;
-
             // free up memory
             options = null;
             chartCopy.destroy();
             discardElement(sandbox);
-
             // sanitize
             svg = svg
                     .replace(/zIndex="[^"]+"/g, '')
@@ -296,11 +268,9 @@
                      .replace(/([0-9]+)\.([0-9]+)/g, function(s1, s2, s3) { // round off to save weight
                      return s2 +'.'+ s3[0];
                      })*/
-
                     // Replace HTML entities, issue #347
                     .replace(/&nbsp;/g, '\u00A0') // no-break space
                     .replace(/&shy;/g, '\u00AD') // soft hyphen
-
                     // IE specific
                     .replace(/<IMG /g, '<image ')
                     .replace(/height=([^" ]+)/g, 'height="$1"')
@@ -313,14 +283,12 @@
                     .replace(/style="([^"]+)"/g, function(s) {
                 return s.toLowerCase();
             });
-
             // IE9 beta bugs with innerHTML. Test again with final IE9.
             svg = svg.replace(/(url\(#highcharts-[0-9]+)&quot;/g, '$1')
                     .replace(/&quot;/g, "'");
             if (svg.match(/ xmlns="/g).length === 2) {
                 svg = svg.replace(/xmlns="[^"]+"/, '');
             }
-
             return svg;
         },
         /**
@@ -330,7 +298,6 @@
          */
         exportChart: function(options, chartOptions) {
             options = options || {};
-
             var chart = this,
                     chartExportingOptions = chart.options.exporting,
                     svg = chart.getSVG(merge(
@@ -344,10 +311,8 @@
                         }
                     }
             ));
-
             // merge the options
             options = merge(chart.options.exporting, options);
-
             // do the post
             Highcharts.post(options.url, {
                 filename: options.filename || 'chart',
@@ -356,26 +321,21 @@
                 scale: options.scale || 2,
                 svg: svg
             });
-
         },
         /**
          * Print the chart
          */
         print: function() {
-
             var chart = this,
                     container = chart.container,
                     origDisplay = [],
                     origParent = container.parentNode,
                     body = doc.body,
                     childNodes = body.childNodes;
-
             if (chart.isPrinting) { // block the button while in printing mode
                 return;
             }
-
             chart.isPrinting = true;
-
             // hide all body content
             each(childNodes, function(node, i) {
                 if (node.nodeType === 1) {
@@ -383,31 +343,23 @@
                     node.style.display = NONE;
                 }
             });
-
             // pull out the chart
             body.appendChild(container);
-
             // print
             win.focus(); // #1510
             win.print();
-
             // allow the browser to prepare before reverting
             setTimeout(function() {
-
                 // put the chart back in
                 origParent.appendChild(container);
-
                 // restore all body content
                 each(childNodes, function(node, i) {
                     if (node.nodeType === 1) {
                         node.style.display = origDisplay[i];
                     }
                 });
-
                 chart.isPrinting = false;
-
             }, 1000);
-
         },
         /**
          * Display a popup menu for choosing the export type
@@ -433,10 +385,8 @@
                     hide,
                     hideTimer,
                     menuStyle;
-
             // create the menu only the first time
             if (!menu) {
-
                 // create a HTML element above the SVG
                 chart[cacheName] = menu = createElement(DIV, {
                     className: PREFIX + name
@@ -445,14 +395,12 @@
                     zIndex: 1000,
                     padding: menuPadding + PX
                 }, chart.container);
-
                 innerMenu = createElement(DIV, null,
                         extend({
                     MozBoxShadow: boxShadow,
                     WebkitBoxShadow: boxShadow,
                     boxShadow: boxShadow
                 }, navOptions.menuStyle), menu);
-
                 // hide on mouse out
                 hide = function() {
                     css(menu, {display: NONE});
@@ -461,7 +409,6 @@
                     }
                     chart.openMenu = false;
                 };
-
                 // Hide the menu some time after mouse leave (#1357)
                 addEvent(menu, 'mouseleave', function() {
                     hideTimer = setTimeout(hide, 500);
@@ -469,8 +416,6 @@
                 addEvent(menu, 'mouseenter', function() {
                     clearTimeout(hideTimer);
                 });
-
-
                 // create the items
                 each(items, function(item) {
                     if (item) {
@@ -491,22 +436,16 @@
                         }, extend({
                             cursor: 'pointer'
                         }, menuItemStyle), innerMenu);
-
-
                         // Keep references to menu divs to be able to destroy them
                         chart.exportDivElements.push(element);
                     }
                 });
-
                 // Keep references to menu and innerMenu div to be able to destroy them
                 chart.exportDivElements.push(innerMenu, menu);
-
                 chart.exportMenuWidth = menu.offsetWidth;
                 chart.exportMenuHeight = menu.offsetHeight;
             }
-
             menuStyle = {display: 'block'};
-
             // if outside right, right align it
             if (x + chart.exportMenuWidth > chartWidth) {
                 menuStyle.right = (chartWidth - x - width - menuPadding) + PX;
@@ -519,7 +458,6 @@
             } else {
                 menuStyle.top = (y + height - menuPadding) + PX;
             }
-
             css(menu, menuStyle);
             chart.openMenu = true;
         },
@@ -540,36 +478,28 @@
             },
             symbolSize = btnOptions.symbolSize || 12,
                     menuKey;
-
             if (!chart.btnCount) {
                 chart.btnCount = 0;
             }
             menuKey = chart.btnCount++;
-
             // Keeps references to the button elements
             if (!chart.exportDivElements) {
                 chart.exportDivElements = [];
                 chart.exportSVGElements = [];
             }
-
             if (btnOptions.enabled === false) {
                 return;
             }
-
-
             var attr = btnOptions.theme,
                     states = attr.states,
                     hover = states && states.hover,
                     select = states && states.select,
                     callback;
-
             delete attr.states;
-
             if (onclick) {
                 callback = function() {
                     onclick.apply(chart, arguments);
                 };
-
             } else if (menuItems) {
                 callback = function() {
                     chart.contextMenu(
@@ -584,11 +514,8 @@
                     button.setState(2);
                 };
             }
-
-
             if (btnOptions.text && btnOptions.symbol) {
                 attr.paddingLeft = Highcharts.pick(attr.paddingLeft, 25);
-
             } else if (!btnOptions.text) {
                 extend(attr, {
                     width: btnOptions.width,
@@ -596,13 +523,11 @@
                     padding: 0
                 });
             }
-
             button = renderer.button(btnOptions.text, 0, 0, callback, attr, hover, select)
                     .attr({
                 title: chart.options.lang[btnOptions._titleKey],
                 'stroke-linecap': 'round'
             });
-
             if (btnOptions.symbol) {
                 symbol = renderer.symbol(
                         btnOptions.symbol,
@@ -616,17 +541,13 @@
                     zIndex: 1
                 })).add(button);
             }
-
             button.add()
                     .align(extend(btnOptions, {
                 width: button.width,
                 x: Highcharts.pick(btnOptions.x, buttonOffset) // #1654
             }), true, 'spacingBox');
-
             buttonOffset += (button.width + btnOptions.buttonSpacing) * (btnOptions.align === 'right' ? -1 : 1);
-
             chart.exportSVGElements.push(button, symbol);
-
         },
         /**
          * Destroy the buttons.
@@ -635,35 +556,27 @@
             var chart = e.target,
                     i,
                     elem;
-
             // Destroy the extra buttons added
             for (i = 0; i < chart.exportSVGElements.length; i++) {
                 elem = chart.exportSVGElements[i];
-
                 // Destroy and null the svg/vml elements
                 if (elem) { // #1822
                     elem.onclick = elem.ontouchstart = null;
                     chart.exportSVGElements[i] = elem.destroy();
                 }
             }
-
             // Destroy the divs for the menu
             for (i = 0; i < chart.exportDivElements.length; i++) {
                 elem = chart.exportDivElements[i];
-
                 // Remove the event handler
                 removeEvent(elem, 'mouseleave');
-
                 // Remove inline events
                 chart.exportDivElements[i] = elem.onmouseout = elem.onmouseover = elem.ontouchstart = elem.onclick = null;
-
                 // Destroy the div by moving to garbage bin
                 discardElement(elem);
             }
         }
     });
-
-
     symbols.menu = function(x, y, width, height) {
         var arr = [
             M, x, y + 2.5,
@@ -675,26 +588,18 @@
         ];
         return arr;
     };
-
 // Add the buttons on chart load
     Chart.prototype.callbacks.push(function(chart) {
         var n,
                 exportingOptions = chart.options.exporting,
                 buttons = exportingOptions.buttons;
-
         buttonOffset = 0;
-
         if (exportingOptions.enabled !== false) {
-
             for (n in buttons) {
                 chart.addButton(buttons[n]);
             }
-
             // Destroy the export elements at chart destroy
             addEvent(chart, 'destroy', chart.destroyExport);
         }
-
     });
-
-
 }(Highcharts));

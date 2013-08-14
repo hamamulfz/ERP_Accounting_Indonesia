@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BPhoneNumberValidator validates that a Brazilian phone number is valid.
  * 
@@ -10,21 +9,18 @@
  * @since 1.0
  */
 class BPhoneNumberValidator extends CValidator {
-
     /**
      * Indicates whether only mobile numbers will be validated.
      * Defaults to true.
      * @var boolean
      */
     public $onlyMobileNumbers = false;
-
     /**
      * Indicates whether the attribute value can be null or empty.
      * Defaults to true.
      * @var boolean
      */
     public $allowEmpty = true;
-
     /**
      * Indicates whether the mask of the phone number will be considered in the validation.
      * Mask in the format will be accepted: (99) 9999-9999
@@ -32,13 +28,11 @@ class BPhoneNumberValidator extends CValidator {
      * @var boolean
      */
     public $validateWithMask = false;
-
     /**
      * Contains custom validation message.
      * @var string
      */
     public $customMessage;
-
     /**
      * Contains the required regular expression to validate phone number without mask.
      * @var string
@@ -47,7 +41,6 @@ class BPhoneNumberValidator extends CValidator {
      */
     //private $phoneWithoutMaskPattern = '/(10)|([1-9][1-9])[2-9][0-9]{3}[0-9]{4}/';
     private $phoneWithoutMaskPattern = '/^08[0-9]+$/';
-
     /**
      * Contains the regular expression needed for validation of mobile phone number without mask.
      * @var string
@@ -56,7 +49,6 @@ class BPhoneNumberValidator extends CValidator {
      */
     //private $mobilePhoneWithoutMaskPattern = '/(10)|([1-9][1-9])[6-9][0-9]{3}[0-9]{4}/';
     private $mobilePhoneWithoutMaskPattern = '/^08[0-9]+$/';
-
     /**
      * Contains the required regular expression to validate phone number with mask.
      * @var string
@@ -65,7 +57,6 @@ class BPhoneNumberValidator extends CValidator {
      */
     //private $phoneWithMaskPattern = '/\((10)|([1-9][1-9])\) [2-9][0-9]{3}-[0-9]{4}/';
     private $phoneWithMaskPattern = '/^08[0-9]+$/';
-
     /**
      * Contains the regular expression needed for validation of mobile phone number with mask.
      * @var string
@@ -74,7 +65,6 @@ class BPhoneNumberValidator extends CValidator {
      */
     //private $mobilePhoneWithMaskPattern = '/\((10)|([1-9][1-9])\) [6-9][0-9]{3}-[0-9]{4}/';
     private $mobilePhoneWithMaskPattern = '/^(62)[0-9]+$/';
-
     /**
      * Validates a single attribute.
      * @param CModel $object the data object being validated
@@ -93,7 +83,6 @@ class BPhoneNumberValidator extends CValidator {
             $this->addError($object, $attribute, $message);
         }
     }
-
     /**
      * Validates a phone number according to the rules.
      * @param string $value Phone number to be validated.
@@ -114,7 +103,5 @@ class BPhoneNumberValidator extends CValidator {
             }
         }
     }
-
 }
-
 ?>

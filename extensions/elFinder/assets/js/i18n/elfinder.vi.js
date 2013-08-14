@@ -187,5 +187,4 @@
             'elFinder support following shortcuts': 'elFinder hỗ trợ phím tắt sau',
             'helpText': 'elFinder tương thích với trình quản lí tập tin trên máy tính của bạn. <br />Để thực hiện thao tác với tập tin/thư mục, bạn sử dụng các biểu tượng trên bảng điều khiển. Nếu bạn không hiểu ý nghĩa của biểu tượng, giữ chuột lướt qua trên biểu tượng để xem gợi ý. <br />Các thao tác với tập tin/thư mục có thể thực hiện qua menu ngữ cảnh (click chuột phải). <br />Để sao chép/xóa một nhóm tập tin/thư mục, chọn chúng bằng cách sử dụng tổ hợp phím Shift hoặc Alt kết hợp click chuột trái.',
         };
-
 })(jQuery);

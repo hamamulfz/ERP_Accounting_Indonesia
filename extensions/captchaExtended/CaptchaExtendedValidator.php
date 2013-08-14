@@ -1,11 +1,9 @@
 <?php
-
 /**
  * Extended captcha client validator
  * Implements support for UTF-8 extended latin2, cyrillic etc characters
  */
 class CaptchaExtendedValidator extends CCaptchaValidator {
-
     /**
      * Client (ajax) validator for extended captcha.
      * @param CModel $object the data object being validated
@@ -15,24 +13,19 @@ class CaptchaExtendedValidator extends CCaptchaValidator {
      */
     public function clientValidateAttribute($object, $attribute) {
         $captcha = $this->getCaptchaAction();
-
         if ($captcha->mode == CaptchaExtendedAction::MODE_DEFAULT) {
             // default framework implementation
             return parent::clientValidateAttribute($object, $attribute);
         }
-
         $message = $this->message !== null ? $this->message : Yii::t('main', 'The verification code is incorrect.');
         $message = strtr($message, array(
             '{attribute}' => $object->getAttributeLabel($attribute),
         ));
-
         $result = $captcha->getVerifyResult();
         if (!$this->caseSensitive) {
             $result = mb_convert_case($result, MB_CASE_LOWER, 'utf-8');
         }
-
         $hash = $captcha->generateValidationHash($result);
-
         $js = "
 var hash = $('body').data('{$this->captchaAction}.hash');
 if(hash == null){
@@ -59,5 +52,4 @@ if(value!=''){
         }
         return $js;
     }
-
 }

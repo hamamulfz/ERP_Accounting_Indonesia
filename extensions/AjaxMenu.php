@@ -1,40 +1,32 @@
 <?php
-
 Yii::import('zii.widgets.CMenu');
-
 /**
  * @author Nicola Puddu
  * @see CMenu
  * @version 1.2
  */
 class AjaxMenu extends CMenu {
-
     /**
      * @var boolean
      */
     public $optionalIndex = false;
-
     /**
      * @var mixed may contain the ajaxOptions array or a boolean false
      */
     public $ajax = false;
-
     /**
      * @var boolean
      */
     public $randomID = false;
-
     /**
      * @var int counter for the menu items
      */
     private $_itemCounter = 0;
-
     /**
      * @see CMenu::isItemActive()
      */
     protected function isItemActive($item, $route) {
         $optional_index = $this->optionalIndex ? !strcasecmp(str_replace('/index', NULL, $route), trim($item['url'][0], '/')) : false;
-
         if (isset($item['url']) && is_array($item['url']) && (!strcasecmp(trim($item['url'][0], '/'), $route) ) || $optional_index) {
             if (count($item['url']) > 1) {
                 foreach (array_splice($item['url'], 1) as $name => $value) {
@@ -46,7 +38,6 @@ class AjaxMenu extends CMenu {
         }
         return false;
     }
-
     /**
      * @see CMenu::renderMenuItem()
      */
@@ -64,7 +55,6 @@ class AjaxMenu extends CMenu {
                 else
                     $item['linkOptions']['id'] = isset($item['linkOptions']['id']) ? $item['linkOptions']['id'] : 'am-' . $this->_itemCounter;
                 // set the ajax options
-
                 $ajax = isset($item['ajax']) ? $item['ajax'] : $this->ajax;
                 $ajax_options = $ajax;
                 if (isset($ajax['success']) == FALSE) {
@@ -89,5 +79,4 @@ class AjaxMenu extends CMenu {
         else
             return CHtml::tag('span', isset($item['linkOptions']) ? $item['linkOptions'] : array(), $item['label']);
     }
-
 }

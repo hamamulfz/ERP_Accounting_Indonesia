@@ -491,7 +491,7 @@ class sUser extends CActiveRecord {
     public function afterSave() {
         if ($this->isNewRecord) {
             Notification::create(
-                    5, 'sUser/view/id/' . $this->id, 'User. New User created: ' . strtoupper($this->username)
+                    5, 'sUser/view/id/' . $this->id, 'User. New User created: <read>' . $this->username .'</read>'
             );
         }
         return true;

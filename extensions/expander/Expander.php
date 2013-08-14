@@ -1,12 +1,9 @@
 <?php
-
 class Expander extends CWidget {
-
     public $id;
     public $content = '';
     public $htmlOptions = array();
     public $config = array();
-
     public function init() {
         if (isset($this->id)) {
             $this->htmlOptions['id'] = $this->id;
@@ -15,7 +12,6 @@ class Expander extends CWidget {
         }
         $this->publishAssets();
     }
-
     public function run() {
         echo CHtml::openTag('div', $this->htmlOptions) . "\n";
         echo $this->content;
@@ -52,7 +48,6 @@ class Expander extends CWidget {
 			$('#" . $this->htmlOptions['id'] . "').expander($config);
 		");
     }
-
     public function publishAssets() {
         $assets = dirname(__FILE__) . '/assets';
         $baseUrl = Yii::app()->assetManager->publish($assets);
@@ -65,5 +60,4 @@ class Expander extends CWidget {
             throw new Exception('Expancer - Error: Couldn\'t publish assets.');
         }
     }
-
 }

@@ -9,21 +9,21 @@
 
 <ul>
     <?php
-        $criteria = new CDbCriteria;
-        $criteria->condition = 'state_id = 1 OR state_id = 2';
-        $criteria->order = 't.input_date';
-        $criteria->compare('yearmonth_periode', Yii::app()->settings->get("System", "cCurrentPeriod"));
+    $criteria = new CDbCriteria;
+    $criteria->condition = 'state_id = 1 OR state_id = 2';
+    $criteria->order = 't.input_date';
+    $criteria->compare('yearmonth_periode', Yii::app()->settings->get("System", "cCurrentPeriod"));
 
-        $criteria->limit = 10;
+    $criteria->limit = 10;
 
 
     $models = tJournal::model()->findAll($criteria);
 
     foreach ($models as $model) {
         echo CHtml::openTag('li', array());
-        echo CHtml::tag('strong',array(),CHtml::link($model->system_reff, Yii::app()->createUrl('/tJournal/view', array('id' => $model->id))));
+        echo CHtml::tag('strong', array(), CHtml::link($model->system_reff, Yii::app()->createUrl('/tJournal/view', array('id' => $model->id))));
         echo "<br/>";
-        echo $model->input_date." | ".number_format($model->journalSum,0,",",".");
+        echo $model->input_date . " | " . number_format($model->journalSum, 0, ",", ".");
         echo "<br/>";
         echo $model->remark;
         echo CHtml::closeTag('li');

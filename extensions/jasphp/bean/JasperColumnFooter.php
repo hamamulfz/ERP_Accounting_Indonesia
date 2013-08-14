@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperColumnFooter
  *
@@ -8,11 +7,8 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="columnFooter") */
 class JasperColumnFooter extends AbstractJasper {
-
     /** @BeanAnnotation(className="JasperBand") */
     public $band = null;
-
 }

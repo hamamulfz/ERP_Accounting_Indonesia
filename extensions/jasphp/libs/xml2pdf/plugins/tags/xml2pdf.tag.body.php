@@ -1,5 +1,4 @@
 <?php
-
 /**
  * body tag plugin file.
  * @filesource
@@ -13,7 +12,6 @@
  * @version CVS: $Id: xml2pdf.tag.body.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  */
 // doc {{{
-
 /**
  * <body> tag.
  *
@@ -32,7 +30,6 @@
  */ // }}}
 Class xml2pdf_tag_body {
     // xml2pdf_tag_body::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -46,7 +43,6 @@ Class xml2pdf_tag_body {
             'LETTER' => array(612, 791),
             'LEGAL' => array(612, 1008));
         $unitArray = array('PT' => 1, 'MM' => 72 / 25.4, 'CM' => 72 / 2.54, 'IN' => 72);
-
         if (isset($tagProperties['FORMAT'])) {
             $format = strtoupper($tagProperties['FORMAT']);
             if (!isset($formatArray[$format])) {
@@ -57,7 +53,6 @@ Class xml2pdf_tag_body {
         }
         if (isset($tagProperties['ORIENTATION'])) {
             $orientation = strtoupper($tagProperties['ORIENTATION']);
-
             if ($orientation == 'P' || $orientation == 'PORTRAIT') {
                 $pdf->DefOrientation = 'P';
                 $pdf->wPt = $pdf->fwPt;
@@ -112,10 +107,8 @@ Class xml2pdf_tag_body {
             $pdf->SetAutoPageBreak(true, $tagProperties['MARGINS']);
         }
     }
-
     // }}}
     // xml2pdf_tag_body::addContent(string) {{{
-
     /**
      * Add content.
      *
@@ -125,20 +118,15 @@ Class xml2pdf_tag_body {
         // the body tag have not content just childs tags, but if the xml contain
         // break line or space the method addContent will be call.
     }
-
     // }}}
     // xml2pdf_tag_body::close() {{{
-
     /**
      * close the tag.
      *
      * @return void
      */
     public function close() {
-        
     }
-
     // }}}
 }
-
 ?>

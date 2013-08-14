@@ -1,16 +1,11 @@
 <?php
-
 class ActiveRecordLogableBehavior extends CActiveRecordBehavior {
-
     private $_oldattributes = array();
-
     public function afterSave($event) {
         if (!$this->Owner->isNewRecord) {
-
             // new attributes
             $newattributes = $this->Owner->getAttributes();
             $oldattributes = $this->getOldAttributes();
-
             // compare old and new
             foreach ($newattributes as $name => $value) {
                 if (!empty($oldattributes)) {
@@ -18,10 +13,8 @@ class ActiveRecordLogableBehavior extends CActiveRecordBehavior {
                 } else {
                     $old = '';
                 }
-
                 if ($value != $old) {
                     //$changes = $name . ' ('.$old.') => ('.$value.'), ';
-
                     $log = new zArLog;
                     $log->description = 'User ' . Yii::app()->user->Name
                             . ' changed ' . $name . ' for '
@@ -37,7 +30,6 @@ class ActiveRecordLogableBehavior extends CActiveRecordBehavior {
                 }
             }
         } else {
-
             $log = new zArLog;
             $log->description = 'User ' . Yii::app()->user->Name
                     . ' created ' . get_class($this->Owner)
@@ -51,7 +43,6 @@ class ActiveRecordLogableBehavior extends CActiveRecordBehavior {
             $log->save();
         }
     }
-
     public function afterDelete($event) {
         $log = new zArLog;
         $log->description = 'User ' . Yii::app()->user->Name . ' deleted '
@@ -65,20 +56,15 @@ class ActiveRecordLogableBehavior extends CActiveRecordBehavior {
         $log->userid = Yii::app()->user->id;
         $log->save();
     }
-
     public function afterFind($event) {
         // Save old values
         $this->setOldAttributes($this->Owner->getAttributes());
     }
-
     public function getOldAttributes() {
         return $this->_oldattributes;
     }
-
     public function setOldAttributes($value) {
         $this->_oldattributes = $value;
     }
-
 }
-
 ?>

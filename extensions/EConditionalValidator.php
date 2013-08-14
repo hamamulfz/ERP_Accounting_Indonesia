@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * EConditionalValidator class
@@ -29,7 +28,6 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 class EConditionalValidator extends CValidator {
-
     /**
      * The array of rules that should be match before own rule condition
      * <pre>
@@ -47,17 +45,14 @@ class EConditionalValidator extends CValidator {
      * 	own rule
      */
     public $conditionalRules = array();
-
     /**
      * @var array $rule the rule
      */
     public $rule = array();
-
     /**
      * @var boolean $skipConditional whether to skip conditional validations
      */
     public $skipConditional = false;
-
     /**
      *
      * Allows the insertion of the JS code that will be executed for
@@ -65,7 +60,6 @@ class EConditionalValidator extends CValidator {
      * @var string $clientValidationJS
      */
     public $clientValidationJS;
-
     /**
      * Validates the attribute of the object.
      * If there is any error, the error message is added to the object.
@@ -76,15 +70,12 @@ class EConditionalValidator extends CValidator {
         $obj = get_class($object);
         $obj = new $obj();
         $obj->setAttributes($object->getAttributes());
-
         if (!$this->skipConditional && !$this->validateConditional($obj, $this->conditionalRules))
             return false;
-
         $validator = CValidator::createValidator($this->rule[0], $object, $attribute, array_splice($this->rule, 1));
         $validator->validate($object);
         $obj = null;
     }
-
     /**
      *
      * @param CModel $object the object to be validated
@@ -109,11 +100,8 @@ class EConditionalValidator extends CValidator {
         }
         else {
             list($attributes, $conditionalValidator) = $rule;
-
             $parameters = array_splice($rule, 2);
-
             $validator = CValidator::createValidator($conditionalValidator, $object, $attributes, $parameters);
-
             $validator->validate($object);
             if ($object->hasErrors()) {
                 $object->clearErrors();
@@ -122,7 +110,6 @@ class EConditionalValidator extends CValidator {
         }
         return true;
     }
-
     /**
      * Returns the JavaScript needed for performing client-side validation.
      * Do not override this method if the validator does not support client-side validation.
@@ -139,5 +126,4 @@ class EConditionalValidator extends CValidator {
     public function clientValidateAttribute($object, $attribute) {
         return $this->clientValidationJS ? $this->clientValidationJS : null;
     }
-
 }

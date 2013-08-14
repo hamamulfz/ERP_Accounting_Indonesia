@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPExcel
  *
@@ -25,7 +24,6 @@
  * @license	http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version	1.7.8, 2012-10-12
  */
-
 /**
  * PHPExcel_Calculation_Exception
  *
@@ -34,7 +32,6 @@
  * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Calculation_Exception extends Exception {
-
     /**
      * Error handler callback
      *
@@ -50,5 +47,4 @@ class PHPExcel_Calculation_Exception extends Exception {
         $e->file = $file;
         throw $e;
     }
-
 }

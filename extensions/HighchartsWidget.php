@@ -1,5 +1,4 @@
 <?php
-
 /**
  * HighchartsWidget class file.
  *
@@ -8,7 +7,6 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  * @version 2.3.5
  */
-
 /**
  * HighchartsWidget encapsulates the {@link http://www.highcharts.com/ Highcharts}
  * charting library's Chart object.
@@ -68,34 +66,28 @@
  * wish to use a different container, feel free to specify a custom value.
  */
 class HighchartsWidget extends CWidget {
-
     public $options = array();
     public $htmlOptions = array();
-
     /**
      * Renders the widget.
      */
     public function run() {
         $id = $this->getId();
         $this->htmlOptions['id'] = $id;
-
         echo CHtml::openTag('div', $this->htmlOptions);
         echo CHtml::closeTag('div');
-
         // check if options parameter is a json string
         if (is_string($this->options)) {
             if (!$this->options = CJSON::decode($this->options))
                 throw new CException('The options parameter is not valid JSON.');
             // TODO translate exception message
         }
-
         // merge options with default values
         $defaultOptions = array('chart' => array('renderTo' => $id), 'exporting' => array('enabled' => true));
         $this->options = CMap::mergeArray($defaultOptions, $this->options);
         $jsOptions = CJavaScript::encode($this->options);
         $this->registerScripts(__CLASS__ . '#' . $id, "var chart = new Highcharts.Chart($jsOptions);");
     }
-
     /**
      * Publishes and registers the necessary script files.
      *
@@ -106,30 +98,24 @@ class HighchartsWidget extends CWidget {
         $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR;
         $baseUrl = Yii::app()->getAssetManager()->publish($basePath, false, 1, YII_DEBUG);
         $scriptFile = YII_DEBUG ? '/highcharts.src.js' : '/highcharts.js';
-
         $cs = Yii::app()->clientScript;
         $cs->registerCoreScript('jquery');
         $cs->registerScriptFile($baseUrl . $scriptFile);
-
         // register exporting module if enabled via the 'exporting' option
         if (isset($this->options['exporting']['enabled']) && $this->options['exporting']['enabled'] === true) {
             $scriptFile = YII_DEBUG ? 'exporting.src.js' : 'exporting.js';
             $cs->registerScriptFile("$baseUrl/modules/$scriptFile");
         }
-
         // register supplemental chart types library if needed
         if (isset($this->options['chart']['type']) && in_array($this->options['chart']['type'], array('gauge', 'arearange', 'areasplinerange', 'columnrange'))) {
             $scriptFile = YII_DEBUG ? 'highcharts-more.src.js' : 'highcharts-more.js';
             $cs->registerScriptFile("$baseUrl/$scriptFile");
         }
-
         // register global theme if specified via the 'theme' option
         if (isset($this->options['theme'])) {
             $scriptFile = $this->options['theme'] . ".js";
             $cs->registerScriptFile("$baseUrl/themes/$scriptFile");
         }
-
         $cs->registerScript($id, $embeddedScript, CClientScript::POS_LOAD);
     }
-
 }

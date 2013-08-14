@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbHighCharts widget class
  *
@@ -34,28 +33,23 @@
  * @package YiiBooster bootstrap.widgets
  */
 class TbHighCharts extends CWidget {
-
     /**
      * @var array $options the highcharts js configuration options
      */
     public $options = array();
-
     /**
      * @var array $htmlOptions the HTML tag attributes
      */
     public $htmlOptions = array();
-
     /**
      * Renders the widget.
      */
     public function run() {
         $id = $this->getId();
-
         // if there is no renderTo id, build the layer with current id and initialize renderTo option
         if (!isset($this->options['chart']) || !isset($this->options['chart']['renderTo'])) {
             $this->htmlOptions['id'] = $id;
             echo '<div ' . CHtml::renderAttributes($this->htmlOptions) . ' ></div>';
-
             if (isset($this->options['chart']) && is_array($this->options['chart']))
                 $this->options['chart']['renderTo'] = $id;
             else
@@ -63,23 +57,17 @@ class TbHighCharts extends CWidget {
         }
         $this->registerClientScript();
     }
-
     /**
      * Publishes and registers the necessary script files.
      */
     protected function registerClientScript() {
         Yii::app()->bootstrap->registerAssetJs('highcharts/highcharts.js');
-
         $this->options = CMap::mergeArray(array('exporting' => array('enabled' => true)), $this->options);
-
         if (isset($this->options['exporting']) && @$this->options['exporting']['enabled'])
             Yii::app()->bootstrap->registerAssetJs('highcharts/modules/exporting.js');
         if (isset($this->options['theme']))
             Yii::app()->bootstrap->registerAssetJs('highcharts/themes/' . $this->options['theme'] . '.js');
-
         $options = CJavaScript::encode($this->options);
-
         Yii::app()->getClientScript()->registerScript(__CLASS__ . '#' . $this->getId(), "var highchart{$this->getId()} = new Highcharts.Chart({$options});");
     }
-
 }

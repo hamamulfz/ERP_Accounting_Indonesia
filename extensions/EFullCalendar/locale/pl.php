@@ -1,5 +1,4 @@
 <?php
-
 return array(
     'monthNames' => array(
         'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec',

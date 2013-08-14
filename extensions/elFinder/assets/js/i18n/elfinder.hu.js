@@ -186,7 +186,5 @@
             'Contacts us if you need help integrating elFinder in you products': 'Vedd fel a kapcsolatot velünk, ha saját termékbe szeretnéd integrálni az elFinder-t',
             'elFinder support following shortcuts': 'elFinder stámogatás a következő linkeken',
             'helpText': 'elFinder ugyanúgy működik mint egy fájlkezelő a számítógépén.<br /> Műveleteket hajthat végre fájlokon a felső menü segítségével vagy billentyű parancsokkal. Amennyiben áthelyezne fájlokat/könyvtárakat csak húzza őket a kívánt helyre.'
-
         };
-
 })(jQuery);

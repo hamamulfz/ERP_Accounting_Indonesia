@@ -1,15 +1,10 @@
 <?php
-
 // set locale to UTF8 to correct multibyte characters
 setlocale(LC_ALL, 'en_US.UTF8');
-
 interface elFinderILogger {
-
     public function log($cmd, $ok, $context, $err = '', $errorData = array());
 }
-
 class elFinder {
-
     /**
      * object options
      *
@@ -71,7 +66,6 @@ class elFinder {
             // 		)
             // 	)
     );
-
     /**
      * mapping $_GET['cmd]/$_POST['cmd] to class methods
      *
@@ -95,21 +89,18 @@ class elFinder {
         'tmb' => '_thumbnails',
         'ping' => '_ping'
     );
-
     /**
      * List of commands to log
      *
      * @var string
      * */
     public $_loggedCommands = array('mkdir', 'mkfile', 'rename', 'upload', 'paste', 'rm', 'duplicate', 'edit', 'resize');
-
     /**
      * Context to log command
      *
      * @var string
      * */
     protected $_logContext = array();
-
     /**
      * extensions/mimetypes for _mimetypeDetect = 'internal'
      *
@@ -181,49 +172,42 @@ class elFinder {
         'flv' => 'video/x-flv',
         'mkv' => 'video/x-matroska'
     );
-
     /**
      * undocumented class variable
      *
      * @var string
      * */
     protected $_time = 0;
-
     /**
      * Additional data about error
      *
      * @var array
      * */
     protected $_errorData = array();
-
     /**
      * undocumented class variable
      *
      * @var string
      * */
     protected $_fakeRoot = '';
-
     /**
      * Command result to send to client
      *
      * @var array
      * */
     protected $_result = array();
-
     /**
      * undocumented class variable
      *
      * @var string
      * */
     protected $_today = 0;
-
     /**
      * undocumented class variable
      *
      * @var string
      * */
     protected $_yesterday = 0;
-
     /**
      * constructor
      *
@@ -236,15 +220,11 @@ class elFinder {
                 $this->_options[$k] = is_array($this->_options[$k]) ? array_merge($this->_options[$k], $options[$k]) : $options[$k];
             }
         }
-
         if (substr($this->_options['root'], -1) == DIRECTORY_SEPARATOR) {
             $this->_options['root'] = substr($this->_options['root'], 0, -1);
         }
-
         $this->_time = $this->_options['debug'] ? $this->_utime() : 0;
-
         $this->_fakeRoot = !$this->_options['rootAlias'] ? $this->_options['root'] : dirname($this->_options['root']) . DIRECTORY_SEPARATOR . $this->_options['rootAlias'];
-
         if (!empty($this->_options['disabled'])) {
             $no = array('open', 'reload', 'tmb', 'ping');
             foreach ($this->_options['disabled'] as $k => $c) {
@@ -255,7 +235,6 @@ class elFinder {
                 }
             }
         }
-
         if ($this->_options['tmbDir']) {
             $tmbDir = $this->_options['root'] . DIRECTORY_SEPARATOR . $this->_options['tmbDir'];
             $this->_options['tmbDir'] = is_dir($tmbDir) || @mkdir($tmbDir, $this->_options['dirMode']) ? $tmbDir : '';
@@ -268,7 +247,6 @@ class elFinder {
         $this->_today = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
         $this->_yesterday = $this->_today - 86400;
     }
-
     /**
      * Proccess client request and output json
      *
@@ -284,7 +262,6 @@ class elFinder {
         if (!$this->_isAllowed($this->_options['root'], 'read')) {
             exit(json_encode(array('error' => 'Access denied')));
         }
-
         $cmd = '';
         if (!empty($_POST['cmd'])) {
             $cmd = trim($_POST['cmd']);
@@ -296,16 +273,12 @@ class elFinder {
             $this->_result['error'] = 'Data exceeds the maximum allowed size';
             exit(json_encode($this->_result));
         }
-
         if ($cmd && (empty($this->_commands[$cmd]) || !method_exists($this, $this->_commands[$cmd]))) {
             exit(json_encode(array('error' => 'Unknown command')));
         }
-
         if (isset($_GET['init'])) {
-
             $ts = $this->_utime();
             $this->_result['disabled'] = array_values($this->_options['disabled']);
-
             $this->_result['params'] = array(
                 'dotFiles' => $this->_options['dotFiles'],
                 'uplMaxSize' => ini_get('upload_max_filesize'),
@@ -336,7 +309,6 @@ class elFinder {
                 }
             }
         }
-
         if ($this->_options['debug']) {
             $this->_result['debug'] = array(
                 'time' => $this->_utime() - $this->_time,
@@ -348,27 +320,22 @@ class elFinder {
                 $this->_result['debug']['du'] = @$this->_options['du'];
             }
         }
-
         if ($cmd) {
             $this->{$this->_commands[$cmd]}();
         } else {
             $this->_open();
         }
-
         header("Content-Type: " . ($cmd == 'upload' ? 'text/html' : 'application/json'));
         header("Connection: close");
         echo json_encode($this->_result);
-
         if (!empty($this->_options['logger']) && in_array($cmd, $this->_loggedCommands)) {
             $this->_options['logger']->log($cmd, empty($this->_result['error']), $this->_logContext, !empty($this->_result['error']) ? $this->_result['error'] : '', !empty($this->_result['errorData']) ? $this->_result['errorData'] : array());
         }
         exit();
     }
-
     /*     * ********************************************************* */
     /**                   elFinder commands                    * */
     /*     * ********************************************************* */
-
     /**
      * Return current dir content to client or output file content to browser
      *
@@ -385,7 +352,6 @@ class elFinder {
                 header('HTTP/1.x 403 Access Denied');
                 exit('Access denied');
             }
-
             if (filetype($file) == 'link') {
                 $file = $this->_readlink($file);
                 if (!$file || is_dir($file)) {
@@ -397,11 +363,9 @@ class elFinder {
                     exit('Access denied');
                 }
             }
-
             $mime = $this->_mimetype($file);
             $parts = explode('/', $mime);
             $disp = $parts[0] == 'image' || $parts[0] == 'text' ? 'inline' : 'attachments';
-
             header("Content-Type: " . $mime);
             header("Content-Disposition: " . $disp . "; filename=" . basename($file));
             header("Content-Location: " . str_replace($this->_options['root'], '', $file));
@@ -428,7 +392,6 @@ class elFinder {
             $this->_content($path, isset($_GET['tree']));
         }
     }
-
     /**
      * Rename file/folder
      *
@@ -454,7 +417,6 @@ class elFinder {
             $this->_content($dir, is_dir($dir . DIRECTORY_SEPARATOR . $name));
         }
     }
-
     /**
      * Create new folder
      *
@@ -479,7 +441,6 @@ class elFinder {
             $this->_content($dir, true);
         }
     }
-
     /**
      * Create new empty file
      *
@@ -509,7 +470,6 @@ class elFinder {
             }
         }
     }
-
     /**
      * Remove files/folders
      *
@@ -519,7 +479,6 @@ class elFinder {
         if (empty($_GET['current']) || false == ($dir = $this->_findDir(trim($_GET['current']))) || (empty($_GET['targets']) || !is_array($_GET['targets']))) {
             return $this->_result['error'] = 'Invalid parameters';
         }
-
         $this->_logContext['targets'] = array();
         foreach ($_GET['targets'] as $hash) {
             if (false != ($f = $this->_find($hash, $dir))) {
@@ -532,14 +491,12 @@ class elFinder {
         }
         $this->_content($dir, true);
     }
-
     /**
      * Upload files
      *
      * @return void
      * */
     protected function _upload() {
-
         if (empty($_POST['current']) || false == ($dir = $this->_findDir(trim($_POST['current'])))) {
             return $this->_result['error'] = 'Invalid parameters';
         }
@@ -549,7 +506,6 @@ class elFinder {
         if (empty($_FILES['upload'])) {
             return $this->_result['error'] = 'No file to upload';
         }
-
         $this->_logContext['upload'] = array();
         $this->_result['select'] = array();
         $total = 0;
@@ -585,9 +541,7 @@ class elFinder {
                 }
             }
         }
-
         $errCnt = !empty($this->_result['errorData']) ? count($this->_result['errorData']) : 0;
-
         if ($errCnt == $total) {
             $this->_result['error'] = 'Unable to upload files';
         } else {
@@ -597,7 +551,6 @@ class elFinder {
             $this->_content($dir);
         }
     }
-
     /**
      * Copy/move files/folders
      *
@@ -612,19 +565,15 @@ class elFinder {
         $this->_logContext['src'] = array();
         $this->_logContext['dest'] = $dst;
         $this->_logContext['cut'] = $cut;
-
-
         if (!$this->_isAllowed($dst, 'write') || !$this->_isAllowed($src, 'read')) {
             return $this->_result['error'] = 'Access denied';
         }
-
         foreach ($_GET['targets'] as $hash) {
             if (false == ($f = $this->_find($hash, $src))) {
                 return $this->_result['error'] = 'File not found' && $this->_content($current, true);
             }
             $this->_logContext['src'][] = $f;
             $_dst = $dst . DIRECTORY_SEPARATOR . basename($f);
-
             if (0 === strpos($dst, $f)) {
                 return $this->_result['error'] = 'Unable to copy into itself' && $this->_content($current, true);
             } elseif (file_exists($_dst)) {
@@ -632,7 +581,6 @@ class elFinder {
             } elseif ($cut && !$this->_isAllowed($f, 'rm')) {
                 return $this->_result['error'] = 'Access denied' && $this->_content($current, true);
             }
-
             if ($cut) {
                 if (!@rename($f, $_dst)) {
                     return $this->_result['error'] = 'Unable to move files' && $this->_content($current, true);
@@ -645,7 +593,6 @@ class elFinder {
         }
         $this->_content($current, true);
     }
-
     /**
      * Create file/folder copy with suffix - "copy"
      *
@@ -667,7 +614,6 @@ class elFinder {
         $this->_result['select'] = array($this->_hash($dup));
         $this->_content($current, is_dir($target));
     }
-
     /**
      * Resize image
      *
@@ -695,7 +641,6 @@ class elFinder {
         $this->_result['select'] = array($this->_hash($target));
         $this->_content($current);
     }
-
     /**
      * Create images thumbnails
      *
@@ -726,7 +671,6 @@ class elFinder {
             }
         }
     }
-
     /**
      * Return file content to client
      *
@@ -742,7 +686,6 @@ class elFinder {
         }
         $this->_result['content'] = @file_get_contents($target);
     }
-
     /**
      * Save data into text file.
      *
@@ -763,7 +706,6 @@ class elFinder {
         $this->_result['target'] = $this->_info($target);
         // $this->_result['select'] = array($this->_hash($target));
     }
-
     /**
      * Create archive of selected type
      *
@@ -774,12 +716,10 @@ class elFinder {
         if (empty($this->_options['archivers']['create']) || empty($_GET['type']) || empty($this->_options['archivers']['create'][$_GET['type']]) || !in_array($_GET['type'], $this->_options['archiveMimes'])) {
             return $this->_result['error'] = 'Invalid parameters';
         }
-
         if (empty($_GET['current']) || empty($_GET['targets']) || !is_array($_GET['targets']) || false == ($dir = $this->_findDir(trim($_GET['current']))) || !$this->_isAllowed($dir, 'write')
         ) {
             return $this->_result['error'] = 'Invalid parameters';
         }
-
         $files = array();
         $argc = '';
         foreach ($_GET['targets'] as $hash) {
@@ -792,7 +732,6 @@ class elFinder {
         $arc = $this->_options['archivers']['create'][$_GET['type']];
         $name = count($files) == 1 ? basename($files[0]) : $_GET['name'];
         $name = basename($this->_uniqueName($name . '.' . $arc['ext'], ''));
-
         $cwd = getcwd();
         chdir($dir);
         $cmd = $arc['cmd'] . ' ' . $arc['argc'] . ' ' . escapeshellarg($name) . ' ' . $argc;
@@ -805,7 +744,6 @@ class elFinder {
             $this->_result['error'] = 'Unable to create archive';
         }
     }
-
     /**
      * Extract files from archive
      *
@@ -833,7 +771,6 @@ class elFinder {
             $this->_result['error'] = 'Unable to extract files from archive';
         }
     }
-
     /**
      * Send header Connection: close. Required by safari to fix bug http://www.webmasterworld.com/macintosh_webmaster/3300569.htm
      *
@@ -842,11 +779,9 @@ class elFinder {
     protected function _ping() {
         exit(header("Connection: close"));
     }
-
     /*     * ********************************************************* */
     /**                    "content" methods                   * */
     /*     * ********************************************************* */
-
     /**
      * Set current dir info, content and [dirs tree]
      *
@@ -861,7 +796,6 @@ class elFinder {
             $this->_result['tree'] = $this->_tree($this->_options['root']);
         }
     }
-
     /**
      * Set current dir info
      *
@@ -888,7 +822,6 @@ class elFinder {
             'rm' => $path == $this->_options['root'] ? false : $this->_isAllowed($path, 'rm')
         );
     }
-
     /**
      * Set current dir content
      *
@@ -910,7 +843,6 @@ class elFinder {
         }
         $this->_result['cdc'] = array_merge($dirs, $files);
     }
-
     /**
      * Return file/folder info
      *
@@ -920,7 +852,6 @@ class elFinder {
     protected function _info($path) {
         $type = filetype($path);
         $stat = $type == 'link' ? lstat($path) : stat($path);
-
         if ($stat['mtime'] > $this->_today) {
             $d = 'Today ' . date('H:i', $stat['mtime']);
         } elseif ($stat['mtime'] > $this->_yesterday) {
@@ -928,7 +859,6 @@ class elFinder {
         } else {
             $d = date($this->_options['dateFormat'], $stat['mtime']);
         }
-
         $info = array(
             'name' => htmlspecialchars(basename($path)),
             'hash' => $this->_hash($path),
@@ -939,7 +869,6 @@ class elFinder {
             'write' => $this->_isAllowed($path, 'write'),
             'rm' => $this->_isAllowed($path, 'rm'),
         );
-
         if ($type == 'link') {
             if (false == ($lpath = $this->_readlink($path))) {
                 $info['mime'] = 'symlink-broken';
@@ -959,12 +888,10 @@ class elFinder {
         } else {
             $lpath = '';
         }
-
         if ($info['mime'] != 'directory') {
             if ($this->_options['fileURL'] && $info['read']) {
                 $info['url'] = $this->_path2url($lpath ? $lpath : $path);
             }
-
             if (0 === ($p = strpos($info['mime'], 'image'))) {
                 if (false != ($s = getimagesize($path))) {
                     $info['dim'] = $s[0] . 'x' . $s[1];
@@ -972,7 +899,6 @@ class elFinder {
                 if ($info['read']) {
                     $info['resize'] = isset($info['dim']) && $this->_canCreateTmb($info['mime']);
                     $tmb = $this->_tmbPath($path);
-
                     if (file_exists($tmb)) {
                         $info['tmb'] = $this->_path2url($tmb);
                     } elseif ($info['resize']) {
@@ -983,7 +909,6 @@ class elFinder {
         }
         return $info;
     }
-
     /**
      * Return directory tree (multidimensional array)
      *
@@ -998,7 +923,6 @@ class elFinder {
             'write' => $this->_isAllowed($path, 'write'),
             'dirs' => array()
         );
-
         if ($dir['read'] && (false != ($ls = scandir($path)))) {
             for ($i = 0; $i < count($ls); $i++) {
                 $p = $path . DIRECTORY_SEPARATOR . $ls[$i];
@@ -1009,11 +933,9 @@ class elFinder {
         }
         return $dir;
     }
-
     /*     * ********************************************************* */
     /**                      fs methods                        * */
     /*     * ********************************************************* */
-
     /**
      * Return name for duplicated file/folder or new archive
      *
@@ -1025,14 +947,12 @@ class elFinder {
         $dir = dirname($f);
         $name = basename($f);
         $ext = '';
-
         if (!is_dir($f)) {
             if (preg_match('/\.(tar\.gz|tar\.bz|tar\.bz2|[a-z0-9]{1,4})$/i', $name, $m)) {
                 $ext = '.' . $m[1];
                 $name = substr($name, 0, strlen($name) - strlen($m[0]));
             }
         }
-
         if (preg_match('/(' . $suffix . ')(\d*)$/i', $name, $m)) {
             $i = (int) $m[2];
             $name = substr($name, 0, strlen($name) - strlen($m[2]));
@@ -1044,7 +964,6 @@ class elFinder {
                 return $n;
             }
         }
-
         while ($i++ <= 10000) {
             $n = $dir . DIRECTORY_SEPARATOR . $name . $i . $ext;
             if (!file_exists($n)) {
@@ -1053,7 +972,6 @@ class elFinder {
         }
         return $dir . DIRECTORY_SEPARATOR . $name . md5($f) . $ext;
     }
-
     /**
      * Remove file or folder (recursively)
      *
@@ -1083,7 +1001,6 @@ class elFinder {
         }
         return true;
     }
-
     /**
      * Copy file/folder (recursively)
      *
@@ -1095,27 +1012,22 @@ class elFinder {
         if (!$this->_isAllowed($src, 'read')) {
             return $this->_errorData($src, 'Access denied');
         }
-
         $dir = dirname($trg);
-
         if (!$this->_isAllowed($dir, 'write')) {
             return $this->_errorData($dir, 'Access denied');
         }
         if (file_exists($trg)) {
             return $this->_errorData($src, 'File or folder with the same name already exists');
         }
-
         if (!is_dir($src)) {
             if (!@copy($src, $trg)) {
                 return $this->_errorData($src, 'Unable to copy files');
             }
             @chmod($trg, $this->_options['fileMode']);
         } else {
-
             if (!@mkdir($trg, $this->_options['dirMode'])) {
                 return $this->_errorData($src, 'Unable to copy files');
             }
-
             $ls = scandir($src);
             for ($i = 0; $i < count($ls); $i++) {
                 if ('.' != $ls[$i] && '..' != $ls[$i]) {
@@ -1136,7 +1048,6 @@ class elFinder {
         }
         return true;
     }
-
     /**
      * Check new file name for invalid simbols. Return name if valid
      *
@@ -1150,7 +1061,6 @@ class elFinder {
         }
         return preg_match('|^[^\\/\<\>:]+$|', $n) ? $n : false;
     }
-
     /**
      * Find folder by hash in required folder and subfolders
      *
@@ -1165,7 +1075,6 @@ class elFinder {
                 return $path;
             }
         }
-
         if (false != ($ls = scandir($path))) {
             for ($i = 0; $i < count($ls); $i++) {
                 $p = $path . DIRECTORY_SEPARATOR . $ls[$i];
@@ -1181,7 +1090,6 @@ class elFinder {
             }
         }
     }
-
     /**
      * Find file/folder by hash in required folder
      *
@@ -1200,7 +1108,6 @@ class elFinder {
             }
         }
     }
-
     /**
      * Return path of file on which link point to, if exists in root directory
      *
@@ -1216,7 +1123,6 @@ class elFinder {
         $root = $this->_normpath($this->_options['root']);
         return $target && file_exists($target) && 0 === strpos($target, $root) ? $target : false;
     }
-
     /**
      * Count total directory size if this allowed in options
      *
@@ -1244,7 +1150,6 @@ class elFinder {
         }
         return $size;
     }
-
     /**
      * Return file mimetype
      *
@@ -1255,7 +1160,6 @@ class elFinder {
         if (empty($this->_options['mimeDetect']) || $this->_options['mimeDetect'] == 'auto') {
             $this->_options['mimeDetect'] = $this->_getMimeDetect();
         }
-
         switch ($this->_options['mimeDetect']) {
             case 'finfo':
                 if (empty($this->_finfo)) {
@@ -1278,7 +1182,6 @@ class elFinder {
                 $type = isset($this->_mimeTypes[$ext]) ? $this->_mimeTypes[$ext] : 'unknown;';
         }
         $type = explode(';', $type);
-
         if ($this->_options['mimeDetect'] != 'internal' && $type[0] == 'application/octet-stream') {
             $pinfo = pathinfo($path);
             $ext = isset($pinfo['extension']) ? strtolower($pinfo['extension']) : '';
@@ -1286,14 +1189,11 @@ class elFinder {
                 $type[0] = $this->_mimeTypes[$ext];
             }
         }
-
         return $type[0];
     }
-
     /*     * ********************************************************* */
     /**                   image manipulation                   * */
     /*     * ********************************************************* */
-
     /**
      * Create image thumbnail
      *
@@ -1306,13 +1206,10 @@ class elFinder {
             return false;
         }
         $tmbSize = $this->_options['tmbSize'];
-
         if ($this->_options['tmbCrop'] == false) {
-
             /* Calculating image scale width and height */
             $xscale = $s[0] / $tmbSize;
             $yscale = $s[1] / $tmbSize;
-
             if ($yscale > $xscale) {
                 $newwidth = round($s[0] * (1 / $yscale));
                 $newheight = round($s[1] * (1 / $yscale));
@@ -1320,20 +1217,15 @@ class elFinder {
                 $newwidth = round($s[0] * (1 / $xscale));
                 $newheight = round($s[1] * (1 / $xscale));
             }
-
             /* Keeping original dimensions if image fitting into thumbnail without scale */
             if ($s[0] <= $tmbSize && $s[1] <= $tmbSize) {
                 $newwidth = $s[0];
                 $newheight = $s[1];
             }
-
             /* Calculating coordinates for aligning thumbnail */
             $align_y = ceil(($tmbSize - $newheight) / 2);
             $align_x = ceil(($tmbSize - $newwidth) / 2);
         }
-
-
-
         switch ($this->_options['imgLib']) {
             case 'imagick':
                 try {
@@ -1341,9 +1233,7 @@ class elFinder {
                 } catch (Exception $e) {
                     return false;
                 }
-
                 $_img->contrastImage(1);
-
                 if ($this->_options['tmbCrop'] == false) {
                     $img1 = new Imagick();
                     $img1->newImage($tmbSize, $tmbSize, new ImagickPixel($this->_options['tmbBgColor']));
@@ -1355,24 +1245,18 @@ class elFinder {
                     return $_img->cropThumbnailImage($tmbSize, $tmbSize) && $_img->writeImage($tmb);
                 }
                 break;
-
             case 'mogrify':
                 if (@copy($img, $tmb)) {
                     list($x, $y, $size) = $this->_cropPos($s[0], $s[1]);
                     // exec('mogrify -crop '.$size.'x'.$size.'+'.$x.'+'.$y.' -scale '.$tmbSize.'x'.$tmbSize.'! '.escapeshellarg($tmb), $o, $c);
-
                     $mogrifyArgs = 'mogrify -resize ' . $tmbSize . 'x' . $tmbSize;
-
                     if ($this->_options['tmbCrop'] == false) {
                         $mogrifyArgs .= ' -gravity center -background "' . $this->_options['tmbBgColor'] . '" -extent ' . $tmbSize . 'x' . $tmbSize;
                     }
-
                     if ($this->_options['tmbCrop'] == false) {
                         $mogrifyArgs .= ' ' . escapeshellarg($tmb);
                     }
-
                     exec($mogrifyArgs, $o, $c);
-
                     if (file_exists($tmb)) {
                         return true;
                     } elseif ($c == 0) {
@@ -1388,7 +1272,6 @@ class elFinder {
                     }
                 }
                 break;
-
             case 'gd':
                 if ($s['mime'] == 'image/jpeg') {
                     $_img = imagecreatefromjpeg($img);
@@ -1400,13 +1283,9 @@ class elFinder {
                 if (!$_img || false == ($_tmb = imagecreatetruecolor($tmbSize, $tmbSize))) {
                     return false;
                 }
-
                 if ($this->_options['tmbCrop'] == false) {
-
                     list($r, $g, $b) = sscanf($this->_options['tmbBgColor'], "#%02x%02x%02x");
-
                     imagefill($_tmb, 0, 0, imagecolorallocate($_tmb, $r, $g, $b));
-
                     if (!imagecopyresampled($_tmb, $_img, $align_x, $align_y, 0, 0, $newwidth, $newheight, $s[0], $s[1])) {
                         return false;
                     }
@@ -1416,7 +1295,6 @@ class elFinder {
                         return false;
                     }
                 }
-
                 $r = imagepng($_tmb, $tmb, 7);
                 imagedestroy($_img);
                 imagedestroy($_tmb);
@@ -1424,7 +1302,6 @@ class elFinder {
                 break;
         }
     }
-
     /**
      * Remove image thumbnail
      *
@@ -1436,7 +1313,6 @@ class elFinder {
             @unlink($tmb);
         }
     }
-
     /**
      * Return x/y coord for crop image thumbnail
      *
@@ -1454,7 +1330,6 @@ class elFinder {
         }
         return array($x, $y, $size);
     }
-
     /**
      * Resize image
      *
@@ -1467,7 +1342,6 @@ class elFinder {
         if (false == ($s = getimagesize($img))) {
             return false;
         }
-
         switch ($this->_options['imgLib']) {
             case 'imagick':
                 if (false != ($_img = new imagick($img))) {
@@ -1505,7 +1379,6 @@ class elFinder {
                 break;
         }
     }
-
     /**
      * Return true if we can create thumbnail for file with this mimetype
      *
@@ -1520,7 +1393,6 @@ class elFinder {
             return true;
         }
     }
-
     /**
      * Return image thumbnail path. For thumbnail return itself
      *
@@ -1534,11 +1406,9 @@ class elFinder {
         }
         return $tmb;
     }
-
     /*     * ********************************************************* */
     /**                       access control                   * */
     /*     * ********************************************************* */
-
     /**
      * Return true if file's mimetype is allowed for upload
      *
@@ -1550,7 +1420,6 @@ class elFinder {
         $allow = false;
         $deny = false;
         $mime = $this->_mimetype($this->_options['mimeDetect'] != 'internal' ? $tmpName : $name);
-
         if (in_array('all', $this->_options['uploadAllow'])) {
             $allow = true;
         } else {
@@ -1560,7 +1429,6 @@ class elFinder {
                 }
             }
         }
-
         if (in_array('all', $this->_options['uploadDeny'])) {
             $deny = true;
         } else {
@@ -1570,9 +1438,7 @@ class elFinder {
                 }
             }
         }
-
         $this->_result['debug']['_isUploadAllow'][$name] = $mime;
-
         if (0 === strpos($this->_options['uploadOrder'], 'allow')) { // ,deny
             if ($deny == true) {
                 return false;
@@ -1591,7 +1457,6 @@ class elFinder {
             }
         }
     }
-
     /**
      * Return true if file name is not . or ..
      * If file name begins with . return value according to $this->_options['dotFiles']
@@ -1608,7 +1473,6 @@ class elFinder {
         }
         return true;
     }
-
     /**
      * Return true if requeired action allowed to file/folder
      *
@@ -1617,7 +1481,6 @@ class elFinder {
      * @return void
      * */
     protected function _isAllowed($path, $action) {
-
         switch ($action) {
             case 'read':
                 if (!is_readable($path)) {
@@ -1635,14 +1498,12 @@ class elFinder {
                 }
                 break;
         }
-
         // if ($this->_options['aclObj']) {
         //
 				// }
         $path = substr($path, strlen($this->_options['root']) + 1);
         // echo "$path\n";
         foreach ($this->_options['perms'] as $regex => $rules) {
-
             if (preg_match($regex, $path)) {
                 if (isset($rules[$action])) {
                     return $rules[$action];
@@ -1651,11 +1512,9 @@ class elFinder {
         }
         return isset($this->_options['defaults'][$action]) ? $this->_options['defaults'][$action] : false;
     }
-
     /*     * ********************************************************* */
     /**                          utilites                      * */
     /*     * ********************************************************* */
-
     /**
      * Return image manipalation library name
      *
@@ -1672,7 +1531,6 @@ class elFinder {
         }
         return function_exists('gd_info') ? 'gd' : '';
     }
-
     /**
      * Return list of available archivers
      *
@@ -1687,7 +1545,6 @@ class elFinder {
             'create' => array(),
             'extract' => array()
         );
-
         exec('tar --version', $o, $ctar);
         if ($ctar == 0) {
             $arcs['create']['application/x-tar'] = array('cmd' => 'tar', 'argc' => '-cf', 'ext' => 'tar');
@@ -1703,17 +1560,14 @@ class elFinder {
                 $arcs['extract']['application/x-bzip2'] = array('cmd' => 'tar', 'argc' => '-xjf', 'ext' => 'tbz');
             }
         }
-
         exec('zip --version', $o, $c);
         if ($c == 0) {
             $arcs['create']['application/zip'] = array('cmd' => 'zip', 'argc' => '-r9', 'ext' => 'zip');
         }
-
         exec('unzip --help', $o, $c);
         if ($c == 0) {
             $arcs['extract']['application/zip'] = array('cmd' => 'unzip', 'argc' => '', 'ext' => 'zip');
         }
-
         exec('rar --version', $o, $c);
         if ($c == 0 || $c == 7) {
             $arcs['create']['application/x-rar'] = array('cmd' => 'rar', 'argc' => 'a -inul', 'ext' => 'rar');
@@ -1724,12 +1578,10 @@ class elFinder {
                 $arcs['extract']['application/x-rar'] = array('cmd' => 'unrar', 'argc' => 'x -y', 'ext' => 'rar');
             }
         }
-
         exec('7za --help', $o, $c);
         if ($c == 0) {
             $arcs['create']['application/x-7z-compressed'] = array('cmd' => '7za', 'argc' => 'a', 'ext' => '7z');
             $arcs['extract']['application/x-7z-compressed'] = array('cmd' => '7za', 'argc' => 'e -y', 'ext' => '7z');
-
             if (empty($arcs['create']['application/x-gzip'])) {
                 $arcs['create']['application/x-gzip'] = array('cmd' => '7za', 'argc' => 'a -tgzip', 'ext' => 'tar.gz');
             }
@@ -1755,7 +1607,6 @@ class elFinder {
                 $arcs['extract']['application/x-tar'] = array('cmd' => '7za', 'argc' => 'e -ttar -y', 'ext' => 'tar');
             }
         }
-
         $this->_options['archivers'] = $arcs;
         foreach ($this->_options['archiveMimes'] as $k => $mime) {
             if (!isset($this->_options['archivers']['create'][$mime])) {
@@ -1766,7 +1617,6 @@ class elFinder {
             $this->_options['archiveMimes'] = array_keys($this->_options['archivers']['create']);
         }
     }
-
     /**
      * Return mimetype detect method name
      *
@@ -1789,7 +1639,6 @@ class elFinder {
         }
         return 'internal';
     }
-
     /**
      * Return file path hash
      *
@@ -1799,7 +1648,6 @@ class elFinder {
     protected function _hash($path) {
         return md5($path);
     }
-
     /**
      * Return file URL
      *
@@ -1811,7 +1659,6 @@ class elFinder {
         $file = rawurlencode(basename($path));
         return $this->_options['URL'] . ($dir ? str_replace(DIRECTORY_SEPARATOR, '/', $dir) . '/' : '') . $file;
     }
-
     /**
      * Return normalized path, this works the same as os.path.normpath() in Python
      *
@@ -1821,7 +1668,6 @@ class elFinder {
     protected function _normpath($path) {
         if (empty($path))
             return '.';
-
         if (strpos($path, '/') === 0)
             $initial_slashes = true;
         else
@@ -1833,7 +1679,6 @@ class elFinder {
         )
             $initial_slashes = 2;
         $initial_slashes = (int) $initial_slashes;
-
         $comps = explode('/', $path);
         $new_comps = array();
         foreach ($comps as $comp) {
@@ -1857,7 +1702,6 @@ class elFinder {
         else
             return '.';
     }
-
     /**
      * Pack error message in $this->_result['errorData']
      *
@@ -1873,10 +1717,8 @@ class elFinder {
         $this->_result['errorData'][$path] = $msg;
         return false;
     }
-
     protected function _utime() {
         $time = explode(" ", microtime());
         return (double) $time[1] + (double) $time[0];
     }
-
 }

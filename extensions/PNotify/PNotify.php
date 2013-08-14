@@ -1,8 +1,6 @@
 <?php
-
 /*
  * PNotify widget class file.
-
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,10 +9,8 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
-
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
-
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -23,14 +19,11 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
-
  * PNotify extends CWidget and implements a base class for a tag-managing widget.
  * more about Pines Tags can be found at http://pinesframework.org/PNotify/
  * @version: 0.1
  */
-
 class PNotify extends CWidget {
-
     // @ string for simply note
     public $message = false;
     // @ array of options settings
@@ -38,7 +31,6 @@ class PNotify extends CWidget {
     // @ boolean to specify using this widget for flash messages or not
     public $flash_messages_only = false;
     public $userComponentId = "user";
-
     // function to init the widget
     public function init() {
         // if not informed will generate Yii defaut generated id, since version 1.6
@@ -47,17 +39,14 @@ class PNotify extends CWidget {
         // publish the required assets
         $this->publishAssets();
     }
-
     // function to run the widget
     public function run() {
         if ($this->message) {
-
             Yii::app()->clientScript->registerScript('PNotify_' . $this->id, '
 				$.pnotify("' . $this->message . '");
 			', CClientScript::POS_READY);
         } else {
             $options = $this->buildOptions(); // Get default options.
-
             if ($this->flash_messages_only) {
                 foreach (Yii::app()->getComponent($this->userComponentId)->getFlashes() as $type => $message) {
                     $options['type'] = $type;
@@ -68,10 +57,8 @@ class PNotify extends CWidget {
                             $options[$key] = $value;
                         }
                     }
-
                     $options_js = CJavaScript::encode($options);
                     $options_js = preg_replace('#\s+#', ' ', $options_js);
-
                     Yii::app()->clientScript->registerScript('PNotify_' . $this->id . "_" . $type, '
 				    $.pnotify(' . $options_js . ');
 			    ', CClientScript::POS_READY);
@@ -85,12 +72,10 @@ class PNotify extends CWidget {
             }
         }
     }
-
     // function to publish and register assets on page 
     public function publishAssets() {
         $assets = dirname(__FILE__) . '/assets/js';
         $baseUrl = Yii::app()->assetManager->publish($assets);
-
         if (is_dir($assets)) {
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerCssFile($baseUrl . '/jquery.pnotify.default.css');
@@ -99,7 +84,6 @@ class PNotify extends CWidget {
             throw new Exception('PNotify - Error: Couldn\'t find assets to publish.');
         }
     }
-
     private function buildOptions() {
         $_build_options = array();
         $_default_options = array(
@@ -139,7 +123,6 @@ class PNotify extends CWidget {
                 'spacing2' => 25,
             ),
         );
-
         foreach ($this->options as $key => $value) {
             // check valid option
             if (!array_key_exists($key, $_default_options))
@@ -150,10 +133,7 @@ class PNotify extends CWidget {
                 $_build_options[$key] = $value;
             }
         }
-
         return $_build_options;
     }
-
 }
-
 ?>

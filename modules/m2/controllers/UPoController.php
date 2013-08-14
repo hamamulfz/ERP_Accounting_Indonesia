@@ -1,59 +1,41 @@
 <?php
 
+class UPoController extends Controller {
 
-class UPoController extends Controller
-{
+    /**
 
-	/**
+     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+     * using two-column layout. See 'protected/views/layouts/column2.php'.
 
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
+     */
+    public $layout = '//layouts/column2';
 
-	 */
+    /**
 
-	public $layout='//layouts/column2';
+     * @return array action filters
 
+     */
+    public function filters() {
 
+        return array(
+            'rights', // perform access control for CRUD operations
+        );
+    }
 
-	/**
+    /**
 
-	 * @return array action filters
+     * Displays a particular model.
 
-	 */
+     * @param integer $id the ID of the model to be displayed
 
-	public function filters()
+     */
+    public function actionView($id) {
 
-	{
-
-		return array(
-
-			'rights', // perform access control for CRUD operations
-
-		);
-
-	}
-
-
-	/**
-
-	 * Displays a particular model.
-
-	 * @param integer $id the ID of the model to be displayed
-
-	 */
-
-	public function actionView($id)
-
-	{
-
-		$this->render('view',array(
-
-			'model'=>$this->loadModel($id),
-
-		));
-
-	}
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
+        ));
+    }
 
     public function actionCreate() {
         $model = new fPo;
@@ -70,7 +52,6 @@ class UPoController extends Controller
 
             //foreach ($model->credit as $_credit)
             //    $_myCredit = $_myCredit + $_credit;
-
             //if ($_myDebit == $_myCredit && $_myDebit != 0 && $_myCredit != 0) {
             //    $model->balance = "OK";
             //}
@@ -112,37 +93,34 @@ class UPoController extends Controller
         $this->render('create', array('model' => $model));
     }
 
+    /**
 
+     * Updates a particular model.
 
-	/**
+     * If update is successful, the browser will be redirected to the 'view' page.
 
-	 * Updates a particular model.
+     * @param integer $id the ID of the model to be updated
 
-	 * If update is successful, the browser will be redirected to the 'view' page.
+     */
+    /* 	public function actionUpdate($id)
+      {
+      $model=$this->loadModel($id);
 
-	 * @param integer $id the ID of the model to be updated
+      // Uncomment the following line if AJAX validation is needed
+      // $this->performAjaxValidation($model);
 
-	 */
+      if(isset($_POST['uPo']))
+      {
+      $model->attributes=$_POST['uPo'];
+      if($model->save())
+      $this->redirect(array('view','id'=>$model->id));
+      }
 
-/*	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['uPo']))
-		{
-			$model->attributes=$_POST['uPo'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-*/
+      $this->render('update',array(
+      'model'=>$model,
+      ));
+      }
+     */
     public function actionUpdate($id) {
         $model = new fPo;
         $modelHeader = uPo::model()->findByPk((int) $id);
@@ -165,7 +143,6 @@ class UPoController extends Controller
 
             //foreach ($model->credit as $_credit)
             //    $_myCredit = $_myCredit + $_credit;
-
             //if ($_myDebit == $_myCredit && $_myDebit != 0 && $_myCredit != 0) {
             //    $model->balance = "OK";
             //}
@@ -205,10 +182,10 @@ class UPoController extends Controller
         }
 
         if (!isset($_POST['item_id'])) {
-			$model->supplier_id = $modelHeader->supplier_id;
-			$model->input_date = $modelHeader->input_date;
-			$model->po_type_id = $modelHeader->po_type_id;
-			$model->remark = $modelHeader->remark;
+            $model->supplier_id = $modelHeader->supplier_id;
+            $model->input_date = $modelHeader->input_date;
+            $model->po_type_id = $modelHeader->po_type_id;
+            $model->remark = $modelHeader->remark;
 
             $modelDetail = uPoDetail::model()->findAll(array(
                 'condition' => 'parent_id = :id',
@@ -229,135 +206,103 @@ class UPoController extends Controller
         $this->render('update', array('model' => $model));
     }
 
+    /**
 
+     * Deletes a particular model.
 
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
 
-	/**
+     * @param integer $id the ID of the model to be deleted
 
-	 * Deletes a particular model.
+     */
+    public function actionDelete($id) {
+        $modelHeader = $this->loadModel($id);
 
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-
-	 * @param integer $id the ID of the model to be deleted
-
-	 */
-
-	public function actionDelete($id)
-	{
-		$modelHeader = $this->loadModel($id);
-		
         if ($modelHeader->state_id == 2) {
             Yii::app()->user->setFlash("error", "<strong>Error!</strong> Purchased Order already delivered. It has been locked...");
             $this->redirect(array('/m2/uPo/view', 'id' => $modelHeader->id));
         }
 
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$modelHeader->delete();
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(array('index'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+        if (Yii::app()->request->isPostRequest) {
+            // we only allow deletion via POST request
+            $modelHeader->delete();
+            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+            if (!isset($_GET['ajax']))
+                $this->redirect(array('index'));
+        }
+        else
+            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+    }
 
-	}
+    /**
 
+     * Manages all models.
 
+     */
+    public function actionIndex() {
+        $this->render('index', array(
+        ));
+    }
 
+    public function actionOnDelivered() {
+        $this->render('onDelivered', array(
+        ));
+    }
 
-	/**
+    public function actionOnPaid() {
+        $this->render('onPaid', array(
+        ));
+    }
 
-	 * Manages all models.
+    public function actionOnHalfPaid() {
+        $this->render('onHalfPaid', array(
+        ));
+    }
 
-	 */
+    public function actionToDelivered($id) {
+        $model = $this->loadModel($id);
+        $model->state_id = 2; //delivered
+        $model->save();
 
-	public function actionIndex()
-	{
-		$this->render('index',array(
-		));
-	}
+        $this->render('index', array(
+        ));
+    }
 
+    /**
 
-	public function actionOnDelivered()
-	{
-		$this->render('onDelivered',array(
-		));
-	}
+     * Returns the data model based on the primary key given in the GET variable.
 
-	public function actionOnPaid()
-	{
-		$this->render('onPaid',array(
-		));
-	}
+     * If the data model is not found, an HTTP exception will be raised.
 
-	public function actionOnHalfPaid()
-	{
-		$this->render('onHalfPaid',array(
-		));
-	}
+     * @param integer the ID of the model to be loaded
 
+     */
+    public function loadModel($id) {
 
-	public function actionToDelivered($id)
-	{
-		$model=$this->loadModel($id);
-		$model->state_id = 2; //delivered
-		$model->save();
+        $model = uPo::model()->findByPk($id);
 
-		$this->render('index',array(
-		));
-	}
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
 
-	/**
+        return $model;
+    }
 
-	 * Returns the data model based on the primary key given in the GET variable.
+    /**
 
-	 * If the data model is not found, an HTTP exception will be raised.
+     * Performs the AJAX validation.
 
-	 * @param integer the ID of the model to be loaded
+     * @param CModel the model to be validated
 
-	 */
+     */
+    protected function performAjaxValidation($model) {
 
-	public function loadModel($id)
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'u-po-form') {
 
-	{
+            echo CActiveForm::validate($model);
 
-		$model=uPo::model()->findByPk($id);
-
-		if($model===null)
-
-			throw new CHttpException(404,'The requested page does not exist.');
-
-		return $model;
-
-	}
-
-
-
-	/**
-
-	 * Performs the AJAX validation.
-
-	 * @param CModel the model to be validated
-
-	 */
-
-	protected function performAjaxValidation($model)
-
-	{
-
-		if(isset($_POST['ajax']) && $_POST['ajax']==='u-po-form')
-
-		{
-
-			echo CActiveForm::validate($model);
-
-			Yii::app()->end();
-
-		}
-
-	}
+            Yii::app()->end();
+        }
+    }
 
 }
 

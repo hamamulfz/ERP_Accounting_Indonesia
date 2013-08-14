@@ -410,6 +410,9 @@ class RAuthorizer extends CApplicationComponent {
 
 
 
+
+
+
                 
 // Get a list of all defined functions
         $definedFunctions = get_defined_functions();
@@ -420,6 +423,9 @@ class RAuthorizer extends CApplicationComponent {
         foreach ($functions as $f)
             if (preg_match('/' . $f . '\ *\({1}/', $code) > 0)
                 return null; // Function call found, not safe for eval.
+
+
+
 
 
 

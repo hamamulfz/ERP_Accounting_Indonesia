@@ -1,21 +1,17 @@
 <?php
-
 /**
  * TbTimePicker class file.
  * @since 1.0.3
  * @see http://jdewit.github.com/bootstrap-timepicker/
  */
-
 /**
  * TbTimePicker widget.
  */
 class TbTimePicker extends CInputWidget {
-
     /**
      * @var TbActiveForm
      */
     public $form;
-
     /**
      * @var array the options for the Bootstrap JavaScript plugin.
      * Available options:
@@ -41,26 +37,21 @@ class TbTimePicker extends CInputWidget {
      * modalBackdrop	boolean	false	Show modal backdrop.
      */
     public $options = array();
-
     /**
      * @var string[] the JavaScript event handlers.
      */
     public $events = array();
-
     /**
      * @var array the HTML attributes for the widget container.
      */
     public $htmlOptions = array();
-
     /**
      * Runs the widget.
      */
     public function run() {
         list($name, $id) = $this->resolveNameID();
-
         // Add a class of no-user-select to widget
         $this->htmlOptions['class'] = empty($this->htmlOptions['class']) ? 'no-user-select' : 'no-user-select ' . $this->htmlOptions['class'];
-
         if ($this->hasModel()) {
             if ($this->form)
                 echo $this->form->textField($this->model, $this->attribute, $this->htmlOptions);
@@ -69,10 +60,8 @@ class TbTimePicker extends CInputWidget {
         }
         else
             echo CHtml::textField($name, $this->value, $this->htmlOptions);
-
         $this->registerClientScript($id);
     }
-
     /**
      * Registers required javascript files
      * @param string $id
@@ -80,16 +69,11 @@ class TbTimePicker extends CInputWidget {
     public function registerClientScript($id) {
         Yii::app()->bootstrap->registerAssetCss('bootstrap-timepicker.css');
         Yii::app()->bootstrap->registerAssetJs('bootstrap.timepicker.js');
-
         $options = !empty($this->options) ? CJavaScript::encode($this->options) : '';
-
         ob_start();
-
         echo "jQuery('#{$id}').timepicker({$options})";
         foreach ($this->events as $event => $handler)
             echo ".on('{$event}', " . CJavaScript::encode($handler) . ")";
-
         Yii::app()->getClientScript()->registerScript(__CLASS__ . '#' . $id, ob_get_clean() . ';');
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * line tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Tag
  */
 // dependances {{{
-
 /**
  * parent class
  */
 Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
-
 // }}}
 // doc {{{
-
 /**
  * <line> tag.
  *
@@ -40,23 +36,19 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  * @tutorial Xml2Pdf/Xml2Pdf.Tag.line.pkg
  */ // }}}
 class xml2pdf_tag_line extends Xml2PdfTag {
-
     // class properties {{{
     /**
      * parent graph tag.
      * @var object Xml2Pdf_Tag_graph
      */
     public $graph;
-
     /**
      * line legend.
      * @var string 
      */
     public $legend;
-
     // }}}    
     // xml2pdf_tag_line::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -80,8 +72,6 @@ class xml2pdf_tag_line extends Xml2PdfTag {
         $this->graph->colors[$line] = $color;
         $this->graph->legendFormat = '%l';
     }
-
     // }}}
 }
-
 ?>

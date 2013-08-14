@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperDetail
  *
@@ -8,11 +7,8 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="noData") */
 class JasperNoData extends AbstractJasper {
-
     /** @BeanAnnotation(className="JasperBand") */
     public $band = null;
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbMarkdownEditorJs class
  *
@@ -9,31 +8,23 @@
  * @package YiiBooster bootstrap.widgets
  */
 class TbMarkdownEditorJS extends CInputWidget {
-
     /**
      * Editor width
      */
     public $width = '100%';
-
     /**
      * Editor height
      */
     public $height = '400px';
-
     /**
      * Display editor
      */
     public function run() {
-
         list($name, $id) = $this->resolveNameID();
-
         $this->registerClientScript($id);
-
         // Markdown Editor looks for an id of wmd-input...
         $this->htmlOptions['id'] = $id;
-
         $this->htmlOptions['class'] = (isset($this->htmlOptions['class'])) ? $this->htmlOptions['class'] . ' wmd-input' : 'wmd-input';
-
         if (!array_key_exists('style', $this->htmlOptions))
             $this->htmlOptions['style'] = "width:{$this->width};height:{$this->height};";
         // Do we have a model?
@@ -42,7 +33,6 @@ class TbMarkdownEditorJS extends CInputWidget {
         else
             echo CHtml::textArea($name, $this->value, $this->htmlOptions);
     }
-
     /**
      * Register required script files
      * @param integer $id
@@ -58,5 +48,4 @@ class TbMarkdownEditorJS extends CInputWidget {
 			editor.run();", CClientScript::POS_END
         );
     }
-
 }

@@ -188,5 +188,4 @@
             'elFinder support following shortcuts': 'elFinder unterstützt die folgenden Shortcuts',
             'helpText': 'elFinder funktioniert ähnlich wie der Dateimanager Ihres Computers. <br />Bearbeiten Sie Dateien mit den Knöpfen der oberen Werkzeugleiste, des Kontextmenüs (Rechtsklick) oder mit Keyboard Shortcuts. Falls ein Symbol missverständlich ist, lassen Sie Ihren Mauscursor über dem Symbol, um einen Hinweis zu sehen. Verschieben Sie Dateien / Verzeichnisse durch Ziehen auf das gewünschten Verzeichnis. Kopieren Sie Dateien durch Verschieben mit gedrückter Shift-Taste.'
         };
-
 })(jQuery);

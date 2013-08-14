@@ -2,7 +2,6 @@
  * @Copyright (c) 2011 Aurélio Saraiva, Diego Plentz
  * @Page http://github.com/plentz/jquery-maskmoney
  * try at http://plentz.org/maskmoney
- 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -23,7 +22,6 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-
 /*
  * @Version: 1.3
  * @Release: 2011-04-20
@@ -41,10 +39,8 @@
             allowZero: false,
             allowNegative: false
         }, settings);
-
         return this.each(function() {
             var input = $(this);
-
             function keypressEvent(e) {
                 e = e || window.event;
                 var k = e.charCode || e.keyCode || e.which;
@@ -52,7 +48,6 @@
                     return false; //needed to handle an IE "special" event
                 if (input.attr('readonly') && (k != 13 && k != 9))
                     return false; // don't allow editing of readonly fields but allow tab/enter
-
                 if (k < 48 || k > 57) { // any key except the numbers 0-9
                     if (k == 45) { // -(minus) key
                         input.val(changeSign(input));
@@ -73,7 +68,6 @@
                     return false;
                 } else {
                     preventDefault(e);
-
                     var key = String.fromCharCode(k);
                     var x = input.get(0);
                     var selection = input.getInputSelection(x);
@@ -84,7 +78,6 @@
                     return false;
                 }
             }
-
             function keydownEvent(e) {
                 e = e || window.event;
                 var k = e.charCode || e.keyCode || e.which;
@@ -92,15 +85,12 @@
                     return false; //needed to handle an IE "special" event
                 if (input.attr('readonly') && (k != 13 && k != 9))
                     return false; // don't allow editing of readonly fields but allow tab/enter
-
                 var x = input.get(0);
                 var selection = input.getInputSelection(x);
                 var startPos = selection.start;
                 var endPos = selection.end;
-
                 if (k == 8) { // backspace key
                     preventDefault(e);
-
                     if (startPos == endPos) {
                         // Remove single character
                         x.value = x.value.substring(0, startPos - 1) + x.value.substring(endPos, x.value.length);
@@ -128,7 +118,6 @@
                     return true;
                 }
             }
-
             function focusEvent(e) {
                 var mask = getDefaultMask();
                 if (input.val() == mask) {
@@ -144,12 +133,10 @@
                     textRange.select();
                 }
             }
-
             function blurEvent(e) {
                 if ($.browser.msie) {
                     keypressEvent(e);
                 }
-
                 if (input.val() == '' || input.val() == setSymbol(getDefaultMask()) || input.val() == settings.symbol) {
                     if (!settings.allowZero)
                         input.val('');
@@ -164,7 +151,6 @@
                         input.val(setSymbol(getDefaultMask()));
                 }
             }
-
             function preventDefault(e) {
                 if (e.preventDefault) { //standard browsers
                     e.preventDefault();
@@ -172,7 +158,6 @@
                     e.returnValue = false
                 }
             }
-
             function maskAndPosition(x, startPos) {
                 var originalLen = input.val().length;
                 input.val(maskValue(x.value));
@@ -180,62 +165,50 @@
                 startPos = startPos - (originalLen - newLen);
                 input.setCursorPosition(startPos);
             }
-
             function maskValue(v) {
                 v = v.replace(settings.symbol, '');
-
                 var strCheck = '0123456789';
                 var len = v.length;
                 var a = '', t = '', neg = '';
-
                 if (len != 0 && v.charAt(0) == '-') {
                     v = v.replace('-', '');
                     if (settings.allowNegative) {
                         neg = '-';
                     }
                 }
-
                 if (len == 0) {
                     if (!settings.defaultZero)
                         return t;
                     t = '0.00';
                 }
-
                 for (var i = 0; i < len; i++) {
                     if ((v.charAt(i) != '0') && (v.charAt(i) != settings.decimal))
                         break;
                 }
-
                 for (; i < len; i++) {
                     if (strCheck.indexOf(v.charAt(i)) != -1)
                         a += v.charAt(i);
                 }
-
                 var n = parseFloat(a);
                 n = isNaN(n) ? 0 : n / Math.pow(10, settings.precision);
                 t = n.toFixed(settings.precision);
-
                 i = settings.precision == 0 ? 0 : 1;
                 var p, d = (t = t.split('.'))[i].substr(0, settings.precision);
                 for (p = (t = t[0]).length; (p -= 3) >= 1; ) {
                     t = t.substr(0, p) + settings.thousands + t.substr(p);
                 }
-
                 return (settings.precision > 0)
                         ? setSymbol(neg + t + settings.decimal + d + Array((settings.precision + 1) - d.length).join(0))
                         : setSymbol(neg + t);
             }
-
             function mask() {
                 var value = input.val();
                 input.val(maskValue(value));
             }
-
             function getDefaultMask() {
                 var n = parseFloat('0') / Math.pow(10, settings.precision);
                 return (n.toFixed(settings.precision)).replace(new RegExp('\\.', 'g'), settings.decimal);
             }
-
             function setSymbol(v) {
                 if (settings.showSymbol) {
                     if (v.substr(0, settings.symbol.length) != settings.symbol)
@@ -243,7 +216,6 @@
                 }
                 return v;
             }
-
             function changeSign(i) {
                 if (settings.allowNegative) {
                     var vic = i.val();
@@ -256,16 +228,13 @@
                     return i.val();
                 }
             }
-
             input.bind('keypress.maskMoney', keypressEvent);
             input.bind('keydown.maskMoney', keydownEvent);
             input.bind('blur.maskMoney', blurEvent);
             input.bind('focus.maskMoney', focusEvent);
             input.bind('mask', mask);
-
             input.one('unmaskMoney', function() {
                 input.unbind('.maskMoney');
-
                 if ($.browser.msie) {
                     this.onpaste = null;
                 } else if ($.browser.mozilla) {
@@ -274,15 +243,12 @@
             });
         });
     }
-
     $.fn.unmaskMoney = function() {
         return this.trigger('unmaskMoney');
     };
-
     $.fn.mask = function() {
         return this.trigger('mask');
     };
-
     $.fn.setCursorPosition = function(pos) {
         this.each(function(index, elem) {
             if (elem.setSelectionRange) {
@@ -298,36 +264,29 @@
         });
         return this;
     };
-
     $.fn.getInputSelection = function(el) {
         var start = 0, end = 0, normalizedValue, range, textInputRange, len, endRange;
-
         if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
             start = el.selectionStart;
             end = el.selectionEnd;
         } else {
             range = document.selection.createRange();
-
             if (range && range.parentElement() == el) {
                 len = el.value.length;
                 normalizedValue = el.value.replace(/\r\n/g, "\n");
-
                 // Create a working TextRange that lives only in the input
                 textInputRange = el.createTextRange();
                 textInputRange.moveToBookmark(range.getBookmark());
-
                 // Check if the start and end of the selection are at the very end
                 // of the input, since moveStart/moveEnd doesn't return what we want
                 // in those cases
                 endRange = el.createTextRange();
                 endRange.collapse(false);
-
                 if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
                     start = end = len;
                 } else {
                     start = -textInputRange.moveStart("character", -len);
                     start += normalizedValue.slice(0, start).split("\n").length - 1;
-
                     if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
                         end = len;
                     } else {
@@ -337,7 +296,6 @@
                 }
             }
         }
-
         return {
             start: start,
             end: end

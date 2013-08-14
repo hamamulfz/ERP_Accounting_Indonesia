@@ -1,5 +1,4 @@
 <h1>Class Reference</h1>
-
 <table class="summaryTable docIndex">
     <colgroup>
         <col class="col-package" />

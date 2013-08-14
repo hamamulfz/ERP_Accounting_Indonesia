@@ -1,5 +1,4 @@
 <?php
-
 /* ## TbInput class file.
  *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
@@ -7,14 +6,12 @@
  * @license [New BSD License](http://www.opensource.org/licenses/bsd-license.php) 
  * @package bootstrap.widgets.input
  */
-
 /**
  * Bootstrap input widget.
  * Used for rendering inputs according to Bootstrap standards.
  */
 abstract class TbInput extends CInputWidget {
     // The different input types.
-
     const TYPE_CHECKBOX = 'checkbox';
     const TYPE_CHECKBOXLIST = 'checkboxlist';
     const TYPE_CHECKBOXLIST_INLINE = 'checkboxlist_inline';
@@ -43,17 +40,14 @@ abstract class TbInput extends CInputWidget {
     const TYPE_SELECT2 = 'select2';
     const TYPE_TYPEAHEAD = 'typeahead';
     const TYPE_NUMBER = 'numberfield';
-
     /**
      * @var TbActiveForm the associated form widget.
      */
     public $form;
-
     /**
      * @var string the input label text.
      */
     public $label;
-
     /**
      * @var string the input type.
      *
@@ -61,71 +55,58 @@ abstract class TbInput extends CInputWidget {
      * radiobutton, radiobuttonlist, textarea, textfield, captcha and uneditable.
      */
     public $type;
-
     /**
      * @var array the data for list inputs.
      */
     public $data = array();
-
     /**
      * @var string text to prepend.
      */
     public $prependText;
-
     /**
      * @var string text to append.
      */
     public $appendText;
-
     /**
      * @var string the hint text.
      */
     public $hintText;
-
     /**
      * @var array label html attributes.
      */
     public $labelOptions = array();
-
     /**
      * @var array prepend html attributes.
      */
     public $prependOptions = array();
-
     /**
      * @var array append html attributes.
      */
     public $appendOptions = array();
-
     /**
      * @var array hint html attributes.
      */
     public $hintOptions = array();
-
     /**
      * @var array error html attributes.
      */
     public $errorOptions = array();
-
     /**
      * @var array captcha html attributes.
      */
     public $captchaOptions = array();
-
     /**
      * This property allows you to disable AJAX valiadtion for certain fields within a form.
      * @var boolean the value to be set as fourth parameter to {@link CActiveForm::error}.
      * @see http://www.yiiframework.com/doc/api/1.1/CActiveForm#error-detail
      */
     public $enableAjaxValidation = true;
-
     /**
      * This property allows you to disable client valiadtion for certain fields within a form.
      * @var boolean the value to be set as fifth parameter to {@link CActiveForm::error}.
      * @see http://www.yiiframework.com/doc/api/1.1/CActiveForm#error-detail
      */
     public $enableClientValidation = true;
-
     /**
      * ### .init()
      *
@@ -136,13 +117,10 @@ abstract class TbInput extends CInputWidget {
     public function init() {
         if (!isset($this->form))
             throw new CException(__CLASS__ . ': Failed to initialize widget! Form is not set.');
-
         if (!isset($this->model))
             throw new CException(__CLASS__ . ': Failed to initialize widget! Model is not set.');
-
         if (!isset($this->type))
             throw new CException(__CLASS__ . ': Failed to initialize widget! Input type is not set.');
-
         // todo: move this logic elsewhere, it doesn't belong here ...
         if ($this->type === self::TYPE_UNEDITABLE) {
             if (isset($this->htmlOptions['class']))
@@ -150,10 +128,8 @@ abstract class TbInput extends CInputWidget {
             else
                 $this->htmlOptions['class'] = 'uneditable-input';
         }
-
         $this->processHtmlOptions();
     }
-
     /**
      * ### .processHtmlOptions()
      *
@@ -164,63 +140,51 @@ abstract class TbInput extends CInputWidget {
             $this->label = $this->htmlOptions['label'];
             unset($this->htmlOptions['label']);
         }
-
         if (isset($this->htmlOptions['prepend'])) {
             $this->prependText = $this->htmlOptions['prepend'];
             unset($this->htmlOptions['prepend']);
         }
-
         if (isset($this->htmlOptions['append'])) {
             $this->appendText = $this->htmlOptions['append'];
             unset($this->htmlOptions['append']);
         }
-
         if (isset($this->htmlOptions['hint'])) {
             $this->hintText = $this->htmlOptions['hint'];
             unset($this->htmlOptions['hint']);
         }
-
         if (isset($this->htmlOptions['label'])) {
             $this->label = $this->htmlOptions['label'];
             unset($this->htmlOptions['label']);
         }
-
         if (isset($this->htmlOptions['labelOptions'])) {
             $this->labelOptions = $this->htmlOptions['labelOptions'];
             unset($this->htmlOptions['labelOptions']);
         }
-
         if (isset($this->htmlOptions['prependOptions'])) {
             $this->prependOptions = $this->htmlOptions['prependOptions'];
             unset($this->htmlOptions['prependOptions']);
         }
-
         if (isset($this->htmlOptions['appendOptions'])) {
             $this->appendOptions = $this->htmlOptions['appendOptions'];
             unset($this->htmlOptions['appendOptions']);
         }
-
         if (isset($this->htmlOptions['hintOptions'])) {
             $this->hintOptions = $this->htmlOptions['hintOptions'];
             unset($this->htmlOptions['hintOptions']);
         }
-
         if (isset($this->htmlOptions['errorOptions'])) {
             $this->errorOptions = $this->htmlOptions['errorOptions'];
             if (isset($this->htmlOptions['errorOptions']['enableAjaxValidation']))
                 $this->enableAjaxValidation = (boolean) $this->htmlOptions['errorOptions']['enableAjaxValidation'];
-
             if (isset($this->htmlOptions['errorOptions']['enableClientValidation']))
                 $this->enableClientValidation = (boolean) $this->htmlOptions['errorOptions']['enableClientValidation'];
             unset($this->htmlOptions['errorOptions']);
         }
-
         if (isset($this->htmlOptions['captchaOptions'])) {
             $this->captchaOptions = $this->htmlOptions['captchaOptions'];
             unset($this->htmlOptions['captchaOptions']);
         }
     }
-
     /**
      * ### .run()
      *
@@ -233,121 +197,92 @@ abstract class TbInput extends CInputWidget {
             case self::TYPE_CHECKBOX:
                 $this->checkBox();
                 break;
-
             case self::TYPE_CHECKBOXLIST:
                 $this->checkBoxList();
                 break;
-
             case self::TYPE_CHECKBOXLIST_INLINE:
                 $this->checkBoxListInline();
                 break;
-
             case self::TYPE_CHECKBOXGROUPSLIST:
                 $this->checkBoxGroupsList();
                 break;
-
             case self::TYPE_DROPDOWN:
                 $this->dropDownList();
                 break;
-
             case self::TYPE_FILE:
                 $this->fileField();
                 break;
-
             case self::TYPE_PASSWORD:
                 $this->passwordField();
                 break;
-
             case self::TYPE_RADIO:
                 $this->radioButton();
                 break;
-
             case self::TYPE_RADIOLIST:
                 $this->radioButtonList();
                 break;
-
             case self::TYPE_RADIOLIST_INLINE:
                 $this->radioButtonListInline();
                 break;
-
             case self::TYPE_RADIOBUTTONGROUPSLIST:
                 $this->radioButtonGroupsList();
                 break;
-
             case self::TYPE_TEXTAREA:
                 $this->textArea();
                 break;
-
             case 'textfield': // backwards compatibility
             case self::TYPE_TEXT:
                 $this->textField();
                 break;
-
             case self::TYPE_MASKEDTEXT:
                 $this->maskedTextField();
                 break;
-
             case self::TYPE_CAPTCHA:
                 $this->captcha();
                 break;
-
             case self::TYPE_UNEDITABLE:
                 $this->uneditableField();
                 break;
-
             case self::TYPE_DATEPICKER:
                 $this->datepickerField();
                 break;
-
             case self::TYPE_REDACTOR:
                 $this->redactorJs();
                 break;
-
             case self::TYPE_MARKDOWNEDITOR:
                 $this->markdownEditorJs();
                 break;
-
             case self::TYPE_HTML5EDITOR:
                 $this->html5Editor();
                 break;
-
             case self::TYPE_DATERANGEPICKER:
                 $this->dateRangeField();
                 break;
-
             case self::TYPE_TOGGLEBUTTON:
                 $this->toggleButton();
                 break;
-
             case self::TYPE_COLORPICKER:
                 $this->colorpickerField();
                 break;
-
             case self::TYPE_CKEDITOR:
                 $this->ckEditor();
                 break;
-
             case self::TYPE_TIMEPICKER:
                 $this->timepickerField();
                 break;
-
             case self::TYPE_SELECT2:
                 $this->select2Field();
                 break;
-
             case self::TYPE_TYPEAHEAD:
                 $this->typeAheadField();
                 break;
-
             case self::TYPE_NUMBER:
                 $this->numberField();
                 break;
-
             default:
                 throw new CException(__CLASS__ . ': Failed to run widget! Type is invalid.');
         }
     }
-
     /**
      * ### .getLabel()
      *
@@ -363,7 +298,6 @@ abstract class TbInput extends CInputWidget {
         else
             return '';
     }
-
     /**
      * ### .getPrepend()
      *
@@ -374,23 +308,19 @@ abstract class TbInput extends CInputWidget {
     protected function getPrepend() {
         if ($this->hasAddOn()) {
             $htmlOptions = $this->prependOptions;
-
             if (isset($htmlOptions['class']))
                 $htmlOptions['class'] .= ' add-on';
             else
                 $htmlOptions['class'] = 'add-on';
-
             ob_start();
             echo '<div class="' . $this->getAddonCssClass() . '">';
             if (isset($this->prependText))
                 echo CHtml::tag('span', $htmlOptions, $this->prependText);
-
             return ob_get_clean();
         }
         else
             return '';
     }
-
     /**
      * ### .getAppend()
      *
@@ -401,23 +331,19 @@ abstract class TbInput extends CInputWidget {
     protected function getAppend() {
         if ($this->hasAddOn()) {
             $htmlOptions = $this->appendOptions;
-
             if (isset($htmlOptions['class']))
                 $htmlOptions['class'] .= ' add-on';
             else
                 $htmlOptions['class'] = 'add-on';
-
             ob_start();
             if (isset($this->appendText))
                 echo CHtml::tag('span', $htmlOptions, $this->appendText);
-
             echo '</div>';
             return ob_get_clean();
         }
         else
             return '';
     }
-
     /**
      * ### .getAppend()
      *
@@ -429,7 +355,6 @@ abstract class TbInput extends CInputWidget {
     protected function getAttributeId($attribute) {
         return isset($this->htmlOptions['id']) ? $this->htmlOptions['id'] : CHtml::getIdByName(CHtml::resolveName($this->model, $attribute));
     }
-
     /**
      * ### .getError()
      *
@@ -440,7 +365,6 @@ abstract class TbInput extends CInputWidget {
     protected function getError() {
         return $this->form->error($this->model, $this->attribute, $this->errorOptions, $this->enableAjaxValidation, $this->enableClientValidation);
     }
-
     /**
      * ### .getHint()
      *
@@ -451,18 +375,15 @@ abstract class TbInput extends CInputWidget {
     protected function getHint() {
         if (isset($this->hintText)) {
             $htmlOptions = $this->hintOptions;
-
             if (isset($htmlOptions['class']))
                 $htmlOptions['class'] .= ' help-block';
             else
                 $htmlOptions['class'] = 'help-block';
-
             return CHtml::tag('p', $htmlOptions, $this->hintText);
         }
         else
             return '';
     }
-
     /**
      * ### .getContainerCssClass()
      *
@@ -474,7 +395,6 @@ abstract class TbInput extends CInputWidget {
         $attribute = $this->attribute;
         return $this->model->hasErrors(CHtml::resolveName($this->model, $attribute)) ? CHtml::$errorCss : '';
     }
-
     /**
      * ### .getAddonCssClass()
      *
@@ -488,10 +408,8 @@ abstract class TbInput extends CInputWidget {
             $classes[] = 'input-prepend';
         if (isset($this->appendText))
             $classes[] = 'input-append';
-
         return implode(' ', $classes);
     }
-
     /**
      * ### .hasAddOn()
      *
@@ -502,7 +420,6 @@ abstract class TbInput extends CInputWidget {
     protected function hasAddOn() {
         return isset($this->prependText) || isset($this->appendText);
     }
-
     /**
      * ### .checkBox()
      *
@@ -512,7 +429,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function checkBox();
-
     /**
      * ### .toggleButton()
      *
@@ -522,7 +438,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function toggleButton();
-
     /**
      * ### .checkBoxList()
      *
@@ -532,7 +447,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function checkBoxList();
-
     /**
      * ### .checkBoxListInline()
      *
@@ -542,7 +456,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function checkBoxListInline();
-
     /**
      * ### .checkBoxGroupsList()
      *
@@ -552,7 +465,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function checkBoxGroupsList();
-
     /**
      * ### .dropDownList()
      *
@@ -562,7 +474,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function dropDownList();
-
     /**
      * ### .fileField()
      *
@@ -572,7 +483,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function fileField();
-
     /**
      * ### .passwordField()
      *
@@ -582,7 +492,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function passwordField();
-
     /**
      * ### .radioButton()
      *
@@ -592,7 +501,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function radioButton();
-
     /**
      * ### .radioButtonList()
      *
@@ -602,7 +510,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function radioButtonList();
-
     /**
      * ### .radioButtonListInline()
      *
@@ -612,7 +519,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function radioButtonListInline();
-
     /**
      * ### .radioButtonGroupsList()
      *
@@ -622,7 +528,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function radioButtonGroupsList();
-
     /**
      * ### .textArea()
      *
@@ -632,7 +537,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function textArea();
-
     /**
      * ### .textField()
      *
@@ -642,7 +546,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function textField();
-
     /**
      * ### .maskedTextField()
      *
@@ -652,7 +555,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function maskedTextField();
-
     /**
      * ### .captcha()
      *
@@ -662,7 +564,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function captcha();
-
     /**
      * ### .uneditableField()
      *
@@ -672,7 +573,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function uneditableField();
-
     /**
      * ### .datepicketField()
      *
@@ -682,7 +582,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function datepickerField();
-
     /**
      * ### .redactorJs()
      *
@@ -692,7 +591,6 @@ abstract class TbInput extends CInputWidget {
      * @return mixed
      */
     abstract protected function redactorJs();
-
     /**
      * ### .markdownEditorJs()
      *
@@ -702,7 +600,6 @@ abstract class TbInput extends CInputWidget {
      * @return mixed
      */
     abstract protected function markdownEditorJs();
-
     /**
      * ### .ckEditor()
      *
@@ -712,7 +609,6 @@ abstract class TbInput extends CInputWidget {
      * @return mixed
      */
     abstract protected function ckEditor();
-
     /**
      * ### .html5Editor()
      *
@@ -722,7 +618,6 @@ abstract class TbInput extends CInputWidget {
      * @return mixed
      */
     abstract protected function html5Editor();
-
     /**
      * ### .dateRangeField()
      *
@@ -732,7 +627,6 @@ abstract class TbInput extends CInputWidget {
      * @return mixed
      */
     abstract protected function dateRangeField();
-
     /**
      * ### .colorpickerField()
      *
@@ -742,7 +636,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function colorpickerField();
-
     /**
      * ### .timepickerField()
      *
@@ -752,7 +645,6 @@ abstract class TbInput extends CInputWidget {
      * @abstract
      */
     abstract protected function timepickerField();
-
     /**
      * ### .select2Field()
      *
@@ -761,13 +653,11 @@ abstract class TbInput extends CInputWidget {
      * @return mixed
      */
     abstract protected function select2Field();
-
     /**
      * Renders a typeAhead field.
      * @return mixed
      */
     abstract protected function typeAheadField();
-
     /**
      * ### . numberField()
      *

@@ -40,9 +40,8 @@ class MCashbankController extends Controller {
             'pagination' => array(
                 'pageSize' => 10,
             ),
-            'sort'=>array(
-                'defaultOrder'=>'input_date',
-                
+            'sort' => array(
+                'defaultOrder' => 'input_date',
             )
         ));
         //End of Related Journal
@@ -71,19 +70,18 @@ class MCashbankController extends Controller {
 
         if (isset($_POST['account_no_id'])) {
             $model->attributes = $_POST['fJournal'];
-            $model->validate();
 
-            if (isset($_POST['fJournal']['cb_receiver'])) {  //Expense
-                $model->input_date = $_POST['fJournal']['input_date'];
-                $model->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
-                $model->remark = $_POST['fJournal']['remark'];
-                $model->var_account = $_POST['fJournal']['var_account'];
+			$model->input_date = $_POST['fJournal']['input_date'];
+			$model->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
+			$model->remark = $_POST['fJournal']['remark'];
+			$model->var_account = $_POST['fJournal']['var_account'];
+            $model->account_no_id = $_POST['account_no_id'];
+            $model->user_remark = $_POST['user_remark'];
 
-                $model->account_no_id = $_POST['account_no_id'];
+            if ($model->journal_type_id == 3) {  //CB-expense
+
                 $model->debit = $_POST['debit'];
-                //$model->credit=$_POST['credit'];
                 $model->credit = array(0);
-                $model->user_remark = $_POST['user_remark'];
 
                 $_myBalance = 0; //default
 
@@ -100,13 +98,12 @@ class MCashbankController extends Controller {
                 if ($model->validate()) {
 
                     $modelHeader->input_date = $_POST['fJournal']['input_date'];
-                    $modelHeader->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
                     $modelHeader->remark = $_POST['fJournal']['remark'];
-                    $modelHeader->user_ref = $_POST['fJournal']['cb_receiver'];
+                    $modelHeader->cb_custom1 = $_POST['fJournal']['cb_receiver'];
 
                     $modelHeader->save();
 
-                    $t = tJournalDetail::model()->deleteAll('parent_id = ' . $id); //delete All Journal Detail
+                    tJournalDetail::model()->deleteAll('parent_id = ' . $id); //delete All Journal Detail
 
                     $_tdebet = 0;
                     $_tcredit = 0;
@@ -155,17 +152,9 @@ class MCashbankController extends Controller {
 
                 $this->render('create', array('model' => $model));
                 Yii::app()->end();
-            } else { //Income
-                $model->input_date = $_POST['fJournal']['input_date'];
-                $model->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
-                $model->remark = $_POST['fJournal']['remark'];
-                $model->var_account = $_POST['fJournal']['var_account'];
-
-                $model->account_no_id = $_POST['account_no_id'];
-                //$model->debit=$_POST['debit'];
+            } else { //CB-Income
                 $model->debit = array(0);
                 $model->credit = $_POST['credit'];
-                $model->user_remark = $_POST['user_remark'];
 
                 foreach ($model->debit as $_debit)
                     $_myDebit = $_myDebit + $_debit;
@@ -180,13 +169,12 @@ class MCashbankController extends Controller {
                 if ($model->validate()) {
 
                     $modelHeader->input_date = $_POST['fJournal']['input_date'];
-                    $modelHeader->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
                     $modelHeader->remark = $_POST['fJournal']['remark'];
-                    $modelHeader->user_ref = $_POST['fJournal']['cb_received_from'];
+                    $modelHeader->cb_custom1 = $_POST['fJournal']['cb_received_from'];
 
                     $modelHeader->save();
 
-                    $t = tJournalDetail::model()->deleteAll('parent_id = ' . $id); //delete All Journal
+                    tJournalDetail::model()->deleteAll('parent_id = ' . $id); //delete All Journal
 
                     $modelDetail = new tJournalDetail;
                     $modelDetail->parent_id = $modelHeader->id;
@@ -228,7 +216,9 @@ class MCashbankController extends Controller {
                         $modelDetail->save();
                     endfor;
 
-                    $this->redirect(array('/m2/mCashbank'));
+                    Yii::app()->user->setFlash("success", "<strong>Great!</strong> Journal updated succesfully...");
+                    $this->redirect(array('/m2/mCashbank/view', 'id' => $modelHeader->id));
+                    //$this->redirect(array('/m2/mCashbank'));
                 }
 
                 $this->render('create', array('model' => $model));
@@ -236,15 +226,15 @@ class MCashbankController extends Controller {
             }
         }
 
+		//Fill Current Value
         if (!isset($_POST['account_no_id'])) {
             $model->input_date = $modelHeader->input_date;
-            $model->yearmonth_periode = $modelHeader->yearmonth_periode;
             $model->remark = $modelHeader->remark;
             $model->system_ref = $modelHeader->system_ref;
             $model->master_id = $modelHeader->id;
             $model->journal_type_id = $modelHeader->journal_type_id;
 
-            if ($model->journal_type_id == 1) {
+            if ($model->journal_type_id == 2) {  //CB-income
                 $model->cb_received_from = $modelHeader->cb_custom1;
             }
             else
@@ -252,15 +242,18 @@ class MCashbankController extends Controller {
 
             $modelDetail = tJournalDetail::model()->findAll('parent_id =' . $modelHeader->id);
 
+            $justonce = 0;
             foreach ($modelDetail as $mm) {
-                if (!in_array($mm->account_no_id, tAccount::cashBankAccountList())) {
-                    $model->account_no_id[] = $mm->account_no_id;
-                } else {
+                if ($justonce == 0 && in_array($mm->account_no_id, tAccount::cashBankAccountList())) {
                     $model->var_account = $mm->account_no_id;
+	                $justonce = 1;
+                } else {
+					$model->account_no_id[] = $mm->account_no_id;
+					$model->debit[] = $mm->debit;
+					$model->credit[] = $mm->credit;
+					$model->user_remark[] = $mm->user_remark;
                 }
-                $model->debit[] = $mm->debit;
-                $model->credit[] = $mm->credit;
-                $model->user_remark[] = $mm->user_remark;
+                
             }
         }
 
@@ -399,7 +392,7 @@ class MCashbankController extends Controller {
                 $modelHeader->entity_id = sUser::model()->myGroup; //default Group
                 $modelHeader->module_id = 2; //CB
                 $modelHeader->state_id = 1;
-                $modelHeader->journal_type_id = 2; //CB-expense
+                $modelHeader->journal_type_id = 3; //CB-expense
 
                 $modelHeader->save();
 
@@ -500,7 +493,7 @@ class MCashbankController extends Controller {
                 $modelHeader->entity_id = sUser::model()->myGroup; //default Group
                 $modelHeader->module_id = 2; //CB
                 $modelHeader->state_id = 1;
-                $modelHeader->journal_type_id = 1; //CB-Income
+                $modelHeader->journal_type_id = 2; //CB-Income
 
                 $modelHeader->save();
 

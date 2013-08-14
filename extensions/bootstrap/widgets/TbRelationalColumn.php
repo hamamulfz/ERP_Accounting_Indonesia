@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbRelationalColumn class
  *
@@ -11,26 +10,22 @@
  * Time: 10:05 PM
  */
 class TbRelationalColumn extends TbDataColumn {
-
     /**
      * @var string $url the route to call via AJAX to get the data from
      */
     public $url;
-
     /**
      * @var string $cssClass the class name that will wrap up the cell content.
      * Important Note: this class will be used as the trigger for the AJAX call, so make sure is unique for the
      * column.
      */
     public $cssClass = 'tbrelational-column';
-
     /**
      * @var bool $cacheData if set to true, there won't be more than one AJAX request. If set to false, the widget will
      * continuously make AJAX requests. This is useful if the data could vary. If the data doesn't change then is better
      * to set it to true. Defaults to true.
      */
     public $cacheData = true;
-
     /**
      * @var string a javascript function that will be invoked if an AJAX call occurs.
      *
@@ -50,25 +45,20 @@ class TbRelationalColumn extends TbDataColumn {
      * </pre>
      */
     public $afterAjaxUpdate;
-
     /**
      * @var string $ajaxErrorMessage the message that is displayed on the newly created row in case there is an AJAX
      * error.
      */
     public $ajaxErrorMessage = 'Error';
-
     /**
      * widget initialization
      */
     public function init() {
         parent::init();
-
         if (empty($this->url))
             $this->url = Yii::app()->getRequest()->requestUri;
-
         $this->registerClientScript();
     }
-
     /**
      * Overrides CDataColumn renderDataCell in order to wrap up its content with the object that will be used as a
      * trigger.
@@ -91,7 +81,6 @@ class TbRelationalColumn extends TbDataColumn {
         echo '</span>';
         echo '</td>';
     }
-
     /**
      * Helper function to return the primary key of the $data
      *  * IMPORTANT: composite keys on CActiveDataProviders will return the keys joined by comma
@@ -105,10 +94,8 @@ class TbRelationalColumn extends TbDataColumn {
         }
         if ($this->grid->dataProvider instanceof CArrayDataProvider || $this->grid->dataProvider instanceof CSqlDataProvider)
             return is_object($data) ? $data->{$this->grid->dataProvider->keyField} : $data[$this->grid->dataProvider->keyField];
-
         return null;
     }
-
     /**
      * Register script that will handle its behavior
      */
@@ -122,7 +109,6 @@ class TbRelationalColumn extends TbDataColumn {
         }
         else
             $this->afterAjaxUpdate = 'js:$.noop';
-
         $this->ajaxErrorMessage = CHtml::encode($this->ajaxErrorMessage);
         $afterAjaxUpdate = CJavaScript::encode($this->afterAjaxUpdate);
         $span = count($this->grid->columns);
@@ -130,7 +116,6 @@ class TbRelationalColumn extends TbDataColumn {
         $cache = $this->cacheData ? 'true' : 'false';
         $data = !empty($this->submitData) && is_array($this->submitData) ? $this->submitData : 'js:{}';
         $data = CJavascript::encode($data);
-
         $js = <<<EOD
 $(document).on('click','.{$this->cssClass}', function(){
 	var span = $span;
@@ -140,10 +125,8 @@ $(document).on('click','.{$this->cssClass}', function(){
 	var tr = $('#relatedinfo'+rowid);
 	var parent = that.parents('tr').eq(0);
 	var afterAjaxUpdate = {$afterAjaxUpdate};
-
 	if (status && status=='on'){return}
 	that.data('status','on');
-
 	if (tr.length && !tr.is(':visible') && {$cache})
 	{
 		tr.slideDown();
@@ -193,5 +176,4 @@ $(document).on('click','.{$this->cssClass}', function(){
 EOD;
         $cs->registerScript(__CLASS__ . '#' . $this->id, $js);
     }
-
 }

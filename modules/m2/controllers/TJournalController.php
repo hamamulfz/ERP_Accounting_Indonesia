@@ -240,7 +240,7 @@ class tJournalController extends Controller {
                 $modelHeader->entity_id = sUser::model()->myGroup; //default Group
                 $modelHeader->module_id = 1; //GL
                 $modelHeader->state_id = 1;
-                $modelHeader->journal_type_id = 3; //Journal Memorial
+                $modelHeader->journal_type_id = 1; //Journal Memorial
 
                 $modelHeader->save();
 

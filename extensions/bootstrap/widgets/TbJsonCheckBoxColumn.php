@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbJsonCheckBoxColumn class
  * Works in conjunction with TbJsonGridView. Renders HTML or returns JSON containing checkbox
@@ -10,12 +9,10 @@
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @package YiiBooster bootstrap.widgets
  */
-
 /**
  * @property TbJsonGridView $grid
  */
 class TbJsonCheckBoxColumn extends CCheckBoxColumn {
-
     /**
      * Renders the header cell.
      */
@@ -30,7 +27,6 @@ class TbJsonCheckBoxColumn extends CCheckBoxColumn {
         }
         parent::renderHeaderCell();
     }
-
     /**
      * Renders the header cell content.
      * This method will render a checkbox in the header when {@link selectableRows} is greater than 1
@@ -40,7 +36,6 @@ class TbJsonCheckBoxColumn extends CCheckBoxColumn {
         if ($this->grid->json) {
             if (trim($this->headerTemplate) === '')
                 return $this->grid->blankDisplay;
-
             if ($this->selectableRows === null && $this->grid->selectableRows > 1)
                 $item = CHtml::checkBox($this->id . '_all', false, array('class' => 'select-on-check-all'));
             else if ($this->selectableRows > 1)
@@ -50,14 +45,12 @@ class TbJsonCheckBoxColumn extends CCheckBoxColumn {
                 parent::renderHeaderCellContent();
                 $item = ob_get_clean();
             }
-
             return strtr($this->headerTemplate, array(
                 '{item}' => $item,
             ));
         }
         parent::renderHeaderCellContent();
     }
-
     /**
      * Renders|returns the data cell.
      * @param int $row
@@ -75,16 +68,13 @@ class TbJsonCheckBoxColumn extends CCheckBoxColumn {
                     $options['class'] = $class;
             }
         }
-
         if ($this->grid->json) {
             return CMap::mergeArray(
                             $options, array('content' => $this->renderDataCellContent($row, $data))
             );
         }
-
         parent::renderDataCell($row);
     }
-
     /**
      * Renders|returns the data cell content
      * @param int $row
@@ -96,11 +86,8 @@ class TbJsonCheckBoxColumn extends CCheckBoxColumn {
         parent::renderDataCellContent($row, $data);
         $html = ob_get_contents();
         ob_end_clean();
-
         if ($this->grid->json)
             return $html;
-
         echo $html;
     }
-
 }

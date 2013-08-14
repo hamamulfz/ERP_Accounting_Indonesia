@@ -19,7 +19,6 @@
 {
     // CommonJS
     typeof(require) != 'undefined' ? SyntaxHighlighter = require('shCore').SyntaxHighlighter : null;
-
     function Brush()
     {
         var funcs = 'abs acos acosh addcslashes addslashes ' +
@@ -56,15 +55,12 @@
                 'stripos stripslashes stristr strlen strnatcasecmp strnatcmp strncasecmp strncmp strpbrk ' +
                 'strpos strptime strrchr strrev strripos strrpos strspn strstr strtok strtolower strtotime ' +
                 'strtoupper strtr strval substr substr_compare';
-
         var keywords = 'abstract and array as break case catch cfunction class clone const continue declare default die do ' +
                 'else elseif enddeclare endfor endforeach endif endswitch endwhile extends final for foreach ' +
                 'function include include_once global goto if implements interface instanceof namespace new ' +
                 'old_function or private protected public return require require_once static switch ' +
                 'throw try use var while xor ';
-
         var constants = '__FILE__ __LINE__ __METHOD__ __FUNCTION__ __CLASS__';
-
         this.regexList = [
             {regex: SyntaxHighlighter.regexLib.singleLineCComments, css: 'comments'}, // one line comments
             {regex: SyntaxHighlighter.regexLib.multiLineCComments, css: 'comments'}, // multiline comments
@@ -75,16 +71,12 @@
             {regex: new RegExp(this.getKeywords(constants), 'gmi'), css: 'constants'}, // constants
             {regex: new RegExp(this.getKeywords(keywords), 'gm'), css: 'keyword'}			// keyword
         ];
-
         this.forHtmlScript(SyntaxHighlighter.regexLib.phpScriptTags);
     }
     ;
-
     Brush.prototype = new SyntaxHighlighter.Highlighter();
     Brush.aliases = ['php'];
-
     SyntaxHighlighter.brushes.Php = Brush;
-
     // CommonJS
     typeof(exports) != 'undefined' ? exports.Brush = Brush : null;
 })();

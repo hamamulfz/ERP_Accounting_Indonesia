@@ -3,17 +3,12 @@
  * Docs & License: http://arshaw.com/fullcalendar/
  * (c) 2013 Adam Shaw
  */
-
 (function($) {
-
-
     var fc = $.fullCalendar;
     var formatDate = fc.formatDate;
     var parseISO8601 = fc.parseISO8601;
     var addDays = fc.addDays;
     var applyAll = fc.applyAll;
-
-
     fc.sourceNormalizers.push(function(sourceOptions) {
         if (sourceOptions.dataType == 'gcal' ||
                 sourceOptions.dataType === undefined &&
@@ -24,17 +19,12 @@
             }
         }
     });
-
-
     fc.sourceFetchers.push(function(sourceOptions, start, end) {
         if (sourceOptions.dataType == 'gcal') {
             return transformOptions(sourceOptions, start, end);
         }
     });
-
-
     function transformOptions(sourceOptions, start, end) {
-
         var success = sourceOptions.success;
         var data = $.extend({}, sourceOptions.data || {}, {
             'start-min': formatDate(start, 'u'),
@@ -42,12 +32,10 @@
             'singleevents': true,
             'max-results': 9999
         });
-
         var ctz = sourceOptions.currentTimezone;
         if (ctz) {
             data.ctz = ctz = ctz.replace(' ', '_');
         }
-
         return $.extend({}, sourceOptions, {
             url: sourceOptions.url.replace(/\/basic$/, '/full') + '?alt=json-in-script&callback=?',
             dataType: 'jsonp',
@@ -94,14 +82,9 @@
                 return events;
             }
         });
-
     }
-
-
 // legacy
     fc.gcalFeed = function(url, sourceOptions) {
         return $.extend({}, sourceOptions, {url: url, dataType: 'gcal'});
     };
-
-
 })(jQuery);

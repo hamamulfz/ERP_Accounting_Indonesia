@@ -1,5 +1,4 @@
 <?php
-
 /* ## TbBox widget class
  *
  * @author Antonio Ramirez <antonio@clevertech.biz>
@@ -7,48 +6,40 @@
  * @license [New BSD License](http://www.opensource.org/licenses/bsd-license.php) 
  * @package bootstrap.widgets
  */
-
 class TbBox extends CWidget {
-
     /**
      * @var mixed
      * Box title
      * If set to false, a box with no title is rendered
      */
     public $title = '';
-
     /**
      * @var string
      * The class icon to display in the header title of the box.
      * @see <http://twitter.github.com/bootstrap/base-css.html#icon>
      */
     public $headerIcon;
-
     /**
      * @var string
      * Box Content
      * optional, the content of this attribute is echoed as the box content
      */
     public $content = '';
-
     /**
      * @var array
      * box HTML additional attributes
      */
     public $htmlOptions = array();
-
     /**
      * @var array
      * box header HTML additional attributes
      */
     public $htmlHeaderOptions = array();
-
     /**
      * @var array
      * box content HTML additional attributes
      */
     public $htmlContentOptions = array();
-
     /**
      * @var array the configuration for additional header buttons. Each array element specifies a single button
      * which has the following format:
@@ -70,7 +61,6 @@ class TbBox extends CWidget {
      * </pre>
      */
     public $headerButtons = array();
-
     /**
      * ### .init()
      *
@@ -81,27 +71,21 @@ class TbBox extends CWidget {
             $this->htmlOptions['class'] = 'bootstrap-widget ' . $this->htmlOptions['class'];
         else
             $this->htmlOptions['class'] = 'bootstrap-widget';
-
         if (isset($this->htmlContentOptions['class']))
             $this->htmlContentOptions['class'] = 'bootstrap-widget-content ' . $this->htmlContentOptions['class'];
         else
             $this->htmlContentOptions['class'] = 'bootstrap-widget-content';
-
         if (!isset($this->htmlContentOptions['id']))
             $this->htmlContentOptions['id'] = $this->getId();
-
         if (isset($this->htmlHeaderOptions['class']))
             $this->htmlHeaderOptions['class'] = 'bootstrap-widget-header ' . $this->htmlHeaderOptions['class'];
         else
             $this->htmlHeaderOptions['class'] = 'bootstrap-widget-header';
-
         echo CHtml::openTag('div', $this->htmlOptions);
-
         $this->registerClientScript();
         $this->renderHeader();
         $this->renderContentBegin();
     }
-
     /**
      * ### .run()
      *
@@ -111,7 +95,6 @@ class TbBox extends CWidget {
         $this->renderContentEnd();
         echo CHtml::closeTag('div') . "\n";
     }
-
     /**
      * ### .renderHeader()
      *
@@ -122,17 +105,14 @@ class TbBox extends CWidget {
             echo CHtml::openTag('div', $this->htmlHeaderOptions);
             if ($this->title) {
                 $this->title = '<h3>' . $this->title . '</h3>';
-
                 if ($this->headerIcon)
                     $this->title = '<i class="' . $this->headerIcon . '"></i>' . $this->title;
-
                 echo $this->title;
                 $this->renderButtons();
             }
             echo CHtml::closeTag('div');
         }
     }
-
     /**
      * ### .renderButtons()
      *
@@ -141,53 +121,41 @@ class TbBox extends CWidget {
     public function renderButtons() {
         if (empty($this->headerButtons))
             return;
-
         echo '<div class="bootstrap-toolbar pull-right">';
-
         if (!empty($this->headerButtons) && is_array($this->headerButtons)) {
             foreach ($this->headerButtons as $button) {
                 $options = $button;
                 $button = $options['class'];
                 unset($options['class']);
-
                 if (strpos($button, 'TbButton') === false)
                     throw new CException('message');
-
                 if (!isset($options['htmlOptions']))
                     $options['htmlOptions'] = array();
-
                 $class = isset($options['htmlOptions']['class']) ? $options['htmlOptions']['class'] : '';
                 $options['htmlOptions']['class'] = $class . ' pull-right';
-
                 $this->controller->widget($button, $options);
             }
         }
-
         echo '</div>';
     }
-
     /*
      * ### .renderContentBegin()
      *
      * Renders the opening of the content element and the optional content
      */
-
     public function renderContentBegin() {
         echo CHtml::openTag('div', $this->htmlContentOptions);
         if (!empty($this->content))
             echo $this->content;
     }
-
     /*
      * ### .renderContentEnd()
      *
      * Closes the content element
      */
-
     public function renderContentEnd() {
         echo CHtml::closeTag('div');
     }
-
     /**
      * ### .registerClientScript()
      *
@@ -196,5 +164,4 @@ class TbBox extends CWidget {
     public function registerClientScript() {
         Yii::app()->bootstrap->registerAssetCss('bootstrap-box.css');
     }
-
 }

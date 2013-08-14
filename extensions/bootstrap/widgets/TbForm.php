@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbForm class file.
  *
@@ -10,14 +9,11 @@
  *
  * 1. Create a CForm model
  *
-
-
   class FormbuilderTestModel extends CFormModel
   {
   public $search;
   public $agree;
   public $radiolist;
-
   public function rules()
   {
   return array(
@@ -25,10 +21,8 @@
   array('agree,radiolist', 'boolean'),
   array('agree', 'compare', 'compareValue' => true,
   'message' => 'You must agree...'),
-
   );
   }
-
   // Change the labels here
   public function attributeLabels()
   {
@@ -37,7 +31,6 @@
   'selectlist'=>'I agree',
   );
   }
-
   // return the formbuilder config
   public function getFormConfig()
   {
@@ -57,7 +50,6 @@
   'type' => 'checkbox',
   // 'hint' => 'Agree to terms and conditions',
   ),
-
   'radiolist' => array(
   'type' => 'radiolist',
   'items' => array('item1' => '1', 'item2' => '2', 'item3' => '3'),
@@ -76,7 +68,6 @@
   )
   );
   }
-
  *
  * 2. Create a testaction in the controller
  *
@@ -85,12 +76,9 @@
   public function actionFormbuilderTest()
   {
   $model = new FormbuilderTestModel;
-
   if (isset($_POST['FormbuilderTestModel']))
   $model->attributes = $_POST['FormbuilderTestModel'];
-
   $model->validate();
-
   $form = TbForm::createForm($model->getFormConfig(),$model,
   array( //@see TbActiveForm attributes
   'htmlOptions'=>array('class'=>'well'),
@@ -98,7 +86,6 @@
   ...
   )
   );
-
   //no need for an extra view file for testing
   $this->renderText($form);
   //$this->render('formbuildertest',array('form'=>$form);
@@ -112,19 +99,15 @@
  * @package bootstrap.widgets
  */
 Yii::import('bootstrap.widgets.*');
-
 class TbForm extends CForm {
-
     /**
      * @var string the name of the class for representing a form input element. Defaults to 'TbFormInputElement'.
      */
     public $inputElementClass = 'TbFormInputElement';
-
     /**
      * @var string the name of the class for representing a form button element. Defaults to 'CFormButtonElement'.
      */
     public $buttonElementClass = 'TbFormButtonElement';
-
     /**
      * Create the TbForm and assign the TbActiveForm with options as activeForm
      *
@@ -136,13 +119,10 @@ class TbForm extends CForm {
     public static function createForm($config, $parent, $options = array()) {
         $class = __CLASS__;
         $options['class'] = 'TbActiveForm';
-
         $form = new $class($config, $parent);
         $form->activeForm = $options;
-
         return $form;
     }
-
     /**
      * Override parent
      * Remove wrapper with class="row ..."
@@ -157,10 +137,8 @@ class TbForm extends CForm {
             else
                 return $element->render();
         }
-
         return parent::renderElement($element);
     }
-
     /**
      * Render the buttons as TbFormButtonElement
      *
@@ -170,12 +148,9 @@ class TbForm extends CForm {
         $output = '';
         foreach ($this->getButtons() as $button)
             $output .= $this->renderElement($button) . '&nbsp;';
-
         //form-actions div wrapper only if not is inline form
         if ($output !== '' && $this->getActiveFormWidget()->type !== 'inline')
             $output = "<div class=\"form-actions\">\n" . $output . "</div>\n";
-
         return $output;
     }
-
 }

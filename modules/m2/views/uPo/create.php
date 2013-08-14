@@ -1,10 +1,7 @@
 <?php
-$this->breadcrumbs=array(
-
-	'U Pos'=>array('index'),
-
-	'Create',
-
+$this->breadcrumbs = array(
+    'U Pos' => array('index'),
+    'Create',
 );
 
 
@@ -15,12 +12,11 @@ $this->menu = array(
 
 $this->menu1 = uPo::getTopUpdated();
 $this->menu2 = uPo::getTopCreated();
-
 ?>
 
 
 <div class="page-header">
-<h1>Create</h1>
+    <h1>Create</h1>
 </div>
 
-<?php echo $this->renderPartial('_form',array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model' => $model)); ?>

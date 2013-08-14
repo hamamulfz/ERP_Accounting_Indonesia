@@ -1,15 +1,11 @@
 <?php
-
 class SCompanyDocumentsAdminController extends Controller {
-
     public $layout = '//layouts/mainAuth';
-
     public function filters() {
         return array(
             'rights',
         );
     }
-
     public function actions() {
         return array(
             //Photo News Admin Management
@@ -34,13 +30,10 @@ class SCompanyDocumentsAdminController extends Controller {
             ),
         );
     }
-
     public function actionIndex() {
         $this->render('companyDocumentsAdmin');
     }
-
 }
-
 /*
   //server file input
   $this->widget('ext.elFinder.ServerFileInput', array(
@@ -49,12 +42,10 @@ class SCompanyDocumentsAdminController extends Controller {
   'connectorRoute' => 'admin/elfinder/connector',
   )
   );
-
   // ElFinder widget
   $this->widget('ext.elFinder.ElFinderWidget', array(
   'connectorRoute' => 'admin/elfinder/connector',
   )
   );
-
  */
 ?>

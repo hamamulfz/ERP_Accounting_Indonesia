@@ -4,7 +4,6 @@
  * (c) 2008 Kelly Hallman. Free software released under MIT License.
  * See http://deepliquid.com/content/Appendo.html for more info
  */
-
 // Attach appendo as a jQuery plugin
 jQuery.fn.appendo = function(opt)
 {
@@ -13,22 +12,17 @@ jQuery.fn.appendo = function(opt)
     });
     return this;
 };
-
 // appendo namespace
 jQuery.appendo = function() {
-
     // Create a closure so that we can refer to "this" correctly down the line
     var myself = this;
-
     // Global Options
     // These can be set with inline Javascript like so:
     // jQuery.appendo.opt.maxRows = 5;
     // $.appendo.opt.allowDelete = false;
     // (no need, in fact you shouldn't, wrap in jQuery(document).ready() etc)
     this.opt = {};
-
     this.init = function(obj, opt) {
-
         // Extend the defaults with global options and options given, if any
         var options = jQuery.extend({
             labelAdd: 'Add Row',
@@ -53,7 +47,6 @@ jQuery.appendo = function() {
         myself.opt,
                 opt
                 );
-
         // Store clone of last table row
         var $cpy = jQuery(obj).find(options.subSelect).clone(options.copyHandlers);
         // We consider this starting off with 1 row
@@ -62,7 +55,6 @@ jQuery.appendo = function() {
         var $add_btn = new_button(options.labelAdd).click(clicked_add),
                 $del_btn = new_button(options.labelDel).click(clicked_del).hide()
                 ;
-
         // Append a row to table instance
         function add_row()
         {
@@ -75,7 +67,6 @@ jQuery.appendo = function() {
                 $dup.find('input:first').focus();
         }
         ;
-
         // Remove last row from table instance
         function del_row()
         {
@@ -87,7 +78,6 @@ jQuery.appendo = function() {
             }
         }
         ;
-
         // Updates the button states after rows change
         function update_buttons(rowdelta)
         {
@@ -99,7 +89,6 @@ jQuery.appendo = function() {
             (options.allowDelete && (rows > 1)) ? $del_btn.show().css({'display': 'inline'}) : $del_btn.hide();
         }
         ;
-
         // Returns (jQuery) button objects with label
         function new_button(label)
         {
@@ -108,7 +97,6 @@ jQuery.appendo = function() {
                     .html(label);
         }
         ;
-
         // This function can be returned to kill a received event
         function nothing(e)
         {
@@ -117,7 +105,6 @@ jQuery.appendo = function() {
             return false;
         }
         ;
-
         // Handles a click on the add button
         function clicked_add(e)
         {
@@ -126,7 +113,6 @@ jQuery.appendo = function() {
             return nothing(e);
         }
         ;
-
         // Handles a click event on the remove button
         function clicked_del(e)
         {
@@ -135,17 +121,14 @@ jQuery.appendo = function() {
             return nothing(e);
         }
         ;
-
         // Add the buttons after the table instance
         jQuery('<div />')
                 .addClass(options.wrapClass)
                 .css(options.wrapStyle)
                 .append($add_btn, $del_btn)
                 .insertAfter(obj);
-
         // Update the buttons
         update_buttons();
-
     };
     return this;
 }();

@@ -1,5 +1,4 @@
 <?php
-
 /* ## TbJsonPager class file.
  *
  * @author: antonio ramirez <antonio@clevertech.biz>
@@ -8,14 +7,11 @@
  * @package YiiBooster bootstrap.widgets
  */
 Yii::import('bootstrap.widgets.TbPager');
-
 class TbJsonPager extends TbPager {
-
     /**
      * @var string json.
      */
     public $json;
-
     /**
      * ### .run()
      *
@@ -24,10 +20,8 @@ class TbJsonPager extends TbPager {
     public function run() {
         if (!$this->json)
             parent::run();
-
         return $this->createPageButtons();
     }
-
     /**
      * ### .createPageButton()
      *
@@ -49,5 +43,4 @@ class TbJsonPager extends TbPager {
         }
         return parent::createPageButton($label, $page, $class, $hidden, $selected);
     }
-
 }

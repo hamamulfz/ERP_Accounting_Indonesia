@@ -187,5 +187,4 @@
             'elFinder support following shortcuts': 'elFinder suporta urmatoarele scurtaturi',
             'helpText': 'elFinder functioneaza similar unui manager de fisiere pentru PC. <br />Pentru a executa actiuni asupra fisierelor, folositi panoul de sus. Daca icoana nu este clara pentru tine, tine cursorul peste ea pentru a vedea descrierea.<br />Manipularea fisierelor/directoarelor existente se poate face cu ajutorul meniului contextual(mouse click-dreapta).<br />Pentru a copia/sterge un grup de fisiere/directoare, selecteaza-le folosind Shift/Alt + mouse click-stanga.'
         };
-
 })(jQuery);

@@ -2,6 +2,8 @@
 
 class sUserModule extends BaseModel {
 
+	public $s_user_name;
+	
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -20,7 +22,8 @@ class sUserModule extends BaseModel {
                         ':s_module_id' => $this->s_module_id
                     )
                 )),
-            array('s_user_id, s_module_id, s_matrix_id', 'length', 'max' => 20),
+            array('s_user_id, s_module_id, s_matrix_id', 'numerical', 'integerOnly' => true),
+            array('s_user_name', 'length', 'max' => 50),
             array('id, s_user_id, s_module_id, s_matrix_id', 'safe', 'on' => 'search'),
         );
     }
@@ -37,6 +40,7 @@ class sUserModule extends BaseModel {
         return array(
             'id' => 'ID',
             's_user_id' => 'User ID',
+            's_user_name' => 'User Name',
             's_module_id' => 'Module',
             's_matrix_id' => 'Matrix',
         );

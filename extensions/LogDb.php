@@ -1,7 +1,5 @@
 <?php
-
 class LogDb extends CDbLogRoute {
-
     protected function createLogTable($db, $tableName) {
         $db->createCommand()->createTable($tableName, array(
             'id' => 'pk',
@@ -14,11 +12,9 @@ class LogDb extends CDbLogRoute {
             'message' => 'text',
         ));
     }
-
     protected function processLogs($logs) {
         $command = $this->getDbConnection()->createCommand();
         $logTime = date('Y-m-d H:i:s'); //Get Current Date
-
         foreach ($logs as $log) {
             $command->insert($this->logTableName, array(
                 'level' => $log[1],
@@ -31,7 +27,5 @@ class LogDb extends CDbLogRoute {
             ));
         }
     }
-
 }
-
 ?>

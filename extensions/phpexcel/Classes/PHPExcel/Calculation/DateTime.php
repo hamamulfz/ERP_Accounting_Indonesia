@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPExcel
  *
@@ -33,7 +32,6 @@ if (!defined('PHPEXCEL_ROOT')) {
     define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../');
     require(PHPEXCEL_ROOT . 'PHPExcel/Autoloader.php');
 }
-
 /**
  * PHPExcel_Calculation_DateTime
  *
@@ -42,7 +40,6 @@ if (!defined('PHPEXCEL_ROOT')) {
  * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Calculation_DateTime {
-
     /**
      * Identify if a year is a leap year or not
      *
@@ -52,9 +49,7 @@ class PHPExcel_Calculation_DateTime {
     public static function _isLeapYear($year) {
         return ((($year % 4) == 0) && (($year % 100) != 0) || (($year % 400) == 0));
     }
-
 //	function _isLeapYear()
-
     private static function _dateDiff360($startDay, $startMonth, $startYear, $endDay, $endMonth, $endYear, $methodUS) {
         if ($startDay == 31) {
             --$startDay;
@@ -74,12 +69,9 @@ class PHPExcel_Calculation_DateTime {
                 $endDay = 30;
             }
         }
-
         return $endDay + $endMonth * 30 + $endYear * 360 - $startDay - $startMonth * 30 - $startYear * 360;
     }
-
 //	function _dateDiff360()
-
     /**
      * _getDateValue
      *
@@ -103,9 +95,7 @@ class PHPExcel_Calculation_DateTime {
         }
         return $dateValue;
     }
-
 //	function _getDateValue()
-
     /**
      * _getTimeValue
      *
@@ -119,15 +109,12 @@ class PHPExcel_Calculation_DateTime {
         PHPExcel_Calculation_Functions::setReturnDateType($saveReturnDateType);
         return $timeValue;
     }
-
 //	function _getTimeValue()
-
     private static function _adjustDateByMonths($dateValue = 0, $adjustmentMonths = 0) {
         // Execute function
         $PHPDateObject = PHPExcel_Shared_Date::ExcelToPHPObject($dateValue);
         $oMonth = (int) $PHPDateObject->format('m');
         $oYear = (int) $PHPDateObject->format('Y');
-
         $adjustmentMonthsString = (string) $adjustmentMonths;
         if ($adjustmentMonths > 0) {
             $adjustmentMonthsString = '+' . $adjustmentMonths;
@@ -137,7 +124,6 @@ class PHPExcel_Calculation_DateTime {
         }
         $nMonth = (int) $PHPDateObject->format('m');
         $nYear = (int) $PHPDateObject->format('Y');
-
         $monthDiff = ($nMonth - $oMonth) + (($nYear - $oYear) * 12);
         if ($monthDiff != $adjustmentMonths) {
             $adjustDays = (int) $PHPDateObject->format('d');
@@ -146,9 +132,7 @@ class PHPExcel_Calculation_DateTime {
         }
         return $PHPDateObject;
     }
-
 //	function _adjustDateByMonths()
-
     /**
      * DATETIMENOW
      *
@@ -184,12 +168,9 @@ class PHPExcel_Calculation_DateTime {
                 break;
         }
         date_default_timezone_set($saveTimeZone);
-
         return $retValue;
     }
-
 //	function DATETIMENOW()
-
     /**
      * DATENOW
      *
@@ -226,12 +207,9 @@ class PHPExcel_Calculation_DateTime {
                 break;
         }
         date_default_timezone_set($saveTimeZone);
-
         return $retValue;
     }
-
 //	function DATENOW()
-
     /**
      * DATE
      *
@@ -282,7 +260,6 @@ class PHPExcel_Calculation_DateTime {
         $year = PHPExcel_Calculation_Functions::flattenSingleValue($year);
         $month = PHPExcel_Calculation_Functions::flattenSingleValue($month);
         $day = PHPExcel_Calculation_Functions::flattenSingleValue($day);
-
         $year = ($year !== NULL) ? PHPExcel_Shared_String::testStringAsNumeric($year) : 0;
         $month = ($month !== NULL) ? PHPExcel_Shared_String::testStringAsNumeric($month) : 0;
         $day = ($day !== NULL) ? PHPExcel_Shared_String::testStringAsNumeric($day) : 0;
@@ -294,7 +271,6 @@ class PHPExcel_Calculation_DateTime {
         $year = (integer) $year;
         $month = (integer) $month;
         $day = (integer) $day;
-
         $baseYear = PHPExcel_Shared_Date::getExcelCalendar();
         // Validate parameters
         if ($year < ($baseYear - 1900)) {
@@ -303,11 +279,9 @@ class PHPExcel_Calculation_DateTime {
         if ((($baseYear - 1900) != 0) && ($year < $baseYear) && ($year >= 1900)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         if (($year < $baseYear) && ($year >= ($baseYear - 1900))) {
             $year += 1900;
         }
-
         if ($month < 1) {
             //	Handle year/month adjustment if month < 1
             --$month;
@@ -318,12 +292,10 @@ class PHPExcel_Calculation_DateTime {
             $year += floor($month / 12);
             $month = ($month % 12);
         }
-
         // Re-validate the year parameter after adjustments
         if (($year < $baseYear) || ($year >= 10000)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         // Execute function
         $excelDateValue = PHPExcel_Shared_Date::FormattedPHPToExcel($year, $month, $day);
         switch (PHPExcel_Calculation_Functions::getReturnDateType()) {
@@ -335,9 +307,7 @@ class PHPExcel_Calculation_DateTime {
                 return PHPExcel_Shared_Date::ExcelToPHPObject($excelDateValue);
         }
     }
-
 //	function DATE()
-
     /**
      * TIME
      *
@@ -369,7 +339,6 @@ class PHPExcel_Calculation_DateTime {
         $hour = PHPExcel_Calculation_Functions::flattenSingleValue($hour);
         $minute = PHPExcel_Calculation_Functions::flattenSingleValue($minute);
         $second = PHPExcel_Calculation_Functions::flattenSingleValue($second);
-
         if ($hour == '') {
             $hour = 0;
         }
@@ -379,14 +348,12 @@ class PHPExcel_Calculation_DateTime {
         if ($second == '') {
             $second = 0;
         }
-
         if ((!is_numeric($hour)) || (!is_numeric($minute)) || (!is_numeric($second))) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $hour = (integer) $hour;
         $minute = (integer) $minute;
         $second = (integer) $second;
-
         if ($second < 0) {
             $minute += floor($second / 60);
             $second = 60 - abs($second % 60);
@@ -407,13 +374,11 @@ class PHPExcel_Calculation_DateTime {
             $hour += floor($minute / 60);
             $minute = $minute % 60;
         }
-
         if ($hour > 23) {
             $hour = $hour % 24;
         } elseif ($hour < 0) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         // Execute function
         switch (PHPExcel_Calculation_Functions::getReturnDateType()) {
             case PHPExcel_Calculation_Functions::RETURNDATE_EXCEL :
@@ -444,9 +409,7 @@ class PHPExcel_Calculation_DateTime {
                 return $phpDateObject;
         }
     }
-
 //	function TIME()
-
     /**
      * DATEVALUE
      *
@@ -479,7 +442,6 @@ class PHPExcel_Calculation_DateTime {
         $dateValue = preg_replace('/(\d)(st|nd|rd|th)([ -\/])/Ui', '$1$3', $dateValue);
         //	Convert separators (/ . or space) to hyphens (should also handle dot used for ordinals in some countries, e.g. Denmark, Germany)
         $dateValue = str_replace(array('/', '.', '-', '  '), array(' ', ' ', ' ', ' '), $dateValue);
-
         $yearFound = false;
         $t1 = explode(' ', $dateValue);
         foreach ($t1 as &$t) {
@@ -507,7 +469,6 @@ class PHPExcel_Calculation_DateTime {
         }
         unset($t);
         $dateValue = implode(' ', $t1);
-
         $PHPDateArray = date_parse($dateValue);
         if (($PHPDateArray === False) || ($PHPDateArray['error_count'] > 0)) {
             $testVal1 = strtok($dateValue, '- ');
@@ -532,7 +493,6 @@ class PHPExcel_Calculation_DateTime {
                 }
             }
         }
-
         if (($PHPDateArray !== False) && ($PHPDateArray['error_count'] == 0)) {
             // Execute function
             if ($PHPDateArray['year'] == '') {
@@ -547,7 +507,6 @@ class PHPExcel_Calculation_DateTime {
                 $PHPDateArray['day'] = strftime('%d');
             }
             $excelDateValue = floor(PHPExcel_Shared_Date::FormattedPHPToExcel($PHPDateArray['year'], $PHPDateArray['month'], $PHPDateArray['day'], $PHPDateArray['hour'], $PHPDateArray['minute'], $PHPDateArray['second']));
-
             switch (PHPExcel_Calculation_Functions::getReturnDateType()) {
                 case PHPExcel_Calculation_Functions::RETURNDATE_EXCEL :
                     return (float) $excelDateValue;
@@ -559,9 +518,7 @@ class PHPExcel_Calculation_DateTime {
         }
         return PHPExcel_Calculation_Functions::VALUE();
     }
-
 //	function DATEVALUE()
-
     /**
      * TIMEVALUE
      *
@@ -587,7 +544,6 @@ class PHPExcel_Calculation_DateTime {
     public static function TIMEVALUE($timeValue) {
         $timeValue = trim(PHPExcel_Calculation_Functions::flattenSingleValue($timeValue), '"');
         $timeValue = str_replace(array('/', '.'), array('-', '-'), $timeValue);
-
         $PHPDateArray = date_parse($timeValue);
         if (($PHPDateArray !== False) && ($PHPDateArray['error_count'] == 0)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) {
@@ -595,7 +551,6 @@ class PHPExcel_Calculation_DateTime {
             } else {
                 $excelDateValue = PHPExcel_Shared_Date::FormattedPHPToExcel(1900, 1, 1, $PHPDateArray['hour'], $PHPDateArray['minute'], $PHPDateArray['second']) - 1;
             }
-
             switch (PHPExcel_Calculation_Functions::getReturnDateType()) {
                 case PHPExcel_Calculation_Functions::RETURNDATE_EXCEL :
                     return (float) $excelDateValue;
@@ -608,9 +563,7 @@ class PHPExcel_Calculation_DateTime {
         }
         return PHPExcel_Calculation_Functions::VALUE();
     }
-
 //	function TIMEVALUE()
-
     /**
      * DATEDIF
      *
@@ -625,32 +578,26 @@ class PHPExcel_Calculation_DateTime {
         $startDate = PHPExcel_Calculation_Functions::flattenSingleValue($startDate);
         $endDate = PHPExcel_Calculation_Functions::flattenSingleValue($endDate);
         $unit = strtoupper(PHPExcel_Calculation_Functions::flattenSingleValue($unit));
-
         if (is_string($startDate = self::_getDateValue($startDate))) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
         if (is_string($endDate = self::_getDateValue($endDate))) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
-
         // Validate parameters
         if ($startDate >= $endDate) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         // Execute function
         $difference = $endDate - $startDate;
-
         $PHPStartDateObject = PHPExcel_Shared_Date::ExcelToPHPObject($startDate);
         $startDays = $PHPStartDateObject->format('j');
         $startMonths = $PHPStartDateObject->format('n');
         $startYears = $PHPStartDateObject->format('Y');
-
         $PHPEndDateObject = PHPExcel_Shared_Date::ExcelToPHPObject($endDate);
         $endDays = $PHPEndDateObject->format('j');
         $endMonths = $PHPEndDateObject->format('n');
         $endYears = $PHPEndDateObject->format('Y');
-
         $retVal = PHPExcel_Calculation_Functions::NaN();
         switch ($unit) {
             case 'D':
@@ -711,9 +658,7 @@ class PHPExcel_Calculation_DateTime {
         }
         return $retVal;
     }
-
 //	function DATEDIF()
-
     /**
      * DAYS360
      *
@@ -746,30 +691,24 @@ class PHPExcel_Calculation_DateTime {
     public static function DAYS360($startDate = 0, $endDate = 0, $method = false) {
         $startDate = PHPExcel_Calculation_Functions::flattenSingleValue($startDate);
         $endDate = PHPExcel_Calculation_Functions::flattenSingleValue($endDate);
-
         if (is_string($startDate = self::_getDateValue($startDate))) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
         if (is_string($endDate = self::_getDateValue($endDate))) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
-
         // Execute function
         $PHPStartDateObject = PHPExcel_Shared_Date::ExcelToPHPObject($startDate);
         $startDay = $PHPStartDateObject->format('j');
         $startMonth = $PHPStartDateObject->format('n');
         $startYear = $PHPStartDateObject->format('Y');
-
         $PHPEndDateObject = PHPExcel_Shared_Date::ExcelToPHPObject($endDate);
         $endDay = $PHPEndDateObject->format('j');
         $endMonth = $PHPEndDateObject->format('n');
         $endYear = $PHPEndDateObject->format('Y');
-
         return self::_dateDiff360($startDay, $startMonth, $startYear, $endDay, $endMonth, $endYear, !$method);
     }
-
 //	function DAYS360()
-
     /**
      * YEARFRAC
      *
@@ -799,14 +738,12 @@ class PHPExcel_Calculation_DateTime {
         $startDate = PHPExcel_Calculation_Functions::flattenSingleValue($startDate);
         $endDate = PHPExcel_Calculation_Functions::flattenSingleValue($endDate);
         $method = PHPExcel_Calculation_Functions::flattenSingleValue($method);
-
         if (is_string($startDate = self::_getDateValue($startDate))) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
         if (is_string($endDate = self::_getDateValue($endDate))) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
-
         if (((is_numeric($method)) && (!is_string($method))) || ($method == '')) {
             switch ($method) {
                 case 0 :
@@ -865,9 +802,7 @@ class PHPExcel_Calculation_DateTime {
         }
         return PHPExcel_Calculation_Functions::VALUE();
     }
-
 //	function YEARFRAC()
-
     /**
      * NETWORKDAYS
      *
@@ -899,7 +834,6 @@ class PHPExcel_Calculation_DateTime {
         $dateArgs = PHPExcel_Calculation_Functions::flattenArray(func_get_args());
         array_shift($dateArgs);
         array_shift($dateArgs);
-
         //	Validate the start and end dates
         if (is_string($startDate = $sDate = self::_getDateValue($startDate))) {
             return PHPExcel_Calculation_Functions::VALUE();
@@ -909,12 +843,10 @@ class PHPExcel_Calculation_DateTime {
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $endDate = (float) floor($endDate);
-
         if ($sDate > $eDate) {
             $startDate = $eDate;
             $endDate = $sDate;
         }
-
         // Execute function
         $startDoW = 6 - self::DAYOFWEEK($startDate, 2);
         if ($startDoW < 0) {
@@ -924,13 +856,11 @@ class PHPExcel_Calculation_DateTime {
         if ($endDoW >= 6) {
             $endDoW = 0;
         }
-
         $wholeWeekDays = floor(($endDate - $startDate) / 7) * 5;
         $partWeekDays = $endDoW + $startDoW;
         if ($partWeekDays > 5) {
             $partWeekDays -= 5;
         }
-
         //	Test any extra holiday parameters
         $holidayCountedArray = array();
         foreach ($dateArgs as $holidayDate) {
@@ -944,15 +874,12 @@ class PHPExcel_Calculation_DateTime {
                 }
             }
         }
-
         if ($sDate > $eDate) {
             return 0 - ($wholeWeekDays + $partWeekDays);
         }
         return $wholeWeekDays + $partWeekDays;
     }
-
 //	function NETWORKDAYS()
-
     /**
      * WORKDAY
      *
@@ -986,7 +913,6 @@ class PHPExcel_Calculation_DateTime {
         $dateArgs = PHPExcel_Calculation_Functions::flattenArray(func_get_args());
         array_shift($dateArgs);
         array_shift($dateArgs);
-
         if ((is_string($startDate = self::_getDateValue($startDate))) || (!is_numeric($endDays))) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
@@ -996,26 +922,20 @@ class PHPExcel_Calculation_DateTime {
         if ($endDays == 0) {
             return $startDate;
         }
-
         $decrementing = ($endDays < 0) ? True : False;
-
         //	Adjust the start date if it falls over a weekend
-
         $startDoW = self::DAYOFWEEK($startDate, 3);
         if (self::DAYOFWEEK($startDate, 3) >= 5) {
             $startDate += ($decrementing) ? -$startDoW + 4 : 7 - $startDoW;
             ($decrementing) ? $endDays++ : $endDays--;
         }
-
         //	Add endDays
         $endDate = (float) $startDate + (intval($endDays / 5) * 7) + ($endDays % 5);
-
         //	Adjust the calculated end date if it falls over a weekend
         $endDoW = self::DAYOFWEEK($endDate, 3);
         if ($endDoW >= 5) {
             $endDate += ($decrementing) ? -$endDoW + 4 : 7 - $endDoW;
         }
-
         //	Test any extra holiday parameters
         if (!empty($dateArgs)) {
             $holidayCountedArray = $holidayDates = array();
@@ -1057,7 +977,6 @@ class PHPExcel_Calculation_DateTime {
                 }
             }
         }
-
         switch (PHPExcel_Calculation_Functions::getReturnDateType()) {
             case PHPExcel_Calculation_Functions::RETURNDATE_EXCEL :
                 return (float) $endDate;
@@ -1067,9 +986,7 @@ class PHPExcel_Calculation_DateTime {
                 return PHPExcel_Shared_Date::ExcelToPHPObject($endDate);
         }
     }
-
 //	function WORKDAY()
-
     /**
      * DAYOFMONTH
      *
@@ -1085,7 +1002,6 @@ class PHPExcel_Calculation_DateTime {
      */
     public static function DAYOFMONTH($dateValue = 1) {
         $dateValue = PHPExcel_Calculation_Functions::flattenSingleValue($dateValue);
-
         if (is_string($dateValue = self::_getDateValue($dateValue))) {
             return PHPExcel_Calculation_Functions::VALUE();
         } elseif ($dateValue == 0.0) {
@@ -1093,15 +1009,11 @@ class PHPExcel_Calculation_DateTime {
         } elseif ($dateValue < 0.0) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         // Execute function
         $PHPDateObject = PHPExcel_Shared_Date::ExcelToPHPObject($dateValue);
-
         return (int) $PHPDateObject->format('j');
     }
-
 //	function DAYOFMONTH()
-
     /**
      * DAYOFWEEK
      *
@@ -1122,24 +1034,20 @@ class PHPExcel_Calculation_DateTime {
     public static function DAYOFWEEK($dateValue = 1, $style = 1) {
         $dateValue = PHPExcel_Calculation_Functions::flattenSingleValue($dateValue);
         $style = PHPExcel_Calculation_Functions::flattenSingleValue($style);
-
         if (!is_numeric($style)) {
             return PHPExcel_Calculation_Functions::VALUE();
         } elseif (($style < 1) || ($style > 3)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $style = floor($style);
-
         if (is_string($dateValue = self::_getDateValue($dateValue))) {
             return PHPExcel_Calculation_Functions::VALUE();
         } elseif ($dateValue < 0.0) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         // Execute function
         $PHPDateObject = PHPExcel_Shared_Date::ExcelToPHPObject($dateValue);
         $DoW = $PHPDateObject->format('w');
-
         $firstDay = 1;
         switch ($style) {
             case 1:++$DoW;
@@ -1164,12 +1072,9 @@ class PHPExcel_Calculation_DateTime {
                 }
             }
         }
-
         return (int) $DoW;
     }
-
 //	function DAYOFWEEK()
-
     /**
      * WEEKOFYEAR
      *
@@ -1193,20 +1098,17 @@ class PHPExcel_Calculation_DateTime {
     public static function WEEKOFYEAR($dateValue = 1, $method = 1) {
         $dateValue = PHPExcel_Calculation_Functions::flattenSingleValue($dateValue);
         $method = PHPExcel_Calculation_Functions::flattenSingleValue($method);
-
         if (!is_numeric($method)) {
             return PHPExcel_Calculation_Functions::VALUE();
         } elseif (($method < 1) || ($method > 2)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $method = floor($method);
-
         if (is_string($dateValue = self::_getDateValue($dateValue))) {
             return PHPExcel_Calculation_Functions::VALUE();
         } elseif ($dateValue < 0.0) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         // Execute function
         $PHPDateObject = PHPExcel_Shared_Date::ExcelToPHPObject($dateValue);
         $dayOfYear = $PHPDateObject->format('z');
@@ -1216,12 +1118,9 @@ class PHPExcel_Calculation_DateTime {
         $daysInFirstWeek = 7 - (($dow + (2 - $method)) % 7);
         $dayOfYear -= $daysInFirstWeek;
         $weekOfYear = ceil($dayOfYear / 7) + 1;
-
         return (int) $weekOfYear;
     }
-
 //	function WEEKOFYEAR()
-
     /**
      * MONTHOFYEAR
      *
@@ -1237,21 +1136,16 @@ class PHPExcel_Calculation_DateTime {
      */
     public static function MONTHOFYEAR($dateValue = 1) {
         $dateValue = PHPExcel_Calculation_Functions::flattenSingleValue($dateValue);
-
         if (is_string($dateValue = self::_getDateValue($dateValue))) {
             return PHPExcel_Calculation_Functions::VALUE();
         } elseif ($dateValue < 0.0) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         // Execute function
         $PHPDateObject = PHPExcel_Shared_Date::ExcelToPHPObject($dateValue);
-
         return (int) $PHPDateObject->format('n');
     }
-
 //	function MONTHOFYEAR()
-
     /**
      * YEAR
      *
@@ -1267,21 +1161,16 @@ class PHPExcel_Calculation_DateTime {
      */
     public static function YEAR($dateValue = 1) {
         $dateValue = PHPExcel_Calculation_Functions::flattenSingleValue($dateValue);
-
         if (is_string($dateValue = self::_getDateValue($dateValue))) {
             return PHPExcel_Calculation_Functions::VALUE();
         } elseif ($dateValue < 0.0) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         // Execute function
         $PHPDateObject = PHPExcel_Shared_Date::ExcelToPHPObject($dateValue);
-
         return (int) $PHPDateObject->format('Y');
     }
-
 //	function YEAR()
-
     /**
      * HOUROFDAY
      *
@@ -1297,7 +1186,6 @@ class PHPExcel_Calculation_DateTime {
      */
     public static function HOUROFDAY($timeValue = 0) {
         $timeValue = PHPExcel_Calculation_Functions::flattenSingleValue($timeValue);
-
         if (!is_numeric($timeValue)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_GNUMERIC) {
                 $testVal = strtok($timeValue, '/-: ');
@@ -1317,12 +1205,9 @@ class PHPExcel_Calculation_DateTime {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $timeValue = PHPExcel_Shared_Date::ExcelToPHP($timeValue);
-
         return (int) gmdate('G', $timeValue);
     }
-
 //	function HOUROFDAY()
-
     /**
      * MINUTEOFHOUR
      *
@@ -1338,7 +1223,6 @@ class PHPExcel_Calculation_DateTime {
      */
     public static function MINUTEOFHOUR($timeValue = 0) {
         $timeValue = $timeTester = PHPExcel_Calculation_Functions::flattenSingleValue($timeValue);
-
         if (!is_numeric($timeValue)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_GNUMERIC) {
                 $testVal = strtok($timeValue, '/-: ');
@@ -1358,12 +1242,9 @@ class PHPExcel_Calculation_DateTime {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $timeValue = PHPExcel_Shared_Date::ExcelToPHP($timeValue);
-
         return (int) gmdate('i', $timeValue);
     }
-
 //	function MINUTEOFHOUR()
-
     /**
      * SECONDOFMINUTE
      *
@@ -1379,7 +1260,6 @@ class PHPExcel_Calculation_DateTime {
      */
     public static function SECONDOFMINUTE($timeValue = 0) {
         $timeValue = PHPExcel_Calculation_Functions::flattenSingleValue($timeValue);
-
         if (!is_numeric($timeValue)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_GNUMERIC) {
                 $testVal = strtok($timeValue, '/-: ');
@@ -1399,12 +1279,9 @@ class PHPExcel_Calculation_DateTime {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $timeValue = PHPExcel_Shared_Date::ExcelToPHP($timeValue);
-
         return (int) gmdate('s', $timeValue);
     }
-
 //	function SECONDOFMINUTE()
-
     /**
      * EDATE
      *
@@ -1427,19 +1304,15 @@ class PHPExcel_Calculation_DateTime {
     public static function EDATE($dateValue = 1, $adjustmentMonths = 0) {
         $dateValue = PHPExcel_Calculation_Functions::flattenSingleValue($dateValue);
         $adjustmentMonths = PHPExcel_Calculation_Functions::flattenSingleValue($adjustmentMonths);
-
         if (!is_numeric($adjustmentMonths)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $adjustmentMonths = floor($adjustmentMonths);
-
         if (is_string($dateValue = self::_getDateValue($dateValue))) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
-
         // Execute function
         $PHPDateObject = self::_adjustDateByMonths($dateValue, $adjustmentMonths);
-
         switch (PHPExcel_Calculation_Functions::getReturnDateType()) {
             case PHPExcel_Calculation_Functions::RETURNDATE_EXCEL :
                 return (float) PHPExcel_Shared_Date::PHPToExcel($PHPDateObject);
@@ -1449,9 +1322,7 @@ class PHPExcel_Calculation_DateTime {
                 return $PHPDateObject;
         }
     }
-
 //	function EDATE()
-
     /**
      * EOMONTH
      *
@@ -1473,22 +1344,18 @@ class PHPExcel_Calculation_DateTime {
     public static function EOMONTH($dateValue = 1, $adjustmentMonths = 0) {
         $dateValue = PHPExcel_Calculation_Functions::flattenSingleValue($dateValue);
         $adjustmentMonths = PHPExcel_Calculation_Functions::flattenSingleValue($adjustmentMonths);
-
         if (!is_numeric($adjustmentMonths)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $adjustmentMonths = floor($adjustmentMonths);
-
         if (is_string($dateValue = self::_getDateValue($dateValue))) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
-
         // Execute function
         $PHPDateObject = self::_adjustDateByMonths($dateValue, $adjustmentMonths + 1);
         $adjustDays = (int) $PHPDateObject->format('d');
         $adjustDaysString = '-' . $adjustDays . ' days';
         $PHPDateObject->modify($adjustDaysString);
-
         switch (PHPExcel_Calculation_Functions::getReturnDateType()) {
             case PHPExcel_Calculation_Functions::RETURNDATE_EXCEL :
                 return (float) PHPExcel_Shared_Date::PHPToExcel($PHPDateObject);
@@ -1498,9 +1365,6 @@ class PHPExcel_Calculation_DateTime {
                 return $PHPDateObject;
         }
     }
-
 //	function EOMONTH()
 }
-
 //	class PHPExcel_Calculation_DateTime
-

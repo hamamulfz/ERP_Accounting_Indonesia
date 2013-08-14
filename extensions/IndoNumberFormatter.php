@@ -1,7 +1,5 @@
 <?php
-
 class IndoNumberFormatter extends CFormatter {
-
     /**
      * @var array the format used to format a number with PHP number_format() function.
      * Three elements may be specified: "decimals", "decimalSeparator" and
@@ -12,7 +10,6 @@ class IndoNumberFormatter extends CFormatter {
      * and no separator between groups of thousands
      */
     public $numberFormat = array('decimals' => 2, 'decimalSeparator' => ',', 'thousandSeparator' => '.');
-
     /**
      * Formats the value as a number using PHP number_format() function.
      * new: if the given $value is null/empty, return null/empty string
@@ -27,7 +24,6 @@ class IndoNumberFormatter extends CFormatter {
             return '';        // new
         return number_format($value, $this->numberFormat['decimals'], $this->numberFormat['decimalSeparator'], $this->numberFormat['thousandSeparator']);
     }
-
     /*
      * new function unformatNumber():
      * turns the given formatted number (string) into a float
@@ -35,7 +31,6 @@ class IndoNumberFormatter extends CFormatter {
      * (usually formatted with the formatNumber() function)
      * @return float the 'unformatted' number
      */
-
     public function unformatNumber($formatted_number) {
         if ($formatted_number === null)
             return null;
@@ -43,12 +38,9 @@ class IndoNumberFormatter extends CFormatter {
             return '';
         if (is_float($formatted_number))
             return $formatted_number; // only 'unformat' if parameter is not float already
-
         $value = str_replace($this->numberFormat['thousandSeparator'], '', $formatted_number);
         $value = str_replace($this->numberFormat['decimalSeparator'], '.', $value);
         return (float) $value;
     }
-
 }
-
 ?>

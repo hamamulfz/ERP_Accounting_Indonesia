@@ -8,26 +8,17 @@ class uCustomerController extends Controller {
      */
     public $layout = '//layouts/column2';
 
-	/**
+    /**
 
-	 * @return array action filters
+     * @return array action filters
 
-	 */
+     */
+    public function filters() {
 
-	public function filters()
-
-	{
-
-		return array(
-
-			'rights', // perform access control for CRUD operations
-
-		);
-
-	}
-
-
-
+        return array(
+            'rights', // perform access control for CRUD operations
+        );
+    }
 
     /**
      * Displays a particular model.

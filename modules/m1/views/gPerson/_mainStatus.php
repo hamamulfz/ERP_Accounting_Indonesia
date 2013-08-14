@@ -21,4 +21,4 @@
 <h4>New Status</h4>
 
 <?php
-echo $this->renderPartial('_formStatus', array('id'=>$model->id, 'model' => $modelStatus));
+echo $this->renderPartial('_formStatus', array('id' => $model->id, 'model' => $modelStatus));

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * EMailer class file.
  *
@@ -30,7 +29,6 @@
  * Include the the PHPMailer class.
  */
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'phpmailer' . DIRECTORY_SEPARATOR . 'class.phpmailer.php');
-
 /**
  * EMailer is a simple wrapper for the PHPMailer library.
  * @see http://phpmailer.codeworxtech.com/index.php?pg=phpmailer
@@ -43,7 +41,6 @@ class EMailer {
     //***************************************************************************
     // Configuration
     //***************************************************************************
-
     /**
      * The path to the directory where the view for getView is stored. Must not
      * have ending dot.
@@ -51,7 +48,6 @@ class EMailer {
      * @var string
      */
     protected $pathViews = 'application.views.email';
-
     /**
      * The path to the directory where the layout for getView is stored. Must
      * not have ending dot.
@@ -59,40 +55,32 @@ class EMailer {
      * @var string
      */
     protected $pathLayouts = 'application.views.email.layouts';
-
     //***************************************************************************
     // Private properties
     //***************************************************************************
-
     /**
      * The internal PHPMailer object.
      *
      * @var object PHPMailer
      */
     private $_myMailer;
-
     //***************************************************************************
     // Initialization
     //***************************************************************************
-
     /**
      * Init method for the application component mode.
      */
     public function init() {
-        
     }
-
     /**
      * Constructor. Here the instance of PHPMailer is created.
      */
     public function __construct() {
         $this->_myMailer = new PHPMailer();
     }
-
     //***************************************************************************
     // Setters and getters
     //***************************************************************************
-
     /**
      * Setter
      *
@@ -103,7 +91,6 @@ class EMailer {
             throw new CException(Yii::t('EMailer', 'pathLayouts must be a Yii alias path'));
         $this->pathLayouts = $value;
     }
-
     /**
      * Getter
      *
@@ -112,7 +99,6 @@ class EMailer {
     public function getPathLayouts() {
         return $this->pathLayouts;
     }
-
     /**
      * Setter
      *
@@ -123,7 +109,6 @@ class EMailer {
             throw new CException(Yii::t('EMailer', 'pathViews must be a Yii alias path'));
         $this->pathViews = $value;
     }
-
     /**
      * Getter
      *
@@ -132,11 +117,9 @@ class EMailer {
     public function getPathViews() {
         return $this->pathViews;
     }
-
     //***************************************************************************
     // Magic
     //***************************************************************************
-
     /**
      * Call a PHPMailer function
      *
@@ -150,7 +133,6 @@ class EMailer {
         else
             throw new CException(Yii::t('EMailer', 'Can not call a method of a non existent object'));
     }
-
     /**
      * Setter
      *
@@ -163,7 +145,6 @@ class EMailer {
         else
             throw new CException(Yii::t('EMailer', 'Can not set a property of a non existent object'));
     }
-
     /**
      * Getter
      *
@@ -176,28 +157,22 @@ class EMailer {
         else
             throw new CException(Yii::t('EMailer', 'Can not access a property of a non existent object'));
     }
-
     /**
      * Cleanup work before serializing.
      * This is a PHP defined magic method.
      * @return array the names of instance-variables to serialize.
      */
     public function __sleep() {
-        
     }
-
     /**
      * This method will be automatically called when unserialization happens.
      * This is a PHP defined magic method.
      */
     public function __wakeup() {
-        
     }
-
     //***************************************************************************
     // Utilities
     //***************************************************************************
-
     /**
      * Displays an e-mail in preview mode.
      *
@@ -213,5 +188,4 @@ class EMailer {
             $this->_myMailer->Body = Yii::app()->controller->renderPartial($this->pathLayouts . '.' . $layout, array('content' => $body), true);
         }
     }
-
 }

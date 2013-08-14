@@ -1,6 +1,5 @@
 <?php if (!$class->nativeMethodCount) return; ?>
 <h2>Method Details</h2>
-
 <?php foreach ($class->methods as $method): ?>
     <?php if ($method->isInherited) continue; ?>
     <div class="detailHeader" id="<?php echo $this->fixMethodAnchor($method->definedBy, $method->name) . '-detail'; ?>">
@@ -12,7 +11,6 @@
             <?php endif; ?>
         </span>
     </div>
-
     <table class="summaryTable">
         <tr><td colspan="3">
                 <div class="signature2">
@@ -36,11 +34,7 @@
             <?php endif; ?>
         <?php endif; ?>
     </table>
-
     <?php $this->renderPartial('sourceCode', array('object' => $method)); ?>
-
     <p><?php echo $method->description; ?></p>
-
     <?php $this->renderPartial('seeAlso', array('object' => $method)); ?>
-
 <?php endforeach; ?>

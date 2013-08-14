@@ -1,5 +1,4 @@
 <?php
-
 /**
  * LogAnalyzer Component class
  *
@@ -9,5 +8,4 @@
  * @version 0.2
  */
 class LogAnalyzer extends CComponent {
-    
 }

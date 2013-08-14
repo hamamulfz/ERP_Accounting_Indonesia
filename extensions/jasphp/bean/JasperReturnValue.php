@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperReturnValue
  *
@@ -8,12 +7,9 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="returnValue") */
 class JasperReturnValue extends AbstractJasper {
-
     public $subreportVariable = null;
     public $toVariable = null;
     public $calculation = null;
-
 }

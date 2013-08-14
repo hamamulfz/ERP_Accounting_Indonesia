@@ -11,19 +11,14 @@
         | <a href="#events">Events</a>
     <?php endif; ?>
 </div>
-
 <?php $this->renderPartial('classSummary', array('class' => $class)); ?>
-
 <a name="properties"></a>
 <?php $this->renderPartial('propertySummary', array('class' => $class, 'protected' => false)); ?>
 <?php $this->renderPartial('propertySummary', array('class' => $class, 'protected' => true)); ?>
-
 <a name="methods"></a>
 <?php $this->renderPartial('methodSummary', array('class' => $class, 'protected' => false)); ?>
 <?php $this->renderPartial('methodSummary', array('class' => $class, 'protected' => true)); ?>
-
 <a name="events"></a>
 <?php $this->renderPartial('eventSummary', array('class' => $class)); ?>
-
 <?php $this->renderPartial('propertyDetails', array('class' => $class)); ?>
 <?php $this->renderPartial('methodDetails', array('class' => $class)); ?>

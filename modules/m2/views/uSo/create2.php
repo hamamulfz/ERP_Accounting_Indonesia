@@ -2,13 +2,13 @@
     <?php
     /* @var $this SlaController */
     ?>
- 
+
     <p>
         Example form of a one to many models with dynamic inputs!
     </p>
     <?php
     $form = $this->beginWidget('ext.DynamicTabularForm.DynamicTabularForm', array(
-        'defaultRowView'=>'_rowForm',
+        'defaultRowView' => '_rowForm',
     ));
     echo "<h3>Header</h3>";
     echo $form->errorSummary($sla);
@@ -20,7 +20,7 @@
             echo $form->dropDownList($sla, 'customer_id', uCustomer::items());
             echo $form->error($sla, 'customer_id');
             ?>
-	    </div>
+        </div>
 
         <div class="span4">
             <?php
@@ -28,18 +28,18 @@
             echo $form->textField($sla, 'input_date');
             echo $form->error($sla, 'input_date');
             ?>
-	    </div>
- 
+        </div>
+
     </div>
     <h3>Details</h3>
-<?php
-/**
- * this is the main feature!!
- */
-echo $form->rowForm($sladetails);
- 
-echo CHtml::submitButton('create');
- 
-$this->endWidget();
-?>
+    <?php
+    /**
+     * this is the main feature!!
+     */
+    echo $form->rowForm($sladetails);
+
+    echo CHtml::submitButton('create');
+
+    $this->endWidget();
+    ?>
 </div>

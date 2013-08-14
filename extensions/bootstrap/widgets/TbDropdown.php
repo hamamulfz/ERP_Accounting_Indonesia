@@ -1,5 +1,4 @@
 <?php
-
 /* ## TbDropdown class file.
  *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
@@ -7,15 +6,12 @@
  * @license [New BSD License](http://www.opensource.org/licenses/bsd-license.php) 
  * @package bootstrap.widgets
  */
-
 Yii::import('bootstrap.widgets.TbBaseMenu');
-
 /**
  * Bootstrap dropdown menu.
  * @see http://twitter.github.com/bootstrap/javascript.html#dropdowns
  */
 class TbDropdown extends TbBaseMenu {
-
     /**
      * ### .init()
      *
@@ -23,13 +19,11 @@ class TbDropdown extends TbBaseMenu {
      */
     public function init() {
         parent::init();
-
         if (isset($this->htmlOptions['class']))
             $this->htmlOptions['class'] .= ' dropdown-menu';
         else
             $this->htmlOptions['class'] = 'dropdown-menu';
     }
-
     /**
      * ### .renderMenuItem()
      *
@@ -45,24 +39,18 @@ class TbDropdown extends TbBaseMenu {
                 $pieces = explode(' ', $item['icon']);
                 $item['icon'] = 'icon-' . implode(' icon-', $pieces);
             }
-
             $item['label'] = '<i class="' . $item['icon'] . '"></i> ' . $item['label'];
         }
-
         if (!isset($item['linkOptions']))
             $item['linkOptions'] = array();
-
         if (isset($item['items']) && !empty($item['items']) && empty($item['url']))
             $item['url'] = '#';
-
         $item['linkOptions']['tabindex'] = -1;
-
         if (isset($item['url']))
             return CHtml::link($item['label'], $item['url'], $item['linkOptions']);
         else
             return $item['label'];
     }
-
     /**
      * ### .getDividerCssClass()
      *
@@ -72,7 +60,6 @@ class TbDropdown extends TbBaseMenu {
     public function getDividerCssClass() {
         return 'divider';
     }
-
     /**
      * ### .getDropdownCssClass()
      *
@@ -82,7 +69,6 @@ class TbDropdown extends TbBaseMenu {
     public function getDropdownCssClass() {
         return 'dropdown-submenu';
     }
-
     /**
      * ### .isVertical()
      *
@@ -92,5 +78,4 @@ class TbDropdown extends TbBaseMenu {
     public function isVertical() {
         return true;
     }
-
 }

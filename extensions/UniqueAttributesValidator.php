@@ -1,13 +1,10 @@
 <?php
-
 class UniqueAttributesValidator extends CValidator {
-
     /**
      * The attributes boud in the unique contstraint with attribute
      * @var string
      */
     public $with;
-
     /**
      * Validates the attribute of the object.
      * If there is any error, the error message is added to the object.
@@ -18,7 +15,6 @@ class UniqueAttributesValidator extends CValidator {
         $with = explode(",", $this->with);
         if (count($with) < 1)
             throw new Exception("Attribute 'with' not set");
-
         $uniqueValidator = new CUniqueValidator();
         $uniqueValidator->attributes = array($attribute);
         $uniqueValidator->message = $this->message;
@@ -41,5 +37,4 @@ class UniqueAttributesValidator extends CValidator {
         );
         $uniqueValidator->validate($object);
     }
-
 }

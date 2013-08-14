@@ -187,5 +187,4 @@
             'elFinder support following shortcuts': 'elFinder obsługuje następujące skróty',
             'helpText': 'Potrzebujesz pomocy z menedżerem plików elFinder?<br />Zgłoś się do mnie: Darek Wapiński darek(at)wapinski.us'
         };
-
 })(jQuery);

@@ -1,5 +1,4 @@
 <?php
-
 /* ##  TbTabView class file.
  *
  * Use TbTabView as replacement for Yii CTabView
@@ -10,16 +9,13 @@
  * @package bootstrap.widgets
  */
 Yii::import('bootstrap.widgets.TbTabs');
-
 class TbTabView extends TbTabs {
-
     /**
      * @var array
      *
      * Additional data submitted to the views
      */
     public $viewData;
-
     /**
      * ### .normalizeTabs()
      *
@@ -33,7 +29,6 @@ class TbTabView extends TbTabs {
     protected function normalizeTabs($tabs, &$panes, &$i = 0) {
         $id = $this->getId();
         $items = array();
-
         //---------------- new -------------------
         //Check if has an active item
         $hasActiveItem = false;
@@ -43,18 +38,14 @@ class TbTabView extends TbTabs {
                 break;
         }
         //---------------- end new -------------------
-
         foreach ($tabs as $tab) {
             $item = $tab;
-
             if (isset($item['visible']) && $item['visible'] === false)
                 continue;
-
             //---------------- new -------------------
             //check first active
             if (!$hasActiveItem && $i == 0)
                 $item['active'] = true;
-
             //title -> label
             if (isset($item['title'])) {
                 if (!isset($item['label']))
@@ -62,20 +53,15 @@ class TbTabView extends TbTabs {
                 unset($item['title']);
             }
             //------   end new ----------------
-
             if (!isset($item['itemOptions']))
                 $item['itemOptions'] = array();
-
             $item['linkOptions']['data-toggle'] = 'tab';
-
             if (isset($tab['items']))
                 $item['items'] = $this->normalizeTabs($item['items'], $panes, $i);
             else {
                 if (!isset($item['id']))
                     $item['id'] = $id . '_tab_' . ($i + 1);
-
                 $item['url'] = '#' . $item['id'];
-
                 //if (!isset($item['content'])) removed
                 //	$item['content'] = '';
                 //--------------- new ---------------
@@ -86,52 +72,37 @@ class TbTabView extends TbTabs {
                                 $data = array_merge($this->viewData, $item['data']);
                             else
                                 $data = $item['data'];
-
                             unset($item['data']);
                         }
                         else
                             $data = $this->viewData;
-
                         $item['content'] = $this->getController()->renderPartial($item['view'], $data, true);
-
                         unset($item['view']);
                     }
                     else
                         $item['content'] = '';
                 }
                 //--------------- end new ---------------
-
                 $content = $item['content'];
                 unset($item['content']);
-
                 if (!isset($item['paneOptions']))
                     $item['paneOptions'] = array();
-
                 $paneOptions = $item['paneOptions'];
                 unset($item['paneOptions']);
-
                 $paneOptions['id'] = $item['id'];
-
                 $classes = array('tab-pane fade');
-
                 if (isset($item['active']) && $item['active'])
                     $classes[] = 'active in';
-
                 $classes = implode(' ', $classes);
                 if (isset($paneOptions['class']))
                     $paneOptions['class'] .= ' ' . $classes;
                 else
                     $paneOptions['class'] = $classes;
-
                 $panes[] = CHtml::tag('div', $paneOptions, $content);
-
                 $i++; // increment the tab-index
             }
-
             $items[] = $item;
         }
-
         return $items;
     }
-
 }

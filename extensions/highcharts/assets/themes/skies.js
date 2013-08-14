@@ -2,7 +2,6 @@
  * Skies theme for Highcharts JS
  * @author Torstein Hønsi
  */
-
 Highcharts.theme = {
     colors: ["#514F78", "#42A07B", "#9B5E4A", "#72727F", "#1F949A", "#82914E", "#86777F", "#42A07B"],
     chart: {
@@ -84,6 +83,5 @@ Highcharts.theme = {
         }
     }
 };
-
 // Apply the theme
 var highchartsOptions = Highcharts.setOptions(Highcharts.theme);

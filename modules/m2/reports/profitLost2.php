@@ -257,7 +257,6 @@ class profitLost2 extends fpdf {
 
                     $_grandtotalELast = $_grandtotalLast;
                     $_netprofitLast = $_grossprofitLast - $_grandtotalELast;
-
                 }
 
                 $_grandtotal = 0;

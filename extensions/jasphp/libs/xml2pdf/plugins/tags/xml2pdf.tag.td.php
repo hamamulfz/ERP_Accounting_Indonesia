@@ -1,5 +1,4 @@
 <?php
-
 /**
  * td tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Tag
  */
 // dependances {{{
-
 /**
  * parent class
  */
 Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
-
 // }}}
 // doc {{{
-
 /**
  * <td> tag.
  *
@@ -39,88 +35,73 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  */ // }}}
 class xml2pdf_tag_td extends Xml2PdfTag {
     // class properties {{{
-
     /**
      * parent tag
      * @var xml2pdf_tag_tr object
      */
     public $row;
-
     /**
      * font
      * @var string 
      */
     public $font = null;
-
     /**
      * font size
      * @var integer 
      */
     public $fontSize = null;
-
     /**
      * font style
      * @var string 
      */
     public $fontStyle = null;
-
     /**
      * font color
      * @var string 
      */
     public $fontColor = null;
-
     /**
      * fill the background
      * @var boolean 
      */
     public $fill = null;
-
     /**
      * fill color
      * @var string 
      */
     public $fillColor = null;
-
     /**
      * show border
      * @var boolean 
      */
     public $border = null;
-
     /**
      * border color
      * @var string 
      */
     public $borderColor = null;
-
     /**
      * text alignment
      * @var string 
      */
     public $textAlign = null;
-
     /**
      * width
      * @var float 
      */
     public $width = null;
-
     /**
      * line height
      * @var float 
      */
     public $lineHeight = null;
-
     /**
      * height
      * @var float 
      */
     public $height = 0;
-
     // }}}
     // xml2pdf_tag_td::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -184,10 +165,8 @@ class xml2pdf_tag_td extends Xml2PdfTag {
             $this->lineHeight = $attrs['LINEHEIGHT'];
         }
     }
-
     // }}}    
     // xml2pdf_tag_td::close() {{{
-
     /**
      * Add the cell to the row.
      *
@@ -196,10 +175,8 @@ class xml2pdf_tag_td extends Xml2PdfTag {
     public function close() {
         $this->row->columns[] = $this;
     }
-
     // }}}    
     // xml2pdf_tag_td::calculLinesNumber() {{{
-
     /**
      * Calcul the number of text line of the cell using the content and the 
      * render params.
@@ -266,10 +243,8 @@ class xml2pdf_tag_td extends Xml2PdfTag {
         }
         return $nl;
     }
-
     // }}}    
     // xml2pdf_tag_td::render() {{{
-
     /**
      * render the cell.
      *
@@ -300,8 +275,6 @@ class xml2pdf_tag_td extends Xml2PdfTag {
         //Put the position to the right of the cell
         $this->pdf->SetXY($x + $this->width, $y);
     }
-
     // }}}
 }
-
 ?>

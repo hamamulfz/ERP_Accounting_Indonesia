@@ -1,10 +1,7 @@
 <?php if ($protected && !$class->protectedMethodCount || !$protected && !$class->publicMethodCount) return; ?>
-
 <div class="summary docMethod">
     <h2><?php echo $protected ? 'Protected Methods' : 'Public Methods'; ?></h2>
-
     <p><a href="#" class="toggle">Hide inherited methods</a></p>
-
     <table class="summaryTable">
         <colgroup>
             <col class="col-method" />

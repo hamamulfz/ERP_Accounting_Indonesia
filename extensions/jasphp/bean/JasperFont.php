@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperFont
  *
@@ -8,11 +7,8 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="font") */
 class JasperFont extends AbstractJasper {
-
     public $size = null;
     public $isBold = null;
-
 }

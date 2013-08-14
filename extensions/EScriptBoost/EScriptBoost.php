@@ -1,5 +1,4 @@
 <?php
-
 /**
  * EScriptBoost class
  * 
@@ -27,23 +26,18 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 $assets = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets';
-
 Yii::setPathOfAlias('scriptboostjs', $assets . DIRECTORY_SEPARATOR . 'js');
 Yii::setPathOfAlias('scriptboostcss', $assets . DIRECTORY_SEPARATOR . 'css');
 Yii::setPathOfAlias('scriptboosthtml', $assets . DIRECTORY_SEPARATOR . 'html');
-
 Yii::import('scriptboostjs.*');
 Yii::import('scriptboostcss.*');
 Yii::import('scriptboosthtml.HTMLMin');
-
 class EScriptBoost extends CComponent {
-
     const CSS_COMPRESSOR = 'CssCompressor';
     const CSS_MIN = 'CssMin';
     const CSS_MINIFIER = 'CssMinifier';
     const JS_MIN = 'JSMin';
     const JS_MIN_PLUS = 'JSMinPlus';
-
     /**
      * CssMin filter options. Default values according cssMin doc.
      */
@@ -57,7 +51,6 @@ class EScriptBoost extends CComponent {
         'ConvertLevel3Properties' => false,
         'RemoveLastDelarationSemiColon' => true
     );
-
     /**
      * CssMin plugin options. Maximum compression and conversion.
      */
@@ -72,7 +65,6 @@ class EScriptBoost extends CComponent {
         'CompressUnitValues' => true,
         'CompressExpressionValues' => false,
     );
-
     /**
      *
      * @param string $content the content to compres
@@ -100,7 +92,6 @@ class EScriptBoost extends CComponent {
         }
         return false;
     }
-
     /**
      *
      * @param string $content the content to minify
@@ -114,7 +105,6 @@ class EScriptBoost extends CComponent {
         }
         return false;
     }
-
     /**
      * 
      * @param string $content the content to parse
@@ -125,7 +115,6 @@ class EScriptBoost extends CComponent {
     public static function minifyHTML($content, $options = array()) {
         return HTMLMin::minify($content, $options);
     }
-
     /**
      *
      * @param string $content the content to pack
@@ -143,7 +132,6 @@ class EScriptBoost extends CComponent {
         }
         return $content;
     }
-
     /**
      * Helper function to register compressed script to CClientScript
      * @param string $id the id of the script
@@ -159,5 +147,4 @@ class EScriptBoost extends CComponent {
         }
         Yii::app()->clientScript->registerScript($id, $js, $position);
     }
-
 }

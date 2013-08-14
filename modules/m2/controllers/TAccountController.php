@@ -108,7 +108,6 @@ class TAccountController extends Controller {
                 //$modelProperties5Add->beginning_balance = $_POST['tAccount']['beginning_balance'];
                 //$modelProperties5Add->end_balance = $_POST['tAccount']['beginning_balance'];
                 //$modelProperties5Add->save();
-
                 //Default Entity
                 $modelEntity = new tAccountEntity();
                 $modelEntity->parent_id = $model->id;
@@ -364,14 +363,12 @@ class TAccountController extends Controller {
         $_lastPeriod = peterFunc::cBeginDateBefore(Yii::app()->settings->get("System", "cCurrentPeriod"));
 
         //#1. START DELETE ALL CURRENT PERIOD
-		$commandDELETE = Yii::app()->db->createCommand('
+        $commandDELETE = Yii::app()->db->createCommand('
 				DELETE FROM t_balance_sheet 
-				WHERE yearmonth_periode = ' . $_curPeriod.';');
+				WHERE yearmonth_periode = ' . $_curPeriod . ';');
 
-		$commandDELETE->execute();
+        $commandDELETE->execute();
         //#1. END DELETE ALL CURRENT PERIOD
-
-
         //#2. START TRANFER FROM OLD PERIOD TO NEW PERIOD
         $criteria = new CDbCriteria;
         $criteria->compare('yearmonth_periode', $_lastPeriod);
@@ -401,15 +398,13 @@ class TAccountController extends Controller {
             }
         }
         //#2. END TRANFER FROM OLD PERIOD TO NEW PERIOD
-
-		
         //#3. START POSTING VALUE
         $criteria = new CDbCriteria;
         $criteria->with = array('journal');
         $criteria->compare('journal.state_id', 4);
         $criteria->compare('journal.yearmonth_periode', $_curPeriod);
         $models = tJournalDetail::model()->findAll($criteria);
-		
+
         foreach ($models as $model) {
 
             $modelBalanceCurrent = tBalanceSheet::model()->find(array(
@@ -423,7 +418,7 @@ class TAccountController extends Controller {
                 $modelBalanceCurrent->yearmonth_periode = $_curPeriod;
 
                 $modelBalanceCurrent->save(false);
-            } 
+            }
 
             $_debit = $model->debit;
             $_credit = $model->credit;
@@ -446,12 +441,10 @@ class TAccountController extends Controller {
 					credit = ' . $_curcredit . ',
 					end_balance = ' . $_endbalance . '
 					WHERE yearmonth_periode = ' . $_curPeriod . ' AND parent_id = ' . $model->account_no_id . ';');
-			
-  			$command2->execute();
 
+            $command2->execute();
         }
         //#4. END POSTING VALUE
-
         //#5. START POSTING LABA DITAHAN
         $_labarugi = tAccount::netprofit($_curPeriod);
 
@@ -459,51 +452,51 @@ class TAccountController extends Controller {
 
         if ($_lraccount != null) {
 
-			$modelBalanceCurrent = tBalanceSheet::model()->find(array(
-				'condition' => 'parent_id = :account AND yearmonth_periode = :period',
-				'params' => array(':account' => $_lraccount, ':period' => $_curPeriod),
-			));
+            $modelBalanceCurrent = tBalanceSheet::model()->find(array(
+                'condition' => 'parent_id = :account AND yearmonth_periode = :period',
+                'params' => array(':account' => $_lraccount, ':period' => $_curPeriod),
+            ));
 
-			if ($modelBalanceCurrent == null) {
-				$modelBalanceCurrent = new tBalanceSheet;
-				$modelBalanceCurrent->parent_id = $_lraccount;
-				$modelBalanceCurrent->yearmonth_periode = $_curPeriod;
+            if ($modelBalanceCurrent == null) {
+                $modelBalanceCurrent = new tBalanceSheet;
+                $modelBalanceCurrent->parent_id = $_lraccount;
+                $modelBalanceCurrent->yearmonth_periode = $_curPeriod;
 
-				//Check Last Balance
-				$modelBalanceLast = tBalanceSheet::model()->find(array(
-					'condition' => 'parent_id = :accid AND yearmonth_periode = :period',
-					'params' => array(':accid' => $_lraccount, ':period' => $_lastPeriod),
-				));
-				if ($modelBalanceLast != null) //if null, default 0 by database default
-					$modelBalanceCurrent->beginning_balance = $modelBalanceLast->end_balance;
+                //Check Last Balance
+                $modelBalanceLast = tBalanceSheet::model()->find(array(
+                    'condition' => 'parent_id = :accid AND yearmonth_periode = :period',
+                    'params' => array(':accid' => $_lraccount, ':period' => $_lastPeriod),
+                ));
+                if ($modelBalanceLast != null) //if null, default 0 by database default
+                    $modelBalanceCurrent->beginning_balance = $modelBalanceLast->end_balance;
 
-				$modelBalanceCurrent->save(false);
-			}
+                $modelBalanceCurrent->save(false);
+            }
 
-			$_endbalance = $_labarugi + $modelBalanceCurrent->beginning_balance;
+            $_endbalance = $_labarugi + $modelBalanceCurrent->beginning_balance;
 
-			if ($_labarugi >= 0) {
-				$sql = 'UPDATE t_balance_sheet SET
+            if ($_labarugi >= 0) {
+                $sql = 'UPDATE t_balance_sheet SET
 				debit = 0,
 				credit = ' . $_labarugi . ',
 				end_balance = ' . $_endbalance . '
 				WHERE yearmonth_periode = ' . $_curPeriod . ' AND parent_id = ' . $_lraccount;
-			} else {
-				$sql = 'UPDATE t_balance_sheet SET
+            } else {
+                $sql = 'UPDATE t_balance_sheet SET
 				debit = ' . -($_labarugi) . ',
 				credit = 0,
 				end_balance = ' . $_endbalance . '
 				WHERE yearmonth_periode = ' . $_curPeriod . ' AND parent_id = ' . $_lraccount;
-			}
+            }
 
-			$command = Yii::app()->db->createCommand($sql);
+            $command = Yii::app()->db->createCommand($sql);
 
-			$command->execute();
-		}
+            $command->execute();
+        }
         //#5. END POSTING LABA DITAHAN
-		
-		
-        Yii::app()->user->setFlash("success", "<strong>Error!</strong> Generating Trial Balance has finished... ");
+
+
+        Yii::app()->user->setFlash("success", "<strong>Success!</strong> Generating Trial Balance has finished... ");
         $this->redirect(array('/m2/tAccount'));
     }
 
@@ -619,13 +612,12 @@ class TAccountController extends Controller {
 
                 //if ($_POST['fJournalList']['post_id'] != 0)
                 //    $criteria->compare('journal.state_id', $_POST['fJournalList']['post_id']);
-
                 //$criteria->addBetweenCondition('journal.input_date', Yii::app()->dateFormatter->format('yyyy-MM-dd', $_POST['fJournalList']['begindate']), Yii::app()->dateFormatter->format('yyyy-MM-dd', $_POST['fJournalList']['enddate']));
                 $criteria->compare('DATE_FORMAT(journal.input_date,"%Y%m")', $_POST['fJournalList']['begindate']);
 
                 $models = tJournalDetail::model()->findAll($criteria);
 
-                $pdf->report($models, $_POST['fJournalList']['begindate'],$_POST['fJournalList']['account_no_id']);
+                $pdf->report($models, $_POST['fJournalList']['begindate'], $_POST['fJournalList']['account_no_id']);
                 $pdf->Output();
             }
         }

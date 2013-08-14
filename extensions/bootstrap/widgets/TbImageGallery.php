@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbImageGallery class file.
  *
@@ -8,23 +7,19 @@
  * @link https://github.com/blueimp/Bootstrap-Image-Gallery/
  */
 class TbImageGallery extends CWidget {
-
     /**
      * @var string name of the view to display images (modal dialog used for the image gallery)
      */
     public $previewImagesView = 'bootstrap.views.gallery.preview';
-
     /**
      * @var bool enable full screen
      */
     public $fullScreen = true;
-
     /**
      * @var bool enable/disable Modal Gallery event listener
      * @see https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README.md#deinitialize-the-click-event-listener
      */
     public $eventListener = true;
-
     /**
      * @var array htmlOptions for gallery div
      * @see https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README.md#api
@@ -35,7 +30,6 @@ class TbImageGallery extends CWidget {
         'data-target' => '#modal-gallery',
         'data-filter' => '*',
     );
-
     public function init() {
         Yii::app()->bootstrap->registerAssetCss('bootstrap-image-gallery' . (!YII_DEBUG ? '.min' : '') . '.css');
         Yii::app()->bootstrap->registerAssetJs('fileupload/load-image.min.js');
@@ -51,10 +45,8 @@ class TbImageGallery extends CWidget {
         }
         echo CHtml::openTag('div', CMap::mergeArray(self::$defaultHtmlOptions, $this->htmlOptions));
     }
-
     public function run() {
         $this->render($this->previewImagesView);
         echo CHtml::closeTag('div');
     }
-
 }

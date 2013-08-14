@@ -44,7 +44,7 @@ class journalVoucherList2 extends fpdf {
         $this->SetFont('Arial', '', 10);
         $this->Cell(25, 6, 'Periode: ', 'L');
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(0, 6, ': ' . $begindate , 'R');
+        $this->Cell(0, 6, ': ' . $begindate, 'R');
         //$this->Cell(0, 6, ': ', 'R');
         $this->Ln();
         $this->Cell(0, 0, '', 'B');

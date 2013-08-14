@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperText
  *
@@ -8,10 +7,7 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="text") */
 class JasperText extends AbstractJasper {
-
     public $content = null;
-
 }

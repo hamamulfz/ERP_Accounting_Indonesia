@@ -1,5 +1,4 @@
 <?php
-
 /* * *****************************************************************************
  * Utility to parse TTF font files                                              *
  *                                                                              *
@@ -7,9 +6,7 @@
  * Date:    2011-06-18                                                          *
  * Author:  Olivier PLATHEY                                                     *
  * ***************************************************************************** */
-
 class TTFParser {
-
     var $f;
     var $tables;
     var $unitsPerEm;
@@ -28,12 +25,10 @@ class TTFParser {
     var $underlinePosition;
     var $underlineThickness;
     var $isFixedPitch;
-
     function Parse($file) {
         $this->f = fopen($file, 'rb');
         if (!$this->f)
             $this->Error('Can\'t open file: ' . $file);
-
         $version = $this->Read(4);
         if ($version == 'OTTO')
             $this->Error('OpenType fonts based on PostScript outlines are not supported');
@@ -49,7 +44,6 @@ class TTFParser {
             $this->Skip(4); // length
             $this->tables[$tag] = $offset;
         }
-
         $this->ParseHead();
         $this->ParseHhea();
         $this->ParseMaxp();
@@ -58,10 +52,8 @@ class TTFParser {
         $this->ParseName();
         $this->ParseOS2();
         $this->ParsePost();
-
         fclose($this->f);
     }
-
     function ParseHead() {
         $this->Seek('head');
         $this->Skip(3 * 4); // version, fontRevision, checkSumAdjustment
@@ -76,19 +68,16 @@ class TTFParser {
         $this->xMax = $this->ReadShort();
         $this->yMax = $this->ReadShort();
     }
-
     function ParseHhea() {
         $this->Seek('hhea');
         $this->Skip(4 + 15 * 2);
         $this->numberOfHMetrics = $this->ReadUShort();
     }
-
     function ParseMaxp() {
         $this->Seek('maxp');
         $this->Skip(4);
         $this->numGlyphs = $this->ReadUShort();
     }
-
     function ParseHmtx() {
         $this->Seek('hmtx');
         $this->widths = array();
@@ -102,7 +91,6 @@ class TTFParser {
             $this->widths = array_pad($this->widths, $this->numGlyphs, $lastWidth);
         }
     }
-
     function ParseCmap() {
         $this->Seek('cmap');
         $this->Skip(2); // version
@@ -117,7 +105,6 @@ class TTFParser {
         }
         if ($offset31 == 0)
             $this->Error('No Unicode encoding found');
-
         $startCount = array();
         $endCount = array();
         $idDelta = array();
@@ -140,7 +127,6 @@ class TTFParser {
         $offset = ftell($this->f);
         for ($i = 0; $i < $segCount; $i++)
             $idRangeOffset[$i] = $this->ReadUShort();
-
         for ($i = 0; $i < $segCount; $i++) {
             $c1 = $startCount[$i];
             $c2 = $endCount[$i];
@@ -165,7 +151,6 @@ class TTFParser {
             }
         }
     }
-
     function ParseName() {
         $this->Seek('name');
         $tableOffset = ftell($this->f);
@@ -191,7 +176,6 @@ class TTFParser {
         if ($this->postScriptName == '')
             $this->Error('PostScript name not found');
     }
-
     function ParseOS2() {
         $this->Seek('OS/2');
         $version = $this->ReadUShort();
@@ -211,7 +195,6 @@ class TTFParser {
         else
             $this->capHeight = 0;
     }
-
     function ParsePost() {
         $this->Seek('post');
         $this->Skip(4); // version
@@ -221,33 +204,27 @@ class TTFParser {
         $this->underlineThickness = $this->ReadShort();
         $this->isFixedPitch = ($this->ReadULong() != 0);
     }
-
     function Error($msg) {
         if (PHP_SAPI == 'cli')
             die("Error: $msg\n");
         else
             die("<b>Error</b>: $msg");
     }
-
     function Seek($tag) {
         if (!isset($this->tables[$tag]))
             $this->Error('Table not found: ' . $tag);
         fseek($this->f, $this->tables[$tag], SEEK_SET);
     }
-
     function Skip($n) {
         fseek($this->f, $n, SEEK_CUR);
     }
-
     function Read($n) {
         return fread($this->f, $n);
     }
-
     function ReadUShort() {
         $a = unpack('nn', fread($this->f, 2));
         return $a['n'];
     }
-
     function ReadShort() {
         $a = unpack('nn', fread($this->f, 2));
         $v = $a['n'];
@@ -255,12 +232,9 @@ class TTFParser {
             $v -= 65536;
         return $v;
     }
-
     function ReadULong() {
         $a = unpack('NN', fread($this->f, 4));
         return $a['N'];
     }
-
 }
-
 ?>

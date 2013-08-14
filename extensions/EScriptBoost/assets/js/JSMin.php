@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JSMin.php - modified PHP implementation of Douglas Crockford's JSMin.
  *
@@ -55,13 +54,11 @@
  * @link http://code.google.com/p/jsmin-php/
  */
 class JSMin {
-
     const ORD_LF = 10;
     const ORD_SPACE = 32;
     const ACTION_KEEP_A = 1;
     const ACTION_DELETE_A = 2;
     const ACTION_DELETE_A_B = 3;
-
     protected $a = "\n";
     protected $b = '';
     protected $input = '';
@@ -70,7 +67,6 @@ class JSMin {
     protected $lookAhead = null;
     protected $output = '';
     protected $lastByteOut = '';
-
     /**
      * Minify Javascript.
      *
@@ -81,14 +77,12 @@ class JSMin {
         $jsmin = new JSMin($js);
         return $jsmin->min();
     }
-
     /**
      * @param string $input
      */
     public function __construct($input) {
         $this->input = $input;
     }
-
     /**
      * Perform minification, return result
      */
@@ -96,7 +90,6 @@ class JSMin {
         if ($this->output !== '') { // min already run
             return $this->output;
         }
-
         $mbIntEnc = null;
         if (function_exists('mb_strlen') && ((int) ini_get('mbstring.func_overload') & 2)) {
             $mbIntEnc = mb_internal_encoding();
@@ -104,9 +97,7 @@ class JSMin {
         }
         $this->input = str_replace("\r\n", "\n", $this->input);
         $this->inputLength = strlen($this->input);
-
         $this->action(self::ACTION_DELETE_A_B);
-
         while ($this->a !== null) {
             // determine next command
             $command = self::ACTION_KEEP_A; // default
@@ -133,13 +124,11 @@ class JSMin {
             $this->action($command);
         }
         $this->output = trim($this->output);
-
         if ($mbIntEnc !== null) {
             mb_internal_encoding($mbIntEnc);
         }
         return $this->output;
     }
-
     /**
      * ACTION_KEEP_A = Output A. Copy B to A. Get the next B.
      * ACTION_DELETE_A = Copy B to A. Get the next B.
@@ -158,7 +147,6 @@ class JSMin {
             case self::ACTION_KEEP_A:
                 $this->output .= $this->a;
                 $this->lastByteOut = $this->a;
-
             // fallthrough
             case self::ACTION_DELETE_A:
                 $this->a = $this->b;
@@ -167,7 +155,6 @@ class JSMin {
                     while (true) {
                         $this->output .= $this->a;
                         $this->lastByteOut = $this->a;
-
                         $this->a = $this->get();
                         if ($this->a === $this->b) { // end quote
                             break;
@@ -181,7 +168,6 @@ class JSMin {
                         if ($this->a === '\\') {
                             $this->output .= $this->a;
                             $this->lastByteOut = $this->a;
-
                             $this->a = $this->get();
                             $str .= $this->a;
                         }
@@ -215,7 +201,6 @@ class JSMin {
             // end case ACTION_DELETE_A_B
         }
     }
-
     protected function isRegexpLiteral() {
         if (false !== strpos("\n{;(,=:[!&|?", $this->a)) { // we aren't dividing
             return true;
@@ -239,7 +224,6 @@ class JSMin {
         }
         return false;
     }
-
     /**
      * Get next char. Convert ctrl char to space.
      */
@@ -262,7 +246,6 @@ class JSMin {
         }
         return $c;
     }
-
     /**
      * Get next char. If is ctrl character, translate to a space or newline.
      */
@@ -270,14 +253,12 @@ class JSMin {
         $this->lookAhead = $this->get();
         return $this->lookAhead;
     }
-
     /**
      * Is $c a letter, digit, underscore, dollar sign, escape, or non-ASCII?
      */
     protected function isAlphaNum($c) {
         return (preg_match('/^[0-9a-zA-Z_\\$\\\\]$/', $c) || ord($c) > 126);
     }
-
     protected function singleLineComment() {
         $comment = '';
         while (true) {
@@ -292,7 +273,6 @@ class JSMin {
             }
         }
     }
-
     protected function multipleLineComment() {
         $this->get();
         $comment = '';
@@ -319,7 +299,6 @@ class JSMin {
             $comment .= $get;
         }
     }
-
     /**
      * Get the next character, skipping over comments.
      * Some comments may be preserved.
@@ -335,17 +314,10 @@ class JSMin {
             default: return $get;
         }
     }
-
 }
-
 class JSMin_UnterminatedStringException extends Exception {
-    
 }
-
 class JSMin_UnterminatedCommentException extends Exception {
-    
 }
-
 class JSMin_UnterminatedRegExpException extends Exception {
-    
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbJsonDataColumn class
  *
@@ -11,12 +10,10 @@
  * @package YiiBooster bootstrap.widgets
  */
 Yii::import('bootstrap.widgets.TbJsonGridColumn');
-
 /**
  * @property TbJsonGridView $grid
  */
 class TbJsonDataColumn extends TbJsonGridColumn {
-
     /**
      * Renders a data cell.
      * @param integer $row the row number (zero-based)
@@ -40,7 +37,6 @@ class TbJsonDataColumn extends TbJsonGridColumn {
         }
         parent::renderDataCell($row);
     }
-
     /**
      * Renders the data cell content.
      * This method evaluates {@link value} or {@link name} and renders the result.
@@ -55,10 +51,8 @@ class TbJsonDataColumn extends TbJsonGridColumn {
             elseif ($this->name !== null)
                 $value = CHtml::value($data, $this->name);
             $value = !isset($value) ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value, $this->type);
-
             return $value;
         }
         parent::renderDataCellContent($row, $data);
     }
-
 }

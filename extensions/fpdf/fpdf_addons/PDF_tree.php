@@ -1,5 +1,4 @@
 <?php
-
 ////////////////////////////////////////////////////
 // PDF Tree
 //
@@ -15,7 +14,6 @@
 // 1) Does not support multipage
 // 2) Problems when the text of each line in the nodes is bigger then the width given.
 ////////////////////////////////////////////////////
-
 /**
  * PDF Tree
  * @package PDF
@@ -42,9 +40,7 @@
  * @param $treeHeight double     // Reserved (recursive use)
  * */
 //require_once('fpdf.php');
-
 class PDF_tree extends fpdf {
-
     function MakeTree($data, $x = 0, $nodeFormat = '+%k', $childFormat = '-%k: %v', $w = 20, $h = 5, $border = 1, $fill = false, $align = '', $indent = 1, $vspacing = 1, $drawlines = true, $level = 0, $hcell = array(), $treeHeight = 0.00) {
         if (is_array($data)) {
             $countData = count($data);
@@ -97,7 +93,5 @@ class PDF_tree extends fpdf {
             return $treeHeight;
         }
     }
-
 }
-
 ?>

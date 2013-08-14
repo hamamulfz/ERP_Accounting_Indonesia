@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Xml2Pdf.
  *
@@ -14,7 +13,6 @@
  *
  */
 // dependances {{{
-
 /**
  * include config file.
  */
@@ -35,13 +33,11 @@
  * @var string
  */
 define('XML2PDF_CLASS_PATH', dirname(__FILE__));
-
 /**
  * chemin des classes principales
  * @var string
  */
 define('XML2PDF_MAIN_PATH', XML2PDF_CLASS_PATH . '/main');
-
 if (!defined('XML2PDF_COMPONENTS_PATH')) {
     /**
      * chemin des classes externes.
@@ -49,7 +45,6 @@ if (!defined('XML2PDF_COMPONENTS_PATH')) {
      */
     define('XML2PDF_COMPONENTS_PATH', XML2PDF_CLASS_PATH . '/components');
 }
-
 if (!defined('FPDF_CLASS_PATH')) {
     /**
      * chemin ver la classe fpdf.
@@ -57,7 +52,6 @@ if (!defined('FPDF_CLASS_PATH')) {
      */
     define('FPDF_CLASS_PATH', XML2PDF_COMPONENTS_PATH . '/fpdf153');
 }
-
 if (!defined('XML2PDF_PLUGINS_TAGS_PATH')) {
     /**
      * r�pertoires des plugins de balises.
@@ -65,7 +59,6 @@ if (!defined('XML2PDF_PLUGINS_TAGS_PATH')) {
      */
     define('XML2PDF_PLUGINS_TAGS_PATH', XML2PDF_CLASS_PATH . '/plugins/tags');
 }
-
 if (!defined('XML2PDF_PLUGINS_GRAPHS_PATH')) {
     /**
      * r�pertoire des plugins de graph.
@@ -73,7 +66,6 @@ if (!defined('XML2PDF_PLUGINS_GRAPHS_PATH')) {
      */
     define('XML2PDF_PLUGINS_GRAPHS_PATH', XML2PDF_CLASS_PATH . '/plugins/graphs');
 }
-
 if (!defined('XML2PDF_PLUGINS_BARCODES_PATH')) {
     /**
      * R�pertoire des plugins de code bare.
@@ -81,12 +73,10 @@ if (!defined('XML2PDF_PLUGINS_BARCODES_PATH')) {
      */
     define('XML2PDF_PLUGINS_BARCODES_PATH', XML2PDF_CLASS_PATH . '/plugins/barcodes');
 }
-
 $pluginsTypesPaths = array(
     'tag' => XML2PDF_PLUGINS_TAGS_PATH,
     'barcode' => XML2PDF_PLUGINS_BARCODES_PATH,
     'graph' => XML2PDF_PLUGINS_GRAPHS_PATH);
-
 // define the include path
 $includePath = array(
     XML2PDF_CLASS_PATH,
@@ -95,7 +85,6 @@ $includePath = array(
     FPDF_CLASS_PATH);
 ini_set('include_path', ini_get('include_path') . ':' .
         implode(':', $includePath));
-
 // define the xml properties
 if (!defined('XML_ENCODING')) {
     /**
@@ -104,15 +93,12 @@ if (!defined('XML_ENCODING')) {
      */
     define('XML_ENCODING', 'ISO-8859-1');
 }
-
 // define the pdf properties
 require_once('pdf.inc.php');
-
 /**
  * include the class Pdf.
  */
 Yii::import('ext.jasPHP.libs.xml2pdf.main.Pdf');
-
 // }}}
 // doc {{{
 /**
@@ -189,35 +175,29 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Pdf');
  * @version CVS: $Id: Xml2Pdf.php,v 1.5 2007/01/05 23:07:31 geelweb Exp $
  */ // }}}
 Class Xml2Pdf {
-
     // class properties {{{ 
     /**
      * XML content.
      * @var string
      */
     private $_xml = null;
-
     /**
      * Object Pdf.
      * @var object Pdf
      */
     private $_pdf = null;
-
     /**
      * Tags stack.
      * @var array
      */
     private $_tagStack = array();
-
     /**
      * True if the followings tags do not be parsed.
      * @var boolean
      */
     private $_donotparse = false;
-
     // }}}
     // Xml2Pdf::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -229,10 +209,8 @@ Class Xml2Pdf {
         $this->_xml = $this->_getXmlContent($xml);
         $this->_pdf = Pdf::singleton();
     }
-
     // }}}
     // Xml2Pdf::render() {{{
-
     /**
      * Build the document.
      *
@@ -244,10 +222,8 @@ Class Xml2Pdf {
         $this->_parse();
         return $this->_pdf;
     }
-
     // }}}
     // Xml2Pdf::_parse() {{{
-
     /**
      * Parse the XML content.
      *
@@ -258,21 +234,17 @@ Class Xml2Pdf {
      */
     private function _parse() {
         $xml_parser = xml_parser_create(XML_ENCODING);
-
         xml_set_object($xml_parser, $this);
         xml_set_character_data_handler($xml_parser, '_parseContent');
         xml_set_element_handler($xml_parser, '_parseOpeningTag', '_parseClosingTag');
-
         if (!xml_parse($xml_parser, $this->_xml)) {
             throw new Exception(sprintf('xml error %s at line %d', xml_error_string(xml_get_error_code($xml_parser)), xml_get_current_line_number($xml_parser)));
         }
         xml_parser_free($xml_parser);
         return true;
     }
-
     // }}}
     // Xml2Pdf::_parseOpeningTag() {{{
-
     /**
      * Parse the opening tags.
      *
@@ -297,7 +269,6 @@ Class Xml2Pdf {
             $this->_parseContent($parser, $tagToText);
             return;
         }
-
         $tagName = strtolower($tag);
         $clsName = Xml2Pdf::searchPlugin($tagName);
         try {
@@ -311,10 +282,8 @@ Class Xml2Pdf {
             $this->_tagStack[] = new $clsName($tagProperties);
         }
     }
-
     // }}}
     // Xml2Pdf::_parseClosingTag() {{{
-
     /**
      * Parse closing tags.
      *
@@ -339,10 +308,8 @@ Class Xml2Pdf {
         $tagObject = array_pop($this->_tagStack);
         $result = $tagObject->close();
     }
-
     // }}}
     // Xml2Pdf::_parseContent() {{{
-
     /**
      * Parse the tag content.
      *
@@ -357,10 +324,8 @@ Class Xml2Pdf {
         $tagObject->addContent($content);
         array_push($this->_tagStack, $tagObject);
     }
-
     // }}}    
     // Xml2Pdf::_getXmlContent() {{{
-
     /**
      * Get the xml content of a file.
      *
@@ -373,10 +338,8 @@ Class Xml2Pdf {
         }
         return $xml;
     }
-
     // }}}
     // Xml2Pdf::exceptionHandler() {{{
-
     /**
      * Show an error message.
      *
@@ -388,10 +351,8 @@ Class Xml2Pdf {
     static function exceptionHandler($exception) {
         print_r('Xml2Pdf error : ' . $exception->getMessage());
     }
-
     // }}}
     // Xml2Pdf::convertColor() {{{
-
     /**
      * Convert an hexadecimal color on RGB color.
      *
@@ -406,16 +367,13 @@ Class Xml2Pdf {
         $array['r'] = substr((string) $color, 1, 2);
         $array['g'] = substr((string) $color, 3, 2);
         $array['b'] = substr((string) $color, 5, 2);
-
         $array['r'] = hexdec($array['r']);
         $array['g'] = hexdec($array['g']);
         $array['b'] = hexdec($array['b']);
         return $array;
     }
-
     // }}}
     // Xml2Pdf::getColor() {{{
-
     /**
      * Generate a random RGB color.
      *
@@ -428,10 +386,8 @@ Class Xml2Pdf {
         $array['b'] = rand(128, 255);
         return $array;
     }
-
     // }}}
     // Xml2Pdf::searchPlugin() {{{
-
     /**
      * Search the xml2pdf plugins.
      *
@@ -457,7 +413,6 @@ Class Xml2Pdf {
             'tag' => XML2PDF_PLUGINS_TAGS_PATH,
             'barcode' => XML2PDF_PLUGINS_BARCODES_PATH,
             'graph' => XML2PDF_PLUGINS_GRAPHS_PATH);
-
         if (isset($pluginsTypesPaths[$pluginType])) {
             $filePath = $pluginsTypesPaths[$pluginType];
         } else {
@@ -474,8 +429,6 @@ Class Xml2Pdf {
         require_once($filePath . '/' . $fileName);
         return $clsName;
     }
-
     // }}}
 }
-
 ?>

@@ -1,7 +1,5 @@
 <?php
-
 require('pdf_tree.php');
-
 // LOAD DATA INTO AN ARRAY
 $data = array(
     'Operating Systems' => array(
@@ -41,7 +39,6 @@ $data = array(
         'Hamburger'
     )
 );
-
 // CREATE PDF
 $pdf = new PDF_Tree();
 $pdf->SetMargins(5, 0, 5);
@@ -53,11 +50,9 @@ $pdf->SetDrawColor(20, 20, 20);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell(0, 6, 'My Tree Example', 0, '', 'R');
 $pdf->Ln(6);
-
 // TREE 1
 $pdf->SetY(6);
 $pdf->MakeTree($data);
-
 // TREE 2
 $startX = 30;
 $nodeFormat = '[Node: %k]';
@@ -71,7 +66,6 @@ $indent = 2;
 $vspacing = 1;
 $pdf->SetY(6);
 $pdf->MakeTree($data, $startX, $nodeFormat, $childFormat, $w, $h, $border, $fill, $align, $indent, $vspacing);
-
 // TREE 3
 $startX = 75;
 $nodeFormat = '+%k';
@@ -85,7 +79,6 @@ $indent = 5;
 $vspacing = 3;
 $pdf->SetY(6);
 $pdf->MakeTree($data, $startX, $nodeFormat, $childFormat, $w, $h, $border, $fill, $align, $indent, $vspacing);
-
 // TREE 4
 $startX = 140;
 $nodeFormat = '<%k>';
@@ -99,7 +92,6 @@ $indent = 8;
 $vspacing = 0;
 $pdf->SetY(6);
 $pdf->MakeTree($data, $startX, $nodeFormat, $childFormat, $w, $h, $border, $fill, $align, $indent, $vspacing);
-
 // TREE 5
 $startX = 115;
 $nodeFormat = '%k';
@@ -114,6 +106,5 @@ $vspacing = 1;
 $drawlines = false;
 $pdf->SetY(120);
 $pdf->MakeTree($data, $startX, $nodeFormat, $childFormat, $w, $h, $border, $fill, $align, $indent, $vspacing, $drawlines);
-
 $pdf->Output();
 ?>

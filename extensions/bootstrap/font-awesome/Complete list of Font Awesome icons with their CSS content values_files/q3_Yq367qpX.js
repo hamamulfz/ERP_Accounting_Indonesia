@@ -1,16 +1,8 @@
 /*1368412151,173213213*/
-
 if (self.CavalryLogger) {
     CavalryLogger.start_js(["Z3urS"]);
 }
-
-
-
-
 self.__DEV__ = self.__DEV__ || 0;
-
-
-
 if (JSON.stringify(["\u2028\u2029"]) === '["\u2028\u2029"]')
     JSON.stringify = function(a) {
         var b = /\u2028/g, c = /\u2029/g;
@@ -25,13 +17,6 @@ if (JSON.stringify(["\u2028\u2029"]) === '["\u2028\u2029"]')
             return g;
         };
     }(JSON.stringify);
-
-
-
-
-
-
-
 (function(a) {
     if (a.require)
         return;
@@ -920,7 +905,6 @@ __d("ServerJS", ["BitMap", "ErrorUtils", "copyProperties", "ge"], function(a, b,
     }
     e.exports = m;
 });
-
 __d("CookieCore", [], function(a, b, c, d, e, f) {
     var g = {set: function(h, i, j, k, l) {
             document.cookie = h + "=" + encodeURIComponent(i) + "; " + (j ? "expires=" + (new Date(Date.now() + j)).toGMTString() + "; " : "") + "path=" + (k || '/') + "; domain=" + window.location.hostname.replace(/^.*(\.facebook\..*)$/i, '$1') + (l ? "; secure" : "");

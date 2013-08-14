@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPExcel
  *
@@ -33,7 +32,6 @@ if (!defined('PHPEXCEL_ROOT')) {
     define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../');
     require(PHPEXCEL_ROOT . 'PHPExcel/Autoloader.php');
 }
-
 /**
  * PHPExcel_Calculation_Logical
  *
@@ -42,7 +40,6 @@ if (!defined('PHPEXCEL_ROOT')) {
  * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Calculation_Logical {
-
     /**
      * TRUE
      *
@@ -58,8 +55,6 @@ class PHPExcel_Calculation_Logical {
     public static function TRUE() {
     return TRUE;
     } //	function TRUE()
-
-
     /**
      * FALSE
      *
@@ -75,8 +70,6 @@ class PHPExcel_Calculation_Logical {
     public static function FALSE() {
     return FALSE;
     } //	function FALSE()
-
-
     /**
      * LOGICAL_AND
      *
@@ -99,14 +92,11 @@ class PHPExcel_Calculation_Logical {
      * @return	boolean		The logical AND of the arguments.
      */
     public static function
-
 LOGICAL_AND() {
     // Return value
     $returnValue = TRUE;
-
     // Loop through the arguments
     $aArgs =
-
     PHPExcel_Calculation_Functions::flattenArray(func_get_args());
     $argCount = -1;
     foreach ($aArgs as $argCount => $arg) {
@@ -127,16 +117,13 @@ LOGICAL_AND() {
             $returnValue = $returnValue && ($arg != 0);
         }
     }
-
     // Return
     if ($argCount < 0) {
         return PHPExcel_Calculation_Functions::VALUE();
     }
     return $returnValue;
 }
-
 //	function LOGICAL_AND()
-
 /**
  * LOGICAL_OR
  *
@@ -161,7 +148,6 @@ LOGICAL_AND() {
 public static function LOGICAL_OR() {
     // Return value
     $returnValue = FALSE;
-
     // Loop through the arguments
     $aArgs = PHPExcel_Calculation_Functions::flattenArray(func_get_args());
     $argCount = -1;
@@ -183,16 +169,13 @@ public static function LOGICAL_OR() {
             $returnValue = $returnValue || ($arg != 0);
         }
     }
-
     // Return
     if ($argCount < 0) {
         return PHPExcel_Calculation_Functions::VALUE();
     }
     return $returnValue;
 }
-
 //	function LOGICAL_OR()
-
 /**
  * NOT
  *
@@ -225,12 +208,9 @@ public static function NOT($logical = FALSE) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
     }
-
     return !$logical;
 }
-
 //	function NOT()
-
 /**
  * STATEMENT_IF
  *
@@ -267,12 +247,9 @@ public static function STATEMENT_IF($condition = TRUE, $returnIfTrue = 0, $retur
     $condition = (is_null($condition)) ? TRUE : (boolean) PHPExcel_Calculation_Functions::flattenSingleValue($condition);
     $returnIfTrue = (is_null($returnIfTrue)) ? 0 : PHPExcel_Calculation_Functions::flattenSingleValue($returnIfTrue);
     $returnIfFalse = (is_null($returnIfFalse)) ? FALSE : PHPExcel_Calculation_Functions::flattenSingleValue($returnIfFalse);
-
     return ($condition) ? $returnIfTrue : $returnIfFalse;
 }
-
 //	function STATEMENT_IF()
-
 /**
  * IFERROR
  *
@@ -288,11 +265,8 @@ public static function STATEMENT_IF($condition = TRUE, $returnIfTrue = 0, $retur
 public static function IFERROR($testValue = '', $errorpart = '') {
     $testValue = (is_null($testValue)) ? '' : PHPExcel_Calculation_Functions::flattenSingleValue($testValue);
     $errorpart = (is_null($errorpart)) ? '' : PHPExcel_Calculation_Functions::flattenSingleValue($errorpart);
-
     return self::STATEMENT_IF(PHPExcel_Calculation_Functions::IS_ERROR($testValue), $errorpart, $testValue);
 }
-
 //	function IFERROR()
 }
-
 //	class PHPExcel_Calculation_Logical

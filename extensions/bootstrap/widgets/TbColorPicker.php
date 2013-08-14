@@ -1,5 +1,4 @@
 <?php
-
 /* ## TbColorPicker widget class
  *
  * @author: yiqing95 <yiqing_95@qq.com>
@@ -19,21 +18,17 @@
  * Total refactor to work as a widget instead of a class and allow the use of TbActiveForm
  *
  */
-
 class TbColorPicker extends CInputWidget {
-
     /**
      * @var TbActiveForm when created via TbActiveForm.
      * this attribute is set to the form that renders the widget
      * @see TbActionForm->inputRow
      */
     public $form;
-
     /**
      * @var string the color format - hex | rgb | rgba. Defaults to 'hex'
      */
     public $format = 'hex';
-
     /**
      * @var string[] the JavaScript event handlers.
      * @see <http://www.eyecon.ro/bootstrap-colorpicker/> events section
@@ -52,7 +47,6 @@ class TbColorPicker extends CInputWidget {
      * </pre>
      */
     public $events = array();
-
     /**
      * ### .run()
      *
@@ -60,11 +54,8 @@ class TbColorPicker extends CInputWidget {
      */
     public function run() {
         list($name, $id) = $this->resolveNameID();
-
         $this->registerClientScript($id);
-
         $this->htmlOptions['id'] = $id;
-
         // Do we have a model?
         if ($this->hasModel()) {
             if ($this->form)
@@ -75,7 +66,6 @@ class TbColorPicker extends CInputWidget {
         else
             echo CHtml::textField($name, $this->value, $this->htmlOptions);
     }
-
     /**
      * ### .registerClientScript()
      *
@@ -86,15 +76,11 @@ class TbColorPicker extends CInputWidget {
     public function registerClientScript($id) {
         Yii::app()->bootstrap->registerAssetJs('bootstrap.colorpicker.js', CClientScript::POS_HEAD);
         Yii::app()->bootstrap->registerAssetCss('bootstrap-colorpicker.css');
-
         $options = !empty($this->format) ? CJavaScript::encode(array('format' => $this->format)) : '';
-
         ob_start();
         echo "jQuery('#{$id}').colorpicker({$options})";
         foreach ($this->events as $event => $handler)
             echo ".on('{$event}', " . CJavaScript::encode($handler) . ")";
-
         Yii::app()->getClientScript()->registerScript(__CLASS__ . '#' . $this->getId(), ob_get_clean() . ';');
     }
-
 }

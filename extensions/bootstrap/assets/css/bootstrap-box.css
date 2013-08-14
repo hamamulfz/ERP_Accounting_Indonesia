@@ -17,21 +17,26 @@
     height: 40px;
     /*line-height: 40px;*/
 
-background-color: hsl(360, 0%, 77%) !important;
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fcfcfc", endColorstr="#c4c4c4");
-  background-image: -khtml-gradient(linear, left top, left bottom, from(#fcfcfc), to(#c4c4c4));
-  background-image: -moz-linear-gradient(top, #fcfcfc, #c4c4c4);
-  background-image: -ms-linear-gradient(top, #fcfcfc, #c4c4c4);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fcfcfc), color-stop(100%, #c4c4c4));
-  background-image: -webkit-linear-gradient(top, #fcfcfc, #c4c4c4);
-  background-image: -o-linear-gradient(top, #fcfcfc, #c4c4c4);
-  background-image: linear-gradient(#fcfcfc, #c4c4c4);
-  border-color: #c4c4c4 #c4c4c4 hsl(360, 0%, 71.5%);
-  color: #333 !important;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.36);
-  -webkit-font-smoothing: antialiased;
+    background: #E9E9E9;
+    background: -moz-linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FAFAFA), color-stop(100%, #E9E9E9)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%); /* IE10+ */
+    background: linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#FAFAFA', endColorstr = '#E9E9E9');
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#E9E9E9')";
 
+    border: 1px solid #D5D5D5;
+
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    -webkit-background-clip: padding-box;
 }
 .bootstrap-widget-header .bootstrap-toolbar
 {

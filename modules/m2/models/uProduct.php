@@ -109,6 +109,4 @@ class uProduct extends BaseModel {
         return $_items;
     }
 
-
-
 }

@@ -1,12 +1,8 @@
 <?php
-
 require('../fpdf.php');
-
 class PDF extends FPDF {
-
     function Header() {
         global $titre;
-
         //Arial gras 15
         $this->SetFont('Arial', 'B', 15);
         //Calcul de la largeur du titre et positionnement
@@ -23,7 +19,6 @@ class PDF extends FPDF {
         //Saut de ligne
         $this->Ln(10);
     }
-
     function Footer() {
         //Positionnement � 1,5 cm du bas
         $this->SetY(-15);
@@ -34,7 +29,6 @@ class PDF extends FPDF {
         //Num�ro de page
         $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
     }
-
     function TitreChapitre($num, $lib) {
         //Arial 12
         $this->SetFont('Arial', '', 12);
@@ -45,7 +39,6 @@ class PDF extends FPDF {
         //Saut de ligne
         $this->Ln(4);
     }
-
     function CorpsChapitre($fichier) {
         //Lecture du fichier texte
         $f = fopen($fichier, 'r');
@@ -61,15 +54,12 @@ class PDF extends FPDF {
         $this->SetFont('', 'I');
         $this->Cell(0, 5, '(fin de l\'extrait)');
     }
-
     function AjouterChapitre($num, $titre, $fichier) {
         $this->AddPage();
         $this->TitreChapitre($num, $titre);
         $this->CorpsChapitre($fichier);
     }
-
 }
-
 $pdf = new PDF();
 $titre = 'Vingt mille lieues sous les mers';
 $pdf->SetTitle($titre);

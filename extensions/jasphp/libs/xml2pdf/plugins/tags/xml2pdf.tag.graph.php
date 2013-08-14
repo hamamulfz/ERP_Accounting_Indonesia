@@ -1,5 +1,4 @@
 <?php
-
 /**
  * tag graph plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Tag
  */
 // dependances {{{
-
 /**
  * parent class
  */
 Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
-
 // }}}
 // doc {{{
-
 /**
  * <graph> tag.
  *
@@ -50,112 +46,93 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  */ // }}}
 class xml2pdf_tag_graph extends Xml2PdfTag {
     // class properties {{{
-
     /**
      * graph type.
      * @var string 
      */
     public $type = 'hbar';
-
     /**
      * visual effect.
      * @var string 
      */
     public $mode = '2D';
-
     /**
      * legend format.
      * @var string 
      */
     public $legendFormat = '%l';
-
     /**
      * main color.
      * @var string 
      */
     public $color = null;
-
     /**
      * max scale value.
      * @var integer 
      */
     public $maxValRepere = 0;
-
     /**
      * number of values of the scale.
      * @var integer 
      */
     public $nbIndRepere = 4;
-
     /**
      * font size.
      * @var integer 
      */
     public $fontSize = 8;
-
     /**
      * number of values.
      * @var integer 
      */
     public $nbVal = 0;
-
     /**
      * graph width.
      * @var float 
      */
     public $width = 0;
-
     /**
      * graph height.
      * @var float 
      */
     public $height = 0;
-
     /**
      * legend width.
      * @var float 
      */
     public $legendWidth = 0;
-
     /**
      * left margin.
      * @var float 
      */
     public $left = 0;
-
     /**
      * top margin.
      * @var float 
      */
     public $top = 0;
-
     /**
      * sum of the graph values.
      * @var float 
      */
     public $sum = 0;
-
     /**
      * values legends.
      * @var array 
      */
     public $legends = array();
-
     /**
      * values colors.
      * @var array 
      */
     public $colors = array();
-
     /**
      * graph datas.
      * @var array 
      */
     public $data = array();
-
     // }}}
     // xml2pdf_tag_graph::__construct() {{{
-
     /**
      * Constructor.
      * 
@@ -204,7 +181,6 @@ class xml2pdf_tag_graph extends Xml2PdfTag {
             $this->fontSize = $attributes['FONTSIZE'];
         }
         $delta = ($this->mode == '3d') ? 4 : 0;
-
         if ($absolute) {
             $this->left = $left;
             $this->top = $top + $delta;
@@ -213,10 +189,8 @@ class xml2pdf_tag_graph extends Xml2PdfTag {
             $this->top = $this->pdf->GetY() + $top + $delta;
         }
     }
-
     // }}} 
     // xml2pdf_tag_graph::close() {{{
-
     /**
      * Close the tag.
      * 
@@ -229,10 +203,8 @@ class xml2pdf_tag_graph extends Xml2PdfTag {
         $this->pdf->SetXY($this->pdf->lMargin, $this->top + $this->height);
         $this->pdf->resetAllValues();
     }
-
     // }}}     
     // xml2pdf_tag_graph::setLegends() {{{
-
     /**
      * Build the graph legend.
      *
@@ -255,10 +227,8 @@ class xml2pdf_tag_graph extends Xml2PdfTag {
             $this->legendWidth = max($this->pdf->GetStringWidth($legend), $this->legendWidth);
         }
     }
-
     // }}}
     // xml2pdf_tag_graph::_drawGraph() {{{
-
     /**
      * Build the graph using appropriate plugin.
      *
@@ -271,8 +241,6 @@ class xml2pdf_tag_graph extends Xml2PdfTag {
         call_user_func(array($clsName, 'render'), $this);
         return true;
     }
-
     // }}} 
 }
-
 ?>

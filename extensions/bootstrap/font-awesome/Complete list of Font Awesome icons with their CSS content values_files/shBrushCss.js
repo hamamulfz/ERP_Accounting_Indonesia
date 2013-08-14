@@ -19,7 +19,6 @@
 {
     // CommonJS
     typeof(require) != 'undefined' ? SyntaxHighlighter = require('shCore').SyntaxHighlighter : null;
-
     function Brush()
     {
         function getKeywordsCSS(str)
@@ -27,13 +26,11 @@
             return '\\b([a-z_]|)' + str.replace(/ /g, '(?=:)\\b|\\b([a-z_\\*]|\\*|)') + '(?=:)\\b';
         }
         ;
-
         function getValuesCSS(str)
         {
             return '\\b' + str.replace(/ /g, '(?!-)(?!:)\\b|\\b()') + '\:\\b';
         }
         ;
-
         var keywords = 'ascent azimuth background-attachment background-color background-image background-position ' +
                 'background-repeat background baseline bbox border-collapse border-color border-spacing border-style border-top ' +
                 'border-right border-bottom border-left border-top-color border-right-color border-bottom-color border-left-color ' +
@@ -48,7 +45,6 @@
                 'quotes right richness size slope src speak-header speak-numeral speak-punctuation speak speech-rate stemh stemv stress ' +
                 'table-layout text-align top text-decoration text-indent text-shadow text-transform unicode-bidi unicode-range units-per-em ' +
                 'vertical-align visibility voice-family volume white-space widows width widths word-spacing x-height z-index';
-
         var values = 'above absolute all always aqua armenian attr aural auto avoid baseline behind below bidi-override black blink block blue bold bolder ' +
                 'both bottom braille capitalize caption center center-left center-right circle close-quote code collapse compact condensed ' +
                 'continuous counter counters crop cross crosshair cursive dashed decimal decimal-leading-zero default digits disc dotted double ' +
@@ -63,9 +59,7 @@
                 'table-caption table-cell table-column table-column-group table-footer-group table-header-group table-row table-row-group teal ' +
                 'text-bottom text-top thick thin top transparent tty tv ultra-condensed ultra-expanded underline upper-alpha uppercase upper-latin ' +
                 'upper-roman url visible wait white wider w-resize x-fast x-high x-large x-loud x-low x-slow x-small x-soft xx-large xx-small yellow';
-
         var fonts = '[mM]onospace [tT]ahoma [vV]erdana [aA]rial [hH]elvetica [sS]ans-serif [sS]erif [cC]ourier mono sans serif';
-
         this.regexList = [
             {regex: SyntaxHighlighter.regexLib.multiLineCComments, css: 'comments'}, // multiline comments
             {regex: SyntaxHighlighter.regexLib.doubleQuotedString, css: 'string'}, // double quoted strings
@@ -77,19 +71,15 @@
             {regex: new RegExp(getValuesCSS(values), 'g'), css: 'value'}, // values
             {regex: new RegExp(this.getKeywords(fonts), 'g'), css: 'color1'}		// fonts
         ];
-
         this.forHtmlScript({
             left: /(&lt;|<)\s*style.*?(&gt;|>)/gi,
             right: /(&lt;|<)\/\s*style\s*(&gt;|>)/gi
         });
     }
     ;
-
     Brush.prototype = new SyntaxHighlighter.Highlighter();
     Brush.aliases = ['css'];
-
     SyntaxHighlighter.brushes.CSS = Brush;
-
     // CommonJS
     typeof(exports) != 'undefined' ? exports.Brush = Brush : null;
 })();

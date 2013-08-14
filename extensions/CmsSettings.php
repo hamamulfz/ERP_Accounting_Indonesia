@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CmsSettings
  *
@@ -13,7 +12,6 @@
  * 1.1e - Special thanks to Gustavo (http://www.yiiframework.com/forum/index.php?/user/6112-gustavo/)
  */
 class CmsSettings extends CApplicationComponent {
-
     protected $_saveItemsToDatabase = array();
     protected $_deleteItemsFromDatabase = array();
     protected $_deleteCategoriesFromDatabase = array();
@@ -27,15 +25,12 @@ class CmsSettings extends CApplicationComponent {
     protected $_tableName = 's_settings';
     protected $_createTable = false;
     protected $_dbEngine = 'InnoDB';
-
     public function init() {
         parent::init();
         Yii::app()->attachEventHandler('onEndRequest', array($this, 'whenRequestEnds'));
-
         if ($this->getCreateTable())
             $this->createTable();
     }
-
     /**
      * CmsSettings::set()
      *
@@ -64,7 +59,6 @@ class CmsSettings extends CApplicationComponent {
         }
         return $this;
     }
-
     /**
      * CmsSettings::get()
      *
@@ -80,10 +74,8 @@ class CmsSettings extends CApplicationComponent {
     public function get($category = 'system', $key = '', $default = null) {
         if (!isset($this->_loaded[$category]))
             $this->load($category);
-
         if (empty($key) && empty($default) && !empty($category))
             return isset($this->_items[$category]) ? $this->_items[$category] : null;
-
         if (!empty($key) && is_array($key)) {
             $toReturn = array();
             foreach ($key AS $k => $v) {
@@ -94,12 +86,10 @@ class CmsSettings extends CApplicationComponent {
             }
             return $toReturn;
         }
-
         if (isset($this->_items[$category][$key]))
             return $this->_items[$category][$key];
         return $default;
     }
-
     /**
      * delete an item or all items from a category
      *
@@ -114,7 +104,6 @@ class CmsSettings extends CApplicationComponent {
     public function delete($category, $key = '') {
         if (empty($category))
             return $this;
-
         if (!empty($category) && empty($key)) {
             $this->_deleteCategoriesFromDatabase[] = $category;
             if (isset($this->_items[$category]))
@@ -134,7 +123,6 @@ class CmsSettings extends CApplicationComponent {
         }
         return $this;
     }
-
     /**
      * load from database the items of the specified category
      *
@@ -144,75 +132,62 @@ class CmsSettings extends CApplicationComponent {
     public function load($category) {
         $items = $this->getCacheComponent()->get($category . '_' . $this->getCacheId());
         $this->_loaded[$category] = true;
-
         if (!$items) {
             $connection = $this->getDbComponent();
             $command = $connection->createCommand('SELECT `key`, `value` FROM ' . $this->getTableName() . ' WHERE category=:cat');
             $command->bindParam(':cat', $category);
             $result = $command->queryAll();
-
             if (empty($result))
                 return;
-
             $items = array();
             foreach ($result AS $row)
                 $items[$row['key']] = @unserialize($row['value']);
             $this->getCacheComponent()->add($category . '_' . $this->getCacheId(), $items, $this->getCacheTime());
         }
-
         if (isset($this->_items[$category]))
             $items = array_merge($items, $this->_items[$category]);
-
         $this->set($category, $items, null, false);
         return $items;
     }
-
     public function toArray() {
         return $this->_items;
     }
-
     /**
      * @param int $int the time to cache the keys, defaults to 0
      */
     public function setCacheTime($int) {
         $this->_cacheTime = (int) $int > 0 ? $int : 0;
     }
-
     /**
      * @return int the time to cache the keys, defaults to 0
      */
     public function getCacheTime() {
         return $this->_cacheTime;
     }
-
     /**
      * @param string $str the cache key to prepend to all categories, defaults to 'global_website_settings'
      */
     public function setCacheId($str = '') {
         $this->_cacheId = !empty($str) ? $str : $this->_cacheId;
     }
-
     /**
      * @return string the cache key to prepend to all categories, defaults to 'global_website_settings'
      */
     public function getCacheId() {
         return $this->_cacheId;
     }
-
     /**
      * @param string $name the name of the cache component to use, defaults to 'cache'
      */
     public function setCacheComponentId($name) {
         $this->_cacheComponentId = $name;
     }
-
     /**
      * @return string the name of the cache component to use, defaults to 'cache'
      */
     public function getCacheComponentId() {
         return $this->_cacheComponentId;
     }
-
     /**
      * @param $name string the name of the settings database table, defaults to '{{settings}}'
      */
@@ -221,28 +196,24 @@ class CmsSettings extends CApplicationComponent {
             throw new CException('The table name must be like "{{' . $name . '}}" not just "' . $name . '"');
         $this->_tableName = $name;
     }
-
     /**
      * @return string the name of the settings database table, defaults to '{{settings}}'
      */
     public function getTableName() {
         return $this->_tableName;
     }
-
     /**
      * @param string $name the name of the db component to use, defaults to 'db'
      */
     public function setDbComponentId($name) {
         $this->_dbComponentId = $name;
     }
-
     /**
      * @return string the name of the db component to use, defaults to 'db'
      */
     public function getDbComponentId() {
         return $this->_dbComponentId;
     }
-
     /**
      * wheter to create the settings table if the table does not exist
      * set this to false in production mode as it will slow down the application
@@ -252,7 +223,6 @@ class CmsSettings extends CApplicationComponent {
     public function setCreateTable($bool) {
         $this->_createTable = (bool) $bool;
     }
-
     /**
      * wheter to create the settings table if the table does not exist
      * set this to false in production mode as it will slow down the application
@@ -262,35 +232,30 @@ class CmsSettings extends CApplicationComponent {
     public function getCreateTable() {
         return $this->_createTable;
     }
-
     /**
      * @param string $name the engine to use when creating a new table, defaults to 'InnoDb'
      */
     public function setDbEngine($name) {
         $this->_dbEngine = $name;
     }
-
     /**
      * @return string the dbEngine to use when creating a new table, defaults to 'InnoDb'
      */
     public function getDbEngine() {
         return $this->_dbEngine;
     }
-
     /**
      * @return CCache the cache component
      */
     protected function getCacheComponent() {
         return Yii::app()->getComponent($this->getCacheComponentId());
     }
-
     /**
      * @return CDbConnection the db connection component
      */
     protected function getDbComponent() {
         return Yii::app()->getComponent($this->getDbComponentId());
     }
-
     protected function addDbItem($category = 'system', $key, $value) {
         $connection = $this->getDbComponent();
         $command = $connection->createCommand('SELECT id FROM ' . $this->getTableName() . ' WHERE `category`=:cat AND `key`=:key LIMIT 1');
@@ -298,21 +263,17 @@ class CmsSettings extends CApplicationComponent {
         $command->bindParam(':key', $key);
         $result = $command->queryRow();
         $value = @serialize($value);
-
         if (!empty($result))
             $command = $connection->createCommand('UPDATE ' . $this->getTableName() . ' SET `value`=:value WHERE `category`=:cat AND `key`=:key');
         else
             $command = $connection->createCommand('INSERT INTO ' . $this->getTableName() . ' (`category`,`key`,`value`) VALUES(:cat,:key,:value)');
-
         $command->bindParam(':cat', $category);
         $command->bindParam(':key', $key);
         $command->bindParam(':value', $value);
         $command->execute();
     }
-
     protected function whenRequestEnds() {
         $this->_cacheNeedsFlush = array();
-
         if (count($this->_deleteCategoriesFromDatabase) > 0) {
             foreach ($this->_deleteCategoriesFromDatabase AS $catName) {
                 $connection = $this->getDbComponent();
@@ -320,14 +281,12 @@ class CmsSettings extends CApplicationComponent {
                 $command->bindParam(':cat', $catName);
                 $command->execute();
                 $this->_cacheNeedsFlush[] = $catName;
-
                 if (isset($this->_deleteItemsFromDatabase[$catName]))
                     unset($this->_deleteItemsFromDatabase[$catName]);
                 if (isset($this->_saveItemsToDatabase[$catName]))
                     unset($this->_saveItemsToDatabase[$catName]);
             }
         }
-
         if (count($this->_deleteItemsFromDatabase) > 0) {
             foreach ($this->_deleteItemsFromDatabase AS $catName => $keys) {
                 $params = array();
@@ -339,20 +298,16 @@ class CmsSettings extends CApplicationComponent {
                     ++$i;
                 }
                 $names = implode(',', array_keys($params));
-
                 $connection = $this->getDbComponent();
                 $query = 'DELETE FROM ' . $this->getTableName() . ' WHERE `category`=:cat AND `key` IN(' . $names . ')';
                 $command = $connection->createCommand($query);
                 $command->bindParam(':cat', $catName);
-
                 foreach ($params AS $key => $value)
                     $command->bindParam($key, $value);
-
                 $command->execute();
                 $this->_cacheNeedsFlush[] = $catName;
             }
         }
-
         if (count($this->_saveItemsToDatabase) > 0) {
             foreach ($this->_saveItemsToDatabase AS $catName => $keyValues) {
                 foreach ($keyValues AS $k => $v)
@@ -360,13 +315,11 @@ class CmsSettings extends CApplicationComponent {
                 $this->_cacheNeedsFlush[] = $catName;
             }
         }
-
         if (count($this->_cacheNeedsFlush) > 0) {
             foreach ($this->_cacheNeedsFlush AS $catName)
                 $this->getCacheComponent()->delete($catName . '_' . $this->getCacheId());
         }
     }
-
     /**
      * create the settings table
      */
@@ -384,5 +337,4 @@ class CmsSettings extends CApplicationComponent {
         $command = $connection->createCommand($sql);
         $command->execute();
     }
-
 }

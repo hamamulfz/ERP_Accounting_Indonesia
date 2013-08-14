@@ -10,11 +10,9 @@
                 margin: 0;
                 padding: 0
             }
-
             ul#answers li {
                 margin-top: 1.8em
             }
-
             .question {
                 font-weight: bold;
                 color: #900000
@@ -66,7 +64,6 @@
             <li><b>20.</b> <a href='#q20'>Can I concatenate PDF files
                     with FPDF?</a></li>
         </ul>
-
         <ul id='answers'>
             <li id='q1'>
                 <p>
@@ -76,7 +73,6 @@
                 restriction. You may embed it freely in your application (commercial
                 or not), with or without modifications.
             </li>
-
             <li id='q2'>
                 <p>
                     <b>2.</b> <span class='question'>When I try to create a PDF,
@@ -91,7 +87,6 @@
                 To avoid this kind of inconvenience during the development, you can
                 generate the PDF directly to a file and open it through the explorer.
             </li>
-
             <li id='q3'>
                 <p>
                     <b>3.</b> <span class='question'>I try to generate a PDF and
@@ -152,7 +147,6 @@ header('Location: '.$file);</code>
                 hour in the specified directory. You may call it where you want, for
                 example in the script which generates the PDF.
             </li>
-
             <li id='q4'>
                 <p>
                     <b>4.</b> <span class='question'>I can't make line breaks
@@ -160,7 +154,6 @@ header('Location: '.$file);</code>
                         work.</span>
                 </p> You have to enclose your string with double quotes, not single ones.
             </li>
-
             <li id='q5'>
                 <p>
                     <b>5.</b> <span class='question'>I try to display a variable
@@ -172,11 +165,9 @@ header('Location: '.$file);</code>
 					<code>function Header()
 {
     global $title;
-
     $this-&gt;SetFont('Arial', 'B', 15);
     $this-&gt;Cell(0, 10, $title, 1, 1, 'C');
 }
-
 $title = 'My title';</code>
                     </pre>
                 </div> Alternatively, you can use an object property:
@@ -187,12 +178,10 @@ $title = 'My title';</code>
     $this-&gt;SetFont('Arial', 'B', 15);
     $this-&gt;Cell(0, 10, $this-&gt;title, 1, 1, 'C');
 }
-
 $pdf-&gt;title = 'My title';</code>
                     </pre>
                 </div>
             </li>
-
             <li id='q6'>
                 <p>
                     <b>6.</b> <span class='question'>I defined the Header and
@@ -204,7 +193,6 @@ $pdf-&gt;title = 'My title';</code>
                     </pre>
                 </div>
             </li>
-
             <li id='q7'>
                 <p>
                     <b>7.</b> <span class='question'>Accented characters are
@@ -225,7 +213,6 @@ $pdf-&gt;title = 'My title';</code>
                     </pre>
                 </div>
             </li>
-
             <li id='q8'>
                 <p>
                     <b>8.</b> <span class='question'>I try to display the Euro
@@ -238,7 +225,6 @@ $pdf-&gt;title = 'My title';</code>
                     </pre>
                 </div>
             </li>
-
             <li id='q9'>
                 <p>
                     <b>9.</b> <span class='question'>I get the following error
@@ -261,7 +247,6 @@ $pdf-&gt;title = 'My title';</code>
                 </div> If you still don't see it, disable zlib.output_compression in your
                 php.ini and it should appear.
             </li>
-
             <li id='q10'>
                 <p>
                     <b>10.</b> <span class='question'>I draw a frame with very
@@ -269,7 +254,6 @@ $pdf-&gt;title = 'My title';</code>
                 </p> To respect dimensions, select "None" for the Page Scaling setting
                 instead of "Shrink to Printable Area" in the print dialog box.
             </li>
-
             <li id='q11'>
                 <p>
                     <b>11.</b> <span class='question'>I'd like to use the whole
@@ -279,7 +263,6 @@ $pdf-&gt;title = 'My title';</code>
                 it is therefore impossible to remove them and print on the whole
                 surface of the paper.
             </li>
-
             <li id='q12'>
                 <p>
                     <b>12.</b> <span class='question'>How can I put a background
@@ -287,7 +270,6 @@ $pdf-&gt;title = 'My title';</code>
                 </p> For a picture, call Image() in the Header() method, before any other
                 output. To set a background color, use Rect().
             </li>
-
             <li id='q13'>
                 <p>
                     <b>13.</b> <span class='question'>How can I set a specific
@@ -311,7 +293,6 @@ $pdf-&gt;title = 'My title';</code>
                     </pre>
                 </div>
             </li>
-
             <li id='q14'>
                 <p>
                     <b>14.</b> <span class='question'>I'd like to use extensions
@@ -320,7 +301,6 @@ $pdf-&gt;title = 'My title';</code>
                 <div class="doc-source">
                     <pre>
 					<code>require('fpdf.php');
-
 class A extends FPDF
 {
 ...
@@ -330,7 +310,6 @@ class A extends FPDF
                 <div class="doc-source">
                     <pre>
 					<code>require('fpdf.php');
-
 class B extends FPDF
 {
 ...
@@ -340,7 +319,6 @@ class B extends FPDF
                 <div class="doc-source">
                     <pre>
 					<code>require('a.php');
-
 class B extends A
 {
 ...
@@ -350,17 +328,14 @@ class B extends A
                 <div class="doc-source">
                     <pre>
 					<code>require('b.php');
-
 class PDF extends B
 {
 ...
 }
-
 $pdf = new PDF();</code>
                     </pre>
                 </div>
             </li>
-
             <li id='q15'>
                 <p>
                     <b>15.</b> <span class='question'>How can I send the PDF by
@@ -378,7 +353,6 @@ $mail-&gt;Send();</code>
                     </pre>
                 </div>
             </li>
-
             <li id='q16'>
                 <p>
                     <b>16.</b> <span class='question'>What's the limit of the
@@ -400,7 +374,6 @@ $mail-&gt;Send();</code>
                 if the browser times out, the script may continue to run on the
                 server.
             </li>
-
             <li id='q17'>
                 <p>
                     <b>17.</b> <span class='question'>Can I modify a PDF with
@@ -411,7 +384,6 @@ $mail-&gt;Send();</code>
                     target="_blank">http://www.setasign.de/products/pdf-php-solutions/fpdi/</a><br>
                 <br> You can then add some content to them.
             </li>
-
             <li id='q18'>
                 <p>
                     <b>18.</b> <span class='question'>I'd like to make a search
@@ -421,7 +393,6 @@ $mail-&gt;Send();</code>
                 package:<br> <br> <a href="http://www.foolabs.com/xpdf/"
                                      target="_blank">http://www.foolabs.com/xpdf/</a>
             </li>
-
             <li id='q19'>
                 <p>
                     <b>19.</b> <span class='question'>Can I convert an HTML page
@@ -430,7 +401,6 @@ $mail-&gt;Send();</code>
                 allows to do it and gives good results:<br> <br> <a
                     href="http://www.htmldoc.org" target="_blank">http://www.htmldoc.org</a>
             </li>
-
             <li id='q20'>
                 <p>
                     <b>20.</b> <span class='question'>Can I concatenate PDF files

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * DocCommand class file.
  *
@@ -10,7 +9,6 @@
  * @version 1.0
  */
 Yii::import('application.commands.doc.DocModel');
-
 /**
  * APP_PATH refers to the application base path
  */
@@ -19,68 +17,54 @@ defined("APP_PATH") or define("APP_PATH", dirname(dirname(__FILE__)));
  * EXTENSIONS_PATH refers to the extensions base path
  */
 defined("EXTENSIONS_PATH") or define("EXTENSIONS_PATH", dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'extensions');
-
 class DocCommand extends CConsoleCommand {
-
     const URL_PATTERN = '/\{\{([^\}]+)\|([^\}]+)\}\}/';
-
     public $pageTitle;
     public $classes;
     public $packages;
     public $themePath;
     public $currentClass;
-
     /**
      * @var string base path for the source code to document, that's Yii framework directory, application directory or an extension directory
      */
     public $basePath;
-
     /**
      * @var string url to the base source of Yii code 
      */
     public $yiiBaseSourceUrl = "https://github.com/yiisoft/yii/blob";
-
     /**
      * @var string url to the base source of the code documented. Equal to $yiiBaseSourceUrl if what is being documented is Yii itself
      */
     public $baseSourceUrl;
-
     /**
      * @var string text preffixed to the line number in the anchor used in the url to point to a line number in Yii framework source url. For example, in URLS of the type https://github.com/yiisoft/yii/blob/1.1.8/framework/i18n/CChoiceFormat.php#L72 it's L
      */
     public $yiiAnchorLinePreffix = 'L';
-
     /**
      * @var string text preffixed to the line number in the anchor used in the url to point to a line number in base source url. For example, in URLS of the type https://github.com/user/myProject/blob/1.0/myClass.php#L72 it's L
      */
     public $anchorLinePreffix;
-
     /**
      * @var string when an extension is being documented, its directory name
      */
     public $extensionDirectory;
-
     /**
      * @var boolean whether to include yii framework class reference when documenting an aplication or an extension
      */
     public $withYii;
-
     /**
      * @var boolean if $whitYii is false, whether to include external links to Yii framework class reference online
      */
     public $withYiiLinks;
-
     /**
      * @var string name of the project being documented
      */
     public $name;
-
     /**
      * @var string url of the project being documented
      */
     public $url;
     public $version;
-
     /**
      * @var array options used for CFileHelper::findFiles when scanning Yii framework directory
      */
@@ -109,7 +93,6 @@ class DocCommand extends CConsoleCommand {
             '/gii/views',
         )
     );
-
     /**
      * @var array options used for CFileHelper::findFiles when scanning an aplication directory
      */
@@ -132,7 +115,6 @@ class DocCommand extends CConsoleCommand {
             '/tests',
         )
     );
-
     /**
      * @var array options used for CFileHelper::findFiles when scanning an extension directory
      */
@@ -144,7 +126,6 @@ class DocCommand extends CConsoleCommand {
             'views',
         ),
     );
-
     public function getHelp() {
         return <<<EOD
 USAGE
@@ -154,30 +135,23 @@ USAGE
   yiic doc yii check
   yiic doc app check
   yiic doc ext check <ext-directory-name>
-
 DESCRIPTION
   This command generates API reference documentation for the Yii framework, a Yii application or a Yii extension.
   When building api reference for an application or an extension, the output can be configured using an 'api.php' configuration file. Look at the documentation at https://github.com/laMarciana/yiiDocumentor for details.
-
 PARAMETERS
   * yii: builds API reference documentation for the Yii framework.
   * app: builds API reference documentation for a Yii application.
   * ext: builds API reference documentation for a Yii extension.
   * <output-path>: the directory where generated documentation will be saved. It must already exists.
   * <ext-directory-name>: to be used when first parameter is 'ext'. The name of the extension directory relative to 'extensions/'.
-
   * check: check PHPDoc for proper @param syntax for the Yii framework, a Yii application or a Yii extension.
-
 EXAMPLES
   * yiic doc yii doc - builds api reference documentation in folder doc for the Yii framework
   * yiic doc app doc - builds api reference documentation in folder doc for a Yii application
   * yiic doc ext doc MyExtension - builds api reference documentation in folder doc for an extension located in 'extensions/MyExtension'
-
   * yiic doc app check - cheks PHPDoc @param directives for a Yii application
-
 EOD;
     }
-
     /**
      * Execute the action.
      * @param array command line parameters specific for this command
@@ -186,7 +160,6 @@ EOD;
         if (!isset($args[0])) {
             $this->usageError("api reference target must be specified. It should be 'yii' for the framework, 'app' for an application or 'ext' for an extension.");
         }
-
         /* set base path and file options */
         if ($args[0] === 'yii') {
             $this->basePath = YII_PATH;
@@ -206,20 +179,16 @@ EOD;
         } else {
             $this->usageError("invalid argument value '{$args[0]}' as api reference target. It should be 'yii' for the framework, 'app' for an application or 'ext' for an extension.");
         }
-
         if (!isset($args[1]))
             $this->usageError("output directory must be specified.");
-
         if ($args[1] == 'check') {
             $checkFiles = CFileHelper::findFiles($this->basePath, $options);
             $model = new DocModel;
             $model->check($checkFiles);
             exit();
         }
-
         if (!is_dir($docPath = $args[1]))
             $this->usageError("the output directory '{$docPath}' does not exist.");
-
         /* configuration */
         if ($args[0] === 'yii') {
             $this->name = 'Yii Framework';
@@ -278,9 +247,7 @@ EOD;
         if ($this->basePath === APP_PATH) {
             self::import_rec('application.extensions.*');
         }
-
         $this->version = Yii::getVersion();
-
         /*
          * development version - link to master
          * release version link to tags
@@ -289,28 +256,22 @@ EOD;
             $this->yiiBaseSourceUrl .= '/master/framework';
         else
             $this->yiiBaseSourceUrl .= '/' . $this->version . '/framework';
-
         $themePath = dirname(__FILE__) . '/doc';
-
         echo "\nBuilding.. : " . $this->name . " Class Reference \n";
         echo "Yii Version... : " . $this->version . "\n";
         if ($this->baseSourceUrl !== null)
             echo "Source URL : " . $this->baseSourceUrl . "\n\n";
-
         echo "Building model...\n";
         $model = $this->buildModel($this->basePath, $options);
         $this->classes = $model->classes;
         $this->packages = $model->packages;
-
         echo "Building pages...\n";
         $this->buildOfflinePages($docPath . DIRECTORY_SEPARATOR . 'api', $themePath);
         echo "Done.\n\n";
     }
-
     protected function buildPackages($docPath) {
         file_put_contents($docPath . '/api/packages.txt', serialize($this->packages));
     }
-
     protected function buildKeywords($docPath) {
         $keywords = array();
         foreach ($this->classes as $class)
@@ -328,19 +289,16 @@ EOD;
         }
         file_put_contents($docPath . '/api/keywords.txt', implode(',', $keywords));
     }
-
     public function render($view, $data = null, $return = false, $layout = 'main') {
         $viewFile = $this->themePath . "/views/{$view}.php";
         $layoutFile = $this->themePath . "/layouts/{$layout}.php";
         $content = $this->renderFile($viewFile, $data, true);
         return $this->renderFile($layoutFile, array('content' => $content), $return);
     }
-
     public function renderPartial($view, $data = null, $return = false) {
         $viewFile = $this->themePath . "/views/{$view}.php";
         return $this->renderFile($viewFile, $data, $return);
     }
-
     /**
      * @param mixed $sourcePathType type of the source path. 'yii' if it's a Yii framework source path, 'app' if it's for a yii application, 'ext' if it's for an extension or 'current-ext' if it's for an extension and this extension is what is beig documented
      */
@@ -368,20 +326,17 @@ EOD;
             }
         }
     }
-
     public function highlight($code, $limit = 20) {
         $code = preg_replace("/^    /m", '', rtrim(str_replace("\t", "    ", $code)));
         $code = highlight_string("<?php\n" . $code, true);
         return preg_replace('/&lt;\\?php<br \\/>/', '', $code, 1);
     }
-
     protected function buildOfflinePages($docPath, $themePath) {
         $this->themePath = $themePath;
         @mkdir($docPath);
         $content = $this->render('index', null, true);
         $content = preg_replace_callback(self::URL_PATTERN, array($this, 'fixOfflineLink'), $content);
         file_put_contents($docPath . '/index.html', $content);
-
         foreach ($this->classes as $name => $class) {
             $this->currentClass = $name;
             $this->pageTitle = $name;
@@ -389,19 +344,14 @@ EOD;
             $content = preg_replace_callback(self::URL_PATTERN, array($this, 'fixOfflineLink'), $content);
             file_put_contents($docPath . '/' . $name . '.html', $content);
         }
-
         CFileHelper::copyDirectory($this->themePath . '/assets', $docPath);
-
         $content = $this->renderPartial('chmProject', null, true);
         file_put_contents($docPath . '/manual.hhp', $content);
-
         $content = $this->renderPartial('chmIndex', null, true);
         file_put_contents($docPath . '/manual.hhk', $content);
-
         $content = $this->renderPartial('chmContents', null, true);
         file_put_contents($docPath . '/manual.hhc', $content);
     }
-
     protected function buildModel($sourcePath, $options) {
         $files = CFileHelper::findFiles($sourcePath, $options);
         if ($this->withYii) {
@@ -425,7 +375,6 @@ EOD;
         $model->build($files);
         return $model;
     }
-
     public function renderInheritance($class) {
         $parents = array($class->signature);
         foreach ($class->parentClasses as $parent) {
@@ -436,7 +385,6 @@ EOD;
         }
         return implode(" &raquo;\n", $parents);
     }
-
     public function renderImplements($class) {
         $interfaces = array();
         foreach ($class->interfaces as $interface) {
@@ -447,7 +395,6 @@ EOD;
         }
         return implode(', ', $interfaces);
     }
-
     public function renderSubclasses($class) {
         $subclasses = array();
         foreach ($class->subclasses as $subclass) {
@@ -458,7 +405,6 @@ EOD;
         }
         return implode(', ', $subclasses);
     }
-
     public function renderTypeUrl($type, $sourcePathType = '') {
         if (isset($this->classes[$type]) && $type !== $this->currentClass)
             return '{{' . $type . '|' . $type . '}}';
@@ -470,7 +416,6 @@ EOD;
             }
         }
     }
-
     /**
      * @param mixed $sourcePathType type of the source path. 'yii' if it's a Yii framework source path, 'app' if it's for a yii application, 'ext' if it's for an extension or 'current-ext' if it's for an extension and this extension is what is beig documented
      */
@@ -487,7 +432,6 @@ EOD;
             }
         }
     }
-
     public function renderPropertySignature($property) {
         if (!empty($property->signature))
             return $property->signature;
@@ -501,14 +445,12 @@ EOD;
         }
         return $sig;
     }
-
     public function fixMethodAnchor($class, $name) {
         if (isset($this->classes[$class]->properties[$name]))
             return $name . "()";
         else
             return $name;
     }
-
     protected function fixOfflineLink($matches) {
         if (($pos = strpos($matches[1], '::')) !== false) {
             $className = substr($matches[1], 0, $pos);
@@ -518,7 +460,6 @@ EOD;
         else
             return "<a href=\"{$matches[1]}.html\">{$matches[2]}</a>";
     }
-
     protected function getExcludedClassName($class) {
         $reflection = new ReflectionClass($class);
         if ($this->withYiiLinks && (strpos($reflection->getFileName(), YII_PATH) !== false)) {
@@ -527,7 +468,6 @@ EOD;
             return $class;
         }
     }
-
     /**
      * Render an external link to Yii class reference for a subject
      * @param string $class the class name
@@ -542,10 +482,8 @@ EOD;
             $link .= '/#' . $member . '-detail';
         }
         $link .= '">' . $text . '</a>';
-
         return $link;
     }
-
     /**
      * import recursively a directory. Based on issue #1568 of Yii framework (http://code.google.com/p/yii/issues/detail?id=1568)
      */
@@ -555,7 +493,6 @@ EOD;
         array_unshift($includePaths, self::expandPath($path));
         set_include_path('.' . PATH_SEPARATOR . implode(PATH_SEPARATOR, $includePaths));
     }
-
     /**
      * import recursively a directory. Based on issue #1568 of Yii framework (http://code.google.com/p/yii/issues/detail?id=1568)
      */
@@ -569,5 +506,4 @@ EOD;
         closedir($folder);
         return $paths === '' ? $path : $paths . $path;
     }
-
 }

@@ -74,12 +74,11 @@ class uSupplier extends BaseModel {
         // class name for the relations automatically generated below.
         return array(
             'status' => array(self::HAS_ONE, 'sParameter', array('code' => 'status_id'), 'condition' => 'type = \'cStatusP\''),
-            'po' => array(self::STAT, 'uPo', 'supplier_id', 
-	            'select' => 'sum( (select sum(ap.total_amount) from u_ap ap where t.id = ap.id )   )'),
-            'poPayment' => array(self::STAT, 'uPo', 'supplier_id', 
-   		         'select' => 'sum( (select sum(p.amount) from u_ap ap inner join u_ap_payment p ON 
+            'po' => array(self::STAT, 'uPo', 'supplier_id',
+                'select' => 'sum( (select sum(ap.total_amount) from u_ap ap where t.id = ap.id )   )'),
+            'poPayment' => array(self::STAT, 'uPo', 'supplier_id',
+                'select' => 'sum( (select sum(p.amount) from u_ap ap inner join u_ap_payment p ON 
         	    ap.id = p.parent_id where t.id = ap.id group by ap.id)   )'),
-            
         );
     }
 

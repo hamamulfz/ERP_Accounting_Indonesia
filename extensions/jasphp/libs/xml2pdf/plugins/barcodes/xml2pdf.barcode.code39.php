@@ -1,5 +1,4 @@
 <?php
-
 /**
  * code39 barcode tag plugin file.
  * @filesource
@@ -17,10 +16,8 @@
  * 
  */
 require_once(XML2PDF_PLUGINS_TAGS_PATH . '/xml2pdf.tag.barcode.php');
-
 // }}}
 // doc {{{
-
 /**
  * code39 barcode type plugin.
  *
@@ -37,17 +34,13 @@ require_once(XML2PDF_PLUGINS_TAGS_PATH . '/xml2pdf.tag.barcode.php');
  */ // }}}
 class xml2pdf_barcode_code39 {
     // xml2pdf_barcode_code39::__construct() {{{
-
     /**
      * Constructor
      */
     public function __construct() {
-        
     }
-
     // }}}
     // xml2pdf_barcode_code39::render() {{{
-
     /**
      * Render an EAN13 barcode
      *
@@ -59,10 +52,8 @@ class xml2pdf_barcode_code39 {
         $height = $barcode->height ? $barcode->height : 20;
         xml2pdf_barcode_code39::Code39($barcode->x, $barcode->y, $barcode->barcode, false, false, $width, $height, true, $barcode->pdf);
     }
-
     // }}}
     // xml2pdf_barcode_code39::Code39() {{{
-
     /**
      *
      * @param float $x
@@ -79,11 +70,9 @@ class xml2pdf_barcode_code39 {
     public static function Code39($x, $y, $code, $ext = true, $cks = false, $w = 0.4, $h = 20, $wide = true, $pdf) {
         //suppression des accents
         $code = strtr($code, '����������������', 'aaaeeeeiiiooouuu');
-
         //affichage du code
         $pdf->SetFont('Arial', '', 10);
         $pdf->Text($x, $y + $h + 4, $code);
-
         if ($ext) {
             //encodage �tendu
             $code = xml2pdf_barcode_code39::encode_code39_ext($code);
@@ -95,15 +84,12 @@ class xml2pdf_barcode_code39 {
                 $pdf->Error('Invalid barcode value: ' . $code);
             }
         }
-
         //calcul du checksum
         if ($cks) {
             $code .= xml2pdf_barcode_code39::checksum_code39($code);
         }
-
         //ajout des caract�res d�but / fin
         $code = '*' . $code . '*';
-
         //tableaux de correspondance caract�res / barres
         $narrow_encoding = array(
             '0' => '101001101101',
@@ -150,7 +136,6 @@ class xml2pdf_barcode_code39 {
             '/' => '100100101001',
             '+' => '100101001001',
             '%' => '101001001001');
-
         $wide_encoding = array(
             '0' => '101000111011101', '1' => '111010001010111',
             '2' => '101110001010111', '3' => '111011100010101',
@@ -174,28 +159,22 @@ class xml2pdf_barcode_code39 {
             ' ' => '100011101011101', '*' => '100010111011101',
             '$' => '100010001000101', '/' => '100010001010001',
             '+' => '100010100010001', '%' => '101000100010001');
-
         //le code barre est d�termin� en version large ou �troite (meilleure lisibilit�)
         //large observe un rapport 3:1 pour le rapport barre large / barre etroite
         //etroit                   2:1
         $encoding = $wide ? $wide_encoding : $narrow_encoding;
-
         //espace inter-caract�re
         $gap = ($w > 0.29) ? '00' : '0';
-
         //encodage
         $encode = '';
         for ($i = 0; $i < strlen($code); $i++) {
             $encode .= $encoding[$code{$i}] . $gap;
         }
-
         //dessin
         xml2pdf_barcode_code39::draw_code39($encode, $x, $y, $w, $h, $pdf);
     }
-
     // }}}
     // xml2pdf_barcode_code39::checksum_code39() {{{
-
     /**
      *
      * @param string $code
@@ -206,7 +185,6 @@ class xml2pdf_barcode_code39 {
         //somme modulo 43
         //le caract�re de contr�le est celui � la position du modulo
         //exemple : 115 % 43 = 29 -> 'T' est � la place 29 dans le tableau
-
         $chars = array(
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
@@ -220,10 +198,8 @@ class xml2pdf_barcode_code39 {
         $r = $sum % 43;
         return $chars[$r];
     }
-
     // }}}
     // xml2pdf_barcode_code39::encode_code39_ext() {{{
-
     /**
      *
      * @param string $code
@@ -231,7 +207,6 @@ class xml2pdf_barcode_code39 {
      */
     public static function encode_code39_ext($code) {
         //encodage en code 39 �tendu
-
         $encode = array(
             chr(0) => '%U', chr(1) => '$A', chr(2) => '$B', chr(3) => '$C',
             chr(4) => '$D', chr(5) => '$E', chr(6) => '$F', chr(7) => '$G',
@@ -265,7 +240,6 @@ class xml2pdf_barcode_code39 {
             chr(116) => '+T', chr(117) => '+U', chr(118) => '+V', chr(119) => '+W',
             chr(120) => '+X', chr(121) => '+Y', chr(122) => '+Z', chr(123) => '%P',
             chr(124) => '%Q', chr(125) => '%R', chr(126) => '%S', chr(127) => '%T');
-
         $code_ext = '';
         for ($i = 0; $i < strlen($code); $i++) {
             if (ord($code{$i}) > 127) {
@@ -275,10 +249,8 @@ class xml2pdf_barcode_code39 {
         }
         return $code_ext;
     }
-
     // }}}
     // xml2pdf_barcode_code39::draw_code39() {{{
-
     /**
      *
      * @param string $code
@@ -297,8 +269,6 @@ class xml2pdf_barcode_code39 {
             }
         }
     }
-
     // }}}
 }
-
 ?>

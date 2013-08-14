@@ -1,5 +1,4 @@
 <?php
-
 return array(
     'Log Analyzer' => 'Анализатор логов',
     'Are you sure you want to clear this log file?' => 'Вы уверены, что хотите очистить файл логов?',

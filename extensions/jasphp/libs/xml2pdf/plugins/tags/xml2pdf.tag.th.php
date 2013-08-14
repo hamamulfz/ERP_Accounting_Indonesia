@@ -1,5 +1,4 @@
 <?php
-
 /**
  * th tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Tag
  */
 // dependances {{{
-
 /**
  * parent class
  */
 require_once('xml2pdf.tag.tr.php');
-
 // }}}
 // doc {{{
-
 /**
  * <th> tag.
  *
@@ -38,7 +34,6 @@ require_once('xml2pdf.tag.tr.php');
  */ // }}}
 class xml2pdf_tag_th extends xml2pdf_tag_tr {
     // xml2pdf_tag_th::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -51,10 +46,8 @@ class xml2pdf_tag_th extends xml2pdf_tag_tr {
     public function __construct($attrs, $parent) {
         parent::__construct($attrs, $parent);
     }
-
     // }}}    
     // xml2pdf_tag_th::close() {{{
-
     /**
      * Add the table header
      *
@@ -63,8 +56,6 @@ class xml2pdf_tag_th extends xml2pdf_tag_tr {
     public function close() {
         $this->table->header = $this;
     }
-
     // }}}
 }
-
 ?>

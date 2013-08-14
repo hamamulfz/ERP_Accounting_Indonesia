@@ -1,5 +1,4 @@
 <?php
-
 /**
  * RunningTotalColumn class file
  *
@@ -8,7 +7,6 @@
  * @license		BSD 3-Clause
  */
 Yii::import('zii.widgets.grid.CDataColumn');
-
 /**
  * RunningTotalColumn class.
  * A RunningTotalColumn renders the running total of the an attributes value.
@@ -19,7 +17,6 @@ Yii::import('zii.widgets.grid.CDataColumn');
  * <code>$this</code> - the column object.
  */
 class RunningTotalColumn extends CDataColumn {
-
     /**
      * @property string A PHP expression that will be evaluated for every data cell
      * and whose result will be rendered as the content of the data cells. The
@@ -28,7 +25,6 @@ class RunningTotalColumn extends CDataColumn {
      * the data model for the row; and <code>$this</code> - the column object.
      */
     public $output;
-
     /**
      * @property mixed Either, float: the initial value of the total, or string: A
      * PHP expression that will be evaluated when the grid initialises and whose
@@ -36,33 +32,27 @@ class RunningTotalColumn extends CDataColumn {
      * the variable <code>$this</code> - the column object.
      */
     public $init;
-
     /**
      * @property string The attribute used to determine the sort direction.
      */
     public $sort;
-
     /**
      * @var float The total.
      */
     private $_total = 0;
-
     /**
      * @var float The previous row's value; used to calculate the total when the
      * grid is sorted in descending order.
      */
     private $_prev = 0;
-
     /**
      * @var boolean Whether the grid is sorted in descending order.
      */
     private $_sortDesc;
-
     /**
      * @var integer The row number that has been calculated.
      */
     private $_row;
-
     /**
      * Initialises the column.
      * Sets the initial value for the total.
@@ -74,7 +64,6 @@ class RunningTotalColumn extends CDataColumn {
         $this->_total = $this->init;
         $this->_sortDesc = !empty($this->sort) && $this->grid->dataProvider->getSort()->getDirection($this->sort);
     }
-
     /**
      * Returns a value indicating if the grid this column belongs to is being
      * sorted in descending order.
@@ -84,7 +73,6 @@ class RunningTotalColumn extends CDataColumn {
     public function getSortDesc() {
         return $this->_sortDesc;
     }
-
     /**
      * Returns the cell value
      * @param integer the row number (zero-based)
@@ -99,7 +87,6 @@ class RunningTotalColumn extends CDataColumn {
                 $val = CHtml::value($data, $this->name);
             else
                 $val = 0;
-
             if ($this->_sortDesc) {
                 $this->_total -= $this->_prev;
                 $this->_prev = $val;
@@ -110,7 +97,6 @@ class RunningTotalColumn extends CDataColumn {
         }
         return $this->_total;
     }
-
     /**
      * Renders the data cell content and adjusts the running total.
      * This method evaluates value or name to obtain the data cell value.
@@ -128,5 +114,4 @@ class RunningTotalColumn extends CDataColumn {
             $total = $this->evaluateExpression($this->output, compact('data', 'row', 'total'));
         echo $this->grid->getFormatter()->format($total, $this->type);
     }
-
 }

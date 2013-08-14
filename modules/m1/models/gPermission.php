@@ -250,9 +250,13 @@ class gPermission extends BaseModel {
 
     public function afterSave() {
         if ($this->isNewRecord) {
-            Notification::create(
-                    1, 'm1/gPermission/view/id/' . $this->parent_id, 'Permission. New Permission created: ' . strtoupper($this->person->employee_name)
-            );
+            $model= new sNotification;
+            $model->group_id = 1;
+            $model->link = 'm1/gLeave/view/id/' . $this->parent_id;
+            $model->content = 'Permission. New Permission created for <read>' . $this->person->employee_name . '</read>';
+            $model->photo_path = $this->person->photoPath;
+            $model->save();
+
         }
         return true;
     }

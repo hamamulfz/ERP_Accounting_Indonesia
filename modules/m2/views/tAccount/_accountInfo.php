@@ -18,7 +18,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
         array('name' => 'account_type', 'label' => 'Account Type'),
         array('name' => 'currency', 'label' => 'Currency'),
         array('name' => 'state', 'label' => 'Status'),
-        array('name' => 'has_child', 'type'=>'raw', 'label' => 'Has Child'),
+        array('name' => 'has_child', 'type' => 'raw', 'label' => 'Has Child'),
         array('name' => 'parent_account', 'type' => 'raw', 'label' => 'Parent Account'),
         array('name' => 'entity', 'label' => 'Entity'),
         array('name' => 'cash_bank', 'label' => 'Cash Bank Account', 'visible' => (isset($model->cashbank))),

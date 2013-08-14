@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Jasper
  *
@@ -8,10 +7,8 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="jasperReport") */
 class Jasper extends AbstractJasper {
-
     public $name = null;
     public $pageWidth = null;
     public $pageHeight = null;
@@ -21,41 +18,28 @@ class Jasper extends AbstractJasper {
     public $rightMargin = null;
     public $topMargin = null;
     public $bottomMargin = null;
-
 //    /** @BeanAnnotation(className="JasperStyle") */
 //    public $style = null;
-
     /** @BeanAnnotation(className="JasperBackground") */
     public $background = null;
-
     /** @BeanAnnotation(className="JasperProperty") */
     public $properties = null;
-
     /** @BeanAnnotation(className="JasperParameter") */
     public $parameters = null;
-
     /** @BeanAnnotation(className="JasperQueryString") */
     public $queryString = null;
-
     /** @BeanAnnotation(className="JasperField") */
     public $field = null;
-
     /** @BeanAnnotation(className="JasperVariable") */
     public $variable = null;
-
     /** @BeanAnnotation(className="JasperColumnHeader") */
     public $columnHeader = null;
-
     /** @BeanAnnotation(className="JasperTitle") */
     public $title = null;
-
     /** @BeanAnnotation(className="JasperDetail") */
     public $detail = null;
-
     /** @BeanAnnotation(className="JasperNoData") */
     public $noData = null;
-
     /** @BeanAnnotation(className="JasperColumnFooter") */
     public $columnFooter = null;
-
 }

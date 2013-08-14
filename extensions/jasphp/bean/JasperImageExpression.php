@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperImageExpression
  *
@@ -8,10 +7,7 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="imageExpression") */
 class JasperImageExpression extends AbstractJasper {
-
     public $content = null;
-
 }

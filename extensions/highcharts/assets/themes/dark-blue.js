@@ -2,7 +2,6 @@
  * Dark blue theme for Highcharts JS
  * @author Torstein Hønsi
  */
-
 Highcharts.theme = {
     colors: ["#DDDF0D", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
         "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
@@ -49,7 +48,6 @@ Highcharts.theme = {
                 fontWeight: 'bold',
                 fontSize: '12px',
                 fontFamily: 'Trebuchet MS, Verdana, sans-serif'
-
             }
         }
     },
@@ -244,6 +242,5 @@ Highcharts.theme = {
     textColor: '#C0C0C0',
     maskColor: 'rgba(255,255,255,0.3)'
 };
-
 // Apply the theme
 var highchartsOptions = Highcharts.setOptions(Highcharts.theme);

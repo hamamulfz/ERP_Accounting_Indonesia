@@ -1,5 +1,4 @@
 <?php
-
 /**
  * stylesheet tag plugin file.
  * @filesource
@@ -51,22 +50,18 @@
  */ // }}}
 Class xml2pdf_tag_stylesheet {
     // class properties {{{
-
     /**
      * style sheet file path.
      * @var string
      */
     private $_styleSheet = null;
-
     /**
      * styles tags array.
      * @var array
      */
     private $_styleTags;
-
     // }}}
     // xml2pdf_tag_stylesheet::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -81,10 +76,8 @@ Class xml2pdf_tag_stylesheet {
             $pdf->addStyles($this->_styleTags);
         }
     }
-
     // }}}
     // xml2pdf_tag_stylesheet::_parseStyleSheet() {{{
-
     /**
      * Parse the style sheet.
      *
@@ -108,7 +101,6 @@ Class xml2pdf_tag_stylesheet {
             $quit = false;
             // la ligne � parser
             $line = fgets($fp);
-
             //zap les commentaires sur plusieurs lignes
             if (!$onComment) {
                 if (preg_match("/[\/][*]/", $line)) {
@@ -139,7 +131,6 @@ Class xml2pdf_tag_stylesheet {
                 $pos = strpos($line, '//');
                 $line = substr($line, 0, $pos);
             }
-
             // parse la ligne une foi les commentaires zapp�s
             if (!$onComment && !empty($line)) {
                 preg_match('/^([.])([a-z A-Z 0-9]+)/', $line, $tag);
@@ -154,20 +145,15 @@ Class xml2pdf_tag_stylesheet {
         }
         fclose($fp);
     }
-
     // }}}
     // xml2pdf_tag_stylesheet::close() {{{
-
     /**
      * close the tag.
      *
      * @return void
      */
     public function close() {
-        
     }
-
     // }}}
 }
-
 ?>

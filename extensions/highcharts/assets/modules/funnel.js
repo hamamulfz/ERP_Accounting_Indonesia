@@ -1,9 +1,6 @@
 /*
- 
  Highcharts funnel module, Beta
- 
  (c) 2010-2012 Torstein Hønsi
- 
  License: www.highcharts.com/license
  */
 (function(l) {

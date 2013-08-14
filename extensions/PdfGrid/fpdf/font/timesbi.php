@@ -1,5 +1,4 @@
 <?php
-
 $type = 'Core';
 $name = 'Times-BoldItalic';
 $up = -100;

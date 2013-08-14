@@ -34,30 +34,32 @@ $this->menu = array(
 $this->widget('bootstrap.widgets.TbGridView', array(
     'id' => 'notification-grid',
     'dataProvider' => $dataProvider,
-    'itemsCssClass' => 'table table-striped table-bordered table-condensed',
+    'itemsCssClass' => 'table table-condensed',
     'template' => '{items}{pager}',
     'columns' => array(
-        //array(
-        //	'name'=>'expire',
-        //	'value'=>'date("d-m-Y",$data->expire)',
-        //),
+        array(
+        	'header'=>'',
+        	'type' =>'raw',
+        	'value'=>'$data->photo_path',
+        	'htmlOptions'=>array(
+        		'style'=>'width:20px',
+        	)
+        ),
         array(
             'header' => 'Detail',
             'type' => 'raw',
-            //'value'=>'CHtml::link($data->content,Yii::app()->createUrl("sNotification/read",array("id"=>$data->id)))',
-            'value' => function($data) {
-                if ($data->reads == null) {
-                    return CHtml::tag('div', array('style' => 'font-weight: bold'), CHtml::link($data->content, Yii::app()->createUrl("sNotification/read", array("id" => $data->id))));
-                }
-                else
-                    return CHtml::tag('div', array(), CHtml::link($data->content, Yii::app()->createUrl("sNotification/read", array("id" => $data->id, "add" => false))));
-            },
+            'value' =>'$data->linkReplace',
         ),
         array(
             'header' => 'Time',
-            'value' => 'waktu::nicetime($data->expire)',
+            'type' =>'raw',
+            'value' => function($data) {
+					return $data->author_name             
+					. CHtml::tag("div",array('style' => 'color:grey;font-size:12px; margin-bottom:10px;'),waktu::nicetime($data->expire));             
+            }
+            
         ),
-        'author_name',
+        //'author_name',
     ),
 ));
 ?>

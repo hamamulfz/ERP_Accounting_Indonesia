@@ -1,8 +1,8 @@
 <?php
-        $isExist = is_file(Yii::app()->basePath . "/views/site/theme.php");
-        if ($isExist) {
-        	$this->renderPartial('theme');
-		} 
+$isExist = is_file(Yii::app()->basePath . "/views/site/theme.php");
+if ($isExist) {
+    $this->renderPartial('theme');
+}
 ?>
 
 

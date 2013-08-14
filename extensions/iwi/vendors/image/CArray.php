@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Array helper class.
  *
@@ -11,7 +10,6 @@
  * @license    http://kohanaphp.com/license.html
  */
 class CArray {
-
     /**
      * Return a callback array from a string, eg: limit[10,20] would become
      * array('limit', array('10', '20'))
@@ -24,21 +22,17 @@ class CArray {
         if (preg_match('/([^\[]*+)\[(.+)\]/', (string) $str, $match)) {
             // command
             $command = $match[1];
-
             // param,param
             $params = preg_split('/(?<!\\\\),/', $match[2]);
             $params = str_replace('\,', ',', $params);
         } else {
             // command
             $command = $str;
-
             // No params
             $params = NULL;
         }
-
         return array($command, $params);
     }
-
     /**
      * Rotates a 2D array clockwise.
      * Example, turns a 2x3 array into a 3x2 array.
@@ -56,10 +50,8 @@ class CArray {
                 $new_array[$k][$key] = $v;
             }
         }
-
         return $new_array;
     }
-
     /**
      * Removes a key from an array and returns the value.
      *
@@ -70,13 +62,10 @@ class CArray {
     public static function remove($key, & $array) {
         if (!array_key_exists($key, $array))
             return NULL;
-
         $val = $array[$key];
         unset($array[$key]);
-
         return $val;
     }
-
     /**
      * Extract one or more keys from an array. Each key given after the first
      * argument (the array) will be extracted. Keys that do not exist in the
@@ -89,7 +78,6 @@ class CArray {
     public static function extract(array $search, $keys) {
         // Get the keys, removing the $search array
         $keys = array_slice(func_get_args(), 1);
-
         $found = array();
         foreach ($keys as $key) {
             if (isset($search[$key])) {
@@ -98,10 +86,8 @@ class CArray {
                 $found[$key] = NULL;
             }
         }
-
         return $found;
     }
-
     /**
      * Because PHP does not have this function.
      *
@@ -114,10 +100,8 @@ class CArray {
         $array = array_reverse($array, TRUE);
         $array[$key] = $val;
         $array = array_reverse($array, TRUE);
-
         return $array;
     }
-
     /**
      * Because PHP does not have this function, and array_walk_recursive creates
      * references in arrays and is not truly recursive.
@@ -131,10 +115,8 @@ class CArray {
             // Map the callback to the key
             $array[$key] = is_array($val) ? arr::map_recursive($callback, $val) : call_user_func($callback, $val);
         }
-
         return $array;
     }
-
     /**
      * Binary search algorithm.
      *
@@ -148,10 +130,8 @@ class CArray {
         if ($sort === TRUE) {
             sort($haystack);
         }
-
         $high = count($haystack);
         $low = 0;
-
         while ($high - $low > 1) {
             $probe = ($high + $low) / 2;
             if ($haystack[$probe] < $needle) {
@@ -160,21 +140,16 @@ class CArray {
                 $high = $probe;
             }
         }
-
         if ($high == count($haystack) OR $haystack[$high] != $needle) {
             if ($nearest === FALSE)
                 return FALSE;
-
             // return the nearest value
             $high_distance = $haystack[ceil($low)] - $needle;
             $low_distance = $needle - $haystack[floor($low)];
-
             return ($high_distance >= $low_distance) ? $haystack[ceil($low)] : $haystack[floor($low)];
         }
-
         return $high;
     }
-
     /**
      * Emulates array_merge_recursive, but appends numeric keys and replaces
      * associative keys, instead of appending all keys.
@@ -184,7 +159,6 @@ class CArray {
      */
     public static function merge() {
         $total = func_num_args();
-
         $result = array();
         for ($i = 0; $i < $total; $i++) {
             foreach (func_get_arg($i) as $key => $val) {
@@ -205,10 +179,8 @@ class CArray {
                 }
             }
         }
-
         return $result;
     }
-
     /**
      * Overwrites an array with values from input array(s).
      * Non-existing keys will not be appended!
@@ -225,10 +197,8 @@ class CArray {
                 }
             }
         }
-
         return $array1;
     }
-
     /**
      * Fill an array with a range of numbers.
      *
@@ -239,15 +209,12 @@ class CArray {
     public static function range($step = 10, $max = 100) {
         if ($step < 1)
             return array();
-
         $array = array();
         for ($i = $step; $i <= $max; $i += $step) {
             $array[$i] = $i;
         }
-
         return $array;
     }
-
     /**
      * Recursively convert an array to an object.
      *
@@ -256,20 +223,15 @@ class CArray {
      */
     public static function to_object(array $array, $class = 'stdClass') {
         $object = new $class;
-
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 // Convert the array to an object
                 $value = arr::to_object($value, $class);
             }
-
             // Add the value to the object
             $object->{$key} = $value;
         }
-
         return $object;
     }
-
 }
-
 // End arr

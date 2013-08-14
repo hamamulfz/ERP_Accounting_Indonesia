@@ -1,13 +1,10 @@
 # ChangeLog
 ## Special Thanks
 I would like to personally thank everyone of you that spend your valuable time helping improving this extension, by pointing out bugs and/or providing solutions that all of us can take advantage with.
-
 Thank you all
-
 Antonio Ramirez
 Senior Web Developer
 [www.clevertech.biz](http://www.clevertech.biz)
-
 ### YiiBooster version 1.0.6
 - **(fix)** Now it is possible to provide custom 'class' and 'style' htmlOptions for TbProgress #216 (hijarian)
 - **(fix)** Fix typo on TbCollapse (tonydspaniard)
@@ -55,10 +52,7 @@ Senior Web Developer
 - **(enh)** Added CONTAINER_PREFIX constant for html div container id
 - **(fix)** Added class "hide" to modal div
 - **(fix)** Add support for non-link brand in TbNavbar
-
-
 ### YiiBooster version 1.0.5
-
 - **(fix)** TbCarousel displayPrevAndNext set to false breaks the page (amosviedo)
 - **(enh)** Bootstrap upgrade to 2.2.1 (kazuo)
 - **(fix)** TbActiveForm class name is displayed on screen (sorinpohontu)

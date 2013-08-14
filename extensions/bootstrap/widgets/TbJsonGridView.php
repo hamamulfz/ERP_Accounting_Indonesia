@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbJsonGridView class file
  *
@@ -13,27 +12,22 @@
  */
 Yii::import('bootstrap.widgets.TbGridView');
 Yii::import('bootstrap.widgets.TbJsonDataColumn');
-
 /**
  * @property TbJsonGridColumn[] $columns
  */
 class TbJsonGridView extends TbGridView {
-
     /**
      * @var boolean $json true when there is an AJAX request. TbJsonGridView expect a JSON response.
      */
     public $json;
-
     /**
      * @var string $template display pager on top by default, override to place two pagers as we expect lots of records
      */
     public $template = "{pager}\n{items}\n{summary}\n{pager}";
-
     /**
      * @var int $cacheTTL how long we keep the responses on cache? It will depend on cacheTTLType (seconds, minutes, hours)
      */
     public $cacheTTL = 1;
-
     /**
      * @var string the type of cache duration
      *  s: seconds
@@ -41,18 +35,15 @@ class TbJsonGridView extends TbGridView {
      *  h: hours
      */
     public $cacheTTLType = 's';
-
     /**
      * @var bool $localCache whether we use client ajax cache or not. True by default.
      */
     public $localCache = true;
-
     /**
      * @var array the configuration for the pager.
      * Defaults to <code>array('class'=>'ext.bootstrap.widgets.TbPager')</code>.
      */
     public $pager = array('class' => 'bootstrap.widgets.TbJsonPager');
-
     /**
      * Initializes $json property to find out whether ajax r
      */
@@ -61,10 +52,8 @@ class TbJsonGridView extends TbGridView {
         $this->json = Yii::app()->getRequest()->getIsAjaxRequest();
         if ($this->json)
             $this->template = '{items}'; // going to render only items!
-
         parent::init();
     }
-
     /**
      * Renders the view.
      * This is the main entry of the whole view rendering.
@@ -78,7 +67,6 @@ class TbJsonGridView extends TbGridView {
             $this->renderContent();
         }
     }
-
     /**
      * Renders the pager.
      */
@@ -87,7 +75,6 @@ class TbJsonGridView extends TbGridView {
             parent::renderPager();
             return true;
         }
-
         $pager = array();
         if (is_string($this->pager))
             $class = $this->pager;
@@ -99,17 +86,14 @@ class TbJsonGridView extends TbGridView {
             }
         }
         $pager['pages'] = $this->dataProvider->getPagination();
-
         if ($pager['pages']->getPageCount() > 1) {
             $pager['json'] = $this->json;
             $widget = $this->createWidget($class, $pager);
-
             return $widget->run();
         }
         else
             return array();
     }
-
     /**
      * Creates column objects and initializes them.
      */
@@ -118,10 +102,8 @@ class TbJsonGridView extends TbGridView {
             if (is_array($column) && !isset($column['class']))
                 $this->columns[$i]['class'] = 'bootstrap.widgets.TbJsonDataColumn';
         }
-
         parent::initColumns();
     }
-
     /**
      * Renders the data items for the grid view.
      */
@@ -142,7 +124,6 @@ class TbJsonGridView extends TbGridView {
         else
             $this->renderEmptyText();
     }
-
     /**
      * Renders the required templates for the client engine (jqote2 used)
      */
@@ -153,7 +134,6 @@ class TbJsonGridView extends TbGridView {
         if ($this->enablePagination)
             echo $this->renderTemplate($this->id . '-pager-template', '<li class="<%=this.class%>"><a href="<%=this.url%>"><%=this.text%></a></li>');
     }
-
     /**
      * Encloses the given JavaScript within a script tag.
      * @param string $id
@@ -163,19 +143,15 @@ class TbJsonGridView extends TbGridView {
     public function renderTemplate($id, $text) {
         return "<script type=\"text/x-jqote-template\" id=\"{$id}\">\n<![CDATA[\n{$text}\n]]>\n</script>";
     }
-
     /**
      * Renders the table body.
      */
     public function renderTableBody() {
         $data = $this->dataProvider->getData();
         $n = count($data);
-
         if ($this->json)
             return $this->renderTableBodyJSON($n);
-
         echo "<tbody>\n";
-
         if ($n > 0) {
             for ($row = 0; $row < $n; ++$row)
                 $this->renderTableRow($row);
@@ -186,7 +162,6 @@ class TbJsonGridView extends TbGridView {
         }
         echo "</tbody>\n";
     }
-
     /**
      * Renders the body table for JSON requests - assumed ajax is for JSON
      * @param integer $rows
@@ -204,11 +179,9 @@ class TbJsonGridView extends TbGridView {
                 $tbody['headers'][] = $column->renderHeaderCell();
             }
         }
-
         if ($rows > 0) {
             for ($row = 0; $row < $rows; ++$row)
                 $tbody['rows'][] = $this->renderTableRowJSON($row);
-
             foreach ($this->dataProvider->getKeys() as $key)
                 $tbody['keys'][] = CHtml::encode($key);
         } else {
@@ -216,16 +189,13 @@ class TbJsonGridView extends TbGridView {
             $this->renderEmptyText();
             $content = ob_get_contents();
             ob_end_clean();
-
             $tbody['rows'][0]['cols'][] = array('attrs' => "colspan=\"" . count($this->columns) . "\"", 'content' => $content);
             $tbody['rows'][0]['class'] = " ";
         }
         $tbody['pager'] = $this->renderPager();
         $tbody['url'] = Yii::app()->getRequest()->getUrl();
-
         return $tbody;
     }
-
     /**
      * Renders a table body row.
      * @param integer $row the row number (zero-based).
@@ -242,7 +212,6 @@ class TbJsonGridView extends TbGridView {
             $column->renderDataCell($row);
         echo "</tr>\n";
     }
-
     /**
      * Renders a table body row for JSON requests  - assumed ajax is for JSON
      * @param integer $row
@@ -260,10 +229,8 @@ class TbJsonGridView extends TbGridView {
         foreach ($this->columns as $column) {
             $json['cols'][] = $column->renderDataCell($row);
         }
-
         return $json;
     }
-
     /**
      * Creates a column based on a shortcut column specification string.
      * @param mixed $text the column specification string
@@ -273,25 +240,19 @@ class TbJsonGridView extends TbGridView {
     protected function createDataColumn($text) {
         if (!preg_match('/^([\w\.]+)(:(\w*))?(:(.*))?$/', $text, $matches))
             throw new CException(Yii::t('zii', 'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.'));
-
         $column = new TbJsonDataColumn($this);
         $column->name = $matches[1];
-
         if (isset($matches[3]) && $matches[3] !== '')
             $column->type = $matches[3];
-
         if (isset($matches[5]))
             $column->header = $matches[5];
-
         return $column;
     }
-
     /**
      * Registers necessary client scripts.
      */
     public function registerClientScript() {
         $id = $this->getId();
-
         if ($this->ajaxUpdate === false)
             $ajaxUpdate = false;
         else
@@ -314,7 +275,6 @@ class TbJsonGridView extends TbGridView {
             $options['url'] = CHtml::normalizeUrl($this->ajaxUrl);
         if ($this->enablePagination)
             $options['pageVar'] = $this->dataProvider->getPagination()->pageVar;
-
         foreach (array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError', 'selectionChanged') as $prop) {
             if ($this->{$prop} !== null) {
                 if ((!$this->{$prop} instanceof CJavaScriptExpression) && strpos($this->{$prop}, 'js:') !== 0)
@@ -323,7 +283,6 @@ class TbJsonGridView extends TbGridView {
                     $options[$prop] = $this->{$prop};
             }
         }
-
         $options = CJavaScript::encode($options);
         /** @var $cs CClientScript */
         $cs = Yii::app()->getClientScript();
@@ -332,11 +291,9 @@ class TbJsonGridView extends TbGridView {
         if ($this->enableHistory)
             $cs->registerCoreScript('history');
         $assetsUrl = Yii::app()->bootstrap->getAssetsUrl();
-
         $cs->registerScriptFile($assetsUrl . '/js/jquery.jqote2.min.js', CClientScript::POS_END); // jqote2 template engine
         $cs->registerScriptFile($assetsUrl . '/js/jquery.ajax.cache.js', CClientScript::POS_END); // ajax cache
         $cs->registerScriptFile($assetsUrl . '/js/jquery.json.yiigridview.js', CClientScript::POS_END); // custom yiiGridView
         $cs->registerScript(__CLASS__ . '#' . $id, "jQuery('#$id').yiiJsonGridView($options);");
     }
-
 }

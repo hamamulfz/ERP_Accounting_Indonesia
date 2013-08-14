@@ -1,5 +1,4 @@
 <?php
-
 /**
  * literal tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @version CVS: $Id: xml2pdf.tag.literal.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  */
 // dependances {{{
-
 /**
  * include parent class
  */
 require_once('Xml2PdfTextTag.php');
-
 // }}}
 // doc {{{
-
 /**
  * <literal> tag.
  *
@@ -38,7 +34,6 @@ require_once('Xml2PdfTextTag.php');
  */ // }}}
 Class xml2pdf_tag_literal extends Xml2PdfTextTag {
     // xml2pdf_tag_literal::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -51,10 +46,8 @@ Class xml2pdf_tag_literal extends Xml2PdfTextTag {
         parent::__construct($tagProperties);
         $this->useStyle = false;
     }
-
     // }}}
     // xml2pdf_tag_literal::close() {{{
-
     /**
      * Render the tag content.
      *
@@ -64,11 +57,8 @@ Class xml2pdf_tag_literal extends Xml2PdfTextTag {
         $this->pdf->setFont($this->font, $this->fontStyle, $this->fontSize);
         $fontColor = Xml2Pdf::convertColor($this->fontColor);
         $this->pdf->setTextColor($fontColor['r'], $fontColor['g'], $fontColor['b']);
-
         $this->pdf->MultiCell(190, $this->lineHeight, $this->content, false, $this->textAlign, false);
     }
-
     // }}}
 }
-
 ?>

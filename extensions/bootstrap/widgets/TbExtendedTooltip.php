@@ -1,5 +1,4 @@
 <?php
-
 /* ## TbExtendedTooltip class
  *
  * @author Antonio Ramirez <antonio@clevertech.biz>
@@ -7,57 +6,46 @@
  * @license [New BSD License](http://www.opensource.org/licenses/bsd-license.php) 
  * @package bootstrap.widgets
  */
-
 class TbExtendedTooltip extends CWidget {
-
     /**
      * @var string the name of the table for keeping applied migration information.
      * This table will be automatically created if not exists. Defaults to 'tbl_tooltip'.
      * The table structure is: (key varchar(255) primary key, tooltip varchar(255))
      */
     public $tooltipTable = 'tbl_tooltip';
-
     /**
      * @var string the application component ID that specifies the database connection for
      * storing tooltip information. Defaults to 'db'.
      */
     public $connectionID = 'db';
-
     /**
      * @var string the tooltip
      */
     public $key;
-
     /**
      * @var string the text to display on the tooltip if no value has been found
      */
     public $emptyTooltipText = 'empty';
-
     /**
      * @var bool whether the tooltip should be editable or not
      */
     public $editable = true;
-
     /**
      * @var string the type of editable form. Possible values
      */
     public $editableType = 'textarea';
-
     /**
      * @var string the popup placement of the tooltip editor. Possible values: right | left | top | bottom.
      */
     public $editablePopupPlacement = 'right';
-
     /**
      * @var string the url to call
      */
     public $url;
-
     /**
      * @var CDbConnection
      */
     private $_db;
-
     /**
      * ### .init()
      *
@@ -70,7 +58,6 @@ class TbExtendedTooltip extends CWidget {
         if ($this->url === null && $this->editable)
             throw new CException(Yii::t('zii', '"url" cannot be null if tooltip is required to be edited'));
     }
-
     /**
      * ### .run()
      *
@@ -80,7 +67,6 @@ class TbExtendedTooltip extends CWidget {
         $this->renderContent();
         $this->registerClientScript();
     }
-
     /**
      * ### .renderContent()
      *
@@ -92,7 +78,6 @@ class TbExtendedTooltip extends CWidget {
             echo '<i class="icon-info-sign"></i>'; // the bootstrap-editable-tooltip plugin, renders the icon automatically
         echo '</span>';
     }
-
     /**
      * ### .registerClientScript()
      *
@@ -114,12 +99,10 @@ class TbExtendedTooltip extends CWidget {
                         'url' => $this->url,
                         'placement' => $this->editablePopupPlacement
             ));
-
             $js = "$('span[name=\"{$this->key}\"]').editableTooltip($options);";
         }
         Yii::app()->clientScript->registerScript(__CLASS__ . '#' . $this->getId(), $js);
     }
-
     /**
      * ### .getTooltip()
      *
@@ -139,10 +122,8 @@ class TbExtendedTooltip extends CWidget {
                 ->from($this->tooltipTable)
                 ->where('tooltip_key=:key', array(':key' => $key))
                 ->queryScalar();
-
         return !$tip ? $this->emptyTooltipText : $tip;
     }
-
     /**
      * ### .getDbConnection()
      *
@@ -163,7 +144,6 @@ class TbExtendedTooltip extends CWidget {
         }
         return $this->_db;
     }
-
     /**
      * ### .createTooltipsTable()
      *
@@ -171,11 +151,9 @@ class TbExtendedTooltip extends CWidget {
      */
     protected function createTooltipsTable() {
         $db = $this->getDbConnection();
-
         $db->createCommand()->createTable($this->tooltipTable, array(
             'tooltip_key' => 'string NOT NULL PRIMARY KEY',
             'tooltip' => 'string',
         ));
     }
-
 }

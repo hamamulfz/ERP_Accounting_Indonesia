@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Io.
  * @filesource
@@ -68,7 +67,6 @@
  */ // }}}
 class Io {
     // class properties {{{
-
     /**
      * Available command-line arguments.
      *
@@ -89,7 +87,6 @@ class Io {
      * @var array
      */
     protected $args = array();
-
     /**
      * Define the default settings
      *
@@ -97,24 +94,20 @@ class Io {
      * @var array
      */
     protected $defaultsOpts = array();
-
     /**
      * Define the application name.
      *
      * @var string
      */
     protected $app;
-
     /**
      * Define the command line usage
      *
      * @var string
      */
     protected $usage;
-
     // }}}
     // Io::__construct() {{{
-
     /**
      * Constructor.
      * 
@@ -127,14 +120,11 @@ class Io {
     public function __construct($app = '', $usage = '') {
         $this->app = $app;
         $this->usage = $usage;
-
         $this->args['help']['tag'] = array('-h', '--help');
         $this->args['help']['desc'] = 'show this help message.';
     }
-
     // }}}
     // Io::addOption() {{{
-
     /**
      * Add a command line option.
      *
@@ -157,10 +147,8 @@ class Io {
             $this->args[$option]['validvalues'] = $validValues;
         }
     }
-
     // }}}
     // Io::setOptions() {{{
-
     /**
      * Set the command line options.
      *
@@ -178,10 +166,8 @@ class Io {
             $this->args = $opts;
         }
     }
-
     // }}}
     // Io:setDefaults() {{{
-
     /**
      * Set the defaults command line options values.
      *
@@ -194,10 +180,8 @@ class Io {
         }
         $this->defaultsOpts = $defaults;
     }
-
     // }}}
     // Io::displayHelpMessage() {{{
-
     /**
      * Display the help message.
      *
@@ -208,11 +192,9 @@ class Io {
     public function displayHelpMessage() {
         $spacer = "     ";
         $bigSpacer = "               ";
-
         $ret = "\n{$this->app} usage :\n";
         $ret .= $spacer . "{$this->usage}\n";
         $ret .= "\n{$this->app} options :\n";
-
         foreach ($this->args as $option) {
             $tag = "";
             $desc = "";
@@ -229,10 +211,8 @@ class Io {
         $ret .= "\n";
         return $ret;
     }
-
     // }}}
     // Io::parseArgv() {{{
-
     /**
      * Parse the command-line arguments.
      *
@@ -251,13 +231,10 @@ class Io {
      */
     public function parseArgv() {
         global $argv;
-
         // set default setting
         $setting = $this->defaultsOpts;
-
         $valnext = "junk";
         $data = array();
-
         if (isset($argv) && is_array($argv)) {
             foreach ($argv as $cmd) {
                 if ($cmd == '--') {
@@ -296,10 +273,8 @@ class Io {
         unset($setting['junk']);
         return $setting;
     }
-
     // }}}
     // Io::_showErrorMsg() {{{
-
     /**
      * Show an error message
      *
@@ -310,10 +285,8 @@ class Io {
         echo "$msg\n";
         die();
     }
-
     // }}}
     // Io::_validOption() {{{
-
     /**
      * Check the validation rules for an option.
      *
@@ -336,8 +309,6 @@ class Io {
         }
         return $value;
     }
-
     // }}}
 }
-
 ?>

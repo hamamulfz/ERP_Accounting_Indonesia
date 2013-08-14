@@ -14,9 +14,9 @@ class GLeaveController extends Controller {
     public function filters() {
         return array(
             //array(
-			//	'CHttpCacheFilter + index',
-				//'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`updated_date`) FROM g_leave")->queryScalar(),
-       		 //),
+            //	'CHttpCacheFilter + index',
+            //'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`updated_date`) FROM g_leave")->queryScalar(),
+            //),
             'rights',
             'ajaxOnly + approved',
         );

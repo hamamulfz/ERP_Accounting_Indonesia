@@ -12,16 +12,26 @@
             'itemsCssClass' => 'table table-striped table-bordered',
             'template' => '{items}{pager}',
             'columns' => array(
-                'logtime',
-                'IP_User',
-                'user_name',
-                //'request_URL',
+				//array(
+            	//	'header'=>'Sr #',
+		        //    'value'=>'$this->grid->dataProvider->pagination->currentPage * $this->grid->dataProvider->pagination->pageSize + ($row+1)',
+        		//),
                 array(
-                    'value' => 'substr($data["request_URL"],0,50)',
-                ),
+                	'type' =>'raw',
+					'value' => function($data) {
+						return CHtml::tag('div', array(), $data["IP_User"])
+								. CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), $data["user_name"])
+								. CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), $data["logtime"]);
+					}
+				),
                 array(
-                    'value' => 'peterFunc::shorten_string($data["message"],20)',
-                ),
+                	'type' =>'raw',
+					'value' => function($data) {
+						return CHtml::tag('div', array(), substr($data["request_URL"],0,50))
+								. CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), 
+								peterFunc::shorten_string($data["message"],20));
+					}
+				),
             ),
         ));
         ?>

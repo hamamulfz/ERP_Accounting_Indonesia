@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TotalColumn class file
  *
@@ -8,7 +7,6 @@
  * @license		BSD 3-Clause
  */
 Yii::import('zii.widgets.grid.CDataColumn');
-
 /**
  * TotalColumn class.
  * A TotalColumn renders the total of the column's data cells in the footer cell;
@@ -40,14 +38,12 @@ Yii::import('zii.widgets.grid.CDataColumn');
  * the cell is rendered.
  */
 class TotalColumn extends CDataColumn {
-
     /**
      * @property boolean Whether to NULL data cells and display the grid's
      * nullDisplay property if the value is zero.
      * Note: Does not apply to the total
      */
     public $nullOnZero = false;
-
     /**
      * @property string A PHP expression that will be evaluated for every data cell
      * and whose result will be rendered as the content of the data cells; the
@@ -56,7 +52,6 @@ class TotalColumn extends CDataColumn {
      * the data model for the row, and <code>$this</code> - the column object.
      */
     public $output;
-
     /**
      * @property mixed Either, float: the initial value of the total, or string: A
      * PHP expression that will be evaluated when the grid initialises and whose
@@ -64,12 +59,10 @@ class TotalColumn extends CDataColumn {
      * the variable <code>$this</code> - the column object.
      */
     public $init;
-
     /**
      * @var float The total.
      */
     private $_total = 0;
-
     /**
      * Initialises the column.
      * Sets the initial value for the total.
@@ -82,7 +75,6 @@ class TotalColumn extends CDataColumn {
         elseif (is_string($this->init))
             $this->_total = $this->evaluateExpression($this->init);
     }
-
     /**
      * Renders the data cell content and adds the cell value to the total.
      * This method evaluates value or name to obtain the data cell value and adds
@@ -98,17 +90,13 @@ class TotalColumn extends CDataColumn {
             $value = CHtml::value($data, $this->name);
         else
             $value = 0;
-
         $this->_total+=$value;
-
         if ($value == 0 && $this->nullOnZero)
             $value = null;
-
         if ($this->output !== null && $value !== null)
             $value = $this->evaluateExpression($this->output, compact('data', 'row', 'value'));
         echo $value === null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value, $this->type);
     }
-
     /**
      * Renders the total in the footer cell.
      * If $footer===TRUE the footer cell is rendered with the column total.
@@ -131,7 +119,6 @@ class TotalColumn extends CDataColumn {
         }
         echo trim($footer) !== '' ? $this->grid->getFormatter()->format($footer, $this->type) : $this->grid->blankDisplay;
     }
-
     /**
      * Returns the value of the footer cell - the total - for this column.
      * @return float The total of the column
@@ -139,5 +126,4 @@ class TotalColumn extends CDataColumn {
     public function getFooterValue() {
         return $this->_total;
     }
-
 }

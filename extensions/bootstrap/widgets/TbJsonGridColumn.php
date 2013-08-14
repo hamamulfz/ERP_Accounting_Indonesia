@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbJsonGridColumn class
  *
@@ -11,12 +10,10 @@
  * @package YiiBooster bootstrap.widgets
  */
 Yii::import('bootstrap.widgets.TbDataColumn');
-
 /**
  * @property TbJsonGridView $grid
  */
 class TbJsonGridColumn extends TbDataColumn {
-
     /**
      * Renders the header cell.
      */
@@ -27,7 +24,6 @@ class TbJsonGridColumn extends TbDataColumn {
             if ($this->grid->enableSorting && $this->sortable && $this->name !== null) {
                 $sort = $this->grid->dataProvider->getSort();
                 $label = isset($this->header) ? $this->header : $sort->resolveLabel($this->name);
-
                 if ($sort->resolveAttribute($this->name) !== false)
                     $label .= '<span class="caret"></span>';
                 $content['content'] = $sort->link($this->name, $label, array('class' => 'sort-link'));
@@ -46,5 +42,4 @@ class TbJsonGridColumn extends TbDataColumn {
         }
         parent::renderHeaderCell();
     }
-
 }

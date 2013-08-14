@@ -1,10 +1,8 @@
 <?php
-
 /**
  * Class CssMinify  
  * @package scriptboost
  */
-
 /**
  * Minify CSS
  *
@@ -15,7 +13,6 @@
  * @author http://code.google.com/u/1stvamp/ (Issue 64 patch)
  */
 class CssMinify {
-
     /**
      * Minify a CSS string
      * 
@@ -62,7 +59,6 @@ class CssMinify {
             'prependRelativePath' => null,
             'symlinks' => array(),
                 ), $options);
-
         if ($options['removeCharsets']) {
             $css = preg_replace('/@charset[^;]+;\\s*/', '', $css);
         }
@@ -92,14 +88,11 @@ class CssMinify {
             );
         }
     }
-
 }
-
 /**
  * Class CommentPreserver 
  * @package Minify
  */
-
 /**
  * Process a string in pieces preserving C-style comments that begin with "/*!"
  * 
@@ -107,21 +100,18 @@ class CssMinify {
  * @author Stephen Clay <steve@mrclay.org>
  */
 class CommentPreserver {
-
     /**
      * String to be prepended to each preserved comment
      *
      * @var string
      */
     public static $prepend = "\n";
-
     /**
      * String to be appended to each preserved comment
      *
      * @var string
      */
     public static $append = "\n";
-
     /**
      * Process a string outside of C-style comments that begin with "/*!"
      *
@@ -152,7 +142,6 @@ class CommentPreserver {
         }
         return $ret;
     }
-
     /**
      * Extract comments that YUI Compressor preserves.
      * 
@@ -177,5 +166,4 @@ class CommentPreserver {
         $ret[] = (0 === $endChars) ? '' : substr($in, -$endChars);
         return $ret;
     }
-
 }

@@ -5,7 +5,7 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-	array('label'=>'AP Dashboard', 'icon'=>'home', 'url'=>array('/m2/uAp')),
+    array('label' => 'AP Dashboard', 'icon' => 'home', 'url' => array('/m2/uAp')),
     array('label' => 'AP Supplier', 'icon' => 'home', 'url' => array('/m2/uAp/apSupplier')),
 );
 ?>
@@ -18,14 +18,12 @@ $this->menu = array(
 
 
 <?php
-
 $this->widget('bootstrap.widgets.TbTabs', array(
-	'type' => 'tabs', // 'tabs' or 'pills'
-	'tabs' => array(
-		array('label' => 'Sales Order List', 'content' => $this->renderPartial("_apSupplierDetail", array("model" => $model), true), 'active' => true),
-		array('label' => 'Detail', 'content' => $this->renderPartial("/uSupplier/_detail", array("model" => $model), true)),
-	),
+    'type' => 'tabs', // 'tabs' or 'pills'
+    'tabs' => array(
+        array('label' => 'Sales Order List', 'content' => $this->renderPartial("_apSupplierDetail", array("model" => $model), true), 'active' => true),
+        array('label' => 'Detail', 'content' => $this->renderPartial("/uSupplier/_detail", array("model" => $model), true)),
+    ),
 ));
-
 ?>
 

@@ -187,5 +187,4 @@
             'elFinder support following shortcuts': 'elFinder에서는 다음 단축키들을 지원합니다',
             'helpText': 'elFinder는 컴퓨터의 파일을 관리할 수 있습니다.<br />상단 패널의 아이콘으로 파일이나 폴더를 조작할 수 있습니다.<br /> 아이콘에 마우스 커서를 갖다 대면 설명이 표시됩니다.<br />마우스 오른쪽 클릭으로 elFinder 내의 파일이나 폴더를 조작할 수 있습니다.<br />여러개의 파일이나 폴더를 복사 또는 삭제하려면,<br /> Shift 또는 Alt키를 누르면서 마우스 왼쪽클릭을 하시면 됩니다.'
         };
-
 })(jQuery);

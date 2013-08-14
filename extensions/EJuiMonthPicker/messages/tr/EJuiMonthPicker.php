@@ -1,5 +1,4 @@
 <?php
-
 return array(
     'January' => 'Ocak',
     'February' => 'Şubat',

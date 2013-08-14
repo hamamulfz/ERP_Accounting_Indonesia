@@ -15,6 +15,8 @@ $this->menu = array(
 );
 
 $this->menu2 = sUser::getTopCreated();
+$this->menu4 = sUser::getTopLastOneHour();
+
 ?>
 
 <div class="page-header">

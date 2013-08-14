@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperBackground
  *
@@ -8,11 +7,8 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="background") */
 class JasperBackground extends AbstractJasper {
-
     /** @BeanAnnotation(className="JasperBand") */
     public $band = null;
-
 }

@@ -1,13 +1,10 @@
 <?php
-
 class SAddressbookGroupController extends Controller {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//layouts/column2';
-
     /**
      * @return array action filters
      */
@@ -17,7 +14,6 @@ class SAddressbookGroupController extends Controller {
             'postOnly + delete', // we only allow deletion via POST request
         );
     }
-
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
@@ -33,7 +29,6 @@ class SAddressbookGroupController extends Controller {
             ),
         );
     }
-
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -43,28 +38,23 @@ class SAddressbookGroupController extends Controller {
             'model' => $this->loadModel($id),
         ));
     }
-
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
         $model = new sAddressbookGroup;
-
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-
         if (isset($_POST['sAddressbookGroup'])) {
             $model->attributes = $_POST['sAddressbookGroup'];
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }
-
         $this->render('create', array(
             'model' => $model,
         ));
     }
-
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -72,21 +62,17 @@ class SAddressbookGroupController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->loadModel($id);
-
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-
         if (isset($_POST['sAddressbookGroup'])) {
             $model->attributes = $_POST['sAddressbookGroup'];
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }
-
         $this->render('update', array(
             'model' => $model,
         ));
     }
-
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -94,12 +80,10 @@ class SAddressbookGroupController extends Controller {
      */
     public function actionDelete($id) {
         $this->loadModel($id)->delete();
-
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
-
     /**
      * Manages all models.
      */
@@ -108,12 +92,10 @@ class SAddressbookGroupController extends Controller {
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['sAddressbookGroup']))
             $model->attributes = $_GET['sAddressbookGroup'];
-
         $this->render('index', array(
             'model' => $model,
         ));
     }
-
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -127,7 +109,6 @@ class SAddressbookGroupController extends Controller {
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
-
     /**
      * Performs the AJAX validation.
      * @param sAddressbookGroup $model the model to be validated
@@ -138,5 +119,4 @@ class SAddressbookGroupController extends Controller {
             Yii::app()->end();
         }
     }
-
 }

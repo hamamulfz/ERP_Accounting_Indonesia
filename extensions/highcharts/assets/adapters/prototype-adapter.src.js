@@ -7,15 +7,11 @@
  * Feel free to use and modify this script.
  * Highcharts license: www.highcharts.com/license.
  */
-
 // JSLint options:
 /*global Effect, Class, Event, Element, $, $$, $A */
-
 // Adapter interface between prototype and the Highcharts charting library
 var HighchartsAdapter = (function() {
-
     var hasEffect = typeof Effect !== 'undefined';
-
     return {
         /**
          * Initialize the adapter. This is run once as Highcharts is first run.
@@ -34,11 +30,9 @@ var HighchartsAdapter = (function() {
                     initialize: function(element, attr, to, options) {
                         var from,
                                 opts;
-
                         this.element = element;
                         this.key = attr;
                         from = element.attr ? element.attr(attr) : $(element).getStyle(attr);
-
                         // special treatment for paths
                         if (attr === 'd') {
                             this.paths = pathAnim.init(
@@ -47,13 +41,10 @@ var HighchartsAdapter = (function() {
                                     to
                                     );
                             this.toD = to;
-
-
                             // fake values in order to read relative position as a float in update
                             from = 0;
                             to = 1;
                         }
-
                         opts = Object.extend((options || {}), {
                             from: from,
                             to: to,
@@ -68,7 +59,6 @@ var HighchartsAdapter = (function() {
                         if (!this.element._highchart_animation) {
                             this.element._highchart_animation = {};
                         }
-
                         // Store a reference to this animation instance.
                         this.element._highchart_animation[this.key] = this;
                     },
@@ -76,23 +66,18 @@ var HighchartsAdapter = (function() {
                         var paths = this.paths,
                                 element = this.element,
                                 obj;
-
                         if (paths) {
                             position = pathAnim.step(paths[0], paths[1], position, this.toD);
                         }
-
                         if (element.attr) { // SVGElement
-
                             if (element.element) { // If not, it has been destroyed (#1405)
                                 element.attr(this.options.attribute, position);
                             }
-
                         } else { // HTML, #409
                             obj = {};
                             obj[this.options.attribute] = position;
                             $(element).setStyle(obj);
                         }
-
                     },
                     finish: function() {
                         // Delete the property that holds this animation now that it is finished.
@@ -110,11 +95,9 @@ var HighchartsAdapter = (function() {
          * @param {String} method Which method to run on the wrapped element
          */
         adapterRun: function(el, method) {
-
             // This currently works for getting inner width and height. If adding
             // more methods later, we need a conditional implementation for each.
             return parseInt($(el).getStyle(method), 10);
-
         },
         /**
          * Downloads a script and executes a callback when done.
@@ -143,7 +126,6 @@ var HighchartsAdapter = (function() {
         addEvent: function(el, event, fn) {
             if (el.addEventListener || el.attachEvent) {
                 Event.observe($(el), HighchartsAdapter.addNS(event), fn);
-
             } else {
                 HighchartsAdapter._extend(el);
                 el._highcharts_observe(event, fn);
@@ -153,13 +135,11 @@ var HighchartsAdapter = (function() {
         animate: function(el, params, options) {
             var key,
                     fx;
-
             // default options
             options = options || {};
             options.delay = 0;
             options.duration = (options.duration || 500) / 1000;
             options.afterFinish = options.complete;
-
             // animate wrappers and DOM elements
             if (hasEffect) {
                 for (key in params) {
@@ -177,7 +157,6 @@ var HighchartsAdapter = (function() {
                     options.complete();
                 }
             }
-
             if (!el.attr) { // HTML element, #409
                 $(el).setStyle(params);
             }
@@ -217,11 +196,9 @@ var HighchartsAdapter = (function() {
                 eventArguments = eventArguments || {};
                 el._highcharts_fire(event, eventArguments);
             }
-
             if (eventArguments && eventArguments.defaultPrevented) {
                 defaultFunction = null;
             }
-
             if (defaultFunction) {
                 defaultFunction(eventArguments);
             }
@@ -280,13 +257,11 @@ var HighchartsAdapter = (function() {
                             if (args.stopped) {
                                 return; // "throw $break" wasn't working. i think because of the scope of 'this'.
                             }
-
                             // Attach a simple preventDefault function to skip default handler if called
                             args.preventDefault = function() {
                                 args.defaultPrevented = true;
                             };
                             args.target = target;
-
                             // If the event handler return false, prevent the default handler from executing
                             if (fn.bind(this)(args) === false) {
                                 args.preventDefault();

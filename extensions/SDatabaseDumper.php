@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Creates DB dump.
  *
@@ -18,25 +17,21 @@
  * </pre>
  */
 class SDatabaseDumper {
-
     /**
      * Dump all tables
      * @return string sql structure and data
      */
     public function getDump() {
         $blacklist = array("g_bi_person", "g_bi_uncomplete");
-
         ob_start();
         foreach ($this->getTables() as $key => $val) {
             if (!in_array($key, $blacklist))
                 $this->dumpTable($key);
         }
-
         $result = ob_get_contents();
         ob_end_clean();
         return $result;
     }
-
     /**
      * Create table dump
      * @param $tableName
@@ -45,28 +40,22 @@ class SDatabaseDumper {
     public function dumpTable($tableName) {
         $db = Yii::app()->db;
         $pdo = $db->getPdoInstance();
-
         echo '
 		--
 		-- Structure for table `' . $tableName . '`
 		--
 		' . PHP_EOL;
         echo 'DROP TABLE IF EXISTS ' . $db->quoteTableName($tableName) . ';' . PHP_EOL;
-
         $q = $db->createCommand('SHOW CREATE TABLE ' . $db->quoteTableName($tableName) . ';')->queryRow();
         echo $q['Create Table'] . ';' . PHP_EOL . PHP_EOL;
-
         $rows = $db->createCommand('SELECT * FROM ' . $db->quoteTableName($tableName) . ';')->queryAll();
-
         if (empty($rows))
             return;
-
         echo '
 		--
 		-- Data for table `' . $tableName . '`
 		--
 		' . PHP_EOL;
-
         $attrs = array_map(array($db, 'quoteColumnName'), array_keys($rows[0]));
         echo 'INSERT INTO ' . $db->quoteTableName($tableName) . '' . " (", implode(', ', $attrs), ') VALUES' . PHP_EOL;
         $i = 0;
@@ -79,7 +68,6 @@ class SDatabaseDumper {
                 else
                     $row[$key] = $pdo->quote($value);
             }
-
             echo " (", implode(', ', $row), ')';
             if ($i < $rowsCount - 1)
                 echo ',';
@@ -91,7 +79,6 @@ class SDatabaseDumper {
         echo PHP_EOL;
         echo PHP_EOL;
     }
-
     /**
      * Get mysql tables list
      * @return array
@@ -100,5 +87,4 @@ class SDatabaseDumper {
         $db = Yii::app()->db;
         return $db->getSchema()->getTables();
     }
-
 }

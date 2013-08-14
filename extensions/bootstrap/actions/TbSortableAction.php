@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbSortableAction CAction Component
  *
@@ -11,12 +10,10 @@
  * Time: 4:02 PM
  */
 class TbSortableAction extends CAction {
-
     /**
      * @var string the name of the model we are going to toggle values to
      */
     public $modelName;
-
     /**
      * Widgets run function
      * @throws CHttpException
@@ -24,13 +21,11 @@ class TbSortableAction extends CAction {
     public function run() {
         if (Yii::app()->request->isPostRequest && Yii::app()->request->isAjaxRequest && isset($_POST['sortOrder'])) {
             $sortableAttribute = Yii::app()->request->getQuery('sortableAttribute');
-
             /** @var $model CActiveRecord */
             $model = new $this->modelName;
             if (!$model->hasAttribute($sortableAttribute)) {
                 throw new CHttpException(500, Yii::t('yii', '{attribute} "{value}" is invalid.', array('{attribute}' => 'sortableAttribute', '{value}' => $sortableAttribute)));
             }
-
             $query = "UPDATE {$model->tableName()} SET {$sortableAttribute} = CASE ";
             $ids = array();
             foreach ($_POST['sortOrder'] as $id => $sort_order) {
@@ -45,5 +40,4 @@ class TbSortableAction extends CAction {
             throw new CHttpException(500, Yii::t('yii', 'Your request is invalid.'));
         }
     }
-
 }

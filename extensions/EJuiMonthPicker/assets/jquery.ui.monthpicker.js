@@ -38,18 +38,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 (function($) {
-
     $.extend($.ui, {monthpicker: {version: "@VERSION"}});
-
     var PROP_NAME = 'monthpicker';
     var dpuuid = new Date().getTime();
     var instActive;
-
     /* Month picker manager.
      Use the singleton instance of this class, $.monthpicker, to interact with the date picker.
      Settings for (groups of) month pickers are maintained in an instance object,
      allowing multiple different settings on the same page. */
-
     function Monthpicker() {
         this.uuid = 0;
         this._curInst = null; // The current instance in use
@@ -91,7 +87,6 @@
         $.extend(this._defaults, this.regional['']);
         this.dpDiv = bindHover($('<div id="' + this._mainDivId + '" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>'));
     }
-
     $.extend(Monthpicker.prototype, {
         /* Class name added to elements to indicate already configured with a date picker. */
         markerClassName: 'hasMonthpicker',
@@ -207,10 +202,8 @@
         _checkExternalClick: function(event) {
             if (!$.monthpicker._curInst)
                 return;
-
             var $target = $(event.target),
                     inst = $.monthpicker._getInst($target[0]);
-
             if ((($target[0].id != $.monthpicker._mainDivId &&
                     $target.parents('#' + $.monthpicker._mainDivId).length == 0 &&
                     !$target.hasClass($.monthpicker.markerClassName) &&
@@ -294,7 +287,6 @@
             /* cba-end */
             //inst.dpDiv.zIndex($(input).zIndex()+1);
             $.monthpicker._monthpickerShowing = true;
-
             if ($.effects && $.effects[showAnim])
                 inst.dpDiv.show(showAnim, $.monthpicker._get(inst, 'showOptions'), duration, postProcess);
             else
@@ -307,7 +299,6 @@
         },
         /* Generate the date picker content. */
         _updateMonthpicker: function(inst) {
-
             var self = this;
             self.maxRows = 4; //Reset the max number of rows being displayed (see #7043)
             var borders = $.monthpicker._getBorders(inst.dpDiv);
@@ -318,7 +309,6 @@
                 cover.css({left: -borders[0], top: -borders[1], width: inst.dpDiv.outerWidth(), height: inst.dpDiv.outerHeight()})
             }
             inst.dpDiv.find('.' + this._dayOverClass + ' a').mouseover();
-
             if (inst == $.monthpicker._curInst && $.monthpicker._monthpickerShowing && inst.input &&
                     // #6694 - don't focus the input if it's already focused
                     // this breaks the change event in IE
@@ -356,7 +346,6 @@
                     $.monthpicker._tidyDialog(inst);
                     this._curInst = null;
                 };
-
                 if ($.effects && $.effects[ showAnim ])
                     inst.dpDiv.hide(showAnim, $.monthpicker._get(inst, 'showOptions'), duration, postProcess);
                 else
@@ -412,16 +401,13 @@
             var inputHeight = inst.input ? inst.input.outerHeight() : 0;
             var viewWidth = document.documentElement.clientWidth + $(document).scrollLeft();
             var viewHeight = document.documentElement.clientHeight + $(document).scrollTop();
-
             offset.left -= (isFixed && offset.left == inst.input.offset().left) ? $(document).scrollLeft() : 0;
             offset.top -= (isFixed && offset.top == (inst.input.offset().top + inputHeight)) ? $(document).scrollTop() : 0;
-
             // now check if monthpicker is showing outside window viewport - move to a better place if so.
             offset.left -= Math.min(offset.left, (offset.left + dpWidth > viewWidth && viewWidth > dpWidth) ?
                     Math.abs(offset.left + dpWidth - viewWidth) : 0);
             offset.top -= Math.min(offset.top, (offset.top + dpHeight > viewHeight && viewHeight > dpHeight) ?
                     Math.abs(dpHeight + inputHeight) : 0);
-
             return offset;
         },
         /* Find an object's position on the screen. */
@@ -522,38 +508,32 @@
             var monthNames = this._get(inst, 'monthNames');
             var monthNamesShort = this._get(inst, 'monthNamesShort');
             var drawYear = inst.drawYear;
-
             var prev = '<a class="ui-datepicker-prev ui-corner-all" onclick="MP_jQuery_' + dpuuid +
                     '.monthpicker._adjustDate(\'#' + inst.id + '\', -' + stepYears + ', \'Y\');"' +
                     ' title="' + prevText + '"><span class="ui-icon ui-icon-circle-triangle-w">' + prevText + '</span></a>';
             var next = '<a class="ui-datepicker-next ui-corner-all" onclick="MP_jQuery_' + dpuuid +
                     '.monthpicker._adjustDate(\'#' + inst.id + '\', +' + stepYears + ', \'Y\');"' +
                     ' title="' + nextText + '"><span class="ui-icon ui-icon-circle-triangle-e">' + nextText + '</span></a>';
-
             html += '<div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">' +
                     prev + next +
                     this._generateYearHeader(inst, drawYear, monthNames, monthNamesShort) + // draw month headers
                     '</div><table class="ui-datepicker-calendar"><tbody>';
-
             // mount months table
             for (var i = 0; i <= 11; i++) {
                 if (i % 3 === 0) {
                     html += '<tr>';
                 }
-
                 html += '<td style="padding:1px;cursor:default;" data-month=' + i + '>'
                         + '<a  style="text-align: center;" class="ui-state-default'
                         + (drawYear == inst.currentYear && i == inst.currentMonth ? ' ui-state-active' : '') // highlight selected month
                         + (drawYear == today.getFullYear() && i == today.getMonth() ? ' ui-state-highlight' : '') // highlight today (if different)
                         + '" onclick="MP_jQuery_' + dpuuid + '.monthpicker._selectMonth(\'#'
                         + inst.id + '\',' + drawYear + ', ' + i + ');return false;" actionshref="#">' + (inst.settings && inst.settings.monthNamesShort ? inst.settings.monthNamesShort[i] : this._defaults.monthNamesShort[i]) + '</a>' + '</td>'; // display selectable date
-
                 if (i % 3 === 2) {
                     html += '</tr>';
                 }
             }
             html += '</tbody></table>';
-
             return html;
         },
         /* Generate the month and year header. */
@@ -574,7 +554,6 @@
                 };
                 var year = determineYear(years[0]);
                 var endYear = Math.max(year, determineYear(years[1] || ''));
-
                 inst.yearshtml += '<select class="ui-datepicker-year" ' +
                         'onchange="MP_jQuery_' + dpuuid + '.monthpicker._selectYear(\'#' + inst.id + '\', this, \'Y\');" ' +
                         '>';
@@ -584,7 +563,6 @@
                             '>' + year + '</option>';
                 }
                 inst.yearshtml += '</select>';
-
                 html += inst.yearshtml;
                 inst.yearshtml = null;
             }
@@ -730,7 +708,6 @@
         },
         /* Parse a string value into a date object.
          See formatDate below for the possible formats.
-         
          @param  format    string - the expected format of the date
          @param  value     string - the date in the above format
          @param  settings  Object - attributes include:
@@ -868,7 +845,6 @@
          ! - Windows ticks (100ns since 01/01/0001)
          '...' - literal text
          '' - single quote
-         
          @param  format    string - the desired format of the date
          @param  date      Date - the date value to format
          @param  settings  Object - attributes include:
@@ -989,7 +965,6 @@
             return this.formatDate(this._get(inst, 'dateFormat'), date, this._getFormatConfig(inst));
         }
     });
-
     /* jQuery extend now ignores nulls! */
     function extendRemove(target, props) {
         $.extend(target, props);
@@ -999,7 +974,6 @@
         return target;
     }
     ;
-
     /*
      * Bind hover events for monthpicker elements.
      * Done via delegate so the binding only occurs once in the lifetime of the parent div.
@@ -1025,24 +999,20 @@
             }
         });
     }
-
     /* Invoke the monthpicker functionality.
      @param  options  Object - settings for attaching new monthpicker functionality
      @return  jQuery object */
     $.fn.monthpicker = function(options) {
-
         /* Verify an empty collection wasn't passed */
         if (!this.length) {
             return this;
         }
-
         /* Initialise the date picker. */
         if (!$.monthpicker.initialized) {
             $(document).mousedown($.monthpicker._checkExternalClick).
                     find('body').append($.monthpicker.dpDiv);
             $.monthpicker.initialized = true;
         }
-
         var otherArgs = Array.prototype.slice.call(arguments, 1);
         return this.each(function() {
             typeof options == 'string' ?
@@ -1051,11 +1021,8 @@
                     $.monthpicker._attachMonthpicker(this, options);
         });
     };
-
     $.monthpicker = new Monthpicker(); // singleton instance
     $.monthpicker.initialized = false;
-
     // Add another global to avoid noConflict issues with inline event handlers
     window['MP_jQuery_' + dpuuid] = $;
-
 })(jQuery);

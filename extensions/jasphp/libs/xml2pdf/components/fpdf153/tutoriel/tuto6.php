@@ -1,14 +1,10 @@
 <?php
-
 require('../fpdf.php');
-
 class PDF extends FPDF {
-
     var $B;
     var $I;
     var $U;
     var $HREF;
-
     function PDF($orientation = 'P', $unit = 'mm', $format = 'A4') {
         //Appel au constructeur parent
         $this->FPDF($orientation, $unit, $format);
@@ -18,7 +14,6 @@ class PDF extends FPDF {
         $this->U = 0;
         $this->HREF = '';
     }
-
     function WriteHTML($html) {
         //Parseur HTML
         $html = str_replace("\n", ' ', $html);
@@ -48,7 +43,6 @@ class PDF extends FPDF {
             }
         }
     }
-
     function OpenTag($tag, $attr) {
         //Balise ouvrante
         if ($tag == 'B' or $tag == 'I' or $tag == 'U')
@@ -58,7 +52,6 @@ class PDF extends FPDF {
         if ($tag == 'BR')
             $this->Ln(5);
     }
-
     function CloseTag($tag) {
         //Balise fermante
         if ($tag == 'B' or $tag == 'I' or $tag == 'U')
@@ -66,7 +59,6 @@ class PDF extends FPDF {
         if ($tag == 'A')
             $this->HREF = '';
     }
-
     function SetStyle($tag, $enable) {
         //Modifie le style et s�lectionne la police correspondante
         $this->$tag+=($enable ? 1 : -1);
@@ -76,7 +68,6 @@ class PDF extends FPDF {
                 $style.=$s;
         $this->SetFont('', $style);
     }
-
     function PutLink($URL, $txt) {
         //Place un hyperlien
         $this->SetTextColor(0, 0, 255);
@@ -85,15 +76,12 @@ class PDF extends FPDF {
         $this->SetStyle('U', false);
         $this->SetTextColor(0);
     }
-
 }
-
 $html = 'Vous pouvez maintenant imprimer facilement du texte m�langeant
 diff�rents styles : <B>gras</B>, <I>italique</I>, <U>soulign�</U>, ou
 <B><I><U>tous � la fois</U></I></B> !<BR>Vous pouvez aussi ins�rer des
 liens sous forme textuelle, comme <A HREF="http://www.fpdf.org">
 www.fpdf.org</A>, ou bien sous forme d\'image : cliquez sur le logo.';
-
 $pdf = new PDF();
 //Premi�re page
 $pdf->AddPage();

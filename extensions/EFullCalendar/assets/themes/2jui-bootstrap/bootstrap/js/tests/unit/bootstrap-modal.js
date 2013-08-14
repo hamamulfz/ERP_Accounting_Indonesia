@@ -1,21 +1,16 @@
 $(function() {
-
     module("bootstrap-modal")
-
     test("should be defined on jquery object", function() {
         var div = $("<div id='modal-test'></div>")
         ok(div.modal, 'modal method is defined')
     })
-
     test("should return element", function() {
         var div = $("<div id='modal-test'></div>")
         ok(div.modal() == div, 'div element returned')
     })
-
     test("should expose defaults var for settings", function() {
         ok($.fn.modal.defaults, 'default object exposed')
     })
-
     test("should insert into dom when show method is called", function() {
         stop()
         $.support.transition = false
@@ -29,7 +24,6 @@ $(function() {
         })
                 .modal("show")
     })
-
     test("should hide modal when hide is called", function() {
         stop()
         $.support.transition = false
@@ -48,7 +42,6 @@ $(function() {
         })
                 .modal("show")
     })
-
     test("should toggle when toggle is called", function() {
         stop()
         $.support.transition = false
@@ -67,7 +60,6 @@ $(function() {
         })
                 .modal("toggle")
     })
-
     test("should remove from dom when click .close", function() {
         stop()
         $.support.transition = false
@@ -86,7 +78,6 @@ $(function() {
         })
                 .modal("toggle")
     })
-
     test("should add backdrop when desired", function() {
         stop()
         $.support.transition = false
@@ -101,7 +92,6 @@ $(function() {
         })
                 .modal("show")
     })
-
     test("should not add backdrop when not desired", function() {
         stop()
         $.support.transition = false
@@ -115,7 +105,6 @@ $(function() {
         })
                 .modal("show")
     })
-
     test("should close backdrop when clicked", function() {
         stop()
         $.support.transition = false
@@ -131,7 +120,6 @@ $(function() {
         })
                 .modal("show")
     })
-
     test("should not close backdrop when click disabled", function() {
         stop()
         $.support.transition = false

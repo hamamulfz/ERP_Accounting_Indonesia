@@ -57,27 +57,27 @@ $subject.= '</span>';
 ?>
 <tr
     class="mailbox-item <?php echo $itemCssClass; ?> <?php if ($this->getAction()->getId() != 'sent') echo 'mailbox-draggable-row'; ?>">
-<td style="width:10%">
-    <div class="mailbox-item-wrapper mailbox-from mailbox-ellipsis">
-        <?php echo $username; ?>
-    </div>
-</td>
-<td style="width:70%" class="mailbox-subject-brief">
-    <div class="mailbox-item-wrapper mailbox-item-outer mailbox-subject">
-        <div class="mailbox-item-inner mailbox-ellipsis">
-            <?php echo $subject; ?>
+    <td style="width:10%">
+        <div class="mailbox-item-wrapper mailbox-from mailbox-ellipsis">
+            <?php echo $username; ?>
         </div>
-    </div>
-</td>
-<td style="width:20%" class="mailbox-received">
-    <div align="right" class="mailbox-item-wrapper" style="width: 80px">
-        <?php if ($data->is_replied) : ?>
-            <div class="mailbox-replied" title="this message has been replied to">&nbsp;&nbsp;</div>
-        <?php endif; ?>
-        <?php echo $received; ?>
-    </div>
+    </td>
+    <td style="width:70%" class="mailbox-subject-brief">
+        <div class="mailbox-item-wrapper mailbox-item-outer mailbox-subject">
+            <div class="mailbox-item-inner mailbox-ellipsis">
+                <?php echo $subject; ?>
+            </div>
+        </div>
+    </td>
+    <td style="width:20%" class="mailbox-received">
+        <div align="right" class="mailbox-item-wrapper" style="width: 80px">
+            <?php if ($data->is_replied) : ?>
+                <div class="mailbox-replied" title="this message has been replied to">&nbsp;&nbsp;</div>
+            <?php endif; ?>
+            <?php echo $received; ?>
+        </div>
 
-</td>
+    </td>
 </tr>
 
 

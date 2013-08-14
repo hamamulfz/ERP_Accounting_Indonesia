@@ -305,9 +305,13 @@ class gLeave extends BaseModel {
 
     public function afterSave() {
         if ($this->isNewRecord) {
-            Notification::create(
-                    1, 'm1/gLeave/view/id/' . $this->parent_id, 'Leave. New Leave created: ' . strtoupper($this->person->employee_name), null, $this->person->photoPath
-            );
+            $model= new sNotification;
+            $model->group_id = 1;
+            $model->link = 'm1/gLeave/view/id/' . $this->parent_id;
+            $model->content = 'Leave. New Leave created for <read>' . $this->person->employee_name . '</read>';
+            $model->photo_path = $this->person->photoPath;
+            $model->save();
+
         }
         return true;
     }

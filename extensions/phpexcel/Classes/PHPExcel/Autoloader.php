@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPExcel
  *
@@ -34,7 +33,6 @@ if (ini_get('mbstring.func_overload') & 2) {
     throw new Exception('Multibyte function overloading in PHP must be disabled for string functions (2).');
 }
 PHPExcel_Shared_String::buildCharacterSets();
-
 /**
  * PHPExcel_Autoloader
  *
@@ -43,7 +41,6 @@ PHPExcel_Shared_String::buildCharacterSets();
  * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Autoloader {
-
     /**
      * Register the Autoloader with SPL
      *
@@ -56,9 +53,7 @@ class PHPExcel_Autoloader {
         //	Register ourselves with SPL
         return spl_autoload_register(array('PHPExcel_Autoloader', 'Load'));
     }
-
 //	function Register()
-
     /**
      * Autoload a class identified by name
      *
@@ -69,18 +64,14 @@ class PHPExcel_Autoloader {
             //	Either already loaded, or not a PHPExcel class request
             return FALSE;
         }
-
         $pClassFilePath = PHPEXCEL_ROOT .
                 str_replace('_', DIRECTORY_SEPARATOR, $pClassName) .
                 '.php';
-
         if ((file_exists($pClassFilePath) === false) || (is_readable($pClassFilePath) === false)) {
             //	Can't load
             return FALSE;
         }
-
         require($pClassFilePath);
     }
-
 //	function Load()
 }

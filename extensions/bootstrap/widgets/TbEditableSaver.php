@@ -1,5 +1,4 @@
 <?php
-
 /* ## EditableSaver class file.
  * @see <https://github.com/vitalets/x-editable-yii>
  * 
@@ -9,66 +8,56 @@
  * @package bootstrap.widgets
  * @version 1.0.0
  */
-
 /**
  * EditableSaver helps to update model by editable widget submit request.
  * 
  * @package saver
  */
 class TbEditableSaver extends CComponent {
-
     /**
      * scenarion used in model for update
      *
      * @var mixed
      */
     public $scenario = 'editable';
-
     /**
      * name of model
      *
      * @var mixed
      */
     public $modelClass;
-
     /**
      * primaryKey value
      *
      * @var mixed
      */
     public $primaryKey;
-
     /**
      * name of attribute to be updated
      *
      * @var mixed
      */
     public $attribute;
-
     /**
      * model instance
      *
      * @var CActiveRecord
      */
     public $model;
-
     /**
      * @var mixed new value of attribute
      */
     public $value;
-
     /**
      * http status code returned in case of error
      */
     public $errorHttpCode = 400;
-
     /**
      * name of changed attributes. Used when saving model
      * 
      * @var mixed
      */
     protected $changedAttributes = array();
-
     /**
      * ### ._construct()
      *
@@ -85,7 +74,6 @@ class TbEditableSaver extends CComponent {
         }
         $this->modelClass = ucfirst($modelClass);
     }
-
     /**
      * ### .update()
      *
@@ -97,7 +85,6 @@ class TbEditableSaver extends CComponent {
         $this->primaryKey = yii::app()->request->getParam('pk');
         $this->attribute = yii::app()->request->getParam('name');
         $this->value = yii::app()->request->getParam('value');
-
         //checking params
         if (empty($this->attribute)) {
             throw new CException(Yii::t('editable', 'Property "attribute" should be defined.'));
@@ -105,40 +92,32 @@ class TbEditableSaver extends CComponent {
         if (empty($this->primaryKey)) {
             throw new CException(Yii::t('editable', 'Property "primaryKey" should be defined.'));
         }
-
         //loading model
         $this->model = CActiveRecord::model($this->modelClass)->findByPk($this->primaryKey);
         if (!$this->model) {
             throw new CException(Yii::t('editable', 'Model {class} not found by primary key "{pk}"', array(
                 '{class}' => get_class($this->model), '{pk}' => $this->primaryKey)));
         }
-
         //set scenario
         $this->model->setScenario($this->scenario);
-
         //is attribute exists
         if (!$this->model->hasAttribute($this->attribute)) {
             throw new CException(Yii::t('editable', 'Model {class} does not have attribute "{attr}"', array(
                 '{class}' => get_class($this->model), '{attr}' => $this->attribute)));
         }
-
         //is attribute safe
         if (!$this->model->isAttributeSafe($this->attribute)) {
             throw new CException(Yii::t('editable', 'Model {class} rules do not allow to update attribute "{attr}"', array(
                 '{class}' => get_class($this->model), '{attr}' => $this->attribute)));
         }
-
         //setting new value
         $this->setAttribute($this->attribute, $this->value);
-
         //validate attribute
         $this->model->validate(array($this->attribute));
         $this->checkErrors();
-
         //trigger beforeUpdate event
         $this->beforeUpdate();
         $this->checkErrors();
-
         //saving (no validation, only changed attributes)
         if ($this->model->save(false, $this->changedAttributes)) {
             //trigger afterUpdate event
@@ -147,7 +126,6 @@ class TbEditableSaver extends CComponent {
             $this->error(Yii::t('editable', 'Error while saving record!'));
         }
     }
-
     /**
      * ### .checkErros()
      *
@@ -165,7 +143,6 @@ class TbEditableSaver extends CComponent {
             $this->error($msg[0]);
         }
     }
-
     /**
      * ### .error()
      *
@@ -176,7 +153,6 @@ class TbEditableSaver extends CComponent {
     public function error($msg) {
         throw new CHttpException($this->errorHttpCode, $msg);
     }
-
     /**
      * ### .setAttribute()
      *
@@ -192,7 +168,6 @@ class TbEditableSaver extends CComponent {
             $this->changedAttributes[] = $name;
         }
     }
-
     /**
      * ### .onBeforeUpdate()
      *
@@ -202,7 +177,6 @@ class TbEditableSaver extends CComponent {
     public function onBeforeUpdate($event) {
         $this->raiseEvent('onBeforeUpdate', $event);
     }
-
     /**
      * ### .onAfterUpdate()
      *
@@ -212,7 +186,6 @@ class TbEditableSaver extends CComponent {
     public function onAfterUpdate($event) {
         $this->raiseEvent('onAfterUpdate', $event);
     }
-
     /**
      * ### .beforeUpdate()
      *
@@ -222,7 +195,6 @@ class TbEditableSaver extends CComponent {
     protected function beforeUpdate() {
         $this->onBeforeUpdate(new CEvent($this));
     }
-
     /**
      * ### .afterUpdate()
      *
@@ -232,5 +204,4 @@ class TbEditableSaver extends CComponent {
     protected function afterUpdate() {
         $this->onAfterUpdate(new CEvent($this));
     }
-
 }

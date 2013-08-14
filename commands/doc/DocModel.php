@@ -1,5 +1,4 @@
 <?php
-
 /**
  * DocModel represents the documentation for the Yii framework.
  * @author Marc Busqué <marc@lamarciana.com>, heavily based on previous work by Qiang Xue <qiang.xue@gmail.com>
@@ -9,41 +8,33 @@
  * @version 1.0
  */
 class DocModel {
-
     public $classes = array();
     public $packages;
     public $baseUrl;
-
     /**
      * @var string when an extension is being documented, its directory name
      */
     public $name;
-
     /**
      * @var boolean whether to include yii framework class reference when documenting an aplication or an extension
      */
     public $withYii;
-
     /**
      * @var boolean if $whitYii is false, whether to include external links to Yii framework class reference online
      */
     public $withYiiLinks;
-
     /**
      * @var string url of the project being documented
      */
     public $url;
-
     /**
      * @var string base path for the source code to document, that's Yii framework directory, application directory or an extension directory
      */
     public $basePath;
     private $_currentClass;
-
     public function __construct($options = null) {
         $this->init($options);
     }
-
     public function init($options) {
         if ($options) {
             foreach ($options as $property_name => $property_value) {
@@ -51,21 +42,17 @@ class DocModel {
             }
         }
     }
-
     public function build($sourceFiles) {
         $this->findClasses($sourceFiles);
         $this->processClasses();
     }
-
     protected function findClasses($sourceFiles) {
         $this->classes = array();
-
         /* Don't output anything from views */
         ob_start();
         foreach ($sourceFiles as $file)
             require_once($file);
         ob_end_clean();
-
         $classes = array_merge(get_declared_classes(), get_declared_interfaces());
         foreach ($classes as $class) {
             $r = new ReflectionClass($class);
@@ -74,7 +61,6 @@ class DocModel {
         }
         ksort($this->classes);
     }
-
     protected function processClasses() {
         $this->packages = array();
         foreach ($this->classes as $class => $value) {
@@ -95,7 +81,6 @@ class DocModel {
             $this->packages[$doc->package][] = $class;
         }
         ksort($this->packages);
-
         // find out child classes for each class or interface
         foreach ($this->classes as $class) {
             if (isset($class->parentClasses[0])) {
@@ -109,7 +94,6 @@ class DocModel {
             }
         }
     }
-
     protected function processClass($class) {
         $doc = new ClassDocDoc($this->withYii, $this->basePath);
         $doc->name = $class->getName();
@@ -134,7 +118,6 @@ class DocModel {
             $doc->events = $this->processComponentEvents($class);
         }
         ksort($doc->properties);
-
         foreach ($doc->properties as $property) {
             if ($property->isProtected)
                 $doc->protectedPropertyCount++;
@@ -156,10 +139,8 @@ class DocModel {
                 $doc->nativeEventCount++;
         }
         $this->processComment($doc, $class->getDocComment());
-
         return $doc;
     }
-
     protected function processComment($doc, $comment) {
         $comment = strtr(trim(preg_replace('/^\s*\**( |\t)?/m', '', trim($comment, '/'))), "\r", '');
         if (preg_match('/^\s*@\w+/m', $comment, $matches, PREG_OFFSET_CAPTURE)) {
@@ -172,12 +153,9 @@ class DocModel {
             $doc->introduction = $this->processDescription(substr($comment, 0, $pos));
         else
             $doc->introduction = $this->processDescription($comment);
-
         $doc->description = $this->processDescription($comment);
-
         $this->processTags($doc, $meta);
     }
-
     protected function processDescription($text) {
         if (($text = trim($text)) === '')
             return '';
@@ -187,12 +165,10 @@ class DocModel {
         $text = preg_replace_callback('/\{@link\s+([^\s\}]+)(.*?)\}/s', array($this, 'processLink'), $text);
         return $text;
     }
-
     protected function processCode($matches) {
         $match = preg_replace('/<br\/><br\/>/', '', $matches[1]);
         return "<pre>" . htmlspecialchars($match) . "</pre>";
     }
-
     protected function resolveInternalUrl($url) {
         $url = rtrim($url, '()');
         if (($pos = strpos($url, '::')) !== false) {
@@ -206,7 +182,6 @@ class DocModel {
         }
         return $this->getMethodUrl($class, $method);
     }
-
     protected function getMethodUrl($class, $method) {
         if (!isset($this->classes[$class]))
             return '';
@@ -219,18 +194,15 @@ class DocModel {
         else
             return '';
     }
-
     protected function processLink($matches) {
         $url = $matches[1];
         if (($text = trim($matches[2])) === '')
             $text = $url;
-
         if (preg_match('/^(http|ftp):\/\//i', $url))  // an external URL
             return "<a href=\"$url\">$text</a>";
         $url = $this->resolveInternalUrl($url);
         return $url === '' ? $text : '{{' . $url . '|' . $text . '}}';
     }
-
     protected function processInclude($matches) {
         $class = new ReflectionClass($this->_currentClass);
         $fileName = dirname($class->getFileName()) . DIRECTORY_SEPARATOR . $matches[1];
@@ -239,7 +211,6 @@ class DocModel {
         else
             return $matches[0];
     }
-
     protected function processTags($object, $comment) {
         $tags = preg_split('/^\s*@/m', $comment, -1, PREG_SPLIT_NO_EMPTY);
         foreach ($tags as $tag) {
@@ -253,7 +224,6 @@ class DocModel {
                 $object->$tagName = $param;
         }
     }
-
     protected function processMethods($class) {
         $methods = array();
         foreach ($class->getMethods() as $method) {
@@ -265,7 +235,6 @@ class DocModel {
         ksort($methods);
         return $methods;
     }
-
     protected function processMethod($class, $method) {
         $doc = new MethodDocDoc($this->withYii, $this->basePath);
         $doc->name = $method->getName();
@@ -276,7 +245,6 @@ class DocModel {
         $doc->isProtected = $method->isProtected();
         $doc->isStatic = $method->isStatic();
         $doc->isInherited = $doc->definedBy !== $class->getName();
-
         $doc->input = array();
         foreach ($method->getParameters() as $param) {
             $p = new ParamDocDoc($this->withYii, $this->basePath);
@@ -288,9 +256,7 @@ class DocModel {
             $doc->input[] = $p;
         }
         reset($doc->input);
-
         $this->processComment($doc, $method->getDocComment());
-
         $params = array();
         foreach ($doc->input as $param) {
             $type = empty($param->type) ? '' : $this->getTypeUrl($param->type) . ' ';
@@ -306,17 +272,14 @@ class DocModel {
             $doc->signature = 'void ' . $doc->signature;
         if (($modifier = implode(' ', Reflection::getModifierNames($method->getModifiers()))) !== '')
             $doc->signature = $modifier . ' ' . $doc->signature;
-
         return $doc;
     }
-
     protected function getTypeUrl($type) {
         if (isset($this->classes[$type]) && $type !== $this->_currentClass)
             return '{{' . $type . '|' . $type . '}}';
         else
             return $type;
     }
-
     protected function processProperties($class) {
         $properties = array();
         foreach ($class->getProperties() as $property) {
@@ -327,7 +290,6 @@ class DocModel {
         }
         return $properties;
     }
-
     protected function processProperty($class, $property) {
         $doc = new PropertyDocDoc($this->withYii, $this->basePath);
         $doc->loadSource($property);
@@ -337,18 +299,14 @@ class DocModel {
         $doc->isStatic = $property->isStatic();
         $doc->isProtected = $property->isProtected();
         $doc->isInherited = $doc->definedBy !== $class->getName();
-
         $this->processComment($doc, $property->getDocComment());
-
         $doc->signature = '<b>$' . $doc->name . '</b>;';
         if ($doc->type !== null)
             $doc->signature = $this->getTypeUrl($doc->type) . ' ' . $doc->signature;
         if (($modifier = implode(' ', Reflection::getModifierNames($property->getModifiers()))) !== '')
             $doc->signature = $modifier . ' ' . $doc->signature;
-
         return $doc;
     }
-
     protected function processComponentProperties($class) {
         $properties = array();
         foreach ($class->getMethods() as $method) {
@@ -359,7 +317,6 @@ class DocModel {
         }
         return $properties;
     }
-
     protected function processComponentProperty($class, $method) {
         $doc = new PropertyDocDoc($this->withYii, $this->basePath);
         $name = $method->getName();
@@ -373,13 +330,9 @@ class DocModel {
         if (!$doc->readOnly)
             $doc->setter = $this->processMethod($class, $class->getMethod('set' . substr($name, 3)));
         $doc->loadSource($method);
-
-
         $this->processComment($doc, $method->getDocComment());
-
         return $doc;
     }
-
     protected function processComponentEvents($class) {
         $events = array();
         foreach ($class->getMethods() as $method) {
@@ -390,7 +343,6 @@ class DocModel {
         }
         return $events;
     }
-
     protected function processComponentEvent($class, $method) {
         $doc = new EventDocDoc($this->withYii, $this->basePath);
         $doc->name = $method->getName();
@@ -398,12 +350,9 @@ class DocModel {
         $doc->isInherited = $doc->definedBy !== $class->getName();
         $doc->trigger = $this->processMethod($class, $method);
         $doc->loadSource($method);
-
         $this->processComment($doc, $method->getDocComment());
-
         return $doc;
     }
-
     protected function tagParam($object, $comment) {
         if ($object instanceof FunctionDocDoc) {
             $param = current($object->input);
@@ -427,7 +376,6 @@ class DocModel {
             }
         }
     }
-
     protected function tagReturn($object, $comment) {
         $segs = preg_split('/\s+/', $comment, 2);
         if ($object instanceof FunctionDocDoc) {
@@ -460,7 +408,6 @@ class DocModel {
             }
         }
     }
-
     protected function tagVar($object, $comment) {
         if ($object instanceof PropertyDocDoc) {
             $segs = preg_split('/\s+/', $comment, 2);
@@ -474,24 +421,20 @@ class DocModel {
             }
         }
     }
-
     protected function tagSee($object, $comment) {
         $segs = preg_split('/\s+/', trim($comment), 2);
         $matches[1] = $segs[0];
         $matches[2] = isset($segs[1]) ? $segs[1] : '';
         $object->see[] = $this->processLink($matches);
     }
-
     protected function isPropertyMethod($method) {
         $methodName = $method->getName();
         return $method->getNumberOfRequiredParameters() === 0 && !$method->isStatic() && strncasecmp($methodName, 'get', 3) === 0 && isset($methodName[3]);
     }
-
     protected function isEventMethod($method) {
         $methodName = $method->getName();
         return strncasecmp($methodName, 'on', 2) === 0 && !$method->isStatic() && isset($methodName[2]);
     }
-
     protected function getClassFiles($basePath) {
         $files = array();
         $folder = opendir($basePath);
@@ -509,7 +452,6 @@ class DocModel {
         closedir($folder);
         return $files;
     }
-
     protected function isValidPath($path) {
         if (is_file($path) && substr($path, -4) !== '.php')
             return false;
@@ -520,22 +462,18 @@ class DocModel {
         }
         return true;
     }
-
     protected function findTargets() {
         $oldClasses = get_declared_classes();
         $oldInterfaces = get_declared_interfaces();
         $oldFunctions = get_defined_functions();
         $oldConstants = get_defined_constants(true);
-
         $classFiles = $this->getClassFiles($this->_sourcePath);
         require_once($this->_sourcePath . '/yii.php');
         foreach ($classFiles as $classFile)
             require_once($classFile);
-
         $classes = array_values(array_diff(get_declared_classes(), $oldClasses));
         $interfaces = array_values(array_diff(get_declared_interfaces(), $oldInterfaces));
         $classes = array_merge($classes, $interfaces);
-
         $n = count($classes);
         for ($i = 0; $i < $n; ++$i) {
             $class = new ReflectionClass($classes[$i]);
@@ -547,21 +485,17 @@ class DocModel {
                 }
             }
         }
-
         sort($classes);
         $newFunctions = get_defined_functions();
         $newConstants = get_defined_constants(true);
         $functions = array_values(array_diff($newFunctions['user'], $oldFunctions['user']));
         $constants = $newConstants['user'];
-
         return array($classes, $functions, $constants);
     }
-
     /*
      * Calls checkSource for every file in $sourceFiles
      * @param array $sourceFiles array of source file path that we need to check
      */
-
     public function check($sourceFiles) {
         echo "Checking PHPDoc @param in source files ...\n";
         foreach ($sourceFiles as $no => $sourceFile) {
@@ -569,7 +503,6 @@ class DocModel {
         }
         echo "Done.\n\n";
     }
-
     /*
      * Checks @param directives in a source file
      * Detects:
@@ -577,10 +510,8 @@ class DocModel {
      *    missing function parameter (@param directive exists but that parameter is not in a function declaration)
      *    missmatch parameters (if @param directive has different parameter name than a function - possible spelling error or wrong order of @param directives)
      */
-
     protected function checkSource($sourceFile) {
         $fileContent = file($sourceFile);
-
         $docParam = array();
         foreach ($fileContent as $no => $line) {
             /*
@@ -634,7 +565,6 @@ class DocModel {
                     $docParam[$br]['parameterName'] = $param;
                     $docParam[$br]['parameterLine'] = $no + 1;
                 }
-
                 /*
                  * All info gathered, let's make some checking
                  */
@@ -667,11 +597,8 @@ class DocModel {
             }
         }
     }
-
 }
-
 class BaseDocDoc {
-
     public $name;
     public $since;
     public $see;
@@ -681,17 +608,14 @@ class BaseDocDoc {
     public $sourcePathType;
     public $startLine;
     public $endLine;
-
     /**
      * @var boolean whether to include yii framework class reference when documenting an aplication or an extension
      */
     public $withYii;
-
     /**
      * @var string base path for the source code to document, that's Yii framework directory, application directory or an extension directory
      */
     public $basePath;
-
     /**
      * @var boolean whether to include yii framework class reference when documenting an aplication or an extension
      */
@@ -699,7 +623,6 @@ class BaseDocDoc {
         $this->withYii = $withYii;
         $this->basePath = $basePath;
     }
-
     public function loadSource($reflection) {
         if ($reflection instanceof ReflectionProperty) {
             $filename = $reflection->getDeclaringClass()->getFileName();
@@ -726,14 +649,12 @@ class BaseDocDoc {
             $this->endLine = $reflection->getEndLine();
         }
     }
-
     public function getSourceUrl($baseUrl, $line = null) {
         if ($line === null)
             return $baseUrl . $this->sourcePath;
         else
             return $baseUrl . $this->sourcePath . '#' . $line;
     }
-
     public function getSourceCode() {
         if ($this->withYii) {
             if (file_exists($this->basePath . $this->sourcePath)) {
@@ -746,11 +667,8 @@ class BaseDocDoc {
         }
         return implode("", array_slice($lines, $this->startLine - 1, $this->endLine - $this->startLine + 1));
     }
-
 }
-
 class ClassDocDoc extends BaseDocDoc {
-
     public $parentClasses = array();
     public $subclasses = array();
     public $interfaces = array();
@@ -771,11 +689,8 @@ class ClassDocDoc extends BaseDocDoc {
     public $nativeEventCount = 0;
     public $package;
     public $version;
-
 }
-
 class PropertyDocDoc extends BaseDocDoc {
-
     public $isProtected;
     public $isStatic;
     public $readOnly;
@@ -785,43 +700,30 @@ class PropertyDocDoc extends BaseDocDoc {
     public $signature;
     public $getter;
     public $setter;
-
 }
-
 class FunctionDocDoc extends BaseDocDoc {
-
     public $signature;
     public $input = array();
     public $output;
-
 }
-
 class MethodDocDoc extends FunctionDocDoc {
-
     public $isAbstract;
     public $isFinal;
     public $isProtected;
     public $isStatic;
     public $isInherited;
     public $definedBy;
-
 }
-
 class EventDocDoc extends BaseDocDoc {
-
     public $isInherited;
     public $definedBy;
     public $trigger;
-
 }
-
 class ParamDocDoc {
-
     public $name;
     public $description;
     public $type;
     public $isOptional;
     public $defaultValue;
     public $isPassedByReference;
-
 }

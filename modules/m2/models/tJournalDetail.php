@@ -35,6 +35,7 @@ class tJournalDetail extends BaseModel {
             'debit' => 'Debit',
             'credit' => 'Credit',
             'user_remark' => 'User Remark',
+            'user_remarkk' => 'User Remark',
             'system_remark' => 'System Remark',
             'created_date' => 'Created Date',
             'created_by' => 'Created',
@@ -126,6 +127,16 @@ class tJournalDetail extends BaseModel {
 
         return $returnarray;
     }
+
+	public function getUser_remarkk() {
+		if ($this->user_remark == $this->journal->remark) 
+			$remark = "**idem**";
+		elseif ($this->user_remark == $this->journal->cb_custom1.". ".$this->journal->remark) 
+			$remark = "**idem**";
+		else	
+			$remark = $this->user_remark;
+		return $remark;
+	}
 
     public function afterSave() {
         tJournal::model()->updateByPk((int) $this->parent_id, array('updated_date' => time()));

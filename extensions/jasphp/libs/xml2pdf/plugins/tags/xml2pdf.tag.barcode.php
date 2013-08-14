@@ -1,5 +1,4 @@
 <?php
-
 /**
  * barcode tag plugin file.
  * @filesource
@@ -14,15 +13,12 @@
  *
  */
 // dependances {{{
-
 /**
  * parent class
  */
 Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
-
 // }}}
 // doc {{{
-
 /**
  * <barcode> tag.
  *
@@ -42,58 +38,48 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  */ // }}}
 class xml2pdf_tag_barcode extends Xml2PdfTag {
     // class properties {{{
-
     /**
      * x pos
      * @var float 
      */
     public $x = 0;
-
     /**
      * y pos
      * @var float 
      */
     public $y = 0;
-
     /**
      * bar width
      * @var float 
      */
     public $width = 0;
-
     /**
      * bar height
      * @var float 
      */
     public $height = 0;
-
     /**
      * bar code
      * @var string 
      */
     public $barcode = '';
-
     /**
      * norm
      * @var string 
      */
     public $norm = 'EAN13';
-
     /**
      * positionning type
      * @var string 
      */
     public $position = 'relative';
-
     /**
      * bar code number of characters
      * @var integer 
      */
     public $len = 13;
-
     // }}}
     // xml2pdf_tag_barcode::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -115,10 +101,8 @@ class xml2pdf_tag_barcode extends Xml2PdfTag {
             }
         }
     }
-
     // }}}
     // xml2pdf_tag_barcode::close() {{{
-
     /**
      * Close the tag and launch the render.
      *
@@ -138,10 +122,8 @@ class xml2pdf_tag_barcode extends Xml2PdfTag {
         call_user_func(array($clsName, 'render'), $this);
         return true;
     }
-
     // }}}
     // xml2pdf_tag_barcode::getCheckDigit() {{{
-
     /**
      * Generate a check digit to the bar code.
      *
@@ -160,10 +142,8 @@ class xml2pdf_tag_barcode extends Xml2PdfTag {
             $r = 10 - $r;
         return $r;
     }
-
     // }}} 
     // xml2pdf_tag_barcode::testCheckDigit() {{{
-
     /**
      * Check the check digit.
      *
@@ -179,8 +159,6 @@ class xml2pdf_tag_barcode extends Xml2PdfTag {
             $sum+=$barcode{$i};
         return ($sum + $barcode{12}) % 10 == 0;
     }
-
     // }}}
 }
-
 ?>

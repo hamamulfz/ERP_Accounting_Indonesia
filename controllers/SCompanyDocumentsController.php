@@ -1,16 +1,12 @@
 <?php
-
 class SCompanyDocumentsController extends Controller {
-
     public $layout = '//layouts/mainAuth';
-
     public function filters() {
         return array(
             //'accessControl',
             'rights',
         );
     }
-
     public function actions() {
         return array(
             //Admin Share for All Authenticated User
@@ -46,9 +42,7 @@ class SCompanyDocumentsController extends Controller {
             ),
         );
     }
-
 }
-
 /*
   //server file input
   $this->widget('ext.elFinder.ServerFileInput', array(
@@ -57,12 +51,10 @@ class SCompanyDocumentsController extends Controller {
   'connectorRoute' => 'admin/elfinder/connector',
   )
   );
-
   // ElFinder widget
   $this->widget('ext.elFinder.ElFinderWidget', array(
   'connectorRoute' => 'admin/elfinder/connector',
   )
   );
-
  */
 ?>

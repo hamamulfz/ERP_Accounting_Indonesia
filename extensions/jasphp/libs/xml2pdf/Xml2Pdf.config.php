@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fichier de configuration.
  *
@@ -16,13 +15,11 @@
  * @var string
  */
 define('XML2PDF_CLASS_PATH', dirname(__FILE__));
-
 /**
  * chemin des classes principales
  * @var string
  */
 define('XML2PDF_MAIN_PATH', XML2PDF_CLASS_PATH . '/main');
-
 if (!defined('XML2PDF_COMPONENTS_PATH')) {
     /**
      * chemin des classes externes.
@@ -30,7 +27,6 @@ if (!defined('XML2PDF_COMPONENTS_PATH')) {
      */
     define('XML2PDF_COMPONENTS_PATH', XML2PDF_CLASS_PATH . '/components');
 }
-
 if (!defined('FPDF_CLASS_PATH')) {
     /**
      * chemin ver la classe fpdf.
@@ -38,7 +34,6 @@ if (!defined('FPDF_CLASS_PATH')) {
      */
     define('FPDF_CLASS_PATH', XML2PDF_COMPONENTS_PATH . '/fpdf153');
 }
-
 if (!defined('XML2PDF_PLUGINS_TAGS_PATH')) {
     /**
      * r�pertoires des plugins de balises.
@@ -46,7 +41,6 @@ if (!defined('XML2PDF_PLUGINS_TAGS_PATH')) {
      */
     define('XML2PDF_PLUGINS_TAGS_PATH', XML2PDF_CLASS_PATH . '/plugins/tags');
 }
-
 if (!defined('XML2PDF_PLUGINS_GRAPHS_PATH')) {
     /**
      * r�pertoire des plugins de graph.
@@ -54,7 +48,6 @@ if (!defined('XML2PDF_PLUGINS_GRAPHS_PATH')) {
      */
     define('XML2PDF_PLUGINS_GRAPHS_PATH', XML2PDF_CLASS_PATH . '/plugins/graphs');
 }
-
 if (!defined('XML2PDF_PLUGINS_BARCODES_PATH')) {
     /**
      * R�pertoire des plugins de code bare.
@@ -62,12 +55,10 @@ if (!defined('XML2PDF_PLUGINS_BARCODES_PATH')) {
      */
     define('XML2PDF_PLUGINS_BARCODES_PATH', XML2PDF_CLASS_PATH . '/plugins/barcodes');
 }
-
 $pluginsTypesPaths = array(
     'tag' => XML2PDF_PLUGINS_TAGS_PATH,
     'barcode' => XML2PDF_PLUGINS_BARCODES_PATH,
     'graph' => XML2PDF_PLUGINS_GRAPHS_PATH);
-
 // define the include path
 $includePath = array(
     XML2PDF_CLASS_PATH,
@@ -76,7 +67,6 @@ $includePath = array(
     FPDF_CLASS_PATH);
 ini_set('include_path', ini_get('include_path') . ':' .
         implode(':', $includePath));
-
 // define the xml properties
 if (!defined('XML_ENCODING')) {
     /**
@@ -85,7 +75,6 @@ if (!defined('XML_ENCODING')) {
      */
     define('XML_ENCODING', 'ISO-8859-1');
 }
-
 // define the pdf properties
 require_once('pdf.inc.php');
 ?>

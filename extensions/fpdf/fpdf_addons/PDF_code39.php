@@ -1,15 +1,10 @@
 <?php
-
 //require('fpdf.php');
-
 class PDF_Code39 extends fpdf {
-
     function Code39($xpos, $ypos, $code, $baseline = 0.5, $height = 5) {
-
         $wide = $baseline;
         $narrow = $baseline / 3;
         $gap = $narrow;
-
         $barChar['0'] = 'nnnwwnwnn';
         $barChar['1'] = 'wnnwnnnnw';
         $barChar['2'] = 'nnwwnnnnw';
@@ -54,11 +49,9 @@ class PDF_Code39 extends fpdf {
         $barChar['/'] = 'nwnwnnnwn';
         $barChar['+'] = 'nwnnnwnwn';
         $barChar['%'] = 'nnnwnwnwn';
-
         $this->SetFont('Arial', '', 10);
         $this->Text($xpos, $ypos + $height + 4, $code);
         $this->SetFillColor(0);
-
         $code = '*' . strtoupper($code) . '*';
         for ($i = 0; $i < strlen($code); $i++) {
             $char = $code[$i];
@@ -80,7 +73,5 @@ class PDF_Code39 extends fpdf {
             $xpos += $gap;
         }
     }
-
 }
-
 ?>

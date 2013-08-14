@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ln tag plugin file.
  * @filesource
@@ -13,7 +12,6 @@
  * @subpackage Tag
  */
 // doc {{{
-
 /**
  * <ln> tag.
  *
@@ -30,7 +28,6 @@
  */ // }}}
 Class xml2pdf_tag_ln {
     // xml2pdf_tag_ln::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -45,19 +42,14 @@ Class xml2pdf_tag_ln {
                 $tagProperties['LINEHEIGHT'] : PDF_DEFAULT_LINEHEIGHT;
         $pdf->Ln((float) $lineHeight);
     }
-
     // }}}
     // xml2pdf_tag_ln::close() {{{
-
     /**
      *
      * @return void
      */
     public function close() {
-        
     }
-
     // }}}
 }
-
 ?>

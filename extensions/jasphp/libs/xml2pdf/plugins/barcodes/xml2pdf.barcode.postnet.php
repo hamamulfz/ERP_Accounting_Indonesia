@@ -1,5 +1,4 @@
 <?php
-
 /**
  * POSTNET barcode tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Barcode
  */
 // dependances {{{
-
 /**
  *
  */
 require_once(XML2PDF_PLUGINS_TAGS_PATH . '/xml2pdf.tag.barcode.php');
-
 // }}}
 // doc {{{
-
 /**
  * POSTNET barcode type plugin.
  *
@@ -38,17 +34,13 @@ require_once(XML2PDF_PLUGINS_TAGS_PATH . '/xml2pdf.tag.barcode.php');
  */ // }}}
 class xml2pdf_barcode_postnet {
     // xml2pdf_barcode_postnet::__construct() {{{
-
     /**
      * Constructor
      */
     public function __construct() {
-        
     }
-
     // }}}
     // xml2pdf_barcode_postnet::render() {{{
-
     /**
      * Render an EAN13 barcode
      *
@@ -60,10 +52,8 @@ class xml2pdf_barcode_postnet {
         xml2pdf_barcode_postnet::POSTNETBarCode($barcode->x, $barcode->y, $zipcode, $barcode->pdf);
         $barcode->pdf->Text($barcode->x, $barcode->y + 10, $zipcode);
     }
-
     // }}}
     // xml2pdf_barcode_postnet::POSTNETBarCode() {{{
-
     /**
      * draws a bar code for the given zip code using pdf lines
      * triggers error if zip code is invalid
@@ -85,9 +75,7 @@ class xml2pdf_barcode_postnet {
         $BarWidth = 1.44 / $pdf->k;
         // Bar Spacing = 0.050"
         $BarSpacing = 3.6 / $pdf->k;
-
         $FiveBarSpacing = $BarSpacing * 5;
-
         // 1 represents full-height bars and 0 represents half-height bars
         $BarDefinitionsArray = Array(
             1 => Array(0, 0, 0, 1, 1),
@@ -100,17 +88,13 @@ class xml2pdf_barcode_postnet {
             8 => Array(1, 0, 0, 1, 0),
             9 => Array(1, 0, 1, 0, 0),
             0 => Array(1, 1, 0, 0, 0));
-
         // validate the zip code
         xml2pdf_barcode_postnet::ValidateZipCode($zipcode);
-
         // set the line width
         $pdf->SetLineWidth($BarWidth);
-
         // draw start frame bar
         $pdf->Line($x, $y, $x, $y - $FullBarHeight);
         $x += $BarSpacing;
-
         // draw digit bars
         for ($i = 0; $i < 5; $i++) {
             xml2pdf_barcode_postnet::DrawDigitBars($x, $y, $BarSpacing, $HalfBarHeight, $FullBarHeight, $BarDefinitionsArray, $zipcode{$i}, $pdf);
@@ -123,18 +107,14 @@ class xml2pdf_barcode_postnet {
                 $x += $FiveBarSpacing;
             }
         }
-
         // draw check sum digit
         xml2pdf_barcode_postnet::DrawDigitBars($x, $y, $BarSpacing, $HalfBarHeight, $FullBarHeight, $BarDefinitionsArray, xml2pdf_barcode_postnet::CalculateCheckSumDigit($zipcode), $pdf);
         $x += $FiveBarSpacing;
-
         // draw end frame bar
         $pdf->Line($x, $y, $x, $y - $FullBarHeight);
     }
-
     // }}}
     // xml2pdf_barcode_postnet::ParseZipCode() {{{
-
     /**
      * Reads from end of string and returns first matching valid
      * zip code of form DDDDD or DDDDD-DDDD, in that order.
@@ -148,15 +128,12 @@ class xml2pdf_barcode_postnet {
         if (is_array($stringToParse) || is_object($stringToParse)) {
             return "";
         }
-
         // convert parameter to a string
         $stringToParse = strval($stringToParse);
-
         $lengthOfString = strlen($stringToParse);
         if ($lengthOfString < 5) {
             return "";
         }
-
         // parse the zip code backward
         $zipcodeLength = 0;
         $zipcode = "";
@@ -212,7 +189,6 @@ class xml2pdf_barcode_postnet {
                     break;
             }
         }
-
         // return the parsed zip code if found
         if ($zipcodeLength == 5 || $zipcodeLength == 10) {
             // reverse the zip code
@@ -221,10 +197,8 @@ class xml2pdf_barcode_postnet {
             return "";
         }
     }
-
     // }}}
     // xml2pdf_barcode_postnet::ValidateZipCode() {{{
-
     /**
      * triggers user error if the zip code is invalid
      * valid zip codes are of the form DDDDD or DDDDD-DDDD
@@ -235,23 +209,19 @@ class xml2pdf_barcode_postnet {
      */
     public static function ValidateZipCode($zipcode) {
         $functionname = "ValidateZipCode Error: ";
-
         // check if zipcode is an array or object
         if (is_array($zipcode) || is_object($zipcode)) {
             trigger_error($functionname .
                     "Zip code may not be an array or object.", E_USER_ERROR);
         }
-
         // convert zip code to a string
         $zipcode = strval($zipcode);
-
         // check if length is 5
         if (strlen($zipcode) != 5 && strlen($zipcode) != 10) {
             trigger_error($functionname .
                     "Zip code must be 5 digits or 10 digits including hyphen. len:" .
                     strlen($zipcode) . " zipcode: " . $zipcode, E_USER_ERROR);
         }
-
         if (strlen($zipcode) == 5) {
             // check that all characters are numeric
             for ($i = 0; $i < 5; $i++) {
@@ -274,14 +244,11 @@ class xml2pdf_barcode_postnet {
                 }
             }
         }
-
         // return the string
         return $zipcode;
     }
-
     // }}}
     // xml2pdf_barcode_postnet::CalculateCheckSumDigit() {{{
-
     /**
      * takes a validated zip code and
      * calculates the checksum for POSTNET
@@ -300,17 +267,14 @@ class xml2pdf_barcode_postnet {
             $sumOfDigits = $zipcode{0} + $zipcode{1} +
                     $zipcode{2} + $zipcode{3} + $zipcode{4};
         }
-
         // return checksum digit
         if (($sumOfDigits % 10) == 0)
             return 0;
         else
             return 10 - ($sumOfDigits % 10);
     }
-
     // }}}
     // xml2pdf_barcode_postnet::DrawDigitBars() {{{
-
     /**
      * Takes a digit and draws the corresponding POSTNET bars.
      *
@@ -328,7 +292,6 @@ class xml2pdf_barcode_postnet {
         // check for invalid digit
         if ($digit < 0 && $digit > 9)
             trigger_error("DrawDigitBars: invalid digit.", E_USER_ERROR);
-
         // draw the five bars representing a digit
         for ($i = 0; $i < 5; $i++) {
             if ($BarDefinitionsArray[$digit][$i] == 1) {
@@ -339,8 +302,6 @@ class xml2pdf_barcode_postnet {
             $x += $BarSpacing;
         }
     }
-
     // }}}
 }
-
 ?>

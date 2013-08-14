@@ -1,5 +1,4 @@
 <?php
-
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // PDF_Label
 //
@@ -30,7 +29,6 @@
 // 1.4: + Page scaling is disabled in printing options
 // 1.5: + Added 3422 format
 ////////////////////////////////////////////////////////////////////////////////////////////////
-
 /**
  * PDF_Label - PDF label editing
  * @package PDF_Label
@@ -38,9 +36,7 @@
  * @copyright 2003 Laurent PASSEBECQ
  * */
 //require_once('fpdf.php');
-
 class PDF_label extends fpdf {
-
     // Private properties
     var $_Margin_Left;   // Left margin of labels
     var $_Margin_Top;   // Top margin of labels
@@ -66,7 +62,6 @@ class PDF_label extends fpdf {
         'L7163' => array('paper-size' => 'A4', 'metric' => 'mm', 'marginLeft' => 5, 'marginTop' => 15, 'NX' => 2, 'NY' => 7, 'SpaceX' => 25, 'SpaceY' => 0, 'width' => 99.1, 'height' => 38.1, 'font-size' => 9),
         '3422' => array('paper-size' => 'A4', 'metric' => 'mm', 'marginLeft' => 0, 'marginTop' => 8.5, 'NX' => 3, 'NY' => 8, 'SpaceX' => 0, 'SpaceY' => 0, 'width' => 70, 'height' => 35, 'font-size' => 9)
     );
-
     // Constructor
     function PDF_Label($format, $unit = 'mm', $posX = 1, $posY = 1) {
         if (is_array($format)) {
@@ -78,7 +73,6 @@ class PDF_label extends fpdf {
                 $this->Error('Unknown label format: ' . $format);
             $Tformat = $this->_Avery_Labels[$format];
         }
-
         parent::FPDF('P', $unit, $Tformat['paper-size']);
         $this->_Metric_Doc = $unit;
         $this->_Set_Format($Tformat);
@@ -88,7 +82,6 @@ class PDF_label extends fpdf {
         $this->_COUNTX = $posX - 2;
         $this->_COUNTY = $posY - 1;
     }
-
     function _Set_Format($format) {
         $this->_Margin_Left = $this->_Convert_Metric($format['marginLeft'], $format['metric']);
         $this->_Margin_Top = $this->_Convert_Metric($format['marginTop'], $format['metric']);
@@ -101,7 +94,6 @@ class PDF_label extends fpdf {
         $this->Set_Font_Size($format['font-size']);
         $this->_Padding = $this->_Convert_Metric(3, 'mm');
     }
-
     // convert units (in to mm, mm to in)
     // $src must be 'in' or 'mm'
     function _Convert_Metric($value, $src) {
@@ -114,7 +106,6 @@ class PDF_label extends fpdf {
             return $value;
         }
     }
-
     // Give the line height for a given font size
     function _Get_Height_Chars($pt) {
         $a = array(6 => 2, 7 => 2.5, 8 => 3, 9 => 4, 10 => 5, 11 => 6, 12 => 7, 13 => 8, 14 => 9, 15 => 10);
@@ -122,14 +113,12 @@ class PDF_label extends fpdf {
             $this->Error('Invalid font size: ' . $pt);
         return $this->_Convert_Metric($a[$pt], 'mm');
     }
-
     // Set the character size
     // This changes the line height too
     function Set_Font_Size($pt) {
         $this->_Line_Height = $this->_Get_Height_Chars($pt);
         $this->SetFontSize($pt);
     }
-
     // Print a label
     function Add_Label($text) {
         $this->_COUNTX++;
@@ -143,19 +132,15 @@ class PDF_label extends fpdf {
                 $this->AddPage();
             }
         }
-
         $_PosX = $this->_Margin_Left + $this->_COUNTX * ($this->_Width + $this->_X_Space) + $this->_Padding;
         $_PosY = $this->_Margin_Top + $this->_COUNTY * ($this->_Height + $this->_Y_Space) + $this->_Padding;
         $this->SetXY($_PosX, $_PosY);
         $this->MultiCell($this->_Width - $this->_Padding, $this->_Line_Height, $text, 0, 'L');
     }
-
     function _putcatalog() {
         parent::_putcatalog();
         // Disable the page scaling option in the printing dialog
         $this->_out('/ViewerPreferences <</PrintScaling /None>>');
     }
-
 }
-
 ?>

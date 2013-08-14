@@ -1,16 +1,13 @@
 <?php
-$this->breadcrumbs=array(
-
-	'U Ars'=>array('index'),
-
-	'Manage',
-
+$this->breadcrumbs = array(
+    'U Ars' => array('index'),
+    'Manage',
 );
 
 
-$this->menu=array(
-	//array('label'=>'List uAr','url'=>array('index')),
-	//array('label'=>'Create uAr','url'=>array('create')),
+$this->menu = array(
+        //array('label'=>'List uAr','url'=>array('index')),
+        //array('label'=>'Create uAr','url'=>array('create')),
 );
 
 $this->menu5 = array('Sales Order');
@@ -19,14 +16,11 @@ $this->menu1 = uSo::getTopUpdated();
 $this->menu2 = uSo::getTopCreated();
 
 //$this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m2/uSo/index'));
-
-
-
 ?>
 
 
 <div class="page-header">
-<h1>Sales Order: Half Paid</h1>
+    <h1>Sales Order: Half Paid</h1>
 </div>
 
 <?php
@@ -44,44 +38,44 @@ $this->widget('bootstrap.widgets.TbMenu', array(
 
 
 
-<?php $this->widget('bootstrap.widgets.TbGridView',array(
-	'id'=>'u-ar-grid',
-	'dataProvider'=>uAr::model()->onHalfPaid(),
-	//'filter'=>$model,
-	'columns'=>array(
-		//'entity_id',
-		//'periode_date',
-		//'ar_type_id',
-		array(
-			'name'=>'so.system_ref',
-			'type'=>'raw',
-			'value'=>'CHtml::link($data->so->system_ref,Yii::app()->createUrl("/m2/uAr/view",array("id"=>$data->id)))'
-		),
-		'so.input_date',
-		//'entity.name',
-		array(
-			'header'=>'Customer',
-			'name'=>'so.customer.company_name',
-		),
-		//'so.so_type_id',
-		//'so.remark',
-		'remark',
-		array(
-			'name'=>'soDetail.amount',
+<?php
+$this->widget('bootstrap.widgets.TbGridView', array(
+    'id' => 'u-ar-grid',
+    'dataProvider' => uAr::model()->onHalfPaid(),
+    //'filter'=>$model,
+    'columns' => array(
+        //'entity_id',
+        //'periode_date',
+        //'ar_type_id',
+        array(
+            'name' => 'so.system_ref',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->so->system_ref,Yii::app()->createUrl("/m2/uAr/view",array("id"=>$data->id)))'
+        ),
+        'so.input_date',
+        //'entity.name',
+        array(
+            'header' => 'Customer',
+            'name' => 'so.customer.company_name',
+        ),
+        //'so.so_type_id',
+        //'so.remark',
+        'remark',
+        array(
+            'name' => 'soDetail.amount',
             'value' => 'Yii::app()->indoFormat->number($data->so->soSum)',
             'htmlOptions' => array(
                 'style' => 'text-align: right; padding-right: 5px;'
             ),
-		),
-		array(
-			'header'=>'Total Paid',
+        ),
+        array(
+            'header' => 'Total Paid',
             'value' => 'Yii::app()->indoFormat->number($data->paymentSum)',
             'htmlOptions' => array(
                 'style' => 'text-align: right; padding-right: 5px;'
             ),
-		),
-
-	),
-
-)); ?>
+        ),
+    ),
+));
+?>
 

@@ -1,33 +1,25 @@
 <?php
-
 //require('fpdf.php');
 // Written by Larry Stanbery - 20 May 2004
 // Same license as FPDF
 // creates "page groups" -- groups of pages with page numbering
 // total page numbers are represented by aliases of the form {nbX}
-
 class PDF_pagegroup extends fpdf {
-
     var $NewPageGroup;   // variable indicating whether a new group was requested
     var $PageGroups;     // variable containing the number of pages of the groups
     var $CurrPageGroup;  // variable containing the alias of the current page group
-
     // create a new page group; call this before calling AddPage()
-
     function StartPageGroup() {
         $this->NewPageGroup = true;
     }
-
     // current page in the group
     function GroupPageNo() {
         return $this->PageGroups[$this->CurrPageGroup];
     }
-
     // alias of the current page group -- will be replaced by the total number of pages in this group
     function PageGroupAlias() {
         return $this->CurrPageGroup;
     }
-
     function _beginpage($orientation, $format) {
         parent::_beginpage($orientation, $format);
         if ($this->NewPageGroup) {
@@ -40,7 +32,6 @@ class PDF_pagegroup extends fpdf {
         } elseif ($this->CurrPageGroup)
             $this->PageGroups[$this->CurrPageGroup]++;
     }
-
     function _putpages() {
         $nb = $this->page;
         if (!empty($this->PageGroups)) {
@@ -53,7 +44,5 @@ class PDF_pagegroup extends fpdf {
         }
         parent::_putpages();
     }
-
 }
-
 ?>

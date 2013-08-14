@@ -1,5 +1,4 @@
 <?php
-
 /**
  * tr tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Tag
  */
 // dependances {{{
-
 /**
  * parent class
  */
 Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
-
 // }}}
 // doc {{{
-
 /**
  * <tr> tag.
  *
@@ -38,100 +34,83 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  */ // }}}
 class xml2pdf_tag_tr extends Xml2PdfTag {
     // class properties {{{
-
     /**
      * table.
      * @var object xml2pdf_tag_table 
      */
     public $table;
-
     /**
      * line cells.
      * @var array object xml2pdf_tag_td
      */
     public $columns;
-
     /**
      * font.
      * @var string 
      */
     public $font = null;
-
     /**
      * font size.
      * @var integer 
      */
     public $fontSize = null;
-
     /**
      * font style.
      * @var string 
      */
     public $fontStyle = null;
-
     /**
      * font color.
      * @var string 
      */
     public $fontColor = null;
-
     /**
      * fill the background.
      * @var boolean 
      */
     public $fill = null;
-
     /**
      * fill color.
      * @var string 
      */
     public $fillColor = null;
-
     /**
      * show the borders.
      * @var boolean 
      */
     public $border = null;
-
     /**
      * border color.
      * @var string 
      */
     public $borderColor = null;
-
     /**
      * text alignment.
      * @var string 
      */
     public $textAlign = null;
-
     /**
      * text line height.
      * @var float 
      */
     public $lineHeight = null;
-
     /**
      * table line height.
      * @var float 
      */
     public $height = 0;
-
     /**
      * columns width.
      * @var array 
      */
     public $columnsWidth = false;
-
     /**
      * number of line.
      * @var integer 
      */
     public $linesNumber = 0;
-
     // }}}
     // xml2pdf_tag_tr::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -144,7 +123,6 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
     public function __construct(&$attrs, $parent) {
         parent::__construct($attrs);
         $this->table = $parent;
-
         if (isset($attrs['FONT'])) {
             $this->font = $attrs['FONT'];
         }
@@ -193,10 +171,8 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
             $this->lineHeight = $attrs['LINEHEIGHT'];
         }
     }
-
     // }}}    
     // xml2pdf_tag_tr::close() {{{
-
     /**
      * Add the line to the table.
      *
@@ -205,10 +181,8 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
     public function close() {
         $this->table->rows[] = $this;
     }
-
     // }}}    
     // xml2pdf_tag_tr::render() {{{
-
     /**
      * Render the line.
      *
@@ -222,7 +196,6 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
         $columnsProperties = array('font', 'fontSize', 'fontStyle',
             'fontColor', 'fill', 'fillColor', 'border',
             'borderColor', 'textAlign', 'lineHeight');
-
         // param�trage des colonnes de la ligne
         $columnsWidth = array_reverse($this->columnsWidth);
         foreach ($this->columns as $column) {
@@ -234,7 +207,6 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
                 }
             }
             $column->width = array_pop($columnsWidth);
-
             // positionne les infos de police et couleur
             $borderColor = Xml2Pdf::convertColor($this->borderColor);
             $this->pdf->SetDrawColor($borderColor["r"], $borderColor["g"], $borderColor["b"]);
@@ -249,7 +221,6 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
         if (($this->pdf->getY() + $this->height) >= ($this->pdf->fh - $this->pdf->bMargin)) {
             $this->pdf->AddPage();
         }
-
         // affiche les colonnes
         foreach ($this->columns as $column) {
             $this->_renderColumn($column);
@@ -258,10 +229,8 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
         $this->pdf->Ln($this->height);
         $this->pdf->setX($this->table->left);
     }
-
     // }}}    
     // xml2pdf_tag_tr::_renderColumn(object) {{{
-
     /**
      * Render a row cell
      *
@@ -271,10 +240,8 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
         $column->height = $this->height;
         $column->render();
     }
-
     // }}}    
     // xml2pdf_tag_tr::_calculRowHeight() {{{
-
     /**
      * Calcul the row height.
      *
@@ -289,10 +256,8 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
             $this->height = max($this->height, $nbLines * $column->lineHeight);
         }
     }
-
     // }}}    
     // xml2pdf_tag_tr::_calculColumnsWidth() {{{
-
     /**
      * Calcul the row cells width.
      *
@@ -322,8 +287,6 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
             $this->columnsWidth[] = isset($column->width) ? $column->width : $width;
         }
     }
-
     // }}}
 }
-
 ?>

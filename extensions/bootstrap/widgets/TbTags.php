@@ -1,5 +1,4 @@
 <?php
-
 /* ## TbTags class file.
  *
  * @author Antonio Ramirez <antonio@clevertech.biz>
@@ -7,9 +6,7 @@
  * @license [New BSD License](http://www.opensource.org/licenses/bsd-license.php) 
  * @package bootstrap.widgets.input
  */
-
 class TbTags extends CInputWidget {
-
     /**
      * @var TbActiveForm when created via TbActiveForm
      *
@@ -17,7 +14,6 @@ class TbTags extends CInputWidget {
      * @see TbActionForm->inputRow
      */
     public $form;
-
     /**
      * @var array 
      *
@@ -25,7 +21,6 @@ class TbTags extends CInputWidget {
      *
      */
     public $suggestions = array();
-
     /**
      * @var string[] the JavaScript event handlers.
      * The events are on the format:
@@ -57,50 +52,41 @@ class TbTags extends CInputWidget {
         // pressedUp (e:triggering event)
         'pressedUp' => null,
     );
-
     /**
      * @var array $restricTo the list of allowed tags
      */
     public $restrictTo;
-
     /**
      * @var array list of tags to display initially display
      */
     public $tagData = array();
-
     /**
      * @var array list of popover messages that should be displayed with the tags initially displayed.
      *
      * <strong>Note</strong>: Is important that the list matches the index list of those tags in $tagData.
      */
     public $popoverData;
-
     /**
      * @var array $excludes the list of disallowed tags
      */
     public $exclude = array();
-
     /**
      * @var boolean $displayPopovers whether to display popovers with information or not
      */
     public $displayPopovers;
-
     /**
      * @var string $tagClass what class the tag div will have for styling.
      * Defaults to `btn-success`
      */
     public $tagClass = 'btn-success';
-
     /**
      * @var string $promptText placeholder string when the re are no tags and nothing typed in
      */
     public $promptText = 'Please, type in your tags...';
-
     /**
      * @var array $options the array to configure the js component.
      */
     protected $options = array();
-
     /**
      * ### .init()
      *
@@ -117,7 +103,6 @@ class TbTags extends CInputWidget {
                     'popoverData' => $this->popoverData
                         ), $this->options);
     }
-
     /**
      * ### .run()
      *
@@ -125,11 +110,9 @@ class TbTags extends CInputWidget {
      */
     public function run() {
         list($name, $id) = $this->resolveNameID();
-
         $this->renderContent($id, $name);
         $this->registerClientScript($id);
     }
-
     /**
      * ### .renderContent()
      *
@@ -140,7 +123,6 @@ class TbTags extends CInputWidget {
      * @return string with HTML tags
      */
     public function renderContent($id, $name) {
-
         if ($this->hasModel()) {
             if ($this->form)
                 echo $this->form->hiddenField($this->model, $this->attribute);
@@ -149,10 +131,8 @@ class TbTags extends CInputWidget {
         }
         else
             echo CHtml::hiddenField($name, $this->value);
-
         echo "<div id='tags_{$id}' class='tag-list'><div class='tags'></div></div>";
     }
-
     /**
      * ### .registerClientScript()
      *
@@ -165,10 +145,7 @@ class TbTags extends CInputWidget {
     public function registerClientScript($id) {
         Yii::app()->bootstrap->registerAssetCss('bootstrap-tags.css');
         Yii::app()->bootstrap->registerAssetJs('bootstrap.tags.js');
-
         $options = !empty($this->options) ? CJavaScript::encode($this->options) : '';
-
         Yii::app()->getClientScript()->registerScript(__CLASS__ . '#' . $this->getId(), "jQuery('#tags_{$id}').tags({$options});");
     }
-
 }

@@ -40,7 +40,6 @@
         <td><?php echo $this->renderSourceLink($class->sourcePath, null, $class->sourcePathType); ?></td>
     </tr>
 </table>
-
 <div id="classDescription">
     <?php echo $class->description; ?>
 </div>

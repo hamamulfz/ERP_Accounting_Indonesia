@@ -1,15 +1,11 @@
 $(function() {
-
     module("bootstrap-scrollspy")
-
     test("should be defined on jquery object", function() {
         ok($(document.body).scrollspy, 'scrollspy method is defined')
     })
-
     test("should return element", function() {
         ok($(document.body).scrollspy()[0] == document.body, 'document.body returned')
     })
-
     test("should switch active class on scroll", function() {
         var sectionHTML = '<div id="masthead"></div>'
                 , $section = $(sectionHTML).append('#qunit-runoff')
@@ -24,8 +20,6 @@ $(function() {
                 + '</div>'
                 + '</div>'
                 , $topbar = $(topbarHTML).topbar()
-
         ok(topbar.find('.active', true))
     })
-
 })

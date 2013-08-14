@@ -13,7 +13,6 @@ echo "\$this->breadcrumbs=array(
 	\$model->{$nameColumn},
 );\n";
 ?>
-
 $this->menu=array(
 array('label'=>'List <?php echo $this->modelClass; ?>','url'=>array('index')),
 array('label'=>'Create <?php echo $this->modelClass; ?>','url'=>array('create')),
@@ -22,9 +21,7 @@ array('label'=>'Delete <?php echo $this->modelClass; ?>','url'=>'#','linkOptions
 array('label'=>'Manage <?php echo $this->modelClass; ?>','url'=>array('admin')),
 );
 ?>
-
 <h1>View <?php echo $this->modelClass . " #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
-
 <?php echo "<?php"; ?> $this->widget('bootstrap.widgets.TbDetailView',array(
 'data'=>$model,
 'attributes'=>array(

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * link tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Tag
  */
 // dependances {{{
-
 /**
  * include parent class.
  */
 require_once('Xml2PdfTextTag.php');
-
 // }}}
 // doc {{{
-
 /**
  * <link> tag.
  *
@@ -41,7 +37,6 @@ require_once('Xml2PdfTextTag.php');
  */ // }}}
 class xml2pdf_tag_link extends Xml2PdfTextTag {
     // xml2pdf_tag_link::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -52,9 +47,7 @@ class xml2pdf_tag_link extends Xml2PdfTextTag {
      */
     public function __construct($tagAttributes) {
         parent::__construct($tagAttributes);
-
         $left = $top = 0;
-
         if (isset($tagAttributes['REF'])) {
             $ref = $tagAttributes['REF'];
         }
@@ -70,7 +63,6 @@ class xml2pdf_tag_link extends Xml2PdfTextTag {
         if (isset($tagAttributes['TOP'])) {
             $top = $tagAttributes['TOP'];
         }
-
         // par default les liens sont en bleu et soulign�
         if (!isset($tagAttributes['FONTCOLOR'])) {
             $this->fontColor = '#0000FF';
@@ -78,7 +70,6 @@ class xml2pdf_tag_link extends Xml2PdfTextTag {
         if (!isset($tagAttributes['FONTSTYLE'])) {
             $this->fontStyle = 'U';
         }
-
         // positionne le curseur 
         if ($left > 0) {
             $this->pdf->SetX($left);
@@ -89,7 +80,6 @@ class xml2pdf_tag_link extends Xml2PdfTextTag {
         $this->pdf->setFont($this->font, $this->fontStyle, $this->fontSize);
         $color = Xml2Pdf::convertColor($this->fontColor);
         $this->pdf->setTextColor($color['r'], $color['g'], $color['b']);
-
         if (isset($ref) && isset($name)) {
             if (!isset($this->pdf->linksIds[$ref])) {
                 $this->pdf->linksIds[$ref] = $this->pdf->AddLink();
@@ -98,8 +88,6 @@ class xml2pdf_tag_link extends Xml2PdfTextTag {
         }
         $this->pdf->Write($this->pdf->defaultLn, $name, $url);
     }
-
     // }}}
 }
-
 ?>

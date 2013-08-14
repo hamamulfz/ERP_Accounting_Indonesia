@@ -8,57 +8,38 @@ class XProductController extends Controller {
      */
     public $layout = '//layouts/column2';
 
-	/**
+    /**
 
-	 * @return array action filters
+     * @return array action filters
 
-	 */
+     */
+    public function filters() {
 
-	public function filters()
+        return array(
+            'accessControl', // perform access control for CRUD operations
+        );
+    }
 
-	{
+    /**
 
-		return array(
+     * Specifies the access control rules.
 
-			'accessControl', // perform access control for CRUD operations
+     * This method is used by the 'accessControl' filter.
 
-		);
+     * @return array access control rules
 
-	}
+     */
+    public function accessRules() {
 
-
-
-	/**
-
-	 * Specifies the access control rules.
-
-	 * This method is used by the 'accessControl' filter.
-
-	 * @return array access control rules
-
-	 */
-
-	public function accessRules()
-
-	{
-
-		return array(
-
-
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'users'=>array('admin'),
-			),
-
-			array('deny',  // deny all users
-
-				'users'=>array('*'),
-
-			),
-
-		);
-
-	}
-
+        return array(
+            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+                'users' => array('admin'),
+            ),
+            array('deny', // deny all users
+                'users' => array('*'),
+            ),
+        );
+    }
 
     /**
      * Displays a particular model.

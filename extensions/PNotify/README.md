@@ -1,24 +1,15 @@
 ## PNotify
-
 I just quickly wrote a widget for the JQuery plugin **Pines Notify - Notifications for Bootstrap or jQuery UI**. 
-
 Check the [Pines Notify Website](http://pinesframework.org/pnotify/) for examples and dokumentation. 
-
 Also have a look at this extension: [Pines Tags](http://www.yiiframework.com/extension/ptags/)
-
 ##Requirements
-
 Yii 1.1 or above
-
 ##Usage
 Just extract the files in your extensions directory.
-
 There are three ways to use this widget: the **very simple** way, the **normal** way, and the **flash messages** way.
-
 ### The very simple way
 This will create a very simple notification without a title and any options. Just submit a "message". Any given options will be ignored.
 ~~~php
-
 $this->widget('application.extensions.PNotify.PNotify',array( 
     'message'=>'I am really a very simple notification')
 );
@@ -27,11 +18,9 @@ Result:
 ~~~
 $.pnotify("I am really a very simple notification");
 ~~~
-
 ### The normal way
 Here we go: DONT use the key "message", fill the notification with options.
 ~~~php
-
 $this->widget('application.extensions.PNotify.PNotify',array(
     'options'=>array(
         'title'=>'You did it!',
@@ -47,7 +36,6 @@ $.pnotify({'title':'You did it!','text':'This notification is awesome! Awesome l
 ~~~
 ### Using with Flash messages
 ~~~php
-
   $this->widget('application.extensions.PNotify.PNotify',
           array(
               'flash_messages_only' => true,
@@ -103,9 +91,7 @@ $_default_options=array(
 				),
 			);
 ~~~
-
 ##Resources
-
  * [Pines Notify](http://pinesframework.org/pnotify/)
  * [Try out a bunch of demos](http://pinesframework.org/pnotify/#demos-simple)
  * [Yii extension: fancybox](http://www.yiiframework.com/extension/fancybox) (I have stolen the widget skeleton code :D )

@@ -1,7 +1,5 @@
 <?php
-
 class BaseModel extends CActiveRecord {
-
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -10,7 +8,6 @@ class BaseModel extends CActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
-
     public function behaviors() {
         return array(
             'datetimeI18NBehavior' => array(
@@ -28,9 +25,7 @@ class BaseModel extends CActiveRecord {
                 //),			
         );
     }
-
     protected function beforeSave() {
-
         if (parent::beforeSave()) {
             if ($this->isNewRecord) {
                 if ($this->hasAttribute('created_date')) {
@@ -52,5 +47,4 @@ class BaseModel extends CActiveRecord {
         else
             return false;
     }
-
 }

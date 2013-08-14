@@ -1,18 +1,13 @@
 <?php
-
 error_reporting(0); // Set E_ALL for debuging
-
 if (function_exists('date_default_timezone_set')) {
     date_default_timezone_set('Europe/Moscow');
 }
-
 include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'elFinder.class.php';
-
 /**
  * Simple example how to use logger with elFinder
  * */
 class elFinderLogger implements elFinderILogger {
-
     public function log($cmd, $ok, $context, $err = '', $errorData = array()) {
         if (false != ($fp = fopen('./log.txt', 'a'))) {
             if ($ok) {
@@ -24,9 +19,7 @@ class elFinderLogger implements elFinderILogger {
             fclose($fp);
         }
     }
-
 }
-
 $opts = array(
     'root' => '../../files', // path to root directory
     'URL' => 'http://localhost/git/elfinder/files/', // root directory URL
@@ -82,7 +75,6 @@ $opts = array(
         // 		)
         // 	)
 );
-
 $fm = new elFinder($opts);
 $fm->run();
 ?>

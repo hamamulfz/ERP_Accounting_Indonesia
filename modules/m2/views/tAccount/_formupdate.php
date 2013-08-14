@@ -9,7 +9,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->errorSummary($model); ?>
 
 <?php
-echo $form->dropDownListRow($model, 'haschild_id', array("No"=>"No Child (Detail)","Yes"=>"Has Child (Summary)"), array(
+echo $form->dropDownListRow($model, 'haschild_id', array("No" => "No Child (Detail)", "Yes" => "Has Child (Summary)"), array(
     //'disabled'=>!empty($model->hasJournal),
     'hint' => 'Dropdown will disabled automatically when this account already has journal voucher on current period',
 ));

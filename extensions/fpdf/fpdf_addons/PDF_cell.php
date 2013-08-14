@@ -1,9 +1,6 @@
 <?php
-
 //require('fpdf.php');
-
 class PDF_cell extends fpdf {
-
     function VCell($w, $h = 0, $txt = '', $border = 0, $ln = 0, $align = '', $fill = false) {
         //Output a cell
         $k = $this->k;
@@ -44,17 +41,14 @@ class PDF_cell extends fpdf {
                 $s.=sprintf('%.2F %.2F m %.2F %.2F l S ', $x * $k, ($this->h - $y) * $k, $x * $k, ($this->h - ($y + $h)) * $k);
             else if (is_int(strpos($border, 'l')))
                 $s.=sprintf('q 2 w %.2F %.2F m %.2F %.2F l S Q ', $x * $k, ($this->h - $y) * $k, $x * $k, ($this->h - ($y + $h)) * $k);
-
             if (is_int(strpos($border, 'T')))
                 $s.=sprintf('%.2F %.2F m %.2F %.2F l S ', $x * $k, ($this->h - $y) * $k, ($x + $w) * $k, ($this->h - $y) * $k);
             else if (is_int(strpos($border, 't')))
                 $s.=sprintf('q 2 w %.2F %.2F m %.2F %.2F l S Q ', $x * $k, ($this->h - $y) * $k, ($x + $w) * $k, ($this->h - $y) * $k);
-
             if (is_int(strpos($border, 'R')))
                 $s.=sprintf('%.2F %.2F m %.2F %.2F l S ', ($x + $w) * $k, ($this->h - $y) * $k, ($x + $w) * $k, ($this->h - ($y + $h)) * $k);
             else if (is_int(strpos($border, 'r')))
                 $s.=sprintf('q 2 w %.2F %.2F m %.2F %.2F l S Q ', ($x + $w) * $k, ($this->h - $y) * $k, ($x + $w) * $k, ($this->h - ($y + $h)) * $k);
-
             if (is_int(strpos($border, 'B')))
                 $s.=sprintf('%.2F %.2F m %.2F %.2F l S ', $x * $k, ($this->h - ($y + $h)) * $k, ($x + $w) * $k, ($this->h - ($y + $h)) * $k);
             else if (is_int(strpos($border, 'b')))
@@ -116,7 +110,6 @@ class PDF_cell extends fpdf {
         else
             $this->x+=$w;
     }
-
     function Cell($w, $h = 0, $txt = '', $border = 0, $ln = 0, $align = '', $fill = false, $link = '') {
         //Output a cell
         $k = $this->k;
@@ -157,17 +150,14 @@ class PDF_cell extends fpdf {
                 $s.=sprintf('%.2F %.2F m %.2F %.2F l S ', $x * $k, ($this->h - $y) * $k, $x * $k, ($this->h - ($y + $h)) * $k);
             else if (is_int(strpos($border, 'l')))
                 $s.=sprintf('q 2 w %.2F %.2F m %.2F %.2F l S Q ', $x * $k, ($this->h - $y) * $k, $x * $k, ($this->h - ($y + $h)) * $k);
-
             if (is_int(strpos($border, 'T')))
                 $s.=sprintf('%.2F %.2F m %.2F %.2F l S ', $x * $k, ($this->h - $y) * $k, ($x + $w) * $k, ($this->h - $y) * $k);
             else if (is_int(strpos($border, 't')))
                 $s.=sprintf('q 2 w %.2F %.2F m %.2F %.2F l S Q ', $x * $k, ($this->h - $y) * $k, ($x + $w) * $k, ($this->h - $y) * $k);
-
             if (is_int(strpos($border, 'R')))
                 $s.=sprintf('%.2F %.2F m %.2F %.2F l S ', ($x + $w) * $k, ($this->h - $y) * $k, ($x + $w) * $k, ($this->h - ($y + $h)) * $k);
             else if (is_int(strpos($border, 'r')))
                 $s.=sprintf('q 2 w %.2F %.2F m %.2F %.2F l S Q ', ($x + $w) * $k, ($this->h - $y) * $k, ($x + $w) * $k, ($this->h - ($y + $h)) * $k);
-
             if (is_int(strpos($border, 'B')))
                 $s.=sprintf('%.2F %.2F m %.2F %.2F l S ', $x * $k, ($this->h - ($y + $h)) * $k, ($x + $w) * $k, ($this->h - ($y + $h)) * $k);
             else if (is_int(strpos($border, 'b')))
@@ -187,7 +177,6 @@ class PDF_cell extends fpdf {
                         $dx = ($w - $w_txt) / 2;
                     else
                         $dx = $this->cMargin;
-
                     $txt = str_replace(')', '\\)', str_replace('(', '\\(', str_replace('\\', '\\\\', $txt)));
                     if ($this->ColorFlag)
                         $s.='q ' . $this->TextColor . ' ';
@@ -238,7 +227,5 @@ class PDF_cell extends fpdf {
         else
             $this->x+=$w;
     }
-
 }
-
 ?>

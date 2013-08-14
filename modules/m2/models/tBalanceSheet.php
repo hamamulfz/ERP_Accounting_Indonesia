@@ -60,9 +60,9 @@ class tBalanceSheet extends BaseModel {
 
     public function searchTrialBalance($curperiode) {
         $criteria = new CDbCriteria;
-        $criteria->compare('yearmonth_periode',$curperiode);
-        $criteria->with=array('account');
-        $criteria->together=true;
+        $criteria->compare('yearmonth_periode', $curperiode);
+        $criteria->with = array('account');
+        $criteria->together = true;
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -74,6 +74,5 @@ class tBalanceSheet extends BaseModel {
             ),
         ));
     }
-
 
 }

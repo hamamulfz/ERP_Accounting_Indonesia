@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ean13 barcode tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Barcode
  */
 // dependances {{{
-
 /**
  *
  */
 require_once(XML2PDF_PLUGINS_TAGS_PATH . '/xml2pdf.tag.barcode.php');
-
 // }}}
 // doc {{{
-
 /**
  *
  * @author guillaume l. <guillaume@geelweb.org> 
@@ -34,17 +30,13 @@ require_once(XML2PDF_PLUGINS_TAGS_PATH . '/xml2pdf.tag.barcode.php');
  */ // }}}
 class xml2pdf_barcode_ean13 {
     // xml2pdf_barcode_ean13::__construct() {{{
-
     /**
      * Constructor
      */
     public function __construct() {
-        
     }
-
     // }}}
     // xml2pdf_barcode_ean13::render() {{{
-
     /**
      * Render an EAN13 barcode
      *
@@ -106,8 +98,6 @@ class xml2pdf_barcode_ean13 {
         $barcode->pdf->SetFont('Arial', '', 12);
         $barcode->pdf->Text($barcode->x, $barcode->y + $height + 11 / $barcode->pdf->k, substr($txt, -$barcode->len));
     }
-
     // }}}
 }
-
 ?>

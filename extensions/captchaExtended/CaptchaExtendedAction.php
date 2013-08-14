@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Yii extended captcha supporting more complex formulas and masking techniques.
  * 
@@ -50,19 +49,16 @@
  * 	   7) Test & enjoy!
  */
 class CaptchaExtendedAction extends CCaptchaAction {
-
     const
             MODE_MATH = 'math',
             MODE_MATHVERBAL = 'mathverbal',
             MODE_DEFAULT = 'default',
             MODE_LOGICAL = 'logical',
             MODE_WORDS = 'words';
-
     /**
      * @var integer padding around the text. Defaults to 2.
      */
     public $offset = 2;
-
     /**
      * Captcha mode, supported values are [logical, words, mathverbal, math, default].
      * Default value is [default], which uses native frameworks implementation.
@@ -74,43 +70,34 @@ class CaptchaExtendedAction extends CCaptchaAction {
      *  - default e.g. random latin1 characters
      */
     public $mode = self::MODE_DEFAULT;
-
     /**
      * Path to the file to be used for generating random words in "words" mode
      */
     public $fileWords;
-
     /**
      * Dots density around characters 0 - 100 [%], defaults 5.
      */
     public $density = 5; // dots density 0 - 100%
-
     /**
      * The number of lines drawn through the generated captcha picture, default 3.
      */
     public $lines = 3;
-
     /**
      * The number of sections to be filled with random flood color, default 10.
      */
     public $fillSections = 10;
-
     /**
      * Run action
      */
     public function run() {
-
         if (!extension_loaded('mbstring')) {
             throw new CHttpException(500, Yii::t('main', 'Missing extension "{ext}"', array('{ext}' => 'mbstring')));
         }
-
         // set font file with all extended UTF-8 characters
         // Font Duality supplied with the framework does not support UTF-8, only ISO-8859-1 - missing accented characters like ščťžôäě...
         $this->fontFile = dirname(__FILE__) . '/fonts/nimbus.ttf';
-
         // set captcha mode
         $this->mode = strtolower($this->mode);
-
         // set image size
         switch ($this->mode) {
             case self::MODE_LOGICAL:
@@ -128,7 +115,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
                 $this->width = 120;
                 $this->height = 50;
         }
-
         if ($this->mode == self::MODE_DEFAULT) {
             // default framework implementation
             parent::run();
@@ -147,7 +133,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
         }
         Yii::app()->end();
     }
-
     /**
      * Generates a hash code that can be used for client side validation.
      * @param string $code Displayed captcha code in generated image
@@ -181,7 +166,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
                 return $h;
         }
     }
-
     /**
      * Generates a new verification code.
      * @return string the generated verification code
@@ -202,7 +186,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
                 return array('code' => $code, 'result' => $code);
         }
     }
-
     /**
      * Return code for random words from text file.
      * First we'll try to load file for current language, like [words.de.txt]
@@ -244,7 +227,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
         $result = preg_replace('/\s/', '', $code);
         return array('code' => $code, 'result' => $result);
     }
-
     /**
      * Return captcha word without dirty characters like *,/,{,},.. Retain diacritics if unicode supported.
      * @param string $w The word to be purified
@@ -259,7 +241,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
         }
         return $w;
     }
-
     /**
      * Return code for math mode like 9+1= or 95-5=
      */
@@ -276,7 +257,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
         }
         return array('code' => $code, 'result' => $r);
     }
-
     /**
      * Return numbers 0..9 translated into word
      */
@@ -294,7 +274,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
             '9' => Yii::t('main', 'nine'),
         );
     }
-
     /**
      * Return verbal representation for supplied number, like 1 => one
      * @param int $n The number to be translated
@@ -306,7 +285,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
         }
         return array_key_exists($n, $nums) ? $nums[$n] : '';
     }
-
     /**
      * Return code for logical formula like min(one,7,four)
      */
@@ -334,7 +312,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
         }
         return array('code' => $code, 'result' => $r);
     }
-
     /**
      * Return code for verbal math mode like "How much is 1 plus 1 ?"
      */
@@ -382,7 +359,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
                 $question = Yii::t('main', 'Give result for');
                 break;
         }
-
         switch (mt_rand(0, 2)) {
             case 0:
                 $equal = '?';
@@ -394,11 +370,9 @@ class CaptchaExtendedAction extends CCaptchaAction {
                 $equal = str_repeat('.', mt_rand(2, 5));
                 break;
         }
-
         $code = $question . ' ' . $code . ' ' . $equal;
         return array('code' => $code, 'result' => $r);
     }
-
     /**
      * Validates the input to see if it matches the generated code.
      * @param string $input user input
@@ -424,7 +398,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
         }
         return $valid;
     }
-
     /**
      * Gets the verification code.
      * @param boolean $regenerate whether the verification code should be regenerated.
@@ -445,7 +418,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
         }
         return $session[$name];
     }
-
     /**
      * Return verification result expected by user
      * @param bool $regenerate
@@ -465,28 +437,22 @@ class CaptchaExtendedAction extends CCaptchaAction {
         }
         return $session[$name . 'result'];
     }
-
     /**
      * Renders the CAPTCHA image based on the code.
      * @param string $code the verification code
      * @return string image content
      */
     protected function renderImage($code) {
-
         $image = imagecreatetruecolor($this->width, $this->height);
-
         $backColor = imagecolorallocate($image, (int) ($this->backColor % 0x1000000 / 0x10000), (int) ($this->backColor % 0x10000 / 0x100), $this->backColor % 0x100);
         imagefilledrectangle($image, 0, 0, $this->width, $this->height, $backColor);
         imagecolordeallocate($image, $backColor);
-
         if ($this->transparent) {
             imagecolortransparent($image, $backColor);
         }
-
         if ($this->fontFile === null) {
             $this->fontFile = dirname(__FILE__) . '/Duality.ttf';
         }
-
         $length = strlen($code);
         $box = imagettfbbox(25, 0, $this->fontFile, $code);
         $w = $box[4] - $box[0] + $this->offset * ($length - 1);
@@ -494,32 +460,26 @@ class CaptchaExtendedAction extends CCaptchaAction {
         $scale = min(($this->width - $this->padding * 2) / $w, ($this->height - $this->padding * 2) / $h);
         $x = 10;
         $y = round($this->height * 27 / 40);
-
         $r = (int) ($this->foreColor % 0x1000000 / 0x10000);
         $g = (int) ($this->foreColor % 0x10000 / 0x100);
         $b = $this->foreColor % 0x100;
         $foreColor = imagecolorallocate($image, mt_rand($r - 50, $r + 50), mt_rand($g - 50, $g + 50), mt_rand($b - 50, $b + 50));
-
         for ($i = 0; $i < $length; ++$i) {
             $fontSize = (int) (rand(26, 32) * $scale * 0.8);
             $angle = rand(-10, 10);
             $letter = $code[$i];
-
             // UTF-8 characters above > 127 are stored in two bytes
             if (ord($letter) > 127) {
                 ++$i;
                 $letter .= $code[$i];
             }
-
             // randomize font color
             if (mt_rand(0, 10) > 7) {
                 $foreColor = imagecolorallocate($image, mt_rand($r - 50, $r + 50), mt_rand($g - 50, $g + 50), mt_rand($b - 50, $b + 50));
             }
-
             $box = imagettftext($image, $fontSize, $angle, $x, $y, $foreColor, $this->fontFile, $letter);
             $x = $box[2] + $this->offset;
         }
-
         // add density dots
         $this->density = intval($this->density);
         if ($this->density > 0) {
@@ -531,7 +491,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
                 imagesetpixel($image, $x, $y, $c);
             }
         }
-
         // add lines
         $this->lines = intval($this->lines);
         if ($this->lines > 0) {
@@ -544,7 +503,6 @@ class CaptchaExtendedAction extends CCaptchaAction {
                 imageline($image, $x, 0, $y, $this->height, $c);
             }
         }
-
         // filled flood section
         $this->fillSections = intval($this->fillSections);
         if ($this->fillSections > 0) {
@@ -555,9 +513,7 @@ class CaptchaExtendedAction extends CCaptchaAction {
                 imagefill($image, $x, $y, $c);
             }
         }
-
         imagecolordeallocate($image, $foreColor);
-
         header('Pragma: public');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -566,5 +522,4 @@ class CaptchaExtendedAction extends CCaptchaAction {
         imagepng($image);
         imagedestroy($image);
     }
-
 }

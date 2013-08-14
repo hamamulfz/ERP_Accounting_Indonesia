@@ -1,5 +1,4 @@
 <?php
-
 /* ##  TbButtonGroupColumn class file.
  *
  * @author Topher Kanyuga <kanjoti@gmail.com>
@@ -8,35 +7,28 @@
  * @package bootstrap.widgets
  * 
  */
-
 Yii::import('bootstrap.widgets.TbButtonColumn');
-
 /**
  * Enhanced bootstrap button column widget.
  * Renders the buttons as a button group
  */
 class TbButtonGroupColumn extends TbButtonColumn {
-
     /**
      * 	@var string the button size ('mini','small','normal','large')
      */
     public $buttonSize = 'mini';
-
     /**
      * @var string the view button type ('info','primary','warning','danger','success' defaults to 'info').
      */
     public $viewButtonType = 'info';
-
     /**
      * @var string the update button type ('info','primary','warning','danger','success' defaults to 'warning').
      */
     public $updateButtonType = 'warning';
-
     /**
      * @var string the delete button type ('info','primary','warning','danger','success' defaults to 'danger')
      */
     public $deleteButtonType = 'danger';
-
     /**
      * ### .initDefaultButtons()
      *
@@ -44,7 +36,6 @@ class TbButtonGroupColumn extends TbButtonColumn {
      */
     protected function initDefaultButtons() {
         parent::initDefaultButtons();
-
         if ($this->viewButtonType !== false && !isset($this->buttons['view']['type']))
             $this->buttons['view']['type'] = $this->viewButtonType;
         if ($this->updateButtonType !== false && !isset($this->buttons['update']['type']))
@@ -52,7 +43,6 @@ class TbButtonGroupColumn extends TbButtonColumn {
         if ($this->deleteButtonType !== false && !isset($this->buttons['delete']['type']))
             $this->buttons['delete']['type'] = $this->deleteButtonType;
     }
-
     /**
      * ### .renderButton()
      *
@@ -66,27 +56,21 @@ class TbButtonGroupColumn extends TbButtonColumn {
     protected function renderButton($id, $button, $row, $data) {
         if (isset($button['visible']) && !$this->evaluateExpression($button['visible'], array('row' => $row, 'data' => $data)))
             return;
-
         $label = isset($button['label']) ? $button['label'] : $id;
         $url = isset($button['url']) ? $this->evaluateExpression($button['url'], array('data' => $data, 'row' => $row)) : '#';
         $options = isset($button['options']) ? $button['options'] : array();
-
         if (!isset($options['title']))
             $options['title'] = $label;
-
         if (!isset($options['rel']))
             $options['rel'] = 'tooltip';
-
         if (!isset($options['class']))
             $options['class'] = '';
         $options['class'].=' btn btn-' . $this->buttonSize;
         if (isset($button['type']))
             $options['class'].=' btn-' . $button['type'];
-
         if (isset($button['icon'])) {
             if (strpos($button['icon'], 'icon') === false)
                 $button['icon'] = 'icon-' . implode(' icon-', explode(' ', $button['icon']));
-
             echo CHtml::link('<i class="' . $button['icon'] . '"></i>', $url, $options);
         }
         else if (isset($button['imageUrl']) && is_string($button['imageUrl']))
@@ -94,7 +78,6 @@ class TbButtonGroupColumn extends TbButtonColumn {
         else
             echo CHtml::link($label, $url, $options);
     }
-
     /**
      * ### .renderDataCellContent()
      *
@@ -115,5 +98,4 @@ class TbButtonGroupColumn extends TbButtonColumn {
         ob_end_clean();
         echo "<div class='btn-group'>" . strtr($this->template, $tr) . "</div>";
     }
-
 }

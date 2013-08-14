@@ -184,7 +184,5 @@
             'Support project development and we will place here info about you': 'Steun project ontwikkeling en we plaatsen hier info over jou',
             'Contacts us if you need help integrating elFinder in you products': 'Neem contact met ons op indien je onze hulp nodig hebt bij het integreren van elFinder in jou producten.',
             'helpText': ''
-
         };
-
 })(jQuery);

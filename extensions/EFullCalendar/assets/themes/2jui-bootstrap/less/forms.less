@@ -1,15 +1,11 @@
 /* Forms.less
  * Base styles for various input types, form layouts, and states
  * ------------------------------------------------------------- */
-
-
 // FORM STYLES
 // -----------
-
 form {
   margin-bottom: @baseline;
 }
-
 // Groups of fields with labels on top (legends)
 fieldset {
   margin-bottom: @baseline;
@@ -24,13 +20,11 @@ fieldset {
     *line-height: 1.5; /* IE6-7 */
   }
 }
-
 // Parent element that clears floats and wraps labels and fields together
 form .clearfix {
   margin-bottom: @baseline;
   .clearfix()
 }
-
 // Set font for forms
 .bootstrap label,
 .bootstrap input,
@@ -38,7 +32,6 @@ form .clearfix {
 .bootstrap textarea {
   #font > .sans-serif(normal,13px,normal);
 }
-
 // Float labels left
 .bootstrap label {
   padding-top: 6px;
@@ -49,18 +42,15 @@ form .clearfix {
   text-align: right;
   color: @grayDark;
 }
-
 // Shift over the inside div to align all label's relevant content
 .bootstrap form .input {
   margin-left: 150px;
 }
-
 // Checkboxs and radio buttons
 .bootstrap input[type=checkbox],
 .bootstrap input[type=radio] {
   cursor: pointer;
 }
-
 // Inputs, Textareas, Selects
 .bootstrap input,
 .bootstrap textarea,
@@ -76,12 +66,10 @@ form .clearfix {
   border: 1px solid #ccc;
   .border-radius(3px);
 }
-
 // remove padding from select
 .bootstrap select {
   padding: initial;
 }
-
 // mini reset for non-html5 file types
 .bootstrap input[type=checkbox],
 .bootstrap input[type=radio] {
@@ -93,7 +81,6 @@ form .clearfix {
   line-height: normal;
   border: none;
 }
-
 .bootstrap input[type=file] {
   background-color: @white;
   padding: initial;
@@ -101,14 +88,12 @@ form .clearfix {
   line-height: initial;
   .box-shadow(none);
 }
-
 .bootstrap input[type=button],
 .bootstrap input[type=reset],
 .bootstrap input[type=submit] {
   width: auto;
   height: auto;
 }
-
 .bootstrap select,
 .bootstrap input[type=file] {
   height: @baseline * 1.5; // In IE7, the height of the select element cannot be changed by height, only font-size
@@ -116,17 +101,14 @@ form .clearfix {
   line-height: @baseline * 1.5;
   *margin-top: 4px; /* For IE7, add top margin to align select with labels */
 }
-
 // Make multiple select elements height not fixed
 select[multiple] {
   height: inherit;
   background-color: @white; // Fixes Chromium bug of unreadable items
 }
-
 textarea {
   height: auto;
 }
-
 // For text that needs to appear as an input but should not be an input
 .uneditable-input {
   background-color: @white;
@@ -135,7 +117,6 @@ textarea {
   .box-shadow(inset 0 1px 2px rgba(0,0,0,.025));
   cursor: not-allowed;
 }
-
 // Placeholder text gets special styles; can't be bundled together though for some reason
 :-moz-placeholder {
   color: @grayLight;
@@ -143,7 +124,6 @@ textarea {
 ::-webkit-input-placeholder {
   color: @grayLight;
 }
-
 // Focus states
 input,
 textarea {
@@ -164,11 +144,8 @@ select:focus {
   .box-shadow(none); // override for file inputs
   outline: 1px dotted #666; // Selet elements don't get box-shadow styles, so instead we do outline
 }
-
-
 // FORM FIELD FEEDBACK STATES
 // --------------------------
-
 // Mixin for form field states
 .formFieldState(@textColor: #555, @borderColor: #ccc, @backgroundColor: #f5f5f5) {
   // Set the text color
@@ -207,8 +184,6 @@ form .clearfix.warning {
 form .clearfix.success {
   .formFieldState(#468847, #57a957, lighten(#57a957, 30%));
 }
-
-
 // Form element sizes
 // TODO v2: remove duplication here and just stick to .input-[size] in light of adding .spanN sizes
 .input-mini,
@@ -250,7 +225,6 @@ select.xxlarge {
 textarea.xxlarge {
   overflow-y: auto;
 }
-
 // Grid style input sizes
 // This is a duplication of the main grid .columns() mixin, but subtracts 10px to account for input padding and border
 .formColumns(@columnSpan: 1) {
@@ -279,7 +253,6 @@ textarea {
   &.span15    { .formColumns(15); }
   &.span16    { .formColumns(16); }
 }
-
 // Disabled and read-only inputs
 input[disabled],
 select[disabled],
@@ -291,7 +264,6 @@ textarea[readonly] {
   border-color: #ddd;
   cursor: not-allowed;
 }
-
 // Actions (the buttons)
 .actions {
   background: #f5f5f5;
@@ -310,7 +282,6 @@ textarea[readonly] {
     }
   }
 }
-
 // Help Text
 // TODO: Do we need to set basefont and baseline here?
 .help-inline,
@@ -324,13 +295,11 @@ textarea[readonly] {
   *position: relative; /* IE6-7 */
   *top: -5px; /* IE6-7 */
 }
-
 // Big blocks of help text
 .help-block {
   display: block;
   max-width: 600px;
 }
-
 // Inline Fields (input fields that appear as inline objects
 .inline-inputs {
   color: @gray;
@@ -338,7 +307,6 @@ textarea[readonly] {
     padding: 0 2px 0 1px;
   }
 }
-
 // Allow us to put symbols and text within the input field for a cleaner look
 .input-prepend,
 .input-append {
@@ -385,7 +353,6 @@ textarea[readonly] {
     margin-left: -1px;
   }
 }
-
 // Stacked options for forms (radio buttons or checkboxes)
 .inputs-list {
   margin: 0 0 5px;
@@ -430,7 +397,6 @@ textarea[readonly] {
     float: left;
   }
 }
-
 // Stacked forms
 .form-stacked {
   padding-left: 20px;

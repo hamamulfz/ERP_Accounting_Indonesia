@@ -45,4 +45,3 @@
     </table>
 </div>
 <?php echo CHtml::endForm(); ?>
-

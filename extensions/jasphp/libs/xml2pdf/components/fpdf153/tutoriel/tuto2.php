@@ -1,9 +1,6 @@
 <?php
-
 require('../fpdf.php');
-
 class PDF extends FPDF {
-
 //En-t�te
     function Header() {
         //Logo
@@ -17,7 +14,6 @@ class PDF extends FPDF {
         //Saut de ligne
         $this->Ln(20);
     }
-
 //Pied de page
     function Footer() {
         //Positionnement � 1,5 cm du bas
@@ -27,9 +23,7 @@ class PDF extends FPDF {
         //Num�ro de page
         $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
-
 }
-
 //Instanciation de la classe d�riv�e
 $pdf = new PDF();
 $pdf->AliasNbPages();

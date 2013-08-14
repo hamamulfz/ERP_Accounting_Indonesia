@@ -5,7 +5,6 @@
  */
 ?>
 <div class="view">
-
     <?php
     echo "\t<b><?php echo CHtml::encode(\$data->getAttributeLabel('{$this->tableSchema->primaryKey}')); ?>:</b>\n";
     echo "\t<?php echo CHtml::link(CHtml::encode(\$data->{$this->tableSchema->primaryKey}),array('view','id'=>\$data->{$this->tableSchema->primaryKey})); ?>\n\t<br />\n\n";
@@ -21,5 +20,4 @@
     if ($count >= 7)
         echo "\t*/ ?>\n";
     ?>
-
 </div>

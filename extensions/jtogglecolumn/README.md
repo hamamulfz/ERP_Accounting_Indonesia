@@ -1,40 +1,27 @@
 JToggleColumn
 ====
 Column for CGridView which toggles the boolean ( TINYINT(1) ) value of model attribute. Tested with Yii 1.10.
-
 Example
 ====
 ![JToggleColumn](https://bitbucket.org/johonunu/jtogglecolumn/raw/6220c9674443/example.png)
-
 History
 ====
 24.04.2012 - first release
-
 25.04.2012 - added filter option and is now using assets
-
 17.06.2012 - added ability to change action(two included: toggle(default) and switch), now using CActions
-
 17.09.2012 - fixed bug with sorting, now sorts column in ajax way
-
 Tutorial
 ====
 Extract downloaded zip to your components or extensions directory.
-
 If you extracted to extensions directory add this line to import array in your /config/main.php :
-
     <?php
- 
     'import'=>array(
         ...
         'application.extensions.jtogglecolumn.*', 
     )
-    
     ?>
-
 Define a JToggleColumn in your CGridView widget:
-
     <?php 
-    
     $this->widget('zii.widgets.grid.CGridView', array(
             'id'=>'language-grid',
             'dataProvider'=>$model->search(),
@@ -66,26 +53,18 @@ Define a JToggleColumn in your CGridView widget:
                     ),
             ),
     )); 
-
     ?>
- 
 Add action(s) in your controller:
-
     <?php
-    
     public function actions(){
         return array(
                 'toggle'=>'ext.jtogglecolumn.ToggleAction',
                 'switch'=>'ext.jtogglecolumn.SwitchAction', // only if you need it
         );
     }
-    
     ?>
-
 Don't forget to add this action to controllers accessRules:
-
     <?php
-
     public function accessRules()
     {
             return array(
@@ -95,5 +74,4 @@ Don't forget to add this action to controllers accessRules:
                     )
             );
     }
-
     ?>

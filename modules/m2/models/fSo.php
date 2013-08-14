@@ -19,59 +19,54 @@
  * @property integer $approved_date
  * @property integer $approved_by
  */
-class fSo extends CFormModel
-{
+class fSo extends CFormModel {
 
-	public $entity_id;
-	public $customer_id;
-	public $input_date;
-	public $system_ref;
-	public $periode_date;
-	public $so_type_id;
-	public $remark;
-
+    public $entity_id;
+    public $customer_id;
+    public $input_date;
+    public $system_ref;
+    public $periode_date;
+    public $so_type_id;
+    public $remark;
     public $item_id;
     public $item_name;
     public $description;
     public $qty;
     public $amount;
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('input_date', 'required'),
-			array('customer_id, so_type_id', 'numerical', 'integerOnly'=>true),
-			array('system_ref', 'length', 'max'=>100),
-			array('remark', 'safe'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, entity_id, customer_id, input_date, system_ref, so_type_id, remark', 'safe', 'on'=>'search'),
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('input_date', 'required'),
+            array('customer_id, so_type_id', 'numerical', 'integerOnly' => true),
+            array('system_ref', 'length', 'max' => 100),
+            array('remark', 'safe'),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('id, entity_id, customer_id, input_date, system_ref, so_type_id, remark', 'safe', 'on' => 'search'),
+                //array('item_id, qty, amount', 'required'),
+                //array('item_id, qty, amount, customer_id', 'numerical'),
+                //array('description, item_name', 'length', 'max' => 255),
+        );
+    }
 
-            //array('item_id, qty, amount', 'required'),
-            //array('item_id, qty, amount, customer_id', 'numerical'),
-            //array('description, item_name', 'length', 'max' => 255),
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'entity_id' => 'Entity',
+            'customer_id' => 'Customer',
+            'input_date' => 'Input Date',
+            'system_ref' => 'System Ref',
+            'so_type_id' => 'SO Type',
+            'state_id' => 'Status',
+            'remark' => 'Remark',
+        );
+    }
 
-		);
-	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'entity_id' => 'Entity',
-			'customer_id' => 'Customer',
-			'input_date' => 'Input Date',
-			'system_ref' => 'System Ref',
-			'so_type_id' => 'SO Type',
-			'state_id' => 'Status',
-			'remark' => 'Remark',
-		);
-	}
 }

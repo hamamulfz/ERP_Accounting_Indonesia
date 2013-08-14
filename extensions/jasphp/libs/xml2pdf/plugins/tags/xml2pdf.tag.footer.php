@@ -1,5 +1,4 @@
 <?php
-
 /**
  * tag footer plugin file.
  * @filesource
@@ -17,10 +16,8 @@
  * parent class.
  */
 require_once('Xml2PdfTextTag.php');
-
 // }}}
 // doc {{{
-
 /**
  * <footer> tag.
  *
@@ -39,88 +36,73 @@ require_once('Xml2PdfTextTag.php');
  */ // }}}
 class xml2pdf_tag_footer extends Xml2PdfTextTag {
     // class properties {{{
-
     /**
      * footer elements.
      * @var object Xml2Pdf_tag_paragraph 
      */
     public $elements = array();
-
     /**
      * first page with footer.
      * @var integer 
      */
     public $startPage = 1;
-
     /**
      * last page with footer.
      * @var integer 
      */
     public $endPage = 0;
-
     /**
      * lines color.
      * @var string 
      */
     public $drawColor = '#000000';
-
     /**
      * borders color.
      * @var string 
      */
     public $borderColor = '#000000';
-
     /**
      * fill color.
      * @var string 
      */
     public $fillColor = '#ffffff';
-
     /**
      * alignment type.
      * @var string 
      */
     public $align = 'L';
-
     /**
      * show borders.
      * @var boolean 
      */
     public $border = false;
-
     /**
      * fill elements background.
      * @var boolean
      */
     public $fill = false;
-
     /**
      * top margin.
      * @var float 
      */
     public $top = 0;
-
     /**
      * left margin.
      * @var float 
      */
     public $left = 0;
-
     /**
      * width.
      * @var float 
      */
     public $width = 0;
-
     /**
      * footer height.
      * @var float 
      */
     private $_height = 0;
-
     /// }}}
     // xml2pdf_tag_footer::__construct() {{{
-
     /**
      * Constructor.
      * 
@@ -137,10 +119,8 @@ class xml2pdf_tag_footer extends Xml2PdfTextTag {
         }
         $this->lineHeight = $this->fontSize / 2;
     }
-
     // }}} 
     // xml2pdf_tag_footer::close() {{{
-
     /**
      * Add the footer to the Pdf.
      * 
@@ -150,10 +130,8 @@ class xml2pdf_tag_footer extends Xml2PdfTextTag {
         $this->_calcFooterHeight();
         $this->pdf->footer[] = $this;
     }
-
     // }}} 
     // xml2Pdf_tag_footer::_resetFontValues() {{{
-
     /**
      * Initialize font properties.
      *
@@ -166,17 +144,14 @@ class xml2pdf_tag_footer extends Xml2PdfTextTag {
         $dc = Xml2Pdf::convertColor($this->drawColor);
         $fc = Xml2Pdf::convertColor($this->fillColor);
         $tc = Xml2Pdf::convertColor($this->fontColor);
-
         $this->pdf->SetFont($this->font);
         $this->pdf->SetFontSize($this->fontSize);
         $this->pdf->SetTextColor($tc["r"], $tc["g"], $tc["b"]);
         $this->pdf->SetDrawColor($dc["r"], $dc["g"], $dc["b"]);
         $this->pdf->SetFillColor($fc["r"], $fc["g"], $fc["b"]);
     }
-
     // }}} 
     // xml2pdf_tag_footer::render() {{{
-
     /**
      * Render the footer.
      *
@@ -187,7 +162,6 @@ class xml2pdf_tag_footer extends Xml2PdfTextTag {
                 ($this->startPage > $this->pdf->PageNo())) {
             return false;
         }
-
         foreach ($this->elements as $paragraph) {
             $content = null;
             $this->_resetFontValues();
@@ -256,7 +230,6 @@ class xml2pdf_tag_footer extends Xml2PdfTextTag {
                 }
             }
             $this->pdf->SetXY($currentX, -$currentY);
-
             // data
             if (empty($content)) {
                 $content = $paragraph->content;
@@ -265,10 +238,8 @@ class xml2pdf_tag_footer extends Xml2PdfTextTag {
         }
         return true;
     }
-
     // }}}
     // xml2Pdf_tag_footer::_calcFooterHeight() {{{
-
     /**
      * Calcul the footer height.
      *
@@ -289,8 +260,6 @@ class xml2pdf_tag_footer extends Xml2PdfTextTag {
         }
         $this->pdf->setAutoPageBreak(true, $this->pdf->bMargin + $this->_height);
     }
-
     // }}}
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbExtendedTooltipAction.php
  *
@@ -8,25 +7,21 @@
  * Time: 6:23 PM
  */
 class TbExtendedTooltipAction extends CAction {
-
     /**
      * @var string the name of the table for keeping applied migration information.
      * This table will be automatically created if not exists. Defaults to 'tbl_tooltip'.
      * The table structure is: (key varchar(255) primary key, tooltip varchar(255))
      */
     public $tooltipTable = 'tbl_tooltip';
-
     /**
      * @var string the application component ID that specifies the database connection for
      * storing tooltip information. Defaults to 'db'.
      */
     public $connectionID = 'db';
-
     /**
      * @var CDbConnection
      */
     protected $_db;
-
     /**
      * CAction run's method
      */
@@ -35,7 +30,6 @@ class TbExtendedTooltipAction extends CAction {
         $tooltip = Yii::app()->request->getParam('value');
         if (!$key || !$tooltip)
             throw new CHttpException(404, Yii::t('zii', 'Unauthorized request'));
-
         if (!$this->getDbConnection()
                         ->createCommand()
                         ->update($this->tooltipTable, array('tooltip' => $tooltip), 'tooltip_key=:key', array(':key' => $key))) {
@@ -44,7 +38,6 @@ class TbExtendedTooltipAction extends CAction {
                     ->insert($this->tooltipTable, array('tooltip_key' => $key, 'tooltip' => $tooltip));
         }
     }
-
     /**
      * Returns the currently active database connection.
      * By default, the 'db' application component will be returned and activated.
@@ -62,5 +55,4 @@ class TbExtendedTooltipAction extends CAction {
         }
         return $this->_db;
     }
-
 }

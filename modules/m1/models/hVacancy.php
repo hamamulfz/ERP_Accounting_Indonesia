@@ -235,9 +235,11 @@ class hVacancy extends BaseModel {
 
     public function afterSave() {
         if ($this->isNewRecord) {
-            Notification::create(
-                    1, 'm1/hVacancy/view/id/' . $this->id, 'Vacancy. New Vacancy created: ' . strtoupper($this->vacancy_title)
-            );
+            $model= new sNotification;
+            $model->group_id = 1;
+            $model->link = 'm1/hVacancy/view/id/' . $this->id;
+            $model->content = 'Vacancy. New Vacancy created for <read>' . $this->vacancy_title .'</read>';
+            $model->save();
         }
         return true;
     }

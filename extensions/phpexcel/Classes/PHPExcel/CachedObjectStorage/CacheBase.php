@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPExcel
  *
@@ -25,7 +24,6 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.8, 2012-10-12
  */
-
 /**
  * PHPExcel_CachedObjectStorage_CacheBase
  *
@@ -34,35 +32,30 @@
  * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 abstract class PHPExcel_CachedObjectStorage_CacheBase {
-
     /**
      * Parent worksheet
      *
      * @var PHPExcel_Worksheet
      */
     protected $_parent;
-
     /**
      * The currently active Cell
      *
      * @var PHPExcel_Cell
      */
     protected $_currentObject = null;
-
     /**
      * Coordinate address of the currently active Cell
      *
      * @var string
      */
     protected $_currentObjectID = null;
-
     /**
      * Flag indicating whether the currently active Cell requires saving
      *
      * @var boolean
      */
     protected $_currentCellIsDirty = true;
-
     /**
      * An array of cells or cell pointers for the worksheet cells held in this cache,
      * 		and indexed by their coordinate address within the worksheet
@@ -70,7 +63,6 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
      * @var array of mixed
      */
     protected $_cellCache = array();
-
     /**
      * Initialise this new cell collection
      *
@@ -82,9 +74,7 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
         //		they are woken from a serialized state
         $this->_parent = $parent;
     }
-
 //	function __construct()
-
     /**
      * Is a value set in the current PHPExcel_CachedObjectStorage_ICache for an indexed cell?
      *
@@ -98,9 +88,7 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
         //	Check if the requested entry exists in the cache
         return isset($this->_cellCache[$pCoord]);
     }
-
 //	function isDataSet()
-
     /**
      * Add or Update a cell in cache
      *
@@ -111,9 +99,7 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
     public function updateCacheData(PHPExcel_Cell $cell) {
         return $this->addCacheData($cell->getCoordinate(), $cell);
     }
-
 //	function updateCacheData()
-
     /**
      * Delete a cell in cache identified by coordinate address
      *
@@ -125,16 +111,13 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
             $this->_currentObject->detach();
             $this->_currentObjectID = $this->_currentObject = null;
         }
-
         if (is_object($this->_cellCache[$pCoord])) {
             $this->_cellCache[$pCoord]->detach();
             unset($this->_cellCache[$pCoord]);
         }
         $this->_currentCellIsDirty = false;
     }
-
 //	function deleteCacheData()
-
     /**
      * Get a list of all cell addresses currently held in cache
      *
@@ -143,9 +126,7 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
     public function getCellList() {
         return array_keys($this->_cellCache);
     }
-
 //	function getCellList()
-
     /**
      * Sort the list of all cell addresses currently held in cache by row and column
      *
@@ -158,12 +139,9 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
             $sortKeys[sprintf('%09d%3s', $row, $column)] = $coord;
         }
         ksort($sortKeys);
-
         return array_values($sortKeys);
     }
-
 //	function sortCellList()
-
     /**
      * Get highest worksheet column and highest row that have cell records
      *
@@ -183,12 +161,10 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
             $highestRow = max($row);
             $highestColumn = substr(max($col), 1);
         }
-
         return array('row' => $highestRow,
             'column' => $highestColumn
         );
     }
-
     /**
      * Get highest worksheet column
      *
@@ -198,7 +174,6 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
         $colRow = $this->getHighestRowAndColumn();
         return $colRow['column'];
     }
-
     /**
      * Get highest worksheet row
      *
@@ -208,7 +183,6 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
         $colRow = $this->getHighestRowAndColumn();
         return $colRow['row'];
     }
-
     /**
      * Generate a unique ID for cache referencing
      *
@@ -222,7 +196,6 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
         }
         return uniqid($baseUnique, true);
     }
-
     /**
      * Clone the cell collection
      *
@@ -235,9 +208,7 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
             $this->_currentObject->attach($parent);
         }
     }
-
 //	function copyCellCollection()
-
     /**
      * Identify whether the caching method is currently available
      * Some methods are dependent on the availability of certain extensions being enabled in the PHP build
@@ -247,5 +218,4 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
     public static function cacheMethodIsAvailable() {
         return true;
     }
-
 }

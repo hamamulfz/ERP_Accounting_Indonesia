@@ -18,7 +18,7 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'Home', 'icon' => 'home', 'url' => array('/m1/kPayroll')),
+    array('label' => 'Home', 'icon' => 'home', 'url' => array('/m1/gPersonCostcenter')),
     array('label' => 'Print Profile', 'icon' => 'print', 'url' => array('printProfile', 'id' => $model->id)),
 );
 

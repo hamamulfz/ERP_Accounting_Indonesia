@@ -184,7 +184,5 @@
             'Support project development and we will place here info about you': 'Ako podržite razvoj projekta, Vaše ćemo podatke prikazati ovdje',
             'Contacts us if you need help integrating elFinder in you products': 'Kontaktirajte nas ako trebate pomoć pri ugradnji elFindera u Vaše proizvode/usluge',
             'helpText': 'elFinder funkcionira slično upravitelju datotekama na Vašem računalu<br />Da biste izveli radnje nad datotekama/mapama koristite se ikonama u gornjoj traci. Ako niste sigurni čemu služi pojedini alat, postavite pokazivač iznad alata da biste vidjeli uputu.<br />Upravljanje postojećim datotekama/mapama možete vršiti u putem kontekstnog izbornika (desni klik mišem).<br />Za kopiranje/brisanje većeg broja datoteka, odaberite ih koristeći se tipkama Shift/Alt + lijevi klik mišem.'
-
         };
-
 })(jQuery);

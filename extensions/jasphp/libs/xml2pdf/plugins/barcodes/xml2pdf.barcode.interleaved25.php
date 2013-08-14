@@ -1,5 +1,4 @@
 <?php
-
 /**
  * interleaved 2 of 5 barcode tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Barcode
  */
 // dependances {{{
-
 /**
  *
  */
 require_once(XML2PDF_PLUGINS_TAGS_PATH . '/xml2pdf.tag.barcode.php');
-
 // }}}
 // doc {{{
-
 /**
  * Interleaved 2 of 5 barcode type plugin.
  * Thanks to Matthias Lau for the original script found on 
@@ -37,17 +33,13 @@ require_once(XML2PDF_PLUGINS_TAGS_PATH . '/xml2pdf.tag.barcode.php');
  */ // }}}
 class xml2pdf_barcode_interleaved25 {
     // xml2pdf_barcode_interleaved25::__construct() {{{
-
     /**
      * Constructor
      */
     public function __construct() {
-        
     }
-
     // }}}
     // xml2pdf_barcode_interleaved25::render() {{{
-
     /**
      * Render the barcode
      *
@@ -62,7 +54,6 @@ class xml2pdf_barcode_interleaved25 {
         $xpos = $barcode->x;
         $ypos = $barcode->y;
         $pdf = $barcode->pdf;
-
         // wide/narrow codes for the digits
         $barChar['0'] = 'nnwwn';
         $barChar['1'] = 'wnnnw';
@@ -76,19 +67,15 @@ class xml2pdf_barcode_interleaved25 {
         $barChar['9'] = 'nwnwn';
         $barChar['A'] = 'nn';
         $barChar['Z'] = 'wn';
-
         // add leading zero if code-length is odd
         if (strlen($code) % 2 != 0) {
             $code = '0' . $code;
         }
-
         $pdf->SetFont('Arial', '', 10);
         $pdf->Text($xpos, $ypos + $height + 4, $code);
         $pdf->SetFillColor(0);
-
         // add start and stop codes
         $code = 'AA' . strtolower($code) . 'ZA';
-
         for ($i = 0; $i < strlen($code); $i = $i + 2) {
             // choose next pair of digits
             $charBar = $code{$i};
@@ -120,8 +107,6 @@ class xml2pdf_barcode_interleaved25 {
             }
         }
     }
-
     // }}}
 }
-
 ?>

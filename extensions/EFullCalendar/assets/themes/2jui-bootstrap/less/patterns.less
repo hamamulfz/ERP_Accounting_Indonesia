@@ -1,11 +1,8 @@
 /* Patterns.less
  * Repeatable UI elements outside the base styles provided from the scaffolding
  * ---------------------------------------------------------------------------- */
-
-
 // TOPBAR
 // ------
-
 // Topbar for Branding and Nav
 .topbar {
   height: 40px;
@@ -15,13 +12,11 @@
   right: 0;
   z-index: 10000;
   overflow: visible;
-
   // Links get text shadow
   a {
     color: @grayLight;
     text-shadow: 0 -1px 0 rgba(0,0,0,.25);
   }
-
   // Hover and active states
   // h3 for backwards compatibility
   h3 a:hover,
@@ -32,7 +27,6 @@
     color: @white;
     text-decoration: none;
   }
-
   // Website name
   // h3 left for backwards compatibility
   h3 {
@@ -49,7 +43,6 @@
     font-weight: 200;
     line-height: 1;
   }
-
   // Plain text in topbar
   p {
     margin: 0;
@@ -59,7 +52,6 @@
       color: @white;
     }
   }
-
   // Search Form
   form {
     float: left;
@@ -83,7 +75,6 @@
     @shadow: inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0px rgba(255,255,255,.25);
     .box-shadow(@shadow);
     .transition(none);
-
     // Placeholder text gets special styles; can't be bundled together though for some reason
     &:-moz-placeholder {
       color: @grayLighter;
@@ -110,7 +101,6 @@
     }
   }
 }
-
 // gradient is applied to it's own element because overflow visible is not honored by ie when filter is present
 // For backwards compatibility, include .topbar .fill
 .topbar-inner,
@@ -120,11 +110,8 @@
   @shadow: 0 1px 3px rgba(0,0,0,.25), inset 0 -1px 0 rgba(0,0,0,.1);
   .box-shadow(@shadow);
 }
-
-
 // NAVIGATION
 // ----------
-
 // Topbar Nav
 // ul.nav for all topbar based navigation to avoid inheritance issues and over-specificity
 // For backwards compatibility, leave in .topbar div > ul
@@ -154,7 +141,6 @@
     background-color: #222;
     background-color: rgba(0,0,0,.5);
   }
-
   // Secondary (floated right) nav in topbar
   &.secondary-nav {
     float: right;
@@ -206,13 +192,11 @@
     }
   }
 }
-
 // For backwards compatibility with new dropdowns, redeclare dropdown link padding
 .topbar ul .menu-dropdown li a,
 .topbar ul .dropdown-menu li a {
   padding: 4px 15px;
 }
-
 // Dropdown Menus
 // Use the .menu class on any <li> element within the topbar or ul.tabs and you'll get some superfancy dropdowns
 // li.menu for backwards compatibility
@@ -261,7 +245,6 @@ a.menu:after,
   .border-radius(0 0 6px 6px);
   .box-shadow(0 2px 4px rgba(0,0,0,.2));
   .background-clip(padding-box);
-
   // Unfloat any li's to make them stack
   li {
     float: none;
@@ -277,7 +260,6 @@ a.menu:after,
     border-bottom: 1px solid @white;
   }
 }
-
 .topbar .dropdown-menu,
 .dropdown-menu {
   // Links within the dropdown menu
@@ -300,7 +282,6 @@ a.menu:after,
     }
   }
 }
-
 // Open state for the dropdown
 // .open for backwards compatibility
 .open,
@@ -318,11 +299,8 @@ a.menu:after,
     display: block;
   }
 }
-
-
 // TABS AND PILLS
 // --------------
-
 // Common styles
 .tabs,
 .pills {
@@ -337,7 +315,6 @@ a.menu:after,
     }
   }
 }
-
 // Tabs
 .tabs {
   border-color: #ddd;
@@ -369,7 +346,6 @@ a.menu:after,
     cursor: default;
   }
 }
-
 // Dropdowns in tabs
 .tabs {
   // first one for backwards compatibility
@@ -397,7 +373,6 @@ a.menu:after,
     border-top-color: #555;
   }
 }
-
 // Pills
 .pills {
   a {
@@ -419,12 +394,10 @@ a.menu:after,
     background-color: @linkColor;
   }
 }
-
 // Stacked pills
 .pills-vertical > li {
   float: none;
 }
-
 // Tabbable areas
 .tab-content,
 .pill-content {
@@ -439,11 +412,8 @@ a.menu:after,
 .pill-content > .active {
   display: block;
 }
-
-
 // BREADCRUMBS
 // -----------
-
 .breadcrumb {
   padding: 7px 14px;
   margin: 0 0 @baseline;
@@ -463,11 +433,8 @@ a.menu:after,
     color: @grayDark;
   }
 }
-
-
 // PAGE HEADERS
 // ------------
-
 .hero-unit {
   background-color: #f5f5f5;
   margin-bottom: 30px;
@@ -490,11 +457,8 @@ footer {
   padding-top: @baseline - 1;
   border-top: 1px solid #eee;
 }
-
-
 // PAGE HEADERS
 // ------------
-
 .page-header {
   margin-bottom: @baseline - 1;
   border-bottom: 1px solid #ddd;
@@ -503,11 +467,8 @@ footer {
     margin-bottom: (@baseline / 2) - 1px;
   }
 }
-
-
 // BUTTON STYLES
 // -------------
-
 // Shared colors for buttons and alerts
 .btn,
 .alert-message {
@@ -541,7 +502,6 @@ footer {
     .gradientBar(#5bc0de, #339bb9);
   }
 }
-
 // Base .btn styles
 .btn {
   // Button Base
@@ -558,27 +518,22 @@ footer {
   .border-radius(4px);
   @shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
   .box-shadow(@shadow);
-
   &:hover {
     background-position: 0 -15px;
     color: #333;
     text-decoration: none;
   }
-
   // Focus state for keyboard and accessibility
   &:focus {
     outline: 1px dotted #666;
   }
-
   // Primary Button Type
   &.primary {
     color: @white;
     .gradientBar(@blue, @blueDark)
   }
-
    // Transitions
   .transition(.1s linear all);
-
   // Active and Disabled states
   &.active,
   &:active {
@@ -601,7 +556,6 @@ footer {
     .opacity(65);
     .box-shadow(none);
   }
-
   // Button Sizes
   &.large {
     font-size: @basefont + 2px;
@@ -619,7 +573,6 @@ footer {
 :root .btn {
   border-radius: 0 \0;
 }
-
 // Help Firefox not be a jerk about adding extra padding to buttons
 button.btn,
 input[type=submit].btn {
@@ -628,8 +581,6 @@ input[type=submit].btn {
   	border: 0;
   }
 }
-
-
 // CLOSE ICONS
 // -----------
 .close {
@@ -646,11 +597,8 @@ input[type=submit].btn {
     .opacity(40);
   }
 }
-
-
 // ERROR STYLES
 // ------------
-
 // Base alert styles
 .alert-message {
   position: relative;
@@ -663,13 +611,11 @@ input[type=submit].btn {
   border-style: solid;
   .border-radius(4px);
   .box-shadow(inset 0 1px 0 rgba(255,255,255,.25));
-
   // Adjust close icon
   .close {
     margin-top: 1px;
     *margin-top: 0; // For IE7
   }
-
   // Make links same color as text and stand out more
   a {
     font-weight: bold;
@@ -681,7 +627,6 @@ input[type=submit].btn {
   &.info p a {
     color: @white;
   }
-
   // Remove extra margin from content
   h5 {
     line-height: @baseline;
@@ -698,7 +643,6 @@ input[type=submit].btn {
     // Provide actions with buttons
     .box-shadow(0 1px 0 rgba(255,255,255,.25));
   }
-
   &.block-message {
     background-image: none;
     background-color: lighten(#fceec1, 5%);
@@ -743,14 +687,10 @@ input[type=submit].btn {
     &.info p a {
       color: @grayDark;
     }
-
   }
 }
-
-
 // PAGINATION
 // ----------
-
 .pagination {
   height: @baseline * 2;
   margin: @baseline 0;
@@ -788,11 +728,8 @@ input[type=submit].btn {
     border: 0;
   }
 }
-
-
 // WELLS
 // -----
-
 .well {
   background-color: #f5f5f5;
   margin-bottom: 20px;
@@ -807,11 +744,8 @@ input[type=submit].btn {
     border-color: rgba(0,0,0,.15);
   }
 }
-
-
 // MODALS
 // ------
-
 .modal-backdrop {
   background-color: @black;
   position: fixed;
@@ -823,12 +757,10 @@ input[type=submit].btn {
   // Fade for backdrop
   &.fade { opacity: 0; }
 }
-
 .modal-backdrop,
 .modal-backdrop.fade.in {
   .opacity(80);
 }
-
 .modal {
   position: fixed;
   top: 50%;
@@ -877,17 +809,13 @@ input[type=submit].btn {
     margin-left: 5px;
   }
 }
-
 // Fix the stacking of these components when in modals
 .modal .popover,
 .modal .twipsy {
   z-index: 12000;
 }
-
-
 // POPOVER ARROWS
 // --------------
-
 #popoverArrow {
   .above(@arrowWidth: 5px) {
     bottom: 0;
@@ -922,10 +850,8 @@ input[type=submit].btn {
     border-right: @arrowWidth solid @black;
   }
 }
-
 // TWIPSY
 // ------
-
 .twipsy {
   display: block;
   position: absolute;
@@ -956,11 +882,8 @@ input[type=submit].btn {
   width: 0;
   height: 0;
 }
-
-
 // POPOVERS
 // --------
-
 .popover {
   position: absolute;
   top: 0;
@@ -1003,11 +926,8 @@ input[type=submit].btn {
     }
   }
 }
-
-
 // PATTERN ANIMATIONS
 // ------------------
-
 .fade {
   .transition(opacity .15s linear);
   opacity: 0;
@@ -1015,11 +935,8 @@ input[type=submit].btn {
     opacity: 1;
   }
 }
-
-
 // LABELS
 // ------
-
 .label {
   padding: 1px 3px 2px;
   font-size: @basefont * .75;
@@ -1035,11 +952,8 @@ input[type=submit].btn {
   &.success   { background-color: @green; }
   &.notice    { background-color: lighten(@blue, 25%); }
 }
-
-
 // MEDIA GRIDS
 // -----------
-
 .media-grid {
   margin-left: -@gridGutterWidth;
   margin-bottom: 0;

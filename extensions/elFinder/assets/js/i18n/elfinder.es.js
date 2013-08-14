@@ -187,5 +187,4 @@
             'elFinder support following shortcuts': 'elFinder soporta los siguientes atajos de teclado',
             'helpText': 'elFinder funciona igual que el gestor de ficheros de su PC. <br />Puede manipular los ficheros con la ayuda del panel superior, el menu o bien con atajos de teclado. Para mover fichero/carpetas simplemente arrastrelos a la carpeta deseada.	Si simultáneamente presiona la tecla Shift los ficheros se copiarán.'
         };
-
 })(jQuery);

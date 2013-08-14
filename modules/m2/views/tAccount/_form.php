@@ -8,7 +8,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->dropDownListRow($model, 'haschild_id', array("No"=>"No Child (Detail)","Yes"=>"Has Child (Summary)")); ?>
+<?php echo $form->dropDownListRow($model, 'haschild_id', array("No" => "No Child (Detail)", "Yes" => "Has Child (Summary)")); ?>
 <?php echo $form->textFieldRow($model, 'account_no', array('class' => 'span3')); ?>
 <?php echo $form->textFieldRow($model, 'account_name', array('class' => 'span3')); ?>
 <?php echo $form->textAreaRow($model, 'short_description', array('class' => 'span4', 'rows' => 3)); ?>

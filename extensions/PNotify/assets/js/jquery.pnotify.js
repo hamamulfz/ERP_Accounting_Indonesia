@@ -9,7 +9,6 @@
  *	  http://www.gnu.org/licenses/lgpl.html
  *	  http://www.mozilla.org/MPL/MPL-1.1.html
  */
-
 (function($) {
     var history_handle_top,
             timer,
@@ -107,7 +106,6 @@
         pnotify: function(options) {
             // Stores what is currently being animated (in or out).
             var animating;
-
             // Build main options.
             var opts;
             if (typeof options != "object") {
@@ -121,12 +119,10 @@
                 if (typeof i == "string" && i.match(/^pnotify_/))
                     opts[i.replace(/^pnotify_/, "")] = opts[i];
             }
-
             if (opts.before_init) {
                 if (opts.before_init(opts) === false)
                     return null;
             }
-
             // This keeps track of the last element the mouse was over, so
             // mouseleave, mouseenter, etc can be called.
             var nonblock_last_elem;
@@ -151,10 +147,8 @@
                 // Remember the latest element the mouse was over.
                 nonblock_last_elem = jelement_below;
             };
-
             // Get our styling object.
             var styles = styling[opts.styling];
-
             // Create our widget.
             // Stop animation, reset the removal timer, and show the close
             // button when the user mouses over.
@@ -251,10 +245,8 @@
             // Create a drop shadow.
             if (opts.shadow)
                 pnotify.container.addClass("ui-pnotify-shadow");
-
             // The current version of Pines Notify.
             pnotify.pnotify_version = "1.2.0";
-
             // This function is for updating the notice.
             pnotify.pnotify = function(options) {
                 // Update the notice.
@@ -355,7 +347,6 @@
                 pnotify.pnotify_queue_position();
                 return pnotify;
             };
-
             // Position the notice. dont_skip_hidden causes the notice to
             // position even if it's not visible.
             pnotify.pnotify_position = function(dont_skip_hidden) {
@@ -501,7 +492,6 @@
                     }
                 }
             };
-
             // Queue the positiona all function so it doesn't run repeatedly and
             // use up resources.
             pnotify.pnotify_queue_position = function(milliseconds) {
@@ -511,7 +501,6 @@
                     milliseconds = 10;
                 timer = setTimeout($.pnotify_position_all, milliseconds);
             };
-
             // Display the notice.
             pnotify.pnotify_display = function() {
                 // If the notice is not in the DOM, append it.
@@ -537,15 +526,12 @@
                 pnotify.animate_in(function() {
                     if (opts.after_open)
                         opts.after_open(pnotify);
-
                     pnotify.pnotify_queue_position();
-
                     // Now set it to hide.
                     if (opts.hide)
                         pnotify.pnotify_queue_remove();
                 });
             };
-
             // Remove the notice.
             pnotify.pnotify_remove = function() {
                 if (pnotify.timer) {
@@ -568,7 +554,6 @@
                         pnotify.detach();
                 });
             };
-
             // Animate the notice in.
             pnotify.animate_in = function(callback) {
                 // Declare that the notice is animating in. (Or has completed animating in.)
@@ -592,7 +577,6 @@
                 else
                     pnotify.show(animation, (typeof opts.animation.options_in == "object" ? opts.animation.options_in : {}), opts.animate_speed, callback);
             };
-
             // Animate the notice out.
             pnotify.animate_out = function(callback) {
                 // Declare that the notice is animating out. (Or has completed animating out.)
@@ -616,13 +600,11 @@
                 else
                     pnotify.hide(animation, (typeof opts.animation.options_out == "object" ? opts.animation.options_out : {}), opts.animate_speed, callback);
             };
-
             // Cancel any pending removal timer.
             pnotify.pnotify_cancel_remove = function() {
                 if (pnotify.timer)
                     window.clearTimeout(pnotify.timer);
             };
-
             // Queue a removal timer.
             pnotify.pnotify_queue_remove = function() {
                 // Cancel any current removal timer.
@@ -631,7 +613,6 @@
                     pnotify.pnotify_remove();
                 }, (isNaN(opts.delay) ? 0 : opts.delay));
             };
-
             // Provide a button to close the notice.
             pnotify.closer = $("<div />", {
                 "class": "ui-pnotify-closer",
@@ -646,7 +627,6 @@
                     .appendTo(pnotify.container);
             if (!opts.closer || opts.nonblock)
                 pnotify.closer.css("display", "none");
-
             // Provide a button to stick the notice.
             pnotify.sticker = $("<div />", {
                 "class": "ui-pnotify-sticker",
@@ -667,14 +647,12 @@
                     .appendTo(pnotify.container);
             if (!opts.sticker || opts.nonblock)
                 pnotify.sticker.css("display", "none");
-
             // Add the appropriate icon.
             if (opts.icon !== false) {
                 $("<div />", {"class": "ui-pnotify-icon"})
                         .append($("<span />", {"class": opts.icon === true ? (opts.type == "error" ? styles.error_icon : (opts.type == "info" ? styles.info_icon : (opts.type == "success" ? styles.success_icon : styles.notice_icon))) : opts.icon}))
                         .prependTo(pnotify.container);
             }
-
             // Add a title.
             pnotify.title_container = $("<h4 />", {
                 "class": "ui-pnotify-title"
@@ -686,7 +664,6 @@
                 pnotify.title_container.text(opts.title);
             else
                 pnotify.title_container.html(opts.title);
-
             // Add text.
             pnotify.text_container = $("<div />", {
                 "class": "ui-pnotify-text"
@@ -698,20 +675,17 @@
                 pnotify.text_container.text(opts.text);
             else
                 pnotify.text_container.html(opts.insert_brs ? String(opts.text).replace(/\n/g, "<br />") : opts.text);
-
             // Set width and min height.
             if (typeof opts.width == "string")
                 pnotify.css("width", opts.width);
             if (typeof opts.min_height == "string")
                 pnotify.container.css("min-height", opts.min_height);
-
             // The history variable controls whether the notice gets redisplayed
             // by the history pull down.
             pnotify.pnotify_history = opts.history;
             // The hide variable controls whether the history pull down should
             // queue a removal timer.
             pnotify.pnotify_hide = opts.hide;
-
             // Add the notice to the notice array.
             var notices_data = jwindow.data("pnotify");
             if (notices_data == null || typeof notices_data != "object")
@@ -724,11 +698,9 @@
             // Now position all the notices if they are to push to the top.
             if (opts.stack.push == "top")
                 pnotify.pnotify_queue_position(1);
-
             // Run callback.
             if (opts.after_init)
                 opts.after_init(pnotify);
-
             if (opts.history) {
                 // If there isn't a history pull down, create one.
                 var history_menu = jwindow.data("pnotify_history");
@@ -793,7 +765,6 @@
                         }
                     }))
                             .appendTo(body);
-
                     // Make a handle so the user can pull down the history tab.
                     var handle = $("<span />", {
                         "class": "ui-pnotify-history-pulldown " + styles.hi_hnd,
@@ -802,7 +773,6 @@
                         }
                     })
                             .appendTo(history_menu);
-
                     // Get the top of the handle.
                     history_handle_top = handle.offset().top + 2;
                     // Hide the history pull down up to the top of the handle.
@@ -811,17 +781,13 @@
                     jwindow.data("pnotify_history", history_menu);
                 }
             }
-
             // Mark the stack so it won't animate the new notice.
             opts.stack.animation = false;
-
             // Display the notice.
             pnotify.pnotify_display();
-
             return pnotify;
         }
     });
-
     // Some useful regexes.
     var re_on = /^on/,
             re_mouse_events = /^(dbl)?click$|^mouse(move|down|up|over|out|enter|leave)$|^contextmenu$/,
@@ -862,7 +828,6 @@
             this.fireEvent(e, event_object);
         }
     };
-
     $.pnotify.defaults = {
         // The notice's title.
         title: false,

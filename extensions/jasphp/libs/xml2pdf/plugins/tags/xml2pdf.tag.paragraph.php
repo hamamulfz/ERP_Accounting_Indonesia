@@ -1,5 +1,4 @@
 <?php
-
 /**
  * paragraph tag plugin file.
  *
@@ -20,7 +19,6 @@
 Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTextTag');
 // }}}
 // doc {{{
-
 /**
  * <paragraph> tag.
  *
@@ -40,70 +38,58 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTextTag');
  */ // }}}
 Class xml2pdf_tag_paragraph extends Xml2PdfTextTag {
     // class properties {{{
-
     /**
      * paragraph width.
      * @var float
      */
     public $width = null;
-
     /**
      * draw paragraph borders.
      * @var boolean
      */
     public $border = PDF_DEFAULT_PARAGRAPH_BORDER;
-
     /**
      * paragraph borders color.
      * @var string
      */
     public $borderColor = PDF_DEFAULT_PARAGRAPH_BORDERCOLOR;
-
     /**
      * fill the paragraph.
      * @var boolean
      */
     public $fill = PDF_DEFAULT_PARAGRAPH_FILL;
-
     /**
      * paragraph fill color.
      * @var string
      */
     public $fillColor = PDF_DEFAULT_PARAGRAPH_FILLCOLOR;
-
     /**
      * paragraph top margin.
      * @var float
      */
     public $top = 0;
-
     /**
      * paragraph left margin.
      * @var float
      */
     public $left = 0;
-
     /**
      * type of positioning.
      * @var string
      */
     public $position = PDF_DEFAULT_PARAGRAPH_POSITION;
-
     /**
      * paragraph alignment
      * @var string
      */
     public $align = PDF_DEFAULT_PARAGRAPH_ALIGN;
-
     /**
      * parent tag.
      * @var object
      */
     protected $parent = false;
-
     // }}}
     // xml2pdf_tag_paragraph::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -161,10 +147,8 @@ Class xml2pdf_tag_paragraph extends Xml2PdfTextTag {
             }
         }
     }
-
     // }}}
     // xml2pdf_tag_paragraph::close() {{{
-
     /**
      * Render the paragraph or add it to the parent tag.
      * 
@@ -207,7 +191,6 @@ Class xml2pdf_tag_paragraph extends Xml2PdfTextTag {
             $y = $this->pdf->tMargin;
         }
         $this->pdf->SetXY($x, $y);
-
         // set the paragraph font, fill, border and draw params
         $borderColor = Xml2Pdf::convertColor($this->borderColor);
         $this->pdf->SetDrawColor($borderColor['r'], $borderColor['g'], $borderColor['b']);
@@ -216,12 +199,9 @@ Class xml2pdf_tag_paragraph extends Xml2PdfTextTag {
         $fontColor = Xml2Pdf::convertColor($this->fontColor);
         $this->pdf->setTextColor($fontColor['r'], $fontColor['g'], $fontColor['b']);
         $this->pdf->setFont($this->font, $this->fontStyle, $this->fontSize);
-
         // write the content
         $this->pdf->multicell($this->width, $this->lineHeight, $this->content, $this->border, $this->textAlign, $this->fill);
     }
-
     // }}}
 }
-
 ?>

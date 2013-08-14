@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPExcel
  *
@@ -25,7 +24,6 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.8, 2012-10-12
  */
-
 /**
  * PHPExcel_CachedObjectStorage_Memory
  *
@@ -34,7 +32,6 @@
  * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_CachedObjectStorage_Memory extends PHPExcel_CachedObjectStorage_CacheBase implements PHPExcel_CachedObjectStorage_ICache {
-
     /**
      * Add or Update a cell in cache identified by coordinate address
      *
@@ -47,9 +44,7 @@ class PHPExcel_CachedObjectStorage_Memory extends PHPExcel_CachedObjectStorage_C
         $this->_cellCache[$pCoord] = $cell;
         return $cell;
     }
-
 //	function addCacheData()
-
     /**
      * Get cell at a specific coordinate
      *
@@ -63,13 +58,10 @@ class PHPExcel_CachedObjectStorage_Memory extends PHPExcel_CachedObjectStorage_C
             //	Return null if requested entry doesn't exist in cache
             return null;
         }
-
         //	Return requested entry
         return $this->_cellCache[$pCoord];
     }
-
 //	function getCacheData()
-
     /**
      * Clone the cell collection
      *
@@ -78,16 +70,13 @@ class PHPExcel_CachedObjectStorage_Memory extends PHPExcel_CachedObjectStorage_C
      */
     public function copyCellCollection(PHPExcel_Worksheet $parent) {
         parent::copyCellCollection($parent);
-
         $newCollection = array();
         foreach ($this->_cellCache as $k => &$cell) {
             $newCollection[$k] = clone $cell;
             $newCollection[$k]->attach($parent);
         }
-
         $this->_cellCache = $newCollection;
     }
-
     /**
      * Clear the cell collection and disconnect from our parent
      *
@@ -100,12 +89,9 @@ class PHPExcel_CachedObjectStorage_Memory extends PHPExcel_CachedObjectStorage_C
             $this->_cellCache[$k] = null;
         }
         unset($cell);
-
         $this->_cellCache = array();
-
         //	detach ourself from the worksheet, so that it can then delete this object successfully
         $this->_parent = null;
     }
-
 //	function unsetWorksheetCells()
 }

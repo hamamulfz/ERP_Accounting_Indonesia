@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbInputHorizontal class file.
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
@@ -8,13 +7,11 @@
  * @package bootstrap.widgets.input
  */
 Yii::import('bootstrap.widgets.input.TbInput');
-
 /**
  * Bootstrap horizontal form input widget.
  * @since 0.9.8
  */
 class TbInputHorizontal extends TbInput {
-
     /**
      * Runs the widget.
      */
@@ -23,7 +20,6 @@ class TbInputHorizontal extends TbInput {
         parent::run();
         echo '</div>';
     }
-
     /**
      * Returns the label for this block.
      * @return string the label
@@ -33,13 +29,10 @@ class TbInputHorizontal extends TbInput {
             $this->labelOptions['class'] .= ' control-label';
         else
             $this->labelOptions['class'] = 'control-label';
-
         if (isset($this->htmlOptions['id']))
             $this->labelOptions['for'] = $this->htmlOptions['id'];
-
         return parent::getLabel();
     }
-
     /**
      * Renders a checkbox.
      * @return string the rendered content
@@ -53,7 +46,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</label></div>';
     }
-
     /**
      * Renders a toogle button
      * @return string the rendered content
@@ -69,14 +61,12 @@ class TbInputHorizontal extends TbInput {
             unset($this->htmlOptions['options']);
         }
         $options['htmlOptions'] = $this->htmlOptions;
-
         echo $this->getLabel();
         echo '<div class="controls">';
         $this->widget('bootstrap.widgets.TbToggleButton', $options);
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a list of checkboxes.
      * @return string the rendered content
@@ -88,7 +78,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a list of inline checkboxes.
      * @return string the rendered content
@@ -97,7 +86,6 @@ class TbInputHorizontal extends TbInput {
         $this->htmlOptions['inline'] = true;
         $this->checkBoxList();
     }
-
     /**
      * Renders a list of checkboxes using Button Groups.
      * @return string the rendered content
@@ -109,20 +97,16 @@ class TbInputHorizontal extends TbInput {
         } else if (isset($this->data) && !empty($this->data)) {
             $label_for = CHtml::getIdByName(get_class($this->model) . '[' . $this->attribute . '][' . key($this->data) . ']');
         }
-
         if (isset($label_for)) {
             $this->labelOptions = array('for' => $label_for);
         }
-
         $this->htmlOptions['class'] = 'pull-left';
-
         echo $this->getLabel();
         echo '<div class="controls">';
         echo $this->form->checkBoxGroupsList($this->model, $this->attribute, $this->data, $this->htmlOptions);
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a drop down list (select).
      * @return string the rendered content
@@ -134,7 +118,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a file field.
      * @return string the rendered content
@@ -146,7 +129,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a password field.
      * @return string the rendered content
@@ -160,7 +142,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a radio button.
      * @return string the rendered content
@@ -174,7 +155,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</label></div>';
     }
-
     /**
      * Renders a list of radio buttons.
      * @return string the rendered content
@@ -186,7 +166,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a list of inline radio buttons.
      * @return string the rendered content
@@ -195,7 +174,6 @@ class TbInputHorizontal extends TbInput {
         $this->htmlOptions['inline'] = true;
         $this->radioButtonList();
     }
-
     /**
      * Renders a list of radio buttons using Button Groups.
      * @return string the rendered content
@@ -207,20 +185,16 @@ class TbInputHorizontal extends TbInput {
         } else if (isset($this->data) && !empty($this->data)) {
             $label_for = CHtml::getIdByName(get_class($this->model) . '[' . $this->attribute . '][' . key($this->data) . ']');
         }
-
         if (isset($label_for)) {
             $this->labelOptions = array('for' => $label_for);
         }
-
         $this->htmlOptions['class'] = 'pull-left';
-
         echo $this->getLabel();
         echo '<div class="controls">';
         echo $this->form->radioButtonGroupsList($this->model, $this->attribute, $this->data, $this->htmlOptions);
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a textarea.
      * @return string the rendered content
@@ -232,7 +206,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a text field.
      * @return string the rendered content
@@ -246,7 +219,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a masked text field.
      * @return string the rendered content
@@ -260,7 +232,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a CAPTCHA.
      * @return string the rendered content
@@ -273,7 +244,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div></div>';
     }
-
     /**
      * Renders an uneditable field.
      * @return string the rendered content
@@ -285,7 +255,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a datepicker field.
      * @return string the rendered content
@@ -296,12 +265,10 @@ class TbInputHorizontal extends TbInput {
             $options = $this->htmlOptions['options'];
             unset($this->htmlOptions['options']);
         }
-
         if (isset($this->htmlOptions['events'])) {
             $events = $this->htmlOptions['events'];
             unset($this->htmlOptions['events']);
         }
-
         echo $this->getLabel();
         echo '<div class="controls">';
         echo $this->getPrepend();
@@ -316,7 +283,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a colorpicker field.
      * @return string the rendered content
@@ -328,12 +294,10 @@ class TbInputHorizontal extends TbInput {
             $format = $this->htmlOptions['format'];
             unset($this->htmlOptions['format']);
         }
-
         if (isset($this->htmlOptions['events'])) {
             $events = $this->htmlOptions['events'];
             unset($this->htmlOptions['events']);
         }
-
         echo $this->getLabel();
         echo '<div class="controls">';
         echo $this->getPrepend();
@@ -348,7 +312,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a redactor.
      * @return string the rendered content
@@ -379,13 +342,11 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a Markdown Editor.
      * @return string the rendered content
      */
     protected function markdownEditorJs() {
-
         if (isset($this->htmlOptions['width'])) {
             $width = $this->htmlOptions['width'];
             unset($this->htmlOptions['width']);
@@ -410,7 +371,6 @@ class TbInputHorizontal extends TbInput {
         echo '</div>'; // wmd-panel
         echo '</div>'; // controls
     }
-
     /**
      * Renders Bootstrap wysihtml5 editor.
      * @return mixed|void
@@ -441,7 +401,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a ckEditor.
      * @return string the rendered content
@@ -452,7 +411,6 @@ class TbInputHorizontal extends TbInput {
             $options = $this->htmlOptions['options'];
             unset($this->htmlOptions['options']);
         }
-
         echo $this->getLabel();
         echo '<div class="controls">';
         $this->widget('bootstrap.widgets.TbCKEditor', array(
@@ -464,7 +422,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a daterange field.
      * @return string the rendered content
@@ -475,12 +432,10 @@ class TbInputHorizontal extends TbInput {
             $options = $this->htmlOptions['options'];
             unset($this->htmlOptions['options']);
         }
-
         if (isset($options['callback'])) {
             $callback = $options['callback'];
             unset($options['callback']);
         }
-
         echo $this->getLabel();
         echo '<div class="controls">';
         echo $this->getPrepend();
@@ -495,7 +450,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a timepicker field.
      * @return string the rendered content
@@ -506,12 +460,10 @@ class TbInputHorizontal extends TbInput {
             $options = $this->htmlOptions['options'];
             unset($this->htmlOptions['options']);
         }
-
         if (isset($this->htmlOptions['events'])) {
             $events = $this->htmlOptions['events'];
             unset($this->htmlOptions['events']);
         }
-
         echo $this->getLabel();
         echo '<div class="controls bootstrap-timepicker">';
         echo $this->getPrepend();
@@ -527,7 +479,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a select2Field
      * @return mixed|void
@@ -537,22 +488,18 @@ class TbInputHorizontal extends TbInput {
             $options = $this->htmlOptions['options'];
             unset($this->htmlOptions['options']);
         }
-
         if (isset($this->htmlOptions['events'])) {
             $events = $this->htmlOptions['events'];
             unset($this->htmlOptions['events']);
         }
-
         if (isset($this->htmlOptions['data'])) {
             $data = $this->htmlOptions['data'];
             unset($this->htmlOptions['data']);
         }
-
         if (isset($this->htmlOptions['asDropDownList'])) {
             $asDropDownList = $this->htmlOptions['asDropDownList'];
             unset($this->htmlOptions['asDropDownList']);
         }
-
         echo $this->getLabel();
         echo '<div class="controls">';
         echo $this->getPrepend();
@@ -570,7 +517,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a typeAhead field.
      * @return string the rendered content
@@ -584,7 +530,6 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
     /**
      * Renders a number field.
      * @return string the rendered content
@@ -598,5 +543,4 @@ class TbInputHorizontal extends TbInput {
         echo $this->getError() . $this->getHint();
         echo '</div>';
     }
-
 }

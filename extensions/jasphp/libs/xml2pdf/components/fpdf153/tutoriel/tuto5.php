@@ -1,9 +1,6 @@
 <?php
-
 require('../fpdf.php');
-
 class PDF extends FPDF {
-
 //Chargement des donn�es
     function LoadData($file) {
         //Lecture des lignes du fichier
@@ -13,7 +10,6 @@ class PDF extends FPDF {
             $data[] = explode(';', chop($line));
         return $data;
     }
-
 //Tableau simple
     function BasicTable($header, $data) {
         //En-t�te
@@ -27,7 +23,6 @@ class PDF extends FPDF {
             $this->Ln();
         }
     }
-
 //Tableau am�lior�
     function ImprovedTable($header, $data) {
         //Largeurs des colonnes
@@ -47,7 +42,6 @@ class PDF extends FPDF {
         //Trait de terminaison
         $this->Cell(array_sum($w), 0, '', 'T');
     }
-
 //Tableau color�
     function FancyTable($header, $data) {
         //Couleurs, �paisseur du trait et police grasse
@@ -77,9 +71,7 @@ class PDF extends FPDF {
         }
         $this->Cell(array_sum($w), 0, '', 'T');
     }
-
 }
-
 $pdf = new PDF();
 //Titres des colonnes
 $header = array('Pays', 'Capitale', 'Superficie (km�)', 'Pop. (milliers)');

@@ -133,7 +133,6 @@ img {
     border: 0;
     -ms-interpolation-mode: bicubic;
 }
-
 /*
 button,
 input,
@@ -391,8 +390,6 @@ a:hover {
 /* Typography.less
  * Headings, body text, lists, code, and more for a versatile and durable typography system
  * ---------------------------------------------------------------------------------------- */
-
-
 p {
     font-size: 13px;
     font-weight: normal;
@@ -403,7 +400,6 @@ p small {
     font-size: 11px;
     color: #bfbfbf;
 }
-
 h1,
 h2,
 h3,
@@ -587,10 +583,8 @@ fieldset legend {
     color: #404040;
     *padding: 0 0 5px 145px;
     /* IE6-7 */
-
     *line-height: 1.5;
     /* IE6-7 */
-
 }
 form .clearfix {
     margin-bottom: 18px;
@@ -604,7 +598,6 @@ form .clearfix:before, form .clearfix:after {
 form .clearfix:after {
     clear: both;
 }
-
 /*
 label,
 input,
@@ -655,7 +648,6 @@ input[type=checkbox], input[type=radio] {
   padding: 0;
   margin: 3px 0;
   *margin-top: 0;
-
   line-height: normal;
   border: none;
 }
@@ -677,7 +669,6 @@ select, input[type=file] {
   *height: auto;
   line-height: 27px;
   *margin-top: 4px;
-
 }
 */
 select[multiple] {
@@ -952,10 +943,8 @@ textarea[readonly] {
     padding-left: 5px;
     *position: relative;
     /* IE6-7 */
-
     *top: -5px;
     /* IE6-7 */
-
 }
 .help-block {
     display: block;
@@ -1000,7 +989,6 @@ textarea[readonly] {
 .input-prepend .add-on {
     *margin-top: 1px;
     /* IE6-7 */
-
 }
 .input-append input {
     float: left;
@@ -1139,7 +1127,6 @@ table tbody th {
     border-collapse: separate;
     *border-collapse: collapse;
     /* IE7, collapse table to remove spacing */
-
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -2129,7 +2116,6 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
     border-right-color: rgba(0, 0, 0, 0.15);
     *border-right-color: #ddd;
     /* IE6-7 */
-
     text-decoration: none;
 }
 .pagination a:hover, .pagination .active a {
@@ -2192,7 +2178,6 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
     border: 1px solid rgba(0, 0, 0, 0.3);
     *border: 1px solid #999;
     /* IE6-7 */
-
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;

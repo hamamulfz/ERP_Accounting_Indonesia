@@ -1,13 +1,10 @@
 <?php
-
 class sCompanyNewsController extends Controller {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//layouts/column1';
-
     public function actions() {
         return array(
             'compressor' => array(
@@ -22,7 +19,6 @@ class sCompanyNewsController extends Controller {
             ),
         );
     }
-
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -30,32 +26,25 @@ class sCompanyNewsController extends Controller {
     public function actionView($id) {
         //if (Yii::app()->user->isGuest) {
         //		$this->layout='//layouts/mainGuest';
-
         $this->render('view', array(
             'model' => $this->loadModel($id),
         ));
     }
-
     /**
      * Lists all models.
      */
     public function actionIndex() {
         $model = new sCompanyNews('search');
         $model->unsetAttributes();
-
         $criteria = new CDbCriteria;
         $criteria->scopes = array('app_publish', 'noQuote_Announcement', 'recently');
-
         if (isset($_GET['sCompanyNews'])) {
             $model->attributes = $_GET['sCompanyNews'];
-
             $criteria1 = new CDbCriteria;
             $criteria1->compare('title', $_GET['sCompanyNews']['title'], true, 'OR');
             $criteria1->compare('content', $_GET['sCompanyNews']['title'], true, 'OR');
             $criteria->mergeWith($criteria1);
         }
-
-
         $dataProvider = new CActiveDataProvider('sCompanyNews', array(
             'criteria' => $criteria,
             'pagination' => array(
@@ -67,7 +56,6 @@ class sCompanyNewsController extends Controller {
             'model' => $model,
         ));
     }
-
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -80,13 +68,11 @@ class sCompanyNewsController extends Controller {
         }
         else
             $criteria->scopes = array('app_publish', 'noQuote_Announcement_WithCalendar');
-
         $model = sCompanyNews::model()->findByPk((int) $id, $criteria);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
-
     /**
      * Performs the AJAX validation.
      * @param CModel the model to be validated
@@ -97,5 +83,4 @@ class sCompanyNewsController extends Controller {
             Yii::app()->end();
         }
     }
-
 }

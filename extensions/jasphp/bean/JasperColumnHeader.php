@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperColumnHeader
  *
@@ -8,11 +7,8 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="columnHeader") */
 class JasperColumnHeader extends AbstractJasper {
-
     /** @BeanAnnotation(className="JasperBand") */
     public $band = null;
-
 }

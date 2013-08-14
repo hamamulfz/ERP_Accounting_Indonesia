@@ -1,10 +1,8 @@
 <?php
-
 /**
  * @see CPortlet
  */
 Yii::import('zii.widgets.CPortlet');
-
 /**
  * This is a simple portlet to choose language from your messages directory
  * in controller::init() put
@@ -16,18 +14,15 @@ Yii::import('zii.widgets.CPortlet');
  * @author David Constantine Kurushin http://www.zend.com/en/store/education/certification/authenticate.php/ClientCandidateID/ZEND015209/RegistrationID/238001337
  */
 class ELanguagePicker extends CPortlet {
-
     /**
      * @var string a title for the widget
      */
     public $title = 'Language Picker';
-
     /**
      *
      * @var string the default tag name of the container
      */
     public $tagName = 'div';
-
     /**
      * @var array some html options for the dropdownlist
      */
@@ -37,7 +32,6 @@ class ELanguagePicker extends CPortlet {
         'class' => 'languageSelector',
         'id' => 'languageSelector',
     );
-
     /**
      * (non-PHPdoc)
      * @see CPortlet::renderContent()
@@ -48,7 +42,6 @@ class ELanguagePicker extends CPortlet {
         echo CHtml::dropDownList('languageSelector', Yii::app()->getLanguage(), $translations, $this->dropDownOptions);
         echo CHtml::endForm();
     }
-
     /**
      * set the language and save on cookie, or select from cookie
      * this should be called from  CController::init or CController::beforeAction etc.
@@ -70,7 +63,6 @@ class ELanguagePicker extends CPortlet {
             throw new CHttpException(400, Yii::t('app', 'Invalid request. Translation don\'t exists!'));
         }
     }
-
     /**
      * Iterates the messages directory and list the languages available
      * @return array list of languages
@@ -83,5 +75,4 @@ class ELanguagePicker extends CPortlet {
                 $translations[$item->getFilename()] = $item->getFilename();
         return $translations;
     }
-
 }

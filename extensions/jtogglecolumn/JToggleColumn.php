@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CToggleColumn class file.
  *
@@ -9,9 +8,7 @@
  * @license http://www.yiiframework.com/license/
  */
 Yii::import('zii.widgets.grid.CGridColumn');
-
 class JToggleColumn extends CGridColumn {
-
     /**
      * @var string the attribute name of the data model. Used for column sorting, filtering and to render the corresponding
      * attribute value in each data cell. If {@link value} is specified it will be used to rendered the data cell instead of the attribute value.
@@ -19,51 +16,42 @@ class JToggleColumn extends CGridColumn {
      * @see sortable
      */
     public $name;
-
     /**
      * @var array the HTML options for the data cell tags.
      */
     public $htmlOptions = array('class' => 'toggle-column');
-
     /**
      * @var array the HTML options for the header cell tag.
      */
     public $headerHtmlOptions = array('class' => 'toggle-column');
-
     /**
      * @var array the HTML options for the footer cell tag.
      */
     public $footerHtmlOptions = array('class' => 'toggle-column');
-
     /**
      * @var string the label for the toggle button. Defaults to "toggle".
      * Note that the label will not be HTML-encoded when rendering.
      */
     public $checkedButtonLabel;
-
     /**
      * @var string the label for the toggle button. Defaults to "toggle".
      * Note that the label will not be HTML-encoded when rendering.
      */
     public $uncheckedButtonLabel;
-
     /**
      * @var string the image URL for the toggle button. If not set, an integrated image will be used.
      * You may set this property to be false to render a text link instead.
      */
     public $checkedButtonImageUrl;
-
     /**
      * @var string the image URL for the toggle button. If not set, an integrated image will be used.
      * You may set this property to be false to render a text link instead.
      */
     public $uncheckedButtonImageUrl;
-
     /**
      * @var array the configuration for toggle button.
      */
     public $toggle_button = array();
-
     /**
      * @var boolean whether the column is sortable. If so, the header cell will contain a link that may trigger the sorting.
      * Defaults to true. Note that if {@link name} is not set, or if {@link name} is not allowed by {@link CSort},
@@ -71,7 +59,6 @@ class JToggleColumn extends CGridColumn {
      * @see name
      */
     public $sortable = true;
-
     /**
      * @var mixed the HTML code representing a filter input (eg a text field, a dropdown list)
      * that is used for this data column. This property is effective only when
@@ -83,17 +70,14 @@ class JToggleColumn extends CGridColumn {
      * @since 1.1.1
      */
     public $filter;
-
     /**
      * @var string Name of the action
      */
     public $action;
-
     /**
      * @var string Assets url
      */
     private $_assetsUrl;
-
     /**
      * Returns assets url, where check and uncheck images are located
      * @return string
@@ -103,7 +87,6 @@ class JToggleColumn extends CGridColumn {
             $this->_assetsUrl = Yii::app()->getAssetManager()->publish(dirname(__FILE__) . '/images');
         return $this->_assetsUrl;
     }
-
     /**
      * Initializes the column.
      * This method registers necessary client script for the button column.
@@ -113,14 +96,10 @@ class JToggleColumn extends CGridColumn {
             $this->sortable = false;
         if ($this->name === null)
             throw new CException(Yii::t('toggle_column', 'Model attribute ("name") must be specified for CToggleColumn.'));
-
         $this->initDefaultButtons();
-
         $this->toggle_button['click'] = 'js:' . $this->toggle_button['click'];
-
         $this->registerClientScript();
     }
-
     /**
      * Initializes the default buttons (toggle).
      */
@@ -133,15 +112,12 @@ class JToggleColumn extends CGridColumn {
             $this->checkedButtonImageUrl = $this->getAssetsUrl() . '/checked.png';
         if ($this->uncheckedButtonImageUrl === null)
             $this->uncheckedButtonImageUrl = $this->getAssetsUrl() . '/unchecked.png';
-
         if ($this->action === null)
             $this->action = 'toggle';
-
         $this->toggle_button = array(
             'url' => 'Yii::app()->controller->createUrl("' . $this->action . '",array("id"=>$data->primaryKey,"attribute"=>"' . $this->name . '"))',
             'options' => array('class' => $this->name . '_toggle'),
         );
-
         if (Yii::app()->request->enableCsrfValidation) {
             $csrfTokenName = Yii::app()->request->csrfTokenName;
             $csrfToken = Yii::app()->request->csrfToken;
@@ -149,7 +125,6 @@ class JToggleColumn extends CGridColumn {
         }
         else
             $csrf = '';
-
         $this->toggle_button['click'] = <<<EOD
 function() {
 	var th=this;
@@ -164,21 +139,17 @@ function() {
 }
 EOD;
     }
-
     /**
      * Registers the client scripts for the button column.
      */
     protected function registerClientScript() {
         $js = array();
-
         $function = CJavaScript::encode($this->toggle_button['click']);
         $class = preg_replace('/\s+/', '.', $this->toggle_button['options']['class']);
         $js[] = "jQuery('#{$this->grid->id} a.{$class}').live('click',$function);";
-
         if ($js !== array())
             Yii::app()->getClientScript()->registerScript(__CLASS__ . '#' . $this->id, implode("\n", $js));
     }
-
     /**
      * Renders the data cell content.
      * This method renders the view, update and toggle buttons in the data cell.
@@ -193,7 +164,6 @@ EOD;
         ob_end_clean();
         echo $toggle_button;
     }
-
     /**
      * Renders the header cell content.
      * This method will render a link that can trigger the sorting if the column is sortable.
@@ -210,7 +180,6 @@ EOD;
         else
             parent::renderHeaderCellContent();
     }
-
     /**
      * Renders a toggle button.
      * @param string $id the ID of the button
@@ -222,10 +191,8 @@ EOD;
     protected function renderButton($button, $row, $data) {
         if ($this->name !== null)
             $checked = (CHtml::value($data, $this->name) == 1) ? true : false;
-
         $button['imageUrl'] = $checked ? $this->checkedButtonImageUrl : $this->uncheckedButtonImageUrl;
         $button['label'] = $checked ? $this->checkedButtonLabel : $this->uncheckedButtonLabel;
-
         $label = $button['label'];
         $url = isset($button['url']) ? $this->evaluateExpression($button['url'], array('data' => $data, 'row' => $row)) : '#';
         $options = isset($button['options']) ? $button['options'] : array();
@@ -236,7 +203,6 @@ EOD;
         else
             echo CHtml::link($label, $url, $options);
     }
-
     /**
      * Renders the filter cell content.
      * This method will render the {@link filter} as is if it is a string.
@@ -245,7 +211,6 @@ EOD;
      * @since 1.1.1
      */
     protected function renderFilterCellContent() {
-
         if ($this->filter !== null) {
             if (is_string($this->filter))
                 echo $this->filter;
@@ -259,5 +224,4 @@ EOD;
                 parent::renderFilterCellContent();
         }
     }
-
 }

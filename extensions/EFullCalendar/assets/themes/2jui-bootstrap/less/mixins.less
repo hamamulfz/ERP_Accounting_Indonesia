@@ -1,8 +1,6 @@
 /* Mixins.less
  * Snippets of reusable CSS to develop faster and keep code readable
  * ----------------------------------------------------------------- */
-
-
 // Clearfix for clearing floats like a boss h5bp.com/q
 .clearfix() {
   zoom: 1;
@@ -16,14 +14,12 @@
     clear: both;
   }
 }
-
 // Center-align a block level element
 .center-block() {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
-
 // Sizing shortcuts
 .size(@height: 5px, @width: 5px) {
   height: @height;
@@ -32,7 +28,6 @@
 .square(@size: 5px) {
   .size(@size, @size);
 }
-
 // Input placeholder text
 .placeholder(@color: @grayLight) {
   :-moz-placeholder {
@@ -42,7 +37,6 @@
     color: @color;
   }
 }
-
 // Font Stacks
 #font {
   .shorthand(@weight: normal, @size: 14px, @lineHeight: 20px) {
@@ -69,7 +63,6 @@
     line-height: @lineHeight;
   }
 }
-
 // Grid System
 .fixed-container() {
   width: @siteWidth;
@@ -94,21 +87,18 @@
   .gridColumn();
   .columns(@columnSpan);
 }
-
 // Border Radius
 .border-radius(@radius: 5px) {
   -webkit-border-radius: @radius;
      -moz-border-radius: @radius;
           border-radius: @radius;
 }
-
 // Drop shadows
 .box-shadow(@shadow: 0 1px 3px rgba(0,0,0,.25)) {
   -webkit-box-shadow: @shadow;
      -moz-box-shadow: @shadow;
           box-shadow: @shadow;
 }
-
 // Transitions
 .transition(@transition) {
      -webkit-transition: @transition;
@@ -117,14 +107,12 @@
           -o-transition: @transition;
              transition: @transition;
 }
-
 // Background clipping
 .background-clip(@clip) {
   -webkit-background-clip: @clip;
      -moz-background-clip: @clip;
           background-clip: @clip;
 }
-
 // CSS3 Content Columns
 .content-columns(@columnCount, @columnGap: 20px) {
   -webkit-column-count: @columnCount;
@@ -134,13 +122,11 @@
      -moz-column-gap: @columnGap;
           column-gap: @columnGap;
 }
-
 // Make any element resizable for prototyping
 .resizable(@direction: both) {
   resize: @direction; // Options are horizontal, vertical, both
   overflow: auto; // Safari fix
 }
-
 // Add an alphatransparency value to any background or border color (via Elyse Holladay)
 #translucent {
   .background(@color: @white, @alpha: 1) {
@@ -151,7 +137,6 @@
     background-clip: padding-box;
   }
 }
-
 // Gradient Bar Colors for buttons and allerts
 .gradientBar(@primaryColor, @secondaryColor) {
   #gradient > .vertical(@primaryColor, @secondaryColor);
@@ -159,7 +144,6 @@
   border-color: @secondaryColor @secondaryColor darken(@secondaryColor, 15%);
   border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fadein(rgba(0,0,0,.1), 15%);
 }
-
 // Gradients
 #gradient {
   .horizontal (@startColor: #555, @endColor: #333) {
@@ -207,12 +191,10 @@
     filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@startColor,@endColor)); // IE9 and down, gets no color-stop at all for proper fallback
   }
 }
-
 // Reset filters for IE
 .reset-filter() {
   filter: e(%("progid:DXImageTransform.Microsoft.gradient(enabled = false)"));
 }
-
 // Opacity
 .opacity(@opacity: 100) {
   filter: e(%("alpha(opacity=%d)", @opacity));

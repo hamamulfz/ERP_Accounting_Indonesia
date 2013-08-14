@@ -1,3 +1,8 @@
+<?php $pageSize = $widget->dataProvider->getPagination()->pageSize; ?>
+ 
+<?php if($index == 0) echo '<div class="row">'; ?>
+<div class="span3">
+ 
 <h4><?php echo CHtml::link(CHtml::encode($data->company_name), array('view', 'id' => $data->id)); ?>
 </h4> 
 
@@ -35,4 +40,12 @@
 <b><?php echo CHtml::encode($data->getAttributeLabel('status_id')); ?>:</b>
 <?php echo CHtml::encode($data->status_id); ?>
 <br />
+
+ 
+</div>
+ 
+<?php if($index != 0 && $index != $pageSize && ($index + 1) % 3 == 0)
+    echo '</div><div class="row">'; ?>
+ 
+<?php if(($index + 1) == $pageSize ) echo '</div>'; ?>
 

@@ -85,7 +85,7 @@ class TPostingController extends Controller {
         $model->unsetAttributes();  // clear any default values
 
         $criteria = new CDbCriteria;
-        $criteria->condition = 'state_id =4 or state_id = 3';
+        //$criteria->condition = 'state_id =4 or state_id = 3';
         $criteria->order = 't.updated_date DESC'; //last updated
         //$criteria->compare('journal_type_id',4);
 

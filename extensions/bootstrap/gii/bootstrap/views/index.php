@@ -16,11 +16,8 @@ $('#{$class}_model').bind('keyup change', function(){
 ");
 ?>
 <h1>Bootstrap Generator</h1>
-
 <p>This generator generates a controller and views that implement CRUD operations for the specified data model.</p>
-
 <?php $form = $this->beginWidget('CCodeForm', array('model' => $model)); ?>
-
 <div class="row">
     <?php echo $form->labelEx($model, 'model'); ?>
     <?php echo $form->textField($model, 'model', array('size' => 65)); ?>
@@ -31,7 +28,6 @@ $('#{$class}_model').bind('keyup change', function(){
     </div>
     <?php echo $form->error($model, 'model'); ?>
 </div>
-
 <div class="row">
     <?php echo $form->labelEx($model, 'controller'); ?>
     <?php echo $form->textField($model, 'controller', array('size' => 65)); ?>
@@ -50,7 +46,6 @@ $('#{$class}_model').bind('keyup change', function(){
     </div>
     <?php echo $form->error($model, 'controller'); ?>
 </div>
-
 <div class="row sticky">
     <?php echo $form->labelEx($model, 'baseControllerClass'); ?>
     <?php echo $form->textField($model, 'baseControllerClass', array('size' => 65)); ?>
@@ -60,5 +55,4 @@ $('#{$class}_model').bind('keyup change', function(){
     </div>
     <?php echo $form->error($model, 'baseControllerClass'); ?>
 </div>
-
 <?php $this->endWidget(); ?>

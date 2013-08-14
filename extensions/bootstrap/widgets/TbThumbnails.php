@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbThumbnails class file.
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
@@ -8,13 +7,11 @@
  * @package bootstrap.widgets
  */
 Yii::import('bootstrap.widgets.TbListView');
-
 /**
  * Bootstrap thumbnails widget.
  * @see http://twitter.github.com/bootstrap/components.html#thumbnails
  */
 class TbThumbnails extends TbListView {
-
     /**
      * Renders the data items for the view.
      * Each item is corresponding to a single data model instance.
@@ -22,9 +19,7 @@ class TbThumbnails extends TbListView {
      */
     public function renderItems() {
         echo CHtml::openTag($this->itemsTagName, array('class' => $this->itemsCssClass)) . "\n";
-
         $data = $this->dataProvider->getData();
-
         if (!empty($data)) {
             echo CHtml::openTag('ul', array('class' => 'thumbnails'));
             $owner = $this->getOwner();
@@ -36,13 +31,10 @@ class TbThumbnails extends TbListView {
                 $data['widget'] = $this;
                 $owner->$render($this->itemView, $data);
             }
-
             echo '</ul>';
         }
         else
             $this->renderEmptyText();
-
         echo CHtml::closeTag($this->itemsTagName);
     }
-
 }

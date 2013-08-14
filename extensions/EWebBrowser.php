@@ -1,5 +1,4 @@
 <?php
-
 /**
  * File: EWebBrowser.php
  * Author: Antonio Ramirez
@@ -26,7 +25,6 @@
  *
  */
 class EWebBrowser extends CComponent {
-
     const BROWSER_UNKNOWN = 'unknown';
     const VERSION_UNKNOWN = 'unknown';
     const BROWSER_OPERA = 'Opera';       // http://www.opera.com/
@@ -83,9 +81,7 @@ class EWebBrowser extends CComponent {
     const PLATFORM_OPENSOLARIS = 'OpenSolaris';
     const PLATFORM_ANDROID = 'Android';
     const OPERATING_SYSTEM_UNKNOWN = 'unknown';
-
     protected $attributes;
-
     public function __construct($useragent = null, $eventHandler = null) {
         $this->attributes = new CAttributeCollection();
         $this->attributes->add('agent', '');
@@ -97,10 +93,8 @@ class EWebBrowser extends CComponent {
         $this->attributes->add('is_mobile', false);
         $this->attributes->add('is_robot', false);
         $this->attributes->add('aol_version', '');
-
         if (null !== $eventHandler)
             $this->onDetection = $eventHandler;
-
         if (null !== $useragent)
             $this->setUserAgent($useragent0);
         else {
@@ -108,7 +102,6 @@ class EWebBrowser extends CComponent {
             $this->determine();
         }
     }
-
     /**
      * Event raised when user agent has been parsed for browser discovery
      * @param  $event
@@ -116,7 +109,6 @@ class EWebBrowser extends CComponent {
     public function onDetection($event) {
         $this->raiseEvent('onDetection', $event);
     }
-
     /**
      * Reset all properties
      */
@@ -131,7 +123,6 @@ class EWebBrowser extends CComponent {
         $this->attributes->is_robot = false;
         $this->attributes->aol_version = self::VERSION_UNKNOWN;
     }
-
     /**
      * Check to see if the specific browser is valid
      * @param string $browserName
@@ -140,7 +131,6 @@ class EWebBrowser extends CComponent {
     function isBrowser($browserName) {
         return( 0 == strcasecmp($this->attributes->browser_name, trim($browserName)));
     }
-
     /**
      * The name of the browser.  All return types are from the class contants
      * @return string Name of the browser
@@ -148,7 +138,6 @@ class EWebBrowser extends CComponent {
     public function getBrowser() {
         return $this->attributes->browser_name;
     }
-
     /**
      * Set the name of the browser
      * @param $browser The name of the Browser
@@ -156,7 +145,6 @@ class EWebBrowser extends CComponent {
     public function setBrowser($browser) {
         return $this->attributes->browser_name = $browser;
     }
-
     /**
      * The name of the platform.  All return types are from the class contants
      * @return string Name of the browser
@@ -164,7 +152,6 @@ class EWebBrowser extends CComponent {
     public function getPlatform() {
         return $this->attributes->platform;
     }
-
     /**
      * Set the name of the platform
      * @param $platform The name of the Platform
@@ -172,7 +159,6 @@ class EWebBrowser extends CComponent {
     public function setPlatform($platform) {
         return $this->attributes->platform = $platform;
     }
-
     /**
      * The version of the browser.
      * @return string Version of the browser (will only contain alpha-numeric characters and a period)
@@ -180,7 +166,6 @@ class EWebBrowser extends CComponent {
     public function getVersion() {
         return $this->attributes->version;
     }
-
     /**
      * Set the version of the browser
      * @param $version The version of the Browser
@@ -188,7 +173,6 @@ class EWebBrowser extends CComponent {
     public function setVersion($version) {
         $this->attributes->version = preg_replace('/[^0-9,.,a-z,A-Z-]/', '', $version);
     }
-
     /**
      * The version of AOL.
      * @return string Version of AOL (will only contain alpha-numeric characters and a period)
@@ -196,7 +180,6 @@ class EWebBrowser extends CComponent {
     public function getAolVersion() {
         return $this->attributes->aol_version;
     }
-
     /**
      * Set the version of AOL
      * @param $version The version of AOL
@@ -204,7 +187,6 @@ class EWebBrowser extends CComponent {
     public function setAolVersion($version) {
         $this->attributes->aol_version = preg_replace('/[^0-9,.,a-z,A-Z]/', '', $version);
     }
-
     /**
      * Is the browser from AOL?
      * @return boolean True if the browser is from AOL otherwise false
@@ -212,7 +194,6 @@ class EWebBrowser extends CComponent {
     public function getIsAol() {
         return $this->attributes->is_aol;
     }
-
     /**
      * Set the browser to be from AOL
      * @param $isAol
@@ -220,7 +201,6 @@ class EWebBrowser extends CComponent {
     protected function setIsAol($isAol) {
         $this->attributes->is_aol = $isAol;
     }
-
     /**
      * Is the browser from a mobile device?
      * @return boolean True if the browser is from a mobile device otherwise false
@@ -228,7 +208,6 @@ class EWebBrowser extends CComponent {
     public function getIsMobile() {
         return $this->attributes->is_mobile;
     }
-
     /**
      * Set the Browser to be mobile
      * @param boolean $value is the browser a mobile brower or not
@@ -236,7 +215,6 @@ class EWebBrowser extends CComponent {
     protected function setMobile($value) {
         $this->attributes->is_mobile = $value;
     }
-
     /**
      * Is the browser from a robot (ex Slurp,GoogleBot)?
      * @return boolean True if the browser is from a robot otherwise false
@@ -244,7 +222,6 @@ class EWebBrowser extends CComponent {
     public function getIsRobot() {
         return $this->attributes->is_robot;
     }
-
     /**
      * Set the Browser to be a robot
      * @param boolean $value is the browser a robot or not
@@ -252,7 +229,6 @@ class EWebBrowser extends CComponent {
     protected function setRobot($value) {
         $this->attributes->is_robot = $value;
     }
-
     /**
      * Get the user agent value in use to determine the browser
      * @return string The user agent from the HTTP header
@@ -260,7 +236,6 @@ class EWebBrowser extends CComponent {
     public function getUserAgent() {
         return $this->attributes->agent;
     }
-
     /**
      * Set the user agent value (the construction will use the HTTP header value - this will overwrite it)
      * @param $agent_string The value for the User Agent
@@ -270,7 +245,6 @@ class EWebBrowser extends CComponent {
         $this->attributes->agent = $agent_string;
         $this->determine();
     }
-
     /**
      * Used to determine if the browser is actually "chromeframe"
      * @since 1.7
@@ -279,7 +253,6 @@ class EWebBrowser extends CComponent {
     public function isChromeFrame() {
         return( strpos($this->attributes->agent, "chromeframe") !== false );
     }
-
     /**
      * Magic Method
      * Returns a formatted string with a summary of the details of the browser.
@@ -291,7 +264,6 @@ class EWebBrowser extends CComponent {
                 "<strong>Browser User Agent String:</strong>{$this->getUserAgent()}<br/>\n" .
                 "<strong>Platform:</strong>{$this->getPlatform()}<br/>";
     }
-
     /**
      * Protected routine to calculate and determine what the browser is in use (including platform)
      */
@@ -299,15 +271,11 @@ class EWebBrowser extends CComponent {
         $this->checkPlatform();
         $this->checkBrowsers();
         $this->checkForAol();
-
         $event = new EWebBrowserEvent($this);
-
         foreach ($this->attributes as $key => $value)
             $event->{$key} = $value;
-
         $this->onDetection($event);
     }
-
     /**
      * Protected routine to determine the browser type
      * @return boolean True if the browser was detected otherwise false
@@ -361,7 +329,6 @@ class EWebBrowser extends CComponent {
                 $this->checkBrowserMozilla() /* Mozilla is such an open standard that you must check it last */
                 );
     }
-
     /**
      * Determine if the user is using a BlackBerry (last updated 1.7)
      * @return boolean True if the browser is the BlackBerry browser otherwise false
@@ -377,7 +344,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the user is using an AOL User Agent (last updated 1.7)
      * @return boolean True if the browser is from AOL otherwise false
@@ -385,7 +351,6 @@ class EWebBrowser extends CComponent {
     protected function checkForAol() {
         $this->setIsAol(false);
         $this->setAolVersion(self::VERSION_UNKNOWN);
-
         if (stripos($this->getUserAgent(), 'aol') !== false) {
             $aversion = explode(' ', stristr($this->getUserAgent(), 'AOL'));
             $this->setIsAol(true);
@@ -394,7 +359,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is the GoogleBot or not (last updated 1.7)
      * @return boolean True if the browser is the GoogletBot otherwise false
@@ -410,7 +374,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is the MSNBot or not (last updated 1.9)
      * @return boolean True if the browser is the MSNBot otherwise false
@@ -426,7 +389,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is the W3C Validator or not (last updated 1.7)
      * @return boolean True if the browser is the W3C Validator otherwise false
@@ -449,7 +411,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is the Yahoo! Slurp Robot or not (last updated 1.7)
      * @return boolean True if the browser is the Yahoo! Slurp Robot otherwise false
@@ -466,7 +427,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Internet Explorer or not (last updated 1.7)
      * @return boolean True if the browser is Internet Explorer otherwise false
@@ -503,7 +463,6 @@ class EWebBrowser extends CComponent {
             $this->setPlatform(self::PLATFORM_WINDOWS_CE);
             $this->setBrowser(self::BROWSER_POCKET_IE);
             $this->setMobile(true);
-
             if (stripos($agent, 'mspie') !== false) {
                 $this->setVersion($aresult[1]);
             } else {
@@ -514,7 +473,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Opera or not (last updated 1.7)
      * @return boolean True if the browser is Opera otherwise false
@@ -551,7 +509,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Chrome or not (last updated 1.7)
      * @return boolean True if the browser is Chrome otherwise false
@@ -566,7 +523,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is WebTv or not (last updated 1.7)
      * @return boolean True if the browser is WebTv otherwise false
@@ -581,7 +537,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is NetPositive or not (last updated 1.7)
      * @return boolean True if the browser is NetPositive otherwise false
@@ -596,7 +551,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Galeon or not (last updated 1.7)
      * @return boolean True if the browser is Galeon otherwise false
@@ -611,7 +565,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Konqueror or not (last updated 1.7)
      * @return boolean True if the browser is Konqueror otherwise false
@@ -626,7 +579,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is iCab or not (last updated 1.7)
      * @return boolean True if the browser is iCab otherwise false
@@ -640,7 +592,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is OmniWeb or not (last updated 1.7)
      * @return boolean True if the browser is OmniWeb otherwise false
@@ -655,7 +606,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Phoenix or not (last updated 1.7)
      * @return boolean True if the browser is Phoenix otherwise false
@@ -669,7 +619,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Firebird or not (last updated 1.7)
      * @return boolean True if the browser is Firebird otherwise false
@@ -683,7 +632,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Netscape Navigator 9+ or not (last updated 1.7)
      * NOTE: (http://browser.netscape.com/ - Official support ended on March 1st, 2008)
@@ -701,7 +649,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Shiretoko or not (https://wiki.mozilla.org/Projects/shiretoko) (last updated 1.7)
      * @return boolean True if the browser is Shiretoko otherwise false
@@ -714,7 +661,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Ice Cat or not (http://en.wikipedia.org/wiki/GNU_IceCat) (last updated 1.7)
      * @return boolean True if the browser is Ice Cat otherwise false
@@ -727,7 +673,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Nokia or not (last updated 1.7)
      * @return boolean True if the browser is Nokia otherwise false
@@ -745,7 +690,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Firefox or not (last updated 1.7)
      * @return boolean True if the browser is Firefox otherwise false
@@ -764,7 +708,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Firefox or not (last updated 1.7)
      * @return boolean True if the browser is Firefox otherwise false
@@ -779,7 +722,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Mozilla or not (last updated 1.7)
      * @return boolean True if the browser is Mozilla otherwise false
@@ -804,7 +746,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Lynx or not (last updated 1.7)
      * @return boolean True if the browser is Lynx otherwise false
@@ -819,7 +760,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Amaya or not (last updated 1.7)
      * @return boolean True if the browser is Amaya otherwise false
@@ -834,7 +774,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Safari or not (last updated 1.7)
      * @return boolean True if the browser is Safari otherwise false
@@ -853,7 +792,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is iPhone or not (last updated 1.7)
      * @return boolean True if the browser is iPhone otherwise false
@@ -873,7 +811,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is iPod or not (last updated 1.7)
      * @return boolean True if the browser is iPod otherwise false
@@ -893,7 +830,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is iPod or not (last updated 1.7)
      * @return boolean True if the browser is iPod otherwise false
@@ -913,7 +849,6 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine if the browser is Android or not (last updated 1.7)
      * @return boolean True if the browser is Android otherwise false
@@ -933,13 +868,11 @@ class EWebBrowser extends CComponent {
         }
         return false;
     }
-
     /**
      * Determine the user's platform (last updated 1.7)
      */
     protected function checkPlatform() {
         $agent = $this->getUserAgent();
-
         if (stripos($agent, 'windows') !== false)
             $this->attributes->platform = self::PLATFORM_WINDOWS;
         else if (stripos($agent, 'iPad') !== false)
@@ -975,14 +908,11 @@ class EWebBrowser extends CComponent {
         elseif (stripos($agent, 'win') !== false)
             $this->attributes->platform = self::PLATFORM_WINDOWS;
     }
-
 }
-
 /**
  * Class event to report on detection event
  */
 class EWebBrowserEvent extends CEvent {
-
     public $agent;
     public $browser_name;
     public $version;
@@ -992,7 +922,5 @@ class EWebBrowserEvent extends CEvent {
     public $is_mobile;
     public $is_robot;
     public $aol_version;
-
 }
-
 ?>

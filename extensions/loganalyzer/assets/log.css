@@ -5,7 +5,6 @@
     line-height: 18px;
     color: #333;
 }
-
 .loganalyzer .page-header {
     padding-bottom: 17px;
     margin: 18px 0;
@@ -14,20 +13,17 @@
 .loganalyzer .page-header h1 {
     line-height: 1;
 }
-
 .loganalyzer .nav {
     margin-bottom: 18px;
     margin-left: 0;
     list-style: none;
     height: 32px;
 }
-
 .loganalyzer ul, .loganalyzer ol {
     padding: 0;
     margin: 0 0 9px 25px;
     display: block;
 }
-
 .loganalyzer .label {
     padding: 1px 4px 2px;
     -webkit-border-radius: 3px;
@@ -57,17 +53,14 @@
 .loganalyzer .label-info, .loganalyzer .badge-info {
     background-color: #3A87AD;
 }
-
 .loganalyzer .line {
     border-bottom: 1px solid #EEE;
     padding: 9px 4px;
     background: #FAFAFA;
 }
-
 .loganalyzer .line.odd {
     background: #E0E0E0;
 }
-
 .loganalyzer pre {
     display: block;
     padding: 8.5px;
@@ -84,7 +77,6 @@
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
-
 .loganalyzer code, .loganalyzer pre {
     padding: 0 3px 2px;
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -94,26 +86,21 @@
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
-
 .loganalyzer .nav-tabs > li, .loganalyzer .nav-pills > li {
     float: left;
 }
-
 .loganalyzer li {
     line-height: 18px;
 }
-
 .loganalyzer .nav-tabs > li > a, .loganalyzer .nav-pills > li > a {
     padding-right: 12px;
     padding-left: 12px;
     margin-right: 2px;
     line-height: 14px;
 }
-
 .loganalyzer .nav > li > a {
     display: block;
 }
-
 .loganalyzer .nav-pills > li > a {
     padding-top: 8px;
     padding-bottom: 8px;
@@ -123,12 +110,10 @@
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
-
 .loganalyzer .nav-pills > .active > a, .loganalyzer .nav-pills > .active > a:hover {
     color: white;
     background-color: #08C;
 }
-
 .loganalyzer a {
     color: #08C;
     text-decoration: none;
@@ -137,7 +122,6 @@
     color: #fff;
     text-decoration: underline;
 }
-
 .loganalyzer hr {
     margin: 18px 0;
     border: 0;
@@ -145,11 +129,9 @@
     border-bottom: 1px solid white;
     clear: both;
 }
-
 .loganalyzer .log-actions-bar span.sep{
     margin: 0 9px;
 }
-
 @media (min-width: 1200px) {
     .loganalyzer .row-fluid::before, .loganalyzer .row-fluid::after {
         display: table;

@@ -109,6 +109,9 @@ class tooltipster extends CWidget {
 
 
 
+
+
+
                 
 //just add option if not default
             if ($value != $_default_options[$key]) {

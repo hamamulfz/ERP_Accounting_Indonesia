@@ -1,9 +1,6 @@
 <?php
-
 class MenuController extends Controller {
-
     public $layout = '//layouts/main';
-
     public function init() {
         //Yii::app()->language='id';
         //return parent::init();
@@ -11,7 +8,6 @@ class MenuController extends Controller {
         //ELanguagePicker::setLanguage();
         //return parent::init();
     }
-
     public function actions() {
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
@@ -21,33 +17,27 @@ class MenuController extends Controller {
             ),
         );
     }
-
     public function filters() {
         return array(
             'rights',
         );
     }
-
     public function actionIndex() {
         if (!Yii::app()->user->isGuest) {
             $this->render('index', array(
-            
             ));
         }
         else
             $this->redirect(array('site/login'));
     }
-
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function newTask() {
         $model = new sTask;
-
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-
         if (isset($_POST['sTask'])) {
             $model->attributes = $_POST['sTask'];
             $model->created_by = Yii::app()->user->id;
@@ -57,16 +47,12 @@ class MenuController extends Controller {
                 $this->refresh();
             }
         }
-
         return $model;
     }
-
     public function actionCalendarEvents() {
         $criteria = new CDbCriteria;
         $criteria->compare('category_id', 7);
-
         $models = sCompanyNews::model()->findAll($criteria);
-
         $items = array();
         $detail = array();
         $input = array("#CC0000", "#0000CC", "#333333", "#663333", "#993333", "#CC3333", "#003366", "#663366", "#993366", "#CC3366", "#6633CC");
@@ -82,5 +68,4 @@ class MenuController extends Controller {
         echo CJSON::encode($items);
         Yii::app()->end();
     }
-
 }

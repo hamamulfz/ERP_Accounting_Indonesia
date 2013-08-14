@@ -1,5 +1,4 @@
 <?php
-
 /**
  * UPC_A barcode plugin file.
  * @filesource
@@ -13,12 +12,10 @@
  * @subpackage Barcode
  */
 // dependances {{{
-
 /**
  *
  */
 require_once(XML2PDF_PLUGINS_BARCODES_PATH . '/xml2pdf.barcode.ean13.php');
-
 // }}}
 // doc {{{
 /**
@@ -34,17 +31,13 @@ require_once(XML2PDF_PLUGINS_BARCODES_PATH . '/xml2pdf.barcode.ean13.php');
  */ // }}}
 class xml2pdf_barcode_upc_a extends xml2pdf_barcode_ean13 {
     // xml2pdf_barcode_upc_a::__construct() {{{
-
     /**
      *
      */
     public function __construct() {
-        
     }
-
     // }}}
     // xml2pdf_barcode_upc_a::render() {{{
-
     /**
      *
      */
@@ -52,8 +45,6 @@ class xml2pdf_barcode_upc_a extends xml2pdf_barcode_ean13 {
         $barcode->len = 12;
         parent::render($barcode);
     }
-
     // }}}
 }
-
 ?>

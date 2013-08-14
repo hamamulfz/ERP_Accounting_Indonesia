@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Xml2Pdf curve graph plugin file
  * @filesource
@@ -13,7 +12,6 @@
  * @subpackage Graph
  */
 // doc {{{
-
 /**
  * Plugin class xml2pdf_graph_line
  * 
@@ -52,18 +50,14 @@
  */ // }}}
 class xml2pdf_graph_line {
     // xml2pdf_graph_line::__construct() {{{
-
     /**
      * Constructor
      *
      */
     public function __construct() {
-        
     }
-
     // }}}
     // xml2pdf_graph_line::render() {{{
-
     /**
      * Draw a curve type graph
      *
@@ -73,7 +67,6 @@ class xml2pdf_graph_line {
     public static function render($graph) {
         $graph->pdf->SetFont('Courier', '', $graph->fontSize);
         $graph->setLegends();
-
         $XPage = $graph->pdf->GetX();
         $YPage = $graph->pdf->GetY();
         $marge = 2;
@@ -81,7 +74,6 @@ class xml2pdf_graph_line {
         $lDiag = $graph->width - $graph->legendWidth - 5 * $marge - 5;
         $XDiag = $XPage + $marge;
         $YDiag = $YPage + $marge;
-
         $xMax = 0;
         $yMax = 0;
         foreach ($graph->data as $line) {
@@ -92,20 +84,16 @@ class xml2pdf_graph_line {
                 $yMax = max($line['y']);
             }
         }
-
         $uniteX = $lDiag / $xMax;
         $uniteY = ($hDiag) / ($yMax + 5);
         $graph->pdf->SetLineWidth(0.2);
         $graph->pdf->Rect($XDiag, $YDiag, $lDiag, $hDiag);
-
         //reperes
         $tab = Xml2Pdf::ConvertColor('#dcdcdc');
         $graph->pdf->SetDrawColor($tab['r'], $tab['g'], $tab['b']);
-
         $deltaX = $lDiag / ($graph->nbIndRepere);
         $deltaY = $hDiag / ($graph->nbIndRepere);
         $graph->pdf->SetLineWidth(0.2);
-
         for ($i = 0; $i <= $graph->nbIndRepere; $i++) {
             if ($i > 0 && $i < $graph->nbIndRepere) {
                 $graph->pdf->Line($XDiag, $YDiag + ($i * $deltaY), $XDiag + $lDiag, $YDiag + ($i * $deltaY));
@@ -142,7 +130,6 @@ class xml2pdf_graph_line {
         $graph->pdf->SetLineWidth(0.2);
         $tab = Xml2Pdf::ConvertColor('#000000');
         $graph->pdf->SetDrawColor($tab['r'], $tab['g'], $tab['b']);
-
         $graph->pdf->SetFont('Courier', '', $graph->fontSize);
         $x1 = $XPage + $lDiag + 4 * $marge;
         $x2 = $x1 + 5 + $marge;
@@ -156,8 +143,6 @@ class xml2pdf_graph_line {
             $y1+= $marge;
         }
     }
-
     // }}}  
 }
-
 ?>

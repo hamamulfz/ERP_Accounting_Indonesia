@@ -468,6 +468,9 @@ class idna_convert {
 
 
 
+
+
+
             
 // Start with the prefix; copy it to output
         $encoded = $this->_punycode_prefix . $encoded;

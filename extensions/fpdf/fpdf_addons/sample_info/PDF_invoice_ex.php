@@ -1,10 +1,7 @@
 <?php
-
 // (c) Xavier Nicolay
 // Exemple de g�n�ration de devis/facture PDF
-
 require('invoice.php');
-
 $pdf = new PDF_Invoice('P', 'mm', 'A4');
 $pdf->AddPage();
 $pdf->addSociete("MaSociete", "MonAdresse\n" .
@@ -36,7 +33,6 @@ $cols = array("REFERENCE" => "L",
     "TVA" => "C");
 $pdf->addLineFormat($cols);
 $pdf->addLineFormat($cols);
-
 $y = 109;
 $line = array("REFERENCE" => "REF1",
     "DESIGNATION" => "Carte M�re MSI 6378\n" .
@@ -48,7 +44,6 @@ $line = array("REFERENCE" => "REF1",
     "TVA" => "1");
 $size = $pdf->addLine($y, $line);
 $y += $size + 2;
-
 $line = array("REFERENCE" => "REF2",
     "DESIGNATION" => "C�ble RS232",
     "QUANTITE" => "1",
@@ -57,9 +52,7 @@ $line = array("REFERENCE" => "REF2",
     "TVA" => "1");
 $size = $pdf->addLine($y, $line);
 $y += $size + 2;
-
 $pdf->addCadreTVAs();
-
 // invoice = array( "px_unit" => value,
 //                  "qte"     => qte,
 //                  "tva"     => code_tva );
@@ -95,7 +88,6 @@ $params = array("RemiseGlobale" => 1,
     "accompte" => 0, // montant de l'acompte (TTC)
     "accompte_percent" => 15, // pourcentage d'acompte (TTC)
     "Remarque" => "Avec un acompte, svp...");
-
 $pdf->addTVAs($params, $tab_tva, $tot_prods);
 $pdf->addCadreEurosFrancs();
 $pdf->Output();

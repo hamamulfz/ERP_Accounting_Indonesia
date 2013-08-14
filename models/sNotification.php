@@ -36,11 +36,12 @@ class sNotification extends BaseModel {
      */
     public function rules() {
         return array(
-            array('expire, content, link', 'required'),
+            //array('expire, content, link', 'required'),
             array('company_id, group_id, expire, alert_after_date, alert_before_date', 'numerical', 'integerOnly' => true),
             array('content, title, alert_after_date, alert_before_date, group_id, link', 'safe'),
             array('photo_path', 'length', 'max' => 100),
             array('author_name', 'length', 'max' => 50),
+            array('link, link2, link3', 'length', 'max' => 255),
             array('id, expire, alert_after_date, alert_before_date, content, group_id, link, title', 'safe', 'on' => 'search'),
         );
     }
@@ -67,6 +68,8 @@ class sNotification extends BaseModel {
             'content' => 'Content',
             'group_id' => 'Role',
             'link' => 'Link',
+            'link2' => 'Link2',
+            'link3' => 'Link3',
             'company_id' => 'Company',
             'photo_path' => 'Photo Path',
         );
@@ -214,13 +217,13 @@ class sNotification extends BaseModel {
     }
 
     public function beforeSave() {
-        if ($this->alert_after_date === "") {
-            $this->alert_after_date = $this->expire;
-        }
-
-        if ($this->alert_before_date === "") {
-            $this->alert_before_date = $this->expire;
-        }
+        $this->expire = time();
+        $this->alert_after_date = time();
+        $this->alert_before_date = date(strtotime("1 month"));
+        if ($this->company_id == null && !Yii::app()->user->isGuest) 
+            $this->company_id = sUser::model()->myGroup;
+        if (!Yii::app()->user->isGuest)
+            $this->author_name = Yii::app()->user->name;
 
         return parent::beforeSave();
     }
@@ -246,4 +249,21 @@ class sNotification extends BaseModel {
       parent::afterSave();
       }
      */
+     
+     public function getLinkReplace() {
+		$regex1 = "/<read>([\S\s]*?)<\/read>/i";
+		$regex2 = "/<link2>([\S\s]*?)<\/link2>/i";
+		$regex3 = "/<link3>([\S\s]*?)<\/link3>/i";
+
+		$output = preg_replace($regex2,"<a href='".Yii::app()->createUrl($this->link2)."'>$1</a>",$this->content);
+		$output = preg_replace($regex3,"<a href='".Yii::app()->createUrl($this->link3)."'>$1</a>",$output);
+
+    	if ($this->reads == null) 
+			$output = preg_replace($regex1,"<a href='".Yii::app()->createUrl("/sNotification/read",array("id"=>$this->id))."'>$1</a>",$output);
+		else
+			$output = preg_replace($regex1,"<a href='".Yii::app()->createUrl($this->link)."'>$1</a>",$output);
+		
+		return $output;     
+     }
+     
 }

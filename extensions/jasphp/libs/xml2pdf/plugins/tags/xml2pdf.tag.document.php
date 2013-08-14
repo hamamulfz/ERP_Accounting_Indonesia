@@ -1,5 +1,4 @@
 <?php
-
 /**
  * tag document plugin file.
  * @filesource
@@ -14,15 +13,12 @@
  * @deprecated 0.6.10.11
  */
 // dependances {{{
-
 /**
  * include parent class
  */
 Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
-
 // }}}
 // doc {{{
-
 /**
  * <document> tag.
  *
@@ -38,7 +34,5 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  * @deprecated 0.6.10.11
  */ // }}}
 Class xml2pdf_tag_document extends Xml2PdfTag {
-    
 }
-
 ?>

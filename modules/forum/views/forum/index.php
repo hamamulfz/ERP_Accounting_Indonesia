@@ -4,8 +4,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     'links' => array('Forum')
 ));
 
-$isAdmin = !Yii::app()->user->isGuest && (Yii::app()->user->name == "admin");
-{
+$isAdmin = !Yii::app()->user->isGuest && (Yii::app()->user->name == "admin"); {
     echo 'Admin: ' . CHtml::link('New forum', array('/forum/forum/create')) . '<br />';
 }
 

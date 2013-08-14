@@ -1,13 +1,9 @@
 <?php
-
 require('fpdf.php');
-
 //Stream handler to read from global variables
 class VariableStream {
-
     var $varname;
     var $position;
-
     function stream_open($path, $mode, $options, &$opened_path) {
         $url = parse_url($path);
         $this->varname = $url['host'];
@@ -18,21 +14,17 @@ class VariableStream {
         $this->position = 0;
         return true;
     }
-
     function stream_read($count) {
         $ret = substr($GLOBALS[$this->varname], $this->position, $count);
         $this->position += strlen($ret);
         return $ret;
     }
-
     function stream_eof() {
         return $this->position >= strlen($GLOBALS[$this->varname]);
     }
-
     function stream_tell() {
         return $this->position;
     }
-
     function stream_seek($offset, $whence) {
         if ($whence == SEEK_SET) {
             $this->position = $offset;
@@ -40,21 +32,16 @@ class VariableStream {
         }
         return false;
     }
-
     function stream_stat() {
         return array();
     }
-
 }
-
 class PDF_MemImage extends FPDF {
-
     function PDF_MemImage($orientation = 'P', $unit = 'mm', $format = 'A4') {
         $this->FPDF($orientation, $unit, $format);
         //Register var stream protocol
         stream_wrapper_register('var', 'VariableStream');
     }
-
     function MemImage($data, $x = null, $y = null, $w = 0, $h = 0, $link = '') {
         //Display the image contained in $data
         $v = 'img' . md5($data);
@@ -66,7 +53,6 @@ class PDF_MemImage extends FPDF {
         $this->Image('var://' . $v, $x, $y, $w, $h, $type, $link);
         unset($GLOBALS[$v]);
     }
-
     function GDImage($im, $x = null, $y = null, $w = 0, $h = 0, $link = '') {
         //Display the GD image associated to $im
         ob_start();
@@ -74,7 +60,5 @@ class PDF_MemImage extends FPDF {
         $data = ob_get_clean();
         $this->MemImage($data, $x, $y, $w, $h, $link);
     }
-
 }
-
 ?>

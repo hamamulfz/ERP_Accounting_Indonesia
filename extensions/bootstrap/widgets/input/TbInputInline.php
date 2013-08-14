@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TbInputInline class file.
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
@@ -8,13 +7,11 @@
  * @package bootstrap.widgets.input
  */
 Yii::import('bootstrap.widgets.input.TbInputVertical');
-
 /**
  * Bootstrap vertical form input widget.
  * @since 0.9.8
  */
 class TbInputInline extends TbInputVertical {
-
     /**
      * Renders a drop down list (select).
      * @return string the rendered content
@@ -23,7 +20,6 @@ class TbInputInline extends TbInputVertical {
         echo $this->getLabel();
         echo $this->form->dropDownList($this->model, $this->attribute, $this->data, $this->htmlOptions);
     }
-
     /**
      * Renders a password field.
      * @return string the rendered content
@@ -34,7 +30,6 @@ class TbInputInline extends TbInputVertical {
         echo $this->form->passwordField($this->model, $this->attribute, $this->htmlOptions);
         echo $this->getAppend();
     }
-
     /**
      * Renders a textarea.
      * @return string the rendered content
@@ -43,7 +38,6 @@ class TbInputInline extends TbInputVertical {
         $this->setPlaceholder();
         echo $this->form->textArea($this->model, $this->attribute, $this->htmlOptions);
     }
-
     /**
      * Renders a text field.
      * @return string the rendered content
@@ -54,7 +48,6 @@ class TbInputInline extends TbInputVertical {
         echo $this->form->textField($this->model, $this->attribute, $this->htmlOptions);
         echo $this->getAppend();
     }
-
     /**
      * Renders a masked text field.
      * @return string the rendered content
@@ -66,7 +59,6 @@ class TbInputInline extends TbInputVertical {
         echo $this->form->maskedTextField($this->model, $this->attribute, $this->data, $this->htmlOptions);
         echo $this->getAppend();
     }
-
     /**
      * Renders a masked text field.
      * @return string the rendered content
@@ -78,10 +70,8 @@ class TbInputInline extends TbInputVertical {
         echo $this->form->typeAheadField($this->model, $this->attribute, $this->data, $this->htmlOptions);
         echo $this->getAppend();
     }
-
     protected function setPlaceholder() {
         if (empty($this->htmlOptions['placeholder']))
             $this->htmlOptions['placeholder'] = $this->model->getAttributeLabel($this->attribute);
     }
-
 }

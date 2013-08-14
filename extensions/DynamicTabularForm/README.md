@@ -1,17 +1,12 @@
 DynamicTabularForm
 ==================
 Allows us to Create dynamic tabular forms and also being able to use partial views for each 'row'
-
 Example
 ==================
-
 This is an example of the controller with actionCreate
 this extension also uses a Custom action to load the each row of the tabular inputs via ajax
 it also uses proccessOutput by default
-
-
 Controller: SlaController.php
-
 class SlaController extends Controller {
     public function loadModel($id){
         $model = Sla::model()->findbyPk($id);
@@ -28,7 +23,6 @@ class SlaController extends Controller {
             ),
         );
     }
-
     /**
      * without relation extension
      */
@@ -39,10 +33,8 @@ class SlaController extends Controller {
          */
         $sla = new Sla();
         $sladetails = array(new SlaDetail);
-
         if (isset($_POST['Sla'])) {
             $sla->attributes = $_POST['Sla'];
-
             /**
              * creating an array of contact objects
              */
@@ -66,13 +58,11 @@ class SlaController extends Controller {
             foreach ($sladetails as $sladetail) {
                 $valid = $sladetail->validate() & $valid;
             }
-
             if ($valid) {
                 $transaction = $sla->getDbConnection()->beginTransaction();
                 try {
                     $sla->save();
                     $sla->refresh();
-
                     foreach ($sladetails as $sladetail) {
                         $sladetail->sla_id = $sla->id;
                         $sladetail->save();
@@ -81,9 +71,6 @@ class SlaController extends Controller {
                 } catch (Exception $e) {
                     $transaction->rollback();
                 }
-
-
-
                 $this->redirect(array('/crm/sla/view', 'id' => $sla->id));
             }
         }
@@ -92,8 +79,5 @@ class SlaController extends Controller {
             'sladetails' => $sladetails
         ));
     }
-
 }
-
 View: create.php
-

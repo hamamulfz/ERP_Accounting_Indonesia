@@ -188,5 +188,4 @@
             'elFinder support following shortcuts': 'elfinder fonctionne avec les raccourcis suivants',
             'helpText': 'elfinder fonctionne comme un gestionnaire de fichiers. Utiliser la barre de menu pour faire des actions sur les fichiers/dossiers. Le survol de la souris sur les boutons donnent des informations sur leur fonction. Le bouton droit de la souris offre aussi des raccourcis contextuels. Pour sélectionner un groupe de fichiers ou de dossiers, faire Shift/Alt au clavier + clique gauche avec la souris.'
         };
-
 })(jQuery);

@@ -1,5 +1,4 @@
 <?php
-
 /* ##  TbCheckBoxColumn class file.
  *
  * @author Antonio Ramirez <antonio@clevertech.biz>
@@ -9,14 +8,11 @@
  */
 Yii::import('zii.widgets.grid.CCheckBoxColumn');
 Yii::import('bootstrap.widgets.TbButton');
-
 class TbBulkActions extends CComponent {
-
     /**
      * @var TbGridView the grid view object that owns this column.
      */
     public $grid;
-
     /**
      * @var array the configuration for action displays.
      * Each array element specifies a single button
@@ -37,27 +33,22 @@ class TbBulkActions extends CComponent {
      * be configured so that the corresponding button IDs appear as tokens in the template.
      */
     public $actionButtons = array();
-
     /**
      * @var array the checkbox column configuration
      */
     public $checkBoxColumnConfig = array();
-
     /**
      * @var string
      */
     public $align = 'right';
-
     /**
      * @var integer the counter for generating implicit IDs.
      */
     private static $_counter = 0;
-
     /**
      * @var string id of the widget.
      */
     private $_id;
-
     /**
      * ### .getId()
      *
@@ -72,22 +63,18 @@ class TbBulkActions extends CComponent {
         else if ($autoGenerate)
             return $this->_id = 'egw' . self::$_counter++;
     }
-
     /**
      * @var string the column name of the checkbox column
      */
     protected $columnName;
-
     /**
      * @var array the bulk action buttons
      */
     protected $buttons = array();
-
     /**
      * @var array the life events to attach the buttons to
      */
     protected $events = array();
-
     /**
      * ### .__construct()
      *
@@ -97,7 +84,6 @@ class TbBulkActions extends CComponent {
     public function __construct($grid) {
         $this->grid = $grid;
     }
-
     /**
      * ### .init()
      *
@@ -108,7 +94,6 @@ class TbBulkActions extends CComponent {
         $this->initColumn();
         $this->initButtons();
     }
-
     /**
      * ### .initColumn()
      *
@@ -117,12 +102,9 @@ class TbBulkActions extends CComponent {
     public function initColumn() {
         if (!is_array($this->checkBoxColumnConfig))
             $this->checkBoxColumnConfig = array();
-
         if (empty($this->grid->columns))
             return false;
-
         $columns = $this->grid->columns;
-
         foreach ($columns as $idx => $column) {
             if (!is_array($column) || !isset($column['class']))
                 continue;
@@ -138,7 +120,6 @@ class TbBulkActions extends CComponent {
         $this->attachCheckBoxColumn();
         return true;
     }
-
     /**
      * ### .initButtons()
      *
@@ -148,7 +129,6 @@ class TbBulkActions extends CComponent {
     public function initButtons() {
         if (empty($this->columnName) || empty($this->actionButtons))
             return false;
-
         foreach ($this->actionButtons as $action) {
             if (!isset($action['id']))
                 throw new CException(Yii::t('zii', 'Each bulk action button should have its "id" attribute set to ensure its functionality among ajax updates'));
@@ -171,7 +151,6 @@ class TbBulkActions extends CComponent {
             );
         }
     }
-
     /**
      * ### .renderButtons()
      *
@@ -180,17 +159,13 @@ class TbBulkActions extends CComponent {
     public function renderButtons() {
         if ($this->buttons === array())
             return false;
-
         echo CHtml::openTag('div', array('id' => $this->getId(), 'style' => 'position:relative', 'class' => $this->align));
-
         foreach ($this->buttons as $actionButton)
             $this->renderButton($actionButton);
         echo '<div style="position:absolute;top:0;left:0;height:100%;width:100%;display:block;" class="bulk-actions-blocker"></div>';
         echo '</div>';
-
         $this->registerClientScript();
     }
-
     /**
      * ### .registerClientScript()
      *
@@ -202,7 +177,6 @@ $(document).on("click", "#{$this->grid->id} input[type=checkbox]", function(){
 	var grid = $("#{$this->grid->id}");
 	if ($("input[name='{$this->columnName}']:checked", grid).length)
 	{
-
 		$(".bulk-actions-btn", grid).removeClass("disabled");
 		$("div.bulk-actions-blocker",grid).hide();
 	}
@@ -219,7 +193,6 @@ EOD;
         }
         Yii::app()->getClientScript()->registerScript(__CLASS__ . '#' . $this->getId(), $js);
     }
-
     /**
      * ### .renderButton()
      *
@@ -233,14 +206,11 @@ EOD;
             $actionButton['htmlOptions']['class'] .= ' disabled bulk-actions-btn';
         else
             $actionButton['htmlOptions']['class'] = 'disabled bulk-actions-btn';
-
         $action = null;
-
         if (isset($actionButton['click'])) {
             $action = CJavaScript::encode($actionButton['click']);
             unset($actionButton['click']);
         }
-
         $button = Yii::createComponent($actionButton);
         $button->init();
         echo '&nbsp;';
@@ -250,7 +220,6 @@ EOD;
             $this->events[$button->id] = $action;
         }
     }
-
     /**
      * ### .attachCheckBoxColumn()
      *
@@ -259,7 +228,6 @@ EOD;
     protected function attachCheckBoxColumn() {
         $dataProvider = $this->grid->dataProvider;
         $columnName = null;
-
         if (!isset($this->checkBoxColumnConfig['name'])) {
             // supports two types of DataProviders
             if ($dataProvider instanceof CActiveDataProvider) {
@@ -270,7 +238,6 @@ EOD;
                 }
                 else
                     $model = $dataProvider->modelClass;
-
                 $table = $model->tableSchema;
                 if (is_string($table->primaryKey))
                     $columnName = $this->{$table->primaryKey};
@@ -286,10 +253,7 @@ EOD;
                     'name' => $columnName,
                     'selectableRows' => 2
                         ), $this->checkBoxColumnConfig);
-
-
         array_unshift($this->grid->columns, $column);
         $this->columnName = $this->grid->id . '_c0\[\]'; //
     }
-
 }

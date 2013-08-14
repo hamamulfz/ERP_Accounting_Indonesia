@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPExcel
  *
@@ -25,7 +24,6 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.8, 2012-10-12
  */
-
 /**
  * PHPExcel_Calculation_Function
  *
@@ -35,7 +33,6 @@
  */
 class PHPExcel_Calculation_Function {
     /* Function categories */
-
     const CATEGORY_CUBE = 'Cube';
     const CATEGORY_DATABASE = 'Database';
     const CATEGORY_DATE_AND_TIME = 'Date and Time';
@@ -47,28 +44,24 @@ class PHPExcel_Calculation_Function {
     const CATEGORY_MATH_AND_TRIG = 'Math and Trig';
     const CATEGORY_STATISTICAL = 'Statistical';
     const CATEGORY_TEXT_AND_DATA = 'Text and Data';
-
     /**
      * Category (represented by CATEGORY_*)
      *
      * @var string
      */
     private $_category;
-
     /**
      * Excel name
      *
      * @var string
      */
     private $_excelName;
-
     /**
      * PHPExcel name
      *
      * @var string
      */
     private $_phpExcelName;
-
     /**
      * Create a new PHPExcel_Calculation_Function
      *
@@ -87,7 +80,6 @@ class PHPExcel_Calculation_Function {
             throw new Exception("Invalid parameters passed.");
         }
     }
-
     /**
      * Get Category (represented by CATEGORY_*)
      *
@@ -96,7 +88,6 @@ class PHPExcel_Calculation_Function {
     public function getCategory() {
         return $this->_category;
     }
-
     /**
      * Set Category (represented by CATEGORY_*)
      *
@@ -110,7 +101,6 @@ class PHPExcel_Calculation_Function {
             throw new Exception("Invalid parameter passed.");
         }
     }
-
     /**
      * Get Excel name
      *
@@ -119,7 +109,6 @@ class PHPExcel_Calculation_Function {
     public function getExcelName() {
         return $this->_excelName;
     }
-
     /**
      * Set Excel name
      *
@@ -128,7 +117,6 @@ class PHPExcel_Calculation_Function {
     public function setExcelName($value) {
         $this->_excelName = $value;
     }
-
     /**
      * Get PHPExcel name
      *
@@ -137,7 +125,6 @@ class PHPExcel_Calculation_Function {
     public function getPHPExcelName() {
         return $this->_phpExcelName;
     }
-
     /**
      * Set PHPExcel name
      *
@@ -146,5 +133,4 @@ class PHPExcel_Calculation_Function {
     public function setPHPExcelName($value) {
         $this->_phpExcelName = $value;
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Pdf.
  *
@@ -11,15 +10,12 @@
  * @version CVS: $Id: Pdf.php,v 1.7 2007/01/11 17:20:21 geelweb Exp $
  */
 // dependances {{{
-
 /**
  * Include the Fpdf parent class.
  */
 Yii::import('ext.jasPHP.libs.xml2pdf.components.fpdf153.FPDF');
-
 // }}}
 // doc {{{
-
 /**
  * Document Pdf.
  *
@@ -38,103 +34,86 @@ Yii::import('ext.jasPHP.libs.xml2pdf.components.fpdf153.FPDF');
  */ // }}}
 Class Pdf extends FPDF {
     // class properties {{{
-
     /**
      * Curent page font.
      * @var string
      */
     public $pageFont = PDF_DEFAULT_FONT;
-
     /**
      * Curent page font size.
      * @var integer
      */
     public $pageFontSize = PDF_DEFAULT_FONTSIZE;
-
     /**
      * Curent page font color.
      * @var string
      */
     public $pageFontColor = PDF_DEFAULT_FONTCOLOR;
-
     /**
      * Curent page font style.
      * @var string
      */
     public $pageFontStyle = PDF_DEFAULT_FONTSTYLE;
-
     /**
      * Curent page draw color.
      * @var string
      */
     public $pageDrawColor = '#000000';
-
     /**
      * Curent page fill color.
      * @var string
      */
     public $pageFillColor = '#ffffff';
-
     /**
      * Styles array.
      * @var array
      */
     public $styles = array();
-
     /**
      * Document headers.
      * Array of xml2pdf_tag_header objects.
      * @var array
      */
     public $header = array();
-
     /**
      * Document footer.
      * Array of xml2pdf_tag_footer objects.
      * @var array
      */
     public $footer = array();
-
     /**
      * Default height of line break.
      * @var float
      */
     public $defaultLn = 5;
-
     /**
      * Links array.
      * @var array
      */
     public $linksIds = array();
-
     /**
      * Array of tmp files use to image management.
      * @var array
      */
     private $_tmpFiles = array();
-
     /**
      * Document filigrees.
      * Array or xml2pdf_tag_filigree objects.
      * @var array
      */
     public $filigree = array();
-
     /**
      * Singleton instance of Pdf.
      * @var Pdf
      */
     protected static $instance = false;
-
     /**
      * Current rotation angle in degree.
      * @var float
      */
     public $angle = 0;
-
     // }}}
     // Pdf::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -143,10 +122,8 @@ Class Pdf extends FPDF {
     public function __construct() {
         parent::FPDF();
     }
-
     // }}}
     // Pdf::singleton() {{{
-
     /**
      * Get the singleton instance of the object or instantiate a new object.
      *
@@ -158,10 +135,8 @@ Class Pdf extends FPDF {
         }
         return self::$instance;
     }
-
     // }}}
     // Pdf::AddPage() {{{
-
     /**
      * Overrided method to manage filigree.
      *
@@ -177,10 +152,8 @@ Class Pdf extends FPDF {
             }
         }
     }
-
     // }}}
     // Pdf::addStyles() {{{
-
     /**
      * Add styles.
      *
@@ -206,10 +179,8 @@ Class Pdf extends FPDF {
     public function addStyles($styles) {
         $this->styles = array_merge($this->styles, $styles);
     }
-
     // }}}
     // Pdf::Close() {{{
-
     /**
      * Overrided method.
      *
@@ -225,10 +196,8 @@ Class Pdf extends FPDF {
             @unlink($tmp);
         }
     }
-
     // }}}
     // Pdf::Footer() {{{
-
     /**
      * Overrided method
      * Method footer, see FPDF::footer().
@@ -244,10 +213,8 @@ Class Pdf extends FPDF {
             }
         }
     }
-
     // }}}
     // Pdf::Header() {{{
-
     /**
      * Overrided method.
      * Method header, see FPDF::header().
@@ -263,10 +230,8 @@ Class Pdf extends FPDF {
             }
         }
     }
-
     // }}}
     // Pdf::Image() {{{
-
     /**
      * Overrided method, see FPDF::Image().
      *
@@ -317,7 +282,6 @@ Class Pdf extends FPDF {
                 $info = $this->$mtd($file);
             }
 //            set_magic_quotes_runtime($mqr);
-
             if ($isMask) {
                 if (in_array($file, $this->_tmpFiles)) {
                     $info['cs'] = 'DeviceGray'; //hack necessary as GD can't produce gray scale images
@@ -348,20 +312,16 @@ Class Pdf extends FPDF {
         if ($h == 0) {
             $h = $w * $info['h'] / $info['w'];
         }
-
         if (!$isMask) {
             $this->_out(sprintf('q %.2f 0 0 %.2f %.2f %.2f cm /I%d Do Q', $w * $this->k, $h * $this->k, $x * $this->k, ($this->h - ($y + $h)) * $this->k, $info['i']));
         }
         if ($link) {
             $this->Link($x, $y, $w, $h, $link);
         }
-
         return $info['i'];
     }
-
     // }}}
     // Pdf::imagePngWithAlpha() {{{
-
     /**
      * Add a png image width aplha channel.
      *
@@ -381,7 +341,6 @@ Class Pdf extends FPDF {
         $this->_tmpFiles[] = $tmp_alpha;
         $tmp_plain = tempnam('.', 'mskp');
         $this->_tmpFiles[] = $tmp_plain;
-
         if (!is_file($file)) {
             $img = imagecreatefromstring($file);
             $wpx = imagesx($img);
@@ -391,12 +350,10 @@ Class Pdf extends FPDF {
             $img = imagecreatefrompng($file);
         }
         $alpha_img = imagecreate($wpx, $hpx);
-
         // generate gray scale pallete
         for ($c = 0; $c < 256; $c++) {
             ImageColorAllocate($alpha_img, $c, $c, $c);
         }
-
         // extract alpha channel
         $xpx = 0;
         while ($xpx < $wpx) {
@@ -409,26 +366,20 @@ Class Pdf extends FPDF {
             }
             ++$xpx;
         }
-
         imagepng($alpha_img, $tmp_alpha);
         imagedestroy($alpha_img);
-
         // extract image without alpha channel
         $plain_img = imagecreatetruecolor($wpx, $hpx);
         imagecopy($plain_img, $img, 0, 0, 0, 0, $wpx, $hpx);
         imagepng($plain_img, $tmp_plain);
         imagedestroy($plain_img);
-
         //first embed mask image (w, h, x, will be ignored)
         $maskImg = $this->Image($tmp_alpha, 0, 0, 0, 0, 'PNG', '', true);
-
         //embed image, masked with previously embedded mask
         $this->Image($tmp_plain, $x, $y, $w, $h, 'PNG', $link, false, $maskImg);
     }
-
     // }}}
     // Pdf::resetFont() {{{
-
     /**
      * Reset the font properties.
      *
@@ -441,10 +392,8 @@ Class Pdf extends FPDF {
         $color = Xml2Pdf::convertColor($this->pageFontColor);
         $this->SetTextColor($color['r'], $color['g'], $color['b']);
     }
-
     // }}}  
     // Pdf::resetAllValues() {{{
-
     /**
      * Reset all values.
      *
@@ -460,10 +409,8 @@ Class Pdf extends FPDF {
         $this->SetFillColor($fc["r"], $fc["g"], $fc["b"]);
         $this->resetFont();
     }
-
     // }}} 
     // Pdf::rotate() {{{
-
     /**
      * Make a rotation arround a given center.
      *
@@ -489,10 +436,8 @@ Class Pdf extends FPDF {
                             'q %.5f %.5f %.5f %.5f %.2f %.2f cm 1 0 0 1 %.2f %.2f cm', $c, $s, - $s, $c, $cx, $cy, - $cx, - $cy));
         }
     }
-
     // }}}
     // Pdf::_parsepng() {{{
-
     /**
      * Override to accept string. (like a blob). And to accept png with alpha 
      * channel.
@@ -517,7 +462,6 @@ Class Pdf extends FPDF {
                 $this->Error('Incorrect PNG file: ' . $file);
             }
             $stringChar += 4;
-
             $a = unpack('Ni', substr($f, $stringChar, 4));
             $w = $a['i'];
             $stringChar += 4;
@@ -525,7 +469,6 @@ Class Pdf extends FPDF {
             $h = $b['i'];
             $stringChar += 4;
             unset($a, $b);
-
             $bpc = ord(substr($f, $stringChar, 1));
             $stringChar += 1;
             if ($bpc > 8) {
@@ -542,7 +485,6 @@ Class Pdf extends FPDF {
             } else {
                 return 'alpha';
             }
-
             if (ord(substr($f, $stringChar, 1)) != 0) {
                 $this->Error('Unknown compression method: ' . $file);
             }
@@ -607,10 +549,8 @@ Class Pdf extends FPDF {
                 'trns' => $trns, 'data' => $data);
         }
     }
-
     // }}}
     // Pdf::_putimages() {{{
-
     /**
      * Overrided method for alpha channel support.
      *
@@ -626,11 +566,9 @@ Class Pdf extends FPDF {
             $this->_out('/Subtype /Image');
             $this->_out('/Width ' . $info['w']);
             $this->_out('/Height ' . $info['h']);
-
             if (isset($info['masked'])) {
                 $this->_out('/SMask ' . ($this->n - 1) . ' 0 R');
             }
-
             if ($info['cs'] == 'Indexed') {
                 $this->_out('/ColorSpace [/Indexed /DeviceRGB ' .
                         (strlen($info['pal']) / 3 - 1) . ' ' . ($this->n + 1) . ' 0 R]');
@@ -668,10 +606,8 @@ Class Pdf extends FPDF {
             }
         }
     }
-
     // }}}
     // Pdf::_gamma() {{{
-
     /**
      * GD seems to use a different gamma, 
      * this method is used to correct it again
@@ -682,8 +618,6 @@ Class Pdf extends FPDF {
     private function _gamma($v) {
         return pow($v / 255, 2.2) * 255;
     }
-
     // }}}
 }
-
 ?>

@@ -187,5 +187,4 @@
             'elFinder support following shortcuts': 'elFinder 支援下列快捷鍵',
             'helpText': 'elFinder檔案管理就如同電腦的檔案管理程式一般。 <br />您可以點選上方面板工具列或按下鍵盤快捷鍵等方式管理檔案，若您要移動檔案或目錄，只需透過拖拉即可。拖拉的同時若按下Shift鍵，則該檔案將被複製。'
         };
-
 })(jQuery);

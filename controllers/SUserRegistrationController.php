@@ -1,13 +1,10 @@
 <?php
-
 class SUserRegistrationController extends Controller {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//layouts/column2';
-
     /**
      * @return array action filters
      */
@@ -17,7 +14,6 @@ class SUserRegistrationController extends Controller {
             'postOnly + delete', // we only allow deletion via POST request
         );
     }
-
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
@@ -33,7 +29,6 @@ class SUserRegistrationController extends Controller {
             ),
         );
     }
-
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -43,28 +38,23 @@ class SUserRegistrationController extends Controller {
             'model' => $this->loadModel($id),
         ));
     }
-
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
         $model = new sUserRegistration;
-
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-
         if (isset($_POST['sUserRegistration'])) {
             $model->attributes = $_POST['sUserRegistration'];
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }
-
         $this->render('create', array(
             'model' => $model,
         ));
     }
-
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -72,21 +62,17 @@ class SUserRegistrationController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->loadModel($id);
-
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-
         if (isset($_POST['sUserRegistration'])) {
             $model->attributes = $_POST['sUserRegistration'];
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }
-
         $this->render('update', array(
             'model' => $model,
         ));
     }
-
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -97,24 +83,19 @@ class SUserRegistrationController extends Controller {
         //$model->setScenario('registration');
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-
         if (isset($_POST['sUserRegistration'])) {
             $model->attributes = $_POST['sUserRegistration'];
             if ($model->validate()) {
-
                 $_mysalt = sUserRegistration::model()->generateSalt();
                 $_password = md5($_mysalt . $model->password);
                 sUserRegistration::model()->updateByPk((int) $id, array('password' => $_password, 'activation_code' => $_mysalt));
-
                 $this->redirect(array('view', 'id' => $model->id));
             }
         }
-
         $this->render('updatePassword', array(
             'model' => $model,
         ));
     }
-
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -122,12 +103,10 @@ class SUserRegistrationController extends Controller {
      */
     public function actionDelete($id) {
         $this->loadModel($id)->delete();
-
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('/sUserRegistration'));
     }
-
     /**
      * Lists all models.
      */
@@ -136,19 +115,16 @@ class SUserRegistrationController extends Controller {
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['sUserRegistration']))
             $model->attributes = $_GET['sUserRegistration'];
-
         $this->render('index', array(
             'model' => $model,
         ));
     }
-
     /* public function actionGenerateSalt()
       {
       $criteria=new CDbCriteria;
       //$criteria->addBetweenCondition('id',2,12344);
       $criteria->addBetweenCondition('id',10001,12344);
       $models=sUserRegistration::model()->findAll($criteria);
-
       foreach ($models as $model) {
       $_mysalt=uniqid('',true);
       $_password = md5($_mysalt . $model->email . $model->id);
@@ -157,9 +133,7 @@ class SUserRegistrationController extends Controller {
       $model->save(false);
       //sUserRegistration::model()->updateByPk((int)$model->id,array('password'=>$_password,'activation_code'=>$_mysalt));
       }
-
       } */
-
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -171,7 +145,6 @@ class SUserRegistrationController extends Controller {
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
-
     /**
      * Performs the AJAX validation.
      * @param CModel the model to be validated
@@ -182,5 +155,4 @@ class SUserRegistrationController extends Controller {
             Yii::app()->end();
         }
     }
-
 }

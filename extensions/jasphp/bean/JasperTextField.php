@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperTextField
  *
@@ -8,18 +7,13 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="textField") */
 class JasperTextField extends AbstractJasper {
-
     /** @BeanAnnotation(className="JasperReportElement") */
     public $reportElement = null;
-
     /** @BeanAnnotation(className="JasperTextElement") */
     public $textElement = null;
-
     /** @BeanAnnotation(className="JasperTextFieldExpression") */
     public $textFieldExpression = null;
     public $pattern = null;
-
 }

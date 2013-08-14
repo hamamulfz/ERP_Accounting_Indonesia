@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Tag header plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @subpackage Tag
  */
 // dependances {{{
-
 /**
  * include parent class.
  */
 require_once('Xml2PdfTextTag.php');
-
 // }}}
 // doc {{{
-
 /**
  * <header> tag.
  *
@@ -40,76 +36,63 @@ require_once('Xml2PdfTextTag.php');
  */ // }}}
 Class xml2pdf_tag_header extends Xml2PdfTextTag {
     // class properties {{{
-
     /**
      * fill the elements background.
      * @var boolean
      */
     protected $fill = false;
-
     /**
      * fill color.
      * @var string
      */
     protected $fillColor = '#ffffff';
-
     /**
      * draw borders.
      * @var boolean
      */
     protected $border = false;
-
     /**
      * borders color.
      * @var string
      */
     protected $borderColor = '#000000';
-
     /**
      * left margin.
      * @var float
      */
     protected $left = 0;
-
     /**
      * top margin.
      * @var float
      */
     protected $top;
-
     /**
      * elements alignment.
      * @var string
      */
     protected $align = 'L';
-
     /**
      * header start page.
      * @var int
      */
     protected $startPage = 1;
-
     /**
      * header end page.
      * @var int
      */
     protected $endPage = 0;
-
     /**
      * elements array.
      * @var array
      */
     public $elements = array();
-
     /**
      * header height.
      * @var float
      */
     private $_height;
-
     // }}}
     // xml2pdf_tag_header::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -163,10 +146,8 @@ Class xml2pdf_tag_header extends Xml2PdfTextTag {
             }
         }
     }
-
     // }}}
     // xml2pdf_tag_header::close() {{{
-
     /**
      * Add the header to the Pdf.
      * @return void
@@ -174,10 +155,8 @@ Class xml2pdf_tag_header extends Xml2PdfTextTag {
     public function close() {
         $this->pdf->header[] = $this;
     }
-
     // }}}
     // xml2pdf_tag_header::render() {{{
-
     /**
      * Render the header.
      *
@@ -195,10 +174,8 @@ Class xml2pdf_tag_header extends Xml2PdfTextTag {
         $this->_renderComplexHeader();
         return true;
     }
-
     // }}}
     // xml2pdf_tag_header::_renderSimpleHeader() {{{
-
     /**
      * Render a simple header using <pdf> tag properties.
      *
@@ -211,22 +188,17 @@ Class xml2pdf_tag_header extends Xml2PdfTextTag {
         $dc = Xml2Pdf::convertColor($this->borderColor);
         $fc = Xml2Pdf::convertColor($this->fillColor);
         $tc = Xml2Pdf::convertColor($this->fontColor);
-
         $this->pdf->SetFont($this->font, $this->fontStyle, $this->fontSize);
         $this->pdf->SetTextColor($tc["r"], $tc["g"], $tc["b"]);
         $this->pdf->SetDrawColor($dc["r"], $dc["g"], $dc["b"]);
         $this->pdf->SetFillColor($fc["r"], $fc["g"], $fc["b"]);
-
         //$this->_drawLogo();
-
         $this->pdf->MultiCell(0, $this->pdf->FontSizePt, $this->pdf->title, 0, 'C', 0);
         $this->pdf->MultiCell(0, 0, $this->pdf->subject, 0, 'L', 0);
         $this->pdf->MultiCell(0, 0, $this->pdf->creator, 0, 'R', 0);
     }
-
     // }}}
     // xml2pdf_tag_header::_renderComplexHeader() {{{
-
     /**
      * Render a full header.
      *
@@ -246,12 +218,10 @@ Class xml2pdf_tag_header extends Xml2PdfTextTag {
                     $this->position;
             $left = isset($element->left) ? $element->left : $this->left;
             $top = isset($element->top) ? $element->top : $this->top;
-
             if (is_a($element, 'xml2pdf_tag_paragraph')) {
                 if (is_a($element, 'xml2pdf_tag_numerotation')) {
                     $element->content = sprintf($element->content, $this->pdf->PageNo());
                 }
-
                 $textAlign = isset($element->textAlign) ? $element->textAlign :
                         $this->textAlign;
                 $align = isset($element->align) ? $element->align :
@@ -280,12 +250,10 @@ Class xml2pdf_tag_header extends Xml2PdfTextTag {
                 $this->pdf->SetFillColor($fillColor["r"], $fillColor["g"], $fillColor["b"]);
                 $this->pdf->setTextColor($fontColor["r"], $fontColor["g"], $fontColor["b"]);
                 $this->pdf->SetFont($font, $fontStyle, $fontSize);
-
                 // initialize parameters
                 $contentLength = $this->pdf->GetStringWidth((string) $element->content);
                 $width = isset($element->width) ? $element->width :
                         $contentLength + 5;
-
                 //positionnement
                 if ($position == 'absolute') {
                     $currentX = 0;
@@ -324,10 +292,8 @@ Class xml2pdf_tag_header extends Xml2PdfTextTag {
         //positionnement du d�but de page sous le header
         $this->pdf->SetY($this->_height);
     }
-
     // }}}
     // xml2pdf_tag_header::_resetValues() {{{
-
     /**
      * Reset header values.
      *
@@ -345,8 +311,6 @@ Class xml2pdf_tag_header extends Xml2PdfTextTag {
         $this->pdf->SetTextColor($color['r'], $color['g'], $color['b']);
         $this->pdf->SetFont($this->font, $this->fontStyle, $this->fontSize);
     }
-
     // }}}
 }
-
 ?>

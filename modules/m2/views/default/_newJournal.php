@@ -9,20 +9,20 @@
 
 <ul>
     <?php
-        $criteria = new CDbCriteria;
-        $criteria->order = 't.input_date DESC';
-        $criteria->compare('yearmonth_periode', Yii::app()->settings->get("System", "cCurrentPeriod"));
+    $criteria = new CDbCriteria;
+    $criteria->order = 't.input_date DESC';
+    $criteria->compare('yearmonth_periode', Yii::app()->settings->get("System", "cCurrentPeriod"));
 
-        $criteria->limit = 10;
+    $criteria->limit = 10;
 
 
     $models = tJournal::model()->findAll($criteria);
 
     foreach ($models as $model) {
         echo CHtml::openTag('li', array());
-        echo CHtml::tag('strong',array(),$model->linkUrl);
+        echo CHtml::tag('strong', array(), $model->linkUrl);
         echo "<br/>";
-        echo $model->input_date." | ".number_format($model->journalSum,0,",",".");
+        echo $model->input_date . " | " . number_format($model->journalSum, 0, ",", ".");
         echo "<br/>";
         echo $model->remark;
         echo CHtml::closeTag('li');

@@ -102,7 +102,7 @@ class tAccount extends BaseModel {
         ));
     }
 
-    public function getTotalPerAccount($periode_date,$acc_id) {
+    public function getTotalPerAccount($periode_date, $acc_id) {
         $_total = 0;
         $_subtotal = 0;
         $_grandtotal = 0;
@@ -110,59 +110,58 @@ class tAccount extends BaseModel {
         $_grandtotalH = 0;
         $_grandtotalE = 0;
 
-		$model2 = tAccount::model()->findByPk((int) $acc_id);
+        $model2 = tAccount::model()->findByPk((int) $acc_id);
 
 
-		foreach ($model2->childs as $model) {
-			$_model = $model->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
-			if (isset($_model->end_balance)) {
-				$_balance = number_format($_model->end_balance, 0, ',', '.');
-				$_subtotal = $_subtotal + $_model->end_balance;
-				$_grandtotal = $_grandtotal + $_model->end_balance;
-			}
-			else
-				$_balance = 0;
+        foreach ($model2->childs as $model) {
+            $_model = $model->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
+            if (isset($_model->end_balance)) {
+                $_balance = number_format($_model->end_balance, 0, ',', '.');
+                $_subtotal = $_subtotal + $_model->end_balance;
+                $_grandtotal = $_grandtotal + $_model->end_balance;
+            }
+            else
+                $_balance = 0;
 
 
-			if ($model->childs) {
-				foreach ($model->childs as $mod) {
-					$_mod = $mod->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
-					if (isset($_mod->end_balance)) {
-						$_balance = number_format($_mod->end_balance, 0, ',', '.');
-						$_subtotal = $_subtotal + $_mod->end_balance;
-						$_grandtotal = $_grandtotal + $_mod->end_balance;
-					}
-					else
-						$_balance = 0;
+            if ($model->childs) {
+                foreach ($model->childs as $mod) {
+                    $_mod = $mod->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
+                    if (isset($_mod->end_balance)) {
+                        $_balance = number_format($_mod->end_balance, 0, ',', '.');
+                        $_subtotal = $_subtotal + $_mod->end_balance;
+                        $_grandtotal = $_grandtotal + $_mod->end_balance;
+                    }
+                    else
+                        $_balance = 0;
 
 
-					if ($mod->childs) {
-						foreach ($mod->childs as $m) {
-							$_m = $m->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
-							if (isset($_m->end_balance)) {
-								$_balance = number_format($_m->end_balance, 0, ',', '.');
-								$_total = $_total + $_m->end_balance;
-								$_subtotal = $_subtotal + $_m->end_balance;
-								$_grandtotal = $_grandtotal + $_m->end_balance;
-							}
-							else
-								$_balance = 0;
-						}
-					}
+                    if ($mod->childs) {
+                        foreach ($mod->childs as $m) {
+                            $_m = $m->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
+                            if (isset($_m->end_balance)) {
+                                $_balance = number_format($_m->end_balance, 0, ',', '.');
+                                $_total = $_total + $_m->end_balance;
+                                $_subtotal = $_subtotal + $_m->end_balance;
+                                $_grandtotal = $_grandtotal + $_m->end_balance;
+                            }
+                            else
+                                $_balance = 0;
+                        }
+                    }
 
-					if ($mod->childs) {
+                    if ($mod->childs) {
 
-						$_total = 0;
-
-					}
-				}
-			}
+                        $_total = 0;
+                    }
+                }
+            }
         }
-        
+
         return $_grandtotal;
     }
-    
-    public function getTotalSalesHppExpense($periode_date,$type) {
+
+    public function getTotalSalesHppExpense($periode_date, $type) {
         $_total = 0;
         $_subtotal = 0;
         $_grandtotal = 0;
@@ -218,13 +217,11 @@ class tAccount extends BaseModel {
                             if ($mod->childs) {
 
                                 $_total = 0;
-
                             }
                         }
                     }
 
                     $_subtotal = 0;
-
                 }
 
                 $_grossprofit = 0;
@@ -244,16 +241,16 @@ class tAccount extends BaseModel {
                 $_grandtotal = 0;
             }
         }
-        
-        
+
+
         if ($type == 3) {
             return $_grandtotalI;
         } elseif ($type == 4) {
             return $_grandtotalH;
-        } else 
+        }
+        else
             return $_grandtotalE;
     }
-    
 
     public static function getTotalAssets($periode_date) {
         $_grandtotal = 0;
@@ -305,7 +302,7 @@ class tAccount extends BaseModel {
 
         return $_grandtotalA;
     }
-    
+
     public static function getIsBalance($periode_date) {
         $_grandtotal = 0;
         $_grandtotalA = 0;
@@ -798,8 +795,7 @@ class tAccount extends BaseModel {
     public function getHasChildIsInherited() {
         if ($this->childs != null) {
             return "Yes " . CHtml::tag("span", array('class' => 'badge badge-info'), count($this->childs));
-        }
-        elseif (isset($this->haschildM) && $this->haschildM->mvalue == "Yes") {
+        } elseif (isset($this->haschildM) && $this->haschildM->mvalue == "Yes") {
             return "[ Yes ] " . CHtml::tag("span", array('class' => 'badge badge-info'), count($this->childs));
         }
         else
@@ -872,17 +868,16 @@ class tAccount extends BaseModel {
         $criteria1->order = 'account_no';
 
         $models1 = self::model()->findAll($criteria1);
-        
+
         if ($models1 != null) {
-			foreach ($models1 as $l)
-				$list[] = $l->id;
-		}
-		
+            foreach ($models1 as $l)
+                $list[] = $l->id;
+        }
+
         $_imList = implode(", ", $list);
 
         return $_imList;
     }
-
 
     public static function accountDetail() {
         $_items = array();

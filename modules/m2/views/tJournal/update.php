@@ -40,4 +40,4 @@ $this->menu2 = tJournal::getTopCreated(1);
     </h1>
 </div>
 
-<?php echo $this->renderPartial('_form',array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model' => $model)); ?>

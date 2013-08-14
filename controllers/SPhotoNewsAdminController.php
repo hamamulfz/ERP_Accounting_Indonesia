@@ -1,13 +1,10 @@
 <?php
-
 class sPhotoNewsAdminController extends Controller {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//layouts/column2';
-
     /**
      * @return array action filters
      */
@@ -17,76 +14,60 @@ class sPhotoNewsAdminController extends Controller {
                 //'accessControl',
         );
     }
-
     public function actionIndex() {
         $model = new fPhoto;
-
         if (isset($_POST['fPhoto'])) {
-
             $model->attributes = $_POST['fPhoto'];
-
             if ($model->validate()) {
-
                 mkdir(Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title);
-
-				//Make XML
-				$File = Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title . ".xml";
-				$Handle = fopen($File, 'w');
-				$Data = '<?xml version="1.0" encoding="ISO-8859-1"?>';
-				fwrite($Handle, $Data);
-				$Data = "<album>";
-				fwrite($Handle, $Data);
-				$Data = "<title>";
-				fwrite($Handle, $Data);
-				$Data = $model->title;
-				fwrite($Handle, $Data);
-				$Data = "</title>";
-				fwrite($Handle, $Data);
-				$Data = "<description>";
-				fwrite($Handle, $Data);
-				$Data = $model->description;
-				fwrite($Handle, $Data);
-				$Data = "</description>";
-				fwrite($Handle, $Data);
-				$Data = "<publish_date>";
-				fwrite($Handle, $Data);
-				$Data = $model->datetime;
-				fwrite($Handle, $Data);
-				$Data = "</publish_date>";
-				fwrite($Handle, $Data);
-				$Data = "</album>";
-				fwrite($Handle, $Data);
-				fclose($Handle);
-
-                $model->images = CUploadedFile::getInstances($model,'images');
-
+                //Make XML
+                $File = Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title . ".xml";
+                $Handle = fopen($File, 'w');
+                $Data = '<?xml version="1.0" encoding="ISO-8859-1"?>';
+                fwrite($Handle, $Data);
+                $Data = "<album>";
+                fwrite($Handle, $Data);
+                $Data = "<title>";
+                fwrite($Handle, $Data);
+                $Data = $model->title;
+                fwrite($Handle, $Data);
+                $Data = "</title>";
+                fwrite($Handle, $Data);
+                $Data = "<description>";
+                fwrite($Handle, $Data);
+                $Data = $model->description;
+                fwrite($Handle, $Data);
+                $Data = "</description>";
+                fwrite($Handle, $Data);
+                $Data = "<publish_date>";
+                fwrite($Handle, $Data);
+                $Data = $model->datetime;
+                fwrite($Handle, $Data);
+                $Data = "</publish_date>";
+                fwrite($Handle, $Data);
+                $Data = "</album>";
+                fwrite($Handle, $Data);
+                fclose($Handle);
+                $model->images = CUploadedFile::getInstances($model, 'images');
                 if (isset($model->images) && count($model->images) > 0) {
-
                     foreach ($model->images as $pic) {
                         $pic->saveAs(Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title . '/' . $pic->name);
                     }
-
                     //Make Thumb
                     copy(Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title . "/" . $pic->name, Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title . ".jpg");
-
                     //resize
                     Yii::import('ext.iwi.Iwi');
                     $picture = new Iwi(Yii::app()->basePath . "/../shareimages/photo/" . date("Ymd") . "-" . $model->title . ".jpg");
                     $picture->resize(570, 428, Iwi::AUTO);
                     $picture->save(Yii::app()->basePath . "/../shareimages/photo/" . date("Ymd") . "-" . $model->title . ".jpg", TRUE);
-
                     //change permission
                     chmod(Yii::getPathOfAlias('webroot') . '/shareimages/photo/' . date("Ymd") . "-" . $model->title . ".jpg", "0777");
-
-
                     $model = new fPhoto;
                 }
             }
         }
-
         $this->render('index', array('model' => $model));
     }
-
     public function actionUpload() {
         header('Vary: Accept');
         if (isset($_SERVER['HTTP_ACCEPT']) &&
@@ -95,9 +76,7 @@ class sPhotoNewsAdminController extends Controller {
         } else {
             header('Content-type: text/plain');
         }
-
         $data = array();
-
         $model = new fPhoto('upload');
         $model->images = CUploadedFile::getInstance($model, 'images');
         if ($model->images !== null && $model->validate(array('images'))) {
@@ -132,5 +111,4 @@ class sPhotoNewsAdminController extends Controller {
         }
         echo json_encode($data);
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPExcel
  *
@@ -33,11 +32,8 @@ if (!defined('PHPEXCEL_ROOT')) {
     define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../');
     require(PHPEXCEL_ROOT . 'PHPExcel/Autoloader.php');
 }
-
-
 /** EULER */
 define('EULER', 2.71828182845904523536);
-
 /**
  * PHPExcel_Calculation_Engineering
  *
@@ -46,7 +42,6 @@ define('EULER', 2.71828182845904523536);
  * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Calculation_Engineering {
-
     /**
      * Details of the Units of measure that can be used in CONVERTUOM()
      *
@@ -116,7 +111,6 @@ class PHPExcel_Calculation_Engineering {
         'l' => array('Group' => 'Liquid', 'Unit Name' => 'Litre', 'AllowPrefix' => True),
         'lt' => array('Group' => 'Liquid', 'Unit Name' => 'Litre', 'AllowPrefix' => True)
     );
-
     /**
      * Details of the Multiplier prefixes that can be used with Units of Measure in CONVERTUOM()
      *
@@ -143,7 +137,6 @@ class PHPExcel_Calculation_Engineering {
         'z' => array('multiplier' => 1E-21, 'name' => 'zepto'),
         'y' => array('multiplier' => 1E-24, 'name' => 'yocto')
     );
-
     /**
      * Details of the Units of measure conversion factors, organised by group
      *
@@ -681,7 +674,6 @@ class PHPExcel_Calculation_Engineering {
             )
         )
     );
-
     /**
      * _parseComplex
      *
@@ -692,7 +684,6 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function _parseComplex($complexNumber) {
         $workString = (string) $complexNumber;
-
         $realNumber = $imaginary = 0;
         //	Extract the suffix, if there is one
         $suffix = substr($workString, -1);
@@ -701,7 +692,6 @@ class PHPExcel_Calculation_Engineering {
         } else {
             $suffix = '';
         }
-
         //	Split the input into its Real and Imaginary components
         $leadingSign = 0;
         if (strlen($workString) > 0) {
@@ -713,12 +703,9 @@ class PHPExcel_Calculation_Engineering {
             $power = strtok('+-');
             ++$leadingSign;
         }
-
         $realNumber = substr($workString, 0, strlen($realNumber) + strlen($power) + $leadingSign);
-
         if ($suffix != '') {
             $imaginary = substr($workString, strlen($realNumber));
-
             if (($imaginary == '') && (($realNumber == '') || ($realNumber == '+') || ($realNumber == '-'))) {
                 $imaginary = $realNumber . '1';
                 $realNumber = '0';
@@ -729,15 +716,12 @@ class PHPExcel_Calculation_Engineering {
                 $imaginary .= '1';
             }
         }
-
         return array('real' => $realNumber,
             'imaginary' => $imaginary,
             'suffix' => $suffix
         );
     }
-
 //	function _parseComplex()
-
     /**
      * _cleanComplex
      *
@@ -757,7 +741,6 @@ class PHPExcel_Calculation_Engineering {
             $complexNumber = substr($complexNumber, 1);
         return $complexNumber;
     }
-
     private static function _nbrConversionFormat($xVal, $places) {
         if (!is_null($places)) {
             if (strlen($xVal) <= $places) {
@@ -766,12 +749,9 @@ class PHPExcel_Calculation_Engineering {
                 return PHPExcel_Calculation_Functions::NaN();
             }
         }
-
         return substr($xVal, -10);
     }
-
 //	function _nbrConversionFormat()
-
     /**
      * 	BESSELI
      *
@@ -795,13 +775,11 @@ class PHPExcel_Calculation_Engineering {
     public static function BESSELI($x, $ord) {
         $x = (is_null($x)) ? 0.0 : PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $ord = (is_null($ord)) ? 0.0 : PHPExcel_Calculation_Functions::flattenSingleValue($ord);
-
         if ((is_numeric($x)) && (is_numeric($ord))) {
             $ord = floor($ord);
             if ($ord < 0) {
                 return PHPExcel_Calculation_Functions::NaN();
             }
-
             if (abs($x) <= 30) {
                 $fResult = $fTerm = pow($x / 2, $ord) / PHPExcel_Calculation_MathTrig::FACT($ord);
                 $ordK = 1;
@@ -813,7 +791,6 @@ class PHPExcel_Calculation_Engineering {
                 } while ((abs($fTerm) > 1e-12) && (++$ordK < 100));
             } else {
                 $f_2_PI = 2 * M_PI;
-
                 $fXAbs = abs($x);
                 $fResult = exp($fXAbs) / sqrt($f_2_PI * $fXAbs);
                 if (($ord & 1) && ($x < 0)) {
@@ -824,9 +801,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return PHPExcel_Calculation_Functions::VALUE();
     }
-
 //	function BESSELI()
-
     /**
      * 	BESSELJ
      *
@@ -848,13 +823,11 @@ class PHPExcel_Calculation_Engineering {
     public static function BESSELJ($x, $ord) {
         $x = (is_null($x)) ? 0.0 : PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $ord = (is_null($ord)) ? 0.0 : PHPExcel_Calculation_Functions::flattenSingleValue($ord);
-
         if ((is_numeric($x)) && (is_numeric($ord))) {
             $ord = floor($ord);
             if ($ord < 0) {
                 return PHPExcel_Calculation_Functions::NaN();
             }
-
             $fResult = 0;
             if (abs($x) <= 30) {
                 $fResult = $fTerm = pow($x / 2, $ord) / PHPExcel_Calculation_MathTrig::FACT($ord);
@@ -868,7 +841,6 @@ class PHPExcel_Calculation_Engineering {
             } else {
                 $f_PI_DIV_2 = M_PI / 2;
                 $f_PI_DIV_4 = M_PI / 4;
-
                 $fXAbs = abs($x);
                 $fResult = sqrt(M_2DIVPI / $fXAbs) * cos($fXAbs - $ord * $f_PI_DIV_2 - $f_PI_DIV_4);
                 if (($ord & 1) && ($x < 0)) {
@@ -879,9 +851,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return PHPExcel_Calculation_Functions::VALUE();
     }
-
 //	function BESSELJ()
-
     private static function _Besselk0($fNum) {
         if ($fNum <= 2) {
             $fNum2 = $fNum * 0.5;
@@ -897,9 +867,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return $fRet;
     }
-
 //	function _Besselk0()
-
     private static function _Besselk1($fNum) {
         if ($fNum <= 2) {
             $fNum2 = $fNum * 0.5;
@@ -915,9 +883,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return $fRet;
     }
-
 //	function _Besselk1()
-
     /**
      * 	BESSELK
      *
@@ -940,12 +906,10 @@ class PHPExcel_Calculation_Engineering {
     public static function BESSELK($x, $ord) {
         $x = (is_null($x)) ? 0.0 : PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $ord = (is_null($ord)) ? 0.0 : PHPExcel_Calculation_Functions::flattenSingleValue($ord);
-
         if ((is_numeric($x)) && (is_numeric($ord))) {
             if (($ord < 0) || ($x == 0.0)) {
                 return PHPExcel_Calculation_Functions::NaN();
             }
-
             switch (floor($ord)) {
                 case 0 : return self::_Besselk0($x);
                     break;
@@ -964,9 +928,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return PHPExcel_Calculation_Functions::VALUE();
     }
-
 //	function BESSELK()
-
     private static function _Bessely0($fNum) {
         if ($fNum < 8.0) {
             $y = ($fNum * $fNum);
@@ -983,9 +945,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return $fRet;
     }
-
 //	function _Bessely0()
-
     private static function _Bessely1($fNum) {
         if ($fNum < 8.0) {
             $y = ($fNum * $fNum);
@@ -999,9 +959,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return $fRet;
     }
-
 //	function _Bessely1()
-
     /**
      * 	BESSELY
      *
@@ -1023,12 +981,10 @@ class PHPExcel_Calculation_Engineering {
     public static function BESSELY($x, $ord) {
         $x = (is_null($x)) ? 0.0 : PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $ord = (is_null($ord)) ? 0.0 : PHPExcel_Calculation_Functions::flattenSingleValue($ord);
-
         if ((is_numeric($x)) && (is_numeric($ord))) {
             if (($ord < 0) || ($x == 0.0)) {
                 return PHPExcel_Calculation_Functions::NaN();
             }
-
             switch (floor($ord)) {
                 case 0 : return self::_Bessely0($x);
                     break;
@@ -1047,9 +1003,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return PHPExcel_Calculation_Functions::VALUE();
     }
-
 //	function BESSELY()
-
     /**
      * BINTODEC
      *
@@ -1070,7 +1024,6 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function BINTODEC($x) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
-
         if (is_bool($x)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) {
                 $x = (int) $x;
@@ -1094,9 +1047,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return bindec($x);
     }
-
 //	function BINTODEC()
-
     /**
      * BINTOHEX
      *
@@ -1124,7 +1075,6 @@ class PHPExcel_Calculation_Engineering {
     public static function BINTOHEX($x, $places = NULL) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $places = PHPExcel_Calculation_Functions::flattenSingleValue($places);
-
         if (is_bool($x)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) {
                 $x = (int) $x;
@@ -1146,12 +1096,9 @@ class PHPExcel_Calculation_Engineering {
             return str_repeat('F', 8) . substr(strtoupper(dechex(bindec(substr($x, -9)))), -2);
         }
         $hexVal = (string) strtoupper(dechex(bindec($x)));
-
         return self::_nbrConversionFormat($hexVal, $places);
     }
-
 //	function BINTOHEX()
-
     /**
      * BINTOOCT
      *
@@ -1179,7 +1126,6 @@ class PHPExcel_Calculation_Engineering {
     public static function BINTOOCT($x, $places = NULL) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $places = PHPExcel_Calculation_Functions::flattenSingleValue($places);
-
         if (is_bool($x)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) {
                 $x = (int) $x;
@@ -1201,12 +1147,9 @@ class PHPExcel_Calculation_Engineering {
             return str_repeat('7', 7) . substr(strtoupper(decoct(bindec(substr($x, -9)))), -3);
         }
         $octVal = (string) decoct(bindec($x));
-
         return self::_nbrConversionFormat($octVal, $places);
     }
-
 //	function BINTOOCT()
-
     /**
      * DECTOBIN
      *
@@ -1238,7 +1181,6 @@ class PHPExcel_Calculation_Engineering {
     public static function DECTOBIN($x, $places = NULL) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $places = PHPExcel_Calculation_Functions::flattenSingleValue($places);
-
         if (is_bool($x)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) {
                 $x = (int) $x;
@@ -1258,12 +1200,9 @@ class PHPExcel_Calculation_Engineering {
         } elseif (strlen($r) > 11) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         return self::_nbrConversionFormat($r, $places);
     }
-
 //	function DECTOBIN()
-
     /**
      * DECTOHEX
      *
@@ -1295,7 +1234,6 @@ class PHPExcel_Calculation_Engineering {
     public static function DECTOHEX($x, $places = null) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $places = PHPExcel_Calculation_Functions::flattenSingleValue($places);
-
         if (is_bool($x)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) {
                 $x = (int) $x;
@@ -1313,12 +1251,9 @@ class PHPExcel_Calculation_Engineering {
             //	Two's Complement
             $r = 'FF' . $r;
         }
-
         return self::_nbrConversionFormat($r, $places);
     }
-
 //	function DECTOHEX()
-
     /**
      * DECTOOCT
      *
@@ -1350,7 +1285,6 @@ class PHPExcel_Calculation_Engineering {
     public static function DECTOOCT($x, $places = null) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $places = PHPExcel_Calculation_Functions::flattenSingleValue($places);
-
         if (is_bool($x)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) {
                 $x = (int) $x;
@@ -1368,12 +1302,9 @@ class PHPExcel_Calculation_Engineering {
             //	Two's Complement
             $r = substr($r, -10);
         }
-
         return self::_nbrConversionFormat($r, $places);
     }
-
 //	function DECTOOCT()
-
     /**
      * HEXTOBIN
      *
@@ -1408,7 +1339,6 @@ class PHPExcel_Calculation_Engineering {
     public static function HEXTOBIN($x, $places = null) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $places = PHPExcel_Calculation_Functions::flattenSingleValue($places);
-
         if (is_bool($x)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
@@ -1417,12 +1347,9 @@ class PHPExcel_Calculation_Engineering {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $binVal = decbin(hexdec($x));
-
         return substr(self::_nbrConversionFormat($binVal, $places), -10);
     }
-
 //	function HEXTOBIN()
-
     /**
      * HEXTODEC
      *
@@ -1444,7 +1371,6 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function HEXTODEC($x) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
-
         if (is_bool($x)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
@@ -1454,9 +1380,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return hexdec($x);
     }
-
 //	function HEXTODEC()
-
     /**
      * HEXTOOCT
      *
@@ -1492,7 +1416,6 @@ class PHPExcel_Calculation_Engineering {
     public static function HEXTOOCT($x, $places = null) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $places = PHPExcel_Calculation_Functions::flattenSingleValue($places);
-
         if (is_bool($x)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
@@ -1501,12 +1424,9 @@ class PHPExcel_Calculation_Engineering {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $octVal = decoct(hexdec($x));
-
         return self::_nbrConversionFormat($octVal, $places);
     }
-
 //	function HEXTOOCT()
-
     /**
      * OCTTOBIN
      *
@@ -1544,7 +1464,6 @@ class PHPExcel_Calculation_Engineering {
     public static function OCTTOBIN($x, $places = null) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $places = PHPExcel_Calculation_Functions::flattenSingleValue($places);
-
         if (is_bool($x)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
@@ -1553,12 +1472,9 @@ class PHPExcel_Calculation_Engineering {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $r = decbin(octdec($x));
-
         return self::_nbrConversionFormat($r, $places);
     }
-
 //	function OCTTOBIN()
-
     /**
      * OCTTODEC
      *
@@ -1580,7 +1496,6 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function OCTTODEC($x) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
-
         if (is_bool($x)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
@@ -1590,9 +1505,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return octdec($x);
     }
-
 //	function OCTTODEC()
-
     /**
      * OCTTOHEX
      *
@@ -1625,7 +1538,6 @@ class PHPExcel_Calculation_Engineering {
     public static function OCTTOHEX($x, $places = null) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
         $places = PHPExcel_Calculation_Functions::flattenSingleValue($places);
-
         if (is_bool($x)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
@@ -1634,12 +1546,9 @@ class PHPExcel_Calculation_Engineering {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $hexVal = strtoupper(dechex(octdec($x)));
-
         return self::_nbrConversionFormat($hexVal, $places);
     }
-
 //	function OCTTOHEX()
-
     /**
      * COMPLEX
      *
@@ -1660,12 +1569,10 @@ class PHPExcel_Calculation_Engineering {
         $realNumber = (is_null($realNumber)) ? 0.0 : PHPExcel_Calculation_Functions::flattenSingleValue($realNumber);
         $imaginary = (is_null($imaginary)) ? 0.0 : PHPExcel_Calculation_Functions::flattenSingleValue($imaginary);
         $suffix = (is_null($suffix)) ? 'i' : PHPExcel_Calculation_Functions::flattenSingleValue($suffix);
-
         if (((is_numeric($realNumber)) && (is_numeric($imaginary))) &&
                 (($suffix == 'i') || ($suffix == 'j') || ($suffix == ''))) {
             $realNumber = (float) $realNumber;
             $imaginary = (float) $imaginary;
-
             if ($suffix == '')
                 $suffix = 'i';
             if ($realNumber == 0.0) {
@@ -1689,12 +1596,9 @@ class PHPExcel_Calculation_Engineering {
             }
             return (string) $realNumber . $imaginary . $suffix;
         }
-
         return PHPExcel_Calculation_Functions::VALUE();
     }
-
 //	function COMPLEX()
-
     /**
      * IMAGINARY
      *
@@ -1711,13 +1615,10 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMAGINARY($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
         return $parsedComplex['imaginary'];
     }
-
 //	function IMAGINARY()
-
     /**
      * IMREAL
      *
@@ -1733,13 +1634,10 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMREAL($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
         return $parsedComplex['real'];
     }
-
 //	function IMREAL()
-
     /**
      * IMABS
      *
@@ -1753,14 +1651,10 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMABS($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         return sqrt(($parsedComplex['real'] * $parsedComplex['real']) + ($parsedComplex['imaginary'] * $parsedComplex['imaginary']));
     }
-
 //	function IMABS()
-
     /**
      * IMARGUMENT
      *
@@ -1775,9 +1669,7 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMARGUMENT($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         if ($parsedComplex['real'] == 0.0) {
             if ($parsedComplex['imaginary'] == 0.0) {
                 return 0.0;
@@ -1794,9 +1686,7 @@ class PHPExcel_Calculation_Engineering {
             return M_PI - atan($parsedComplex['imaginary'] / abs($parsedComplex['real']));
         }
     }
-
 //	function IMARGUMENT()
-
     /**
      * IMCONJUGATE
      *
@@ -1810,9 +1700,7 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMCONJUGATE($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         if ($parsedComplex['imaginary'] == 0.0) {
             return $parsedComplex['real'];
         } else {
@@ -1821,9 +1709,7 @@ class PHPExcel_Calculation_Engineering {
             );
         }
     }
-
 //	function IMCONJUGATE()
-
     /**
      * IMCOS
      *
@@ -1837,18 +1723,14 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMCOS($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         if ($parsedComplex['imaginary'] == 0.0) {
             return cos($parsedComplex['real']);
         } else {
             return self::IMCONJUGATE(self::COMPLEX(cos($parsedComplex['real']) * cosh($parsedComplex['imaginary']), sin($parsedComplex['real']) * sinh($parsedComplex['imaginary']), $parsedComplex['suffix']));
         }
     }
-
 //	function IMCOS()
-
     /**
      * IMSIN
      *
@@ -1862,18 +1744,14 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMSIN($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         if ($parsedComplex['imaginary'] == 0.0) {
             return sin($parsedComplex['real']);
         } else {
             return self::COMPLEX(sin($parsedComplex['real']) * cosh($parsedComplex['imaginary']), cos($parsedComplex['real']) * sinh($parsedComplex['imaginary']), $parsedComplex['suffix']);
         }
     }
-
 //	function IMSIN()
-
     /**
      * IMSQRT
      *
@@ -1887,23 +1765,18 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMSQRT($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         $theta = self::IMARGUMENT($complexNumber);
         $d1 = cos($theta / 2);
         $d2 = sin($theta / 2);
         $r = sqrt(sqrt(($parsedComplex['real'] * $parsedComplex['real']) + ($parsedComplex['imaginary'] * $parsedComplex['imaginary'])));
-
         if ($parsedComplex['suffix'] == '') {
             return self::COMPLEX($d1 * $r, $d2 * $r);
         } else {
             return self::COMPLEX($d1 * $r, $d2 * $r, $parsedComplex['suffix']);
         }
     }
-
 //	function IMSQRT()
-
     /**
      * IMLN
      *
@@ -1917,25 +1790,19 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMLN($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         if (($parsedComplex['real'] == 0.0) && ($parsedComplex['imaginary'] == 0.0)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-
         $logR = log(sqrt(($parsedComplex['real'] * $parsedComplex['real']) + ($parsedComplex['imaginary'] * $parsedComplex['imaginary'])));
         $t = self::IMARGUMENT($complexNumber);
-
         if ($parsedComplex['suffix'] == '') {
             return self::COMPLEX($logR, $t);
         } else {
             return self::COMPLEX($logR, $t, $parsedComplex['suffix']);
         }
     }
-
 //	function IMLN()
-
     /**
      * IMLOG10
      *
@@ -1949,20 +1816,15 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMLOG10($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         if (($parsedComplex['real'] == 0.0) && ($parsedComplex['imaginary'] == 0.0)) {
             return PHPExcel_Calculation_Functions::NaN();
         } elseif (($parsedComplex['real'] > 0.0) && ($parsedComplex['imaginary'] == 0.0)) {
             return log10($parsedComplex['real']);
         }
-
         return self::IMPRODUCT(log10(EULER), self::IMLN($complexNumber));
     }
-
 //	function IMLOG10()
-
     /**
      * IMLOG2
      *
@@ -1976,20 +1838,15 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMLOG2($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         if (($parsedComplex['real'] == 0.0) && ($parsedComplex['imaginary'] == 0.0)) {
             return PHPExcel_Calculation_Functions::NaN();
         } elseif (($parsedComplex['real'] > 0.0) && ($parsedComplex['imaginary'] == 0.0)) {
             return log($parsedComplex['real'], 2);
         }
-
         return self::IMPRODUCT(log(EULER, 2), self::IMLN($complexNumber));
     }
-
 //	function IMLOG2()
-
     /**
      * IMEXP
      *
@@ -2003,26 +1860,20 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function IMEXP($complexNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         if (($parsedComplex['real'] == 0.0) && ($parsedComplex['imaginary'] == 0.0)) {
             return '1';
         }
-
         $e = exp($parsedComplex['real']);
         $eX = $e * cos($parsedComplex['imaginary']);
         $eY = $e * sin($parsedComplex['imaginary']);
-
         if ($parsedComplex['suffix'] == '') {
             return self::COMPLEX($eX, $eY);
         } else {
             return self::COMPLEX($eX, $eY, $parsedComplex['suffix']);
         }
     }
-
 //	function IMEXP()
-
     /**
      * IMPOWER
      *
@@ -2038,13 +1889,10 @@ class PHPExcel_Calculation_Engineering {
     public static function IMPOWER($complexNumber, $realNumber) {
         $complexNumber = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber);
         $realNumber = PHPExcel_Calculation_Functions::flattenSingleValue($realNumber);
-
         if (!is_numeric($realNumber)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
-
         $parsedComplex = self::_parseComplex($complexNumber);
-
         $r = sqrt(($parsedComplex['real'] * $parsedComplex['real']) + ($parsedComplex['imaginary'] * $parsedComplex['imaginary']));
         $rPower = pow($r, $realNumber);
         $theta = self::IMARGUMENT($complexNumber) * $realNumber;
@@ -2056,9 +1904,7 @@ class PHPExcel_Calculation_Engineering {
             return self::COMPLEX($rPower * cos($theta), $rPower * sin($theta), $parsedComplex['suffix']);
         }
     }
-
 //	function IMPOWER()
-
     /**
      * IMDIV
      *
@@ -2074,10 +1920,8 @@ class PHPExcel_Calculation_Engineering {
     public static function IMDIV($complexDividend, $complexDivisor) {
         $complexDividend = PHPExcel_Calculation_Functions::flattenSingleValue($complexDividend);
         $complexDivisor = PHPExcel_Calculation_Functions::flattenSingleValue($complexDivisor);
-
         $parsedComplexDividend = self::_parseComplex($complexDividend);
         $parsedComplexDivisor = self::_parseComplex($complexDivisor);
-
         if (($parsedComplexDividend['suffix'] != '') && ($parsedComplexDivisor['suffix'] != '') &&
                 ($parsedComplexDividend['suffix'] != $parsedComplexDivisor['suffix'])) {
             return PHPExcel_Calculation_Functions::NaN();
@@ -2085,14 +1929,11 @@ class PHPExcel_Calculation_Engineering {
         if (($parsedComplexDividend['suffix'] != '') && ($parsedComplexDivisor['suffix'] == '')) {
             $parsedComplexDivisor['suffix'] = $parsedComplexDividend['suffix'];
         }
-
         $d1 = ($parsedComplexDividend['real'] * $parsedComplexDivisor['real']) + ($parsedComplexDividend['imaginary'] * $parsedComplexDivisor['imaginary']);
         $d2 = ($parsedComplexDividend['imaginary'] * $parsedComplexDivisor['real']) - ($parsedComplexDividend['real'] * $parsedComplexDivisor['imaginary']);
         $d3 = ($parsedComplexDivisor['real'] * $parsedComplexDivisor['real']) + ($parsedComplexDivisor['imaginary'] * $parsedComplexDivisor['imaginary']);
-
         $r = $d1 / $d3;
         $i = $d2 / $d3;
-
         if ($i > 0.0) {
             return self::_cleanComplex($r . '+' . $i . $parsedComplexDivisor['suffix']);
         } elseif ($i < 0.0) {
@@ -2101,9 +1942,7 @@ class PHPExcel_Calculation_Engineering {
             return $r;
         }
     }
-
 //	function IMDIV()
-
     /**
      * IMSUB
      *
@@ -2119,25 +1958,19 @@ class PHPExcel_Calculation_Engineering {
     public static function IMSUB($complexNumber1, $complexNumber2) {
         $complexNumber1 = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber1);
         $complexNumber2 = PHPExcel_Calculation_Functions::flattenSingleValue($complexNumber2);
-
         $parsedComplex1 = self::_parseComplex($complexNumber1);
         $parsedComplex2 = self::_parseComplex($complexNumber2);
-
         if ((($parsedComplex1['suffix'] != '') && ($parsedComplex2['suffix'] != '')) &&
                 ($parsedComplex1['suffix'] != $parsedComplex2['suffix'])) {
             return PHPExcel_Calculation_Functions::NaN();
         } elseif (($parsedComplex1['suffix'] == '') && ($parsedComplex2['suffix'] != '')) {
             $parsedComplex1['suffix'] = $parsedComplex2['suffix'];
         }
-
         $d1 = $parsedComplex1['real'] - $parsedComplex2['real'];
         $d2 = $parsedComplex1['imaginary'] - $parsedComplex2['imaginary'];
-
         return self::COMPLEX($d1, $d2, $parsedComplex1['suffix']);
     }
-
 //	function IMSUB()
-
     /**
      * IMSUM
      *
@@ -2153,30 +1986,24 @@ class PHPExcel_Calculation_Engineering {
         // Return value
         $returnValue = self::_parseComplex('0');
         $activeSuffix = '';
-
         // Loop through the arguments
         $aArgs = PHPExcel_Calculation_Functions::flattenArray(func_get_args());
         foreach ($aArgs as $arg) {
             $parsedComplex = self::_parseComplex($arg);
-
             if ($activeSuffix == '') {
                 $activeSuffix = $parsedComplex['suffix'];
             } elseif (($parsedComplex['suffix'] != '') && ($activeSuffix != $parsedComplex['suffix'])) {
                 return PHPExcel_Calculation_Functions::VALUE();
             }
-
             $returnValue['real'] += $parsedComplex['real'];
             $returnValue['imaginary'] += $parsedComplex['imaginary'];
         }
-
         if ($returnValue['imaginary'] == 0.0) {
             $activeSuffix = '';
         }
         return self::COMPLEX($returnValue['real'], $returnValue['imaginary'], $activeSuffix);
     }
-
 //	function IMSUM()
-
     /**
      * IMPRODUCT
      *
@@ -2192,12 +2019,10 @@ class PHPExcel_Calculation_Engineering {
         // Return value
         $returnValue = self::_parseComplex('1');
         $activeSuffix = '';
-
         // Loop through the arguments
         $aArgs = PHPExcel_Calculation_Functions::flattenArray(func_get_args());
         foreach ($aArgs as $arg) {
             $parsedComplex = self::_parseComplex($arg);
-
             $workValue = $returnValue;
             if (($parsedComplex['suffix'] != '') && ($activeSuffix == '')) {
                 $activeSuffix = $parsedComplex['suffix'];
@@ -2207,15 +2032,12 @@ class PHPExcel_Calculation_Engineering {
             $returnValue['real'] = ($workValue['real'] * $parsedComplex['real']) - ($workValue['imaginary'] * $parsedComplex['imaginary']);
             $returnValue['imaginary'] = ($workValue['real'] * $parsedComplex['imaginary']) + ($workValue['imaginary'] * $parsedComplex['real']);
         }
-
         if ($returnValue['imaginary'] == 0.0) {
             $activeSuffix = '';
         }
         return self::COMPLEX($returnValue['real'], $returnValue['imaginary'], $activeSuffix);
     }
-
 //	function IMPRODUCT()
-
     /**
      * 	DELTA
      *
@@ -2234,12 +2056,9 @@ class PHPExcel_Calculation_Engineering {
     public static function DELTA($a, $b = 0) {
         $a = PHPExcel_Calculation_Functions::flattenSingleValue($a);
         $b = PHPExcel_Calculation_Functions::flattenSingleValue($b);
-
         return (int) ($a == $b);
     }
-
 //	function DELTA()
-
     /**
      * 	GESTEP
      *
@@ -2258,16 +2077,13 @@ class PHPExcel_Calculation_Engineering {
     public static function GESTEP($number, $step = 0) {
         $number = PHPExcel_Calculation_Functions::flattenSingleValue($number);
         $step = PHPExcel_Calculation_Functions::flattenSingleValue($step);
-
         return (int) ($number >= $step);
     }
-
 //	function GESTEP()
     //
 	//	Private method to calculate the erf value
     //
 	private static $_two_sqrtpi = 1.128379167095512574;
-
     public static function _erfVal($x) {
         if (abs($x) > 2.2) {
             return 1 - self::_erfcVal($x);
@@ -2288,9 +2104,7 @@ class PHPExcel_Calculation_Engineering {
         } while (abs($term / $sum) > PRECISION);
         return self::$_two_sqrtpi * $sum;
     }
-
 //	function _erfVal()
-
     /**
      * 	ERF
      *
@@ -2312,7 +2126,6 @@ class PHPExcel_Calculation_Engineering {
     public static function ERF($lower, $upper = NULL) {
         $lower = PHPExcel_Calculation_Functions::flattenSingleValue($lower);
         $upper = PHPExcel_Calculation_Functions::flattenSingleValue($upper);
-
         if (is_numeric($lower)) {
             if (is_null($upper)) {
                 return self::_erfVal($lower);
@@ -2323,13 +2136,11 @@ class PHPExcel_Calculation_Engineering {
         }
         return PHPExcel_Calculation_Functions::VALUE();
     }
-
 //	function ERF()
     //
 	//	Private method to calculate the erfc value
     //
 	private static $_one_sqrtpi = 0.564189583547756287;
-
     private static function _erfcVal($x) {
         if (abs($x) < 2.2) {
             return 1 - self::_erfVal($x);
@@ -2355,9 +2166,7 @@ class PHPExcel_Calculation_Engineering {
         } while ((abs($q1 - $q2) / $q2) > PRECISION);
         return self::$_one_sqrtpi * exp(-$x * $x) * $q2;
     }
-
 //	function _erfcVal()
-
     /**
      * 	ERFC
      *
@@ -2376,15 +2185,12 @@ class PHPExcel_Calculation_Engineering {
      */
     public static function ERFC($x) {
         $x = PHPExcel_Calculation_Functions::flattenSingleValue($x);
-
         if (is_numeric($x)) {
             return self::_erfcVal($x);
         }
         return PHPExcel_Calculation_Functions::VALUE();
     }
-
 //	function ERFC()
-
     /**
      * 	getConversionGroups
      * 	Returns a list of the different conversion groups for UOM conversions
@@ -2398,9 +2204,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return array_merge(array_unique($conversionGroups));
     }
-
 //	function getConversionGroups()
-
     /**
      * 	getConversionGroupUnits
      * 	Returns an array of units of measure, for a specified conversion group, or for all groups
@@ -2418,9 +2222,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return $conversionGroups;
     }
-
 //	function getConversionGroupUnits()
-
     /**
      * 	getConversionGroupUnitDetails
      *
@@ -2437,9 +2239,7 @@ class PHPExcel_Calculation_Engineering {
         }
         return $conversionGroups;
     }
-
 //	function getConversionGroupUnitDetails()
-
     /**
      * 	getConversionMultipliers
      * 	Returns an array of the Multiplier prefixes that can be used with Units of Measure in CONVERTUOM()
@@ -2449,9 +2249,7 @@ class PHPExcel_Calculation_Engineering {
     public static function getConversionMultipliers() {
         return self::$_conversionMultipliers;
     }
-
 //	function getConversionGroups()
-
     /**
      * 	CONVERTUOM
      *
@@ -2472,7 +2270,6 @@ class PHPExcel_Calculation_Engineering {
         $value = PHPExcel_Calculation_Functions::flattenSingleValue($value);
         $fromUOM = PHPExcel_Calculation_Functions::flattenSingleValue($fromUOM);
         $toUOM = PHPExcel_Calculation_Functions::flattenSingleValue($toUOM);
-
         if (!is_numeric($value)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
@@ -2494,7 +2291,6 @@ class PHPExcel_Calculation_Engineering {
             }
         }
         $value *= $fromMultiplier;
-
         $toMultiplier = 1.0;
         if (isset(self::$_conversionUnits[$toUOM])) {
             $unitGroup2 = self::$_conversionUnits[$toUOM]['Group'];
@@ -2515,7 +2311,6 @@ class PHPExcel_Calculation_Engineering {
         if ($unitGroup1 != $unitGroup2) {
             return PHPExcel_Calculation_Functions::NA();
         }
-
         if (($fromUOM == $toUOM) && ($fromMultiplier == $toMultiplier)) {
             //	We've already factored $fromMultiplier into the value, so we need
             //		to reverse it again
@@ -2551,8 +2346,6 @@ class PHPExcel_Calculation_Engineering {
         }
         return ($value * self::$_unitConversions[$unitGroup1][$fromUOM][$toUOM]) / $toMultiplier;
     }
-
 //	function CONVERTUOM()
 }
-
 //	class PHPExcel_Calculation_Engineering

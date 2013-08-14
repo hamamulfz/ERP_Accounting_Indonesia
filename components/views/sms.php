@@ -1,22 +1,16 @@
 <?php
-
 $max = 0;
-
 foreach (glob("C:/cygwin/var/spool/sms/incoming/*.*") as $filename) {
     //$max++;
     //if ($max == 11)
     //	break;
-
     $model = SSmsin::model()->findBySql('select filename from s_smsin where filename ="' . $filename . '"');
     if ($model === null) {
         $command = Yii::app()->db->createCommand(
                 'INSERT INTO s_smsin (filename, cfrom, sent, received, modem, message) VALUES (:filename, :from , :sent , :received , :modem , :message );');
-
-
         $handle = fopen($filename, 'r');
         $data = fread($handle, filesize($filename));
         $rowsArr = explode("\n", $data);
-
         $message = "";
         $sms = array();
         $lastline = count($rowsArr);
@@ -46,11 +40,9 @@ foreach (glob("C:/cygwin/var/spool/sms/incoming/*.*") as $filename) {
                 }
             }
         }
-
         $command->bindParam(":filename", $filename, PDO::PARAM_STR);
         $command->execute();
     }
     //echo "SUKSES";
 }
 ?>
-

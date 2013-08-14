@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperStaticText
  *
@@ -8,17 +7,12 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="staticText") */
 class JasperStaticText extends AbstractJasper {
-
     /** @BeanAnnotation(className="JasperReportElement") */
     public $reportElement = null;
-
     /** @BeanAnnotation(className="JasperTextElement") */
     public $textElement = null;
-
     /** @BeanAnnotation(className="JasperText") */
     public $text = null;
-
 }

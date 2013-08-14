@@ -186,7 +186,5 @@
             'Contacts us if you need help integrating elFinder in you products': 'Ja ir nepieciešama palīdzība jūsu produktu integrācijā ar elFinder, tad sazinieties ar mums.',
             'elFinder support following shortcuts': 'elFinder atbalsta sekojošas taustiņu kombinācijas',
             'helpText': 'elFinder darbojas līdzīgi jūsu datora failu pārvaldniekam.<br />Veikt manipulācijas ar failiem iespējams ar augšējā paneļa pogām, konteksta izvēlnes palī∂zību vai taustiņu kombinācijām. Lai pārvietot failus/direktorijas, vienkārši pārnesiet tos/tās uz nepieciešamās direktorijas ikonas. Ja tajā brīdī būs nospiests Shift taustiņš, tad faili tiks kopēti.'
-
         };
-
 })(jQuery);

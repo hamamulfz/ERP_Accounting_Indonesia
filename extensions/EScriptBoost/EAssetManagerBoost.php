@@ -1,5 +1,4 @@
 <?php
-
 /**
  * EAssetManagerBoost class
  * 
@@ -27,25 +26,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
  */
 class EAssetManagerBoost extends CAssetManager {
-
     /**
      * @var mixed $minifiedExtensionFlags specify the extension names that
      * the extension will check against in order to not compress/minify the 
      * files. This flags are ignored if $forceCompress is true
      */
     public $minifiedExtensionFlags = array('packed.js', 'min.js');
-
     /**
      * @var boolean $forceCompress if true, all files will be processed to 
      * be minified
      */
     public $forceCompress = false;
-
     /**
      * @var array published assets
      */
     private $_published = array();
-
     /**
      * Modified version of CAssetManager::publish method
      * -------------------------------------------------------
@@ -93,7 +88,6 @@ class EAssetManagerBoost extends CAssetManager {
                 $fileName = basename($src);
                 $dstDir = $this->getBasePath() . DIRECTORY_SEPARATOR . $dir;
                 $dstFile = $dstDir . DIRECTORY_SEPARATOR . $fileName;
-
                 if ($this->linkAssets) {
                     if (!is_file($dstFile)) {
                         if (!is_dir($dstDir)) {
@@ -110,12 +104,10 @@ class EAssetManagerBoost extends CAssetManager {
                     $this->copyFile($src, $dstFile);
                     @chmod($dstFile, $this->newFileMode);
                 }
-
                 return $this->_published[$path] = $this->getBaseUrl() . "/$dir/$fileName";
             } else if (is_dir($src)) {
                 $dir = $this->hash($hashByName ? basename($src) : $src);
                 $dstDir = $this->getBasePath() . DIRECTORY_SEPARATOR . $dir;
-
                 if ($this->linkAssets) {
                     if (!is_dir($dstDir))
                         symlink($src, $dstDir);
@@ -125,16 +117,13 @@ class EAssetManagerBoost extends CAssetManager {
                     $options = array(
                         'newDirMode' => $this->newDirMode,
                         'newFileMode' => $this->newFileMode);
-
                     $this->copyDirectoryRecursive($src, $dstDir, '', array(), $this->excludeFiles, $level, $options);
                 }
-
                 return $this->_published[$path] = $this->getBaseUrl() . '/' . $dir;
             }
         }
         throw new CException(Yii::t('yii', 'The asset "{asset}" to be published does not exist.', array('{asset}' => $path)));
     }
-
     /**
      * Custom copy file to compress/copy|copy files
      * @param string $src the full path of the file to read from
@@ -144,18 +133,13 @@ class EAssetManagerBoost extends CAssetManager {
         // assumed config includes the required path aliases to use
         // EScriptBoost
         $ext = strtoupper(substr(strrchr($src, '.'), 1));
-
         if (($ext == 'JS' && !$this->strpos_arr($dstFile, $this->minifiedExtensionFlags)) || $this->forceCompress) {
-
             Yii::trace('copyFile JS Compressing: ' . $src, 'EAssetManagerBoost');
-
             @file_put_contents(
                             $dstFile, EScriptBoost::minifyJs(@file_get_contents($src), EScriptBoost::JS_MIN_PLUS));
             @touch($dstFile, @filemtime($src));
         } else if ($ext == 'CSS') {
-
             Yii::trace('copyFile CSS Compressing: ' . $src, 'EAssetManagerBoost');
-
             @file_put_contents(
                             $dstFile, EScriptBoost::minifyCss(@file_get_contents($src)));
             @touch($dstFile, @filemtime($src));
@@ -163,7 +147,6 @@ class EAssetManagerBoost extends CAssetManager {
             copy($src, $dstFile);
         }
     }
-
     /**
      * Modified version of CFileHelper::copyDirectoryRecursive
      * -------------------------------------------------------
@@ -210,7 +193,6 @@ class EAssetManagerBoost extends CAssetManager {
         }
         closedir($folder);
     }
-
     /**
      * Forced included from CFileHelper::validate in order to
      * use copyDirectoryRecursive -why not static?
@@ -238,7 +220,6 @@ class EAssetManagerBoost extends CAssetManager {
         else
             return false;
     }
-
     /**
      * Custom strpos to support arrays as needles
      * @param string $haystack the string to check against
@@ -248,12 +229,10 @@ class EAssetManagerBoost extends CAssetManager {
     protected function strpos_arr($haystack, $needle) {
         if (!is_array($needle))
             return strpos($haystack, $needle);
-
         foreach ($needle as $what) {
             if (($pos = strpos($haystack, $what)) !== false)
                 return $pos;
         }
         return false;
     }
-
 }

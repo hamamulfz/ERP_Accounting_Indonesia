@@ -1,5 +1,4 @@
 <?php
-
 /**
  * filigree tag plugin file.
  * @filesource
@@ -13,15 +12,12 @@
  * @version CVS: $Id: xml2pdf.tag.filigree.php,v 1.1 2007/01/05 23:07:31 geelweb Exp $
  */
 // dependances {{{
-
 /**
  * include parent class
  */
 require_once('Xml2PdfTextTag.php');
-
 // }}}
 // doc {{{
-
 /**
  * @author guillaume l. <guillaume@geelweb.org>
  * @link http://www.geelweb.org
@@ -34,53 +30,44 @@ require_once('Xml2PdfTextTag.php');
  */ // }}}
 Class xml2pdf_tag_filigree extends Xml2PdfTextTag {
     // properties {{{
-
     /**
      * parent tag
      * @var object
      */
     private $_parent = null;
-
     /**
      * rotation angle (degree)
      * @var int
      */
     public $rotation = 0;
-
     /**
      * left padding
      * @var float
      */
     public $left = 0;
-
     /**
      * top padding
      * @var float
      */
     public $top = 0;
-
     /**
      * start page
      * @var int
      */
     protected $start = 1;
-
     /**
      * end page
      * @var int
      */
     protected $end = 0;
-
     // }}}
     // xml2pdf_tag_filigree::__construct() {{{
-
     /**
      *
      */
     public function __construct($tagProperties, $parent) {
         parent::__construct($tagProperties);
         $this->_parent = $parent;
-
         if (isset($tagProperties['ROTATION'])) {
             $this->rotation = $tagProperties['ROTATION'];
         }
@@ -97,10 +84,8 @@ Class xml2pdf_tag_filigree extends Xml2PdfTextTag {
             $this->end = $tagProperties['END'];
         }
     }
-
     // }}}
     // xml2pdf_tag_filigree::close() {{{
-
     public function close() {
         if (!is_a($this->_parent, 'xml2pdf_tag_page')) {
             $this->pdf->filigree[] = $this;
@@ -108,10 +93,8 @@ Class xml2pdf_tag_filigree extends Xml2PdfTextTag {
             $this->render();
         }
     }
-
     // }}}
     // xml2pdf_tag_filigree::render() {{{
-
     public function render() {
         if (($this->end && $this->end < $this->pdf->PageNo()) ||
                 ($this->start > $this->pdf->PageNo())) {
@@ -131,8 +114,6 @@ Class xml2pdf_tag_filigree extends Xml2PdfTextTag {
         $this->pdf->Text($this->left, $this->top, $this->content);
         $this->pdf->Rotate($initial);
     }
-
     // }}}
 }
-
 ?>

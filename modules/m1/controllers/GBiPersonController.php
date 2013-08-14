@@ -157,10 +157,10 @@ class GBiPersonController extends Controller {
             }
 
             $fieldres['header'] = "Photo";
-			$fieldres['type'] = 'raw';
-			$fieldres['value'] = '($data["c_pathfoto"] != null) ? CHtml::image(Yii::app()->request->baseUrl . "/shareimages/hr/employee/thumb/" . $data["c_pathfoto"]) : ""';
-			$html["width"] = "60px";
-            $fieldres['htmlOptions'] =  $html;
+            $fieldres['type'] = 'raw';
+            $fieldres['value'] = '($data["c_pathfoto"] != null) ? CHtml::image(Yii::app()->request->baseUrl . "/shareimages/hr/employee/thumb/" . $data["c_pathfoto"]) : ""';
+            $html["width"] = "60px";
+            $fieldres['htmlOptions'] = $html;
             $fieldresult[] = $fieldres;
 
 

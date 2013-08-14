@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperReportElement
  *
@@ -8,10 +7,8 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="reportElement") */
 class JasperReportElement extends AbstractJasper {
-
     public $isPrintRepeatedValues = null;
     public $isRemoveLineWhenBlank = null;
     public $x = null;
@@ -19,5 +16,4 @@ class JasperReportElement extends AbstractJasper {
     public $width = null;
     public $height = null;
     public $backcolor = null;
-
 }

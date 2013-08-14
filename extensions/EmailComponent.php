@@ -1,13 +1,10 @@
 <?php
-
 class EmailComponent {
-
     public static function SendEmail($recipient, $subject, $body, $type = "ssl") {
         $mailer = Yii::createComponent('ext.mailer.EMailer');
         $mailer->IsSMTP();
         $mailer->IsHTML(true);
         $mailer->SMTPAuth = true;
-
         if ($type == "ssl") {
             $mailer->SMTPSecure = "ssl";
             $mailer->Host = "smtp.gmail.com";
@@ -23,7 +20,6 @@ class EmailComponent {
             $mailer->Password = '1234qwe';
             $mailer->From = "peter@agungpodomoro.com";
         }
-
         $mailer->CharSet = 'UTF-8';
         //$mailer->addAttachment(Yii::app()->basePath."/reports/BuktiTerima.php");
         //$mailer->addAttachment(Yii::app()->basePath."/reports/bukti_".$id.".pdf");
@@ -33,7 +29,5 @@ class EmailComponent {
         $mailer->Body = $body;
         $mailer->Send();
     }
-
 }
-
 ?>

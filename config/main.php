@@ -1,5 +1,4 @@
 <?php
-
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 // This is the main Web application configuration. Any writable
@@ -47,7 +46,6 @@ return array(
         'm3', //Budget Controller
         'm4', //Asset Management
         'm5', //Process Production
-
         /**/
         'gii' => array(
             'class' => 'system.gii.GiiModule',
@@ -125,6 +123,7 @@ return array(
             'class' => 'ext.bootstrap.components.Bootstrap',
             'responsiveCss' => true,
             'fontAwesomeCss' => true,
+            'iconicCss' => true,
         ),
         'user' => array(
             'class' => 'RWebUser',
@@ -190,20 +189,19 @@ return array(
                     'class' => 'CFileLogRoute',
                     'levels' => 'error, warning',
                 ),
-            // uncomment the following to show log messages on web pages
+                // uncomment the following to show log messages on web pages
+                /*
+                  array(
+                  'class'=>'CWebLogRoute',
+                  ),
+                 */
+                /**/
+                array(
+                    'class' => 'ext.db_profiler.DbProfileLogRoute',
+                    'countLimit' => 1, // How many times the same query should be executed to be considered inefficient
+                    'slowQueryMin' => 0.01, // Minimum time for the query to be slow
+                ),
             /*
-              array(
-              'class'=>'CWebLogRoute',
-              ),
-             */
-
-            /**/
-              array(
-              'class' => 'ext.db_profiler.DbProfileLogRoute',
-              'countLimit' => 1, // How many times the same query should be executed to be considered inefficient
-              'slowQueryMin' => 0.01, // Minimum time for the query to be slow
-              ),
-              /*
               array(
               'class'=>'ext.LogDb',
               'autoCreateLogTable'=>true,
@@ -211,7 +209,7 @@ return array(
               'enabled'=>true,
               'levels'=>'error',//You can replace trace,info,warning,error
               ),
-             /**/
+              /* */
             ),
         ),
     ),

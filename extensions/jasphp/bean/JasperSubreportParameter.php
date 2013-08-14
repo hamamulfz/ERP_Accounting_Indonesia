@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JasperSubreportParameter
  *
@@ -8,13 +7,9 @@
  * @package 
  * @since 1.0
  */
-
 /** @TagAnnotation(tagName="subreportParameter") */
 class JasperSubreportParameter extends AbstractJasper {
-
     public $name = null;
-
     /** @BeanAnnotation(className="JasperSubreportParameterExpression") */
     public $subreportParameterExpression = null;
-
 }

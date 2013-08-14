@@ -25,10 +25,8 @@ if ($model->journal_type_id == null) {
         ),
     ));
 } elseif ($model->journal_type_id == 2) {
-
-    $this->renderPartial("_tabCreateExpense", array("model" => $model));
-} else {
-
     $this->renderPartial("_tabCreateIncome", array("model" => $model));
+} else {
+    $this->renderPartial("_tabCreateExpense", array("model" => $model));
 }
 ?>

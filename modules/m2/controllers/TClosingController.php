@@ -26,7 +26,7 @@ class TClosingController extends Controller {
         Yii::app()->user->setFlash('success', '<strong>Great!</strong> Closing Period has been successful...');
 
         $this->redirect(array('index'));
-		//return true;
+        //return true;
     }
 
 }

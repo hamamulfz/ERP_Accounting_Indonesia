@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Xml2PdfTextTag.
  * @filesource
@@ -16,10 +15,8 @@
  * include parent class
  */
 require_once('Xml2PdfTag.php');
-
 // }}}
 // doc {{{
-
 /**
  * Text tags.
  *
@@ -47,70 +44,58 @@ require_once('Xml2PdfTag.php');
  */ // }}}
 Class Xml2PdfTextTag extends Xml2PdfTag {
     // class properties {{{
-
     /**
      * true if use styles tag to write then content.
      * @var boolean
      */
     protected $useStyle = false;
-
     /**
      * font.
      * @var string
      */
     public $font = PDF_DEFAULT_FONT;
-
     /**
      * font style.
      * @var string
      */
     public $fontStyle = PDF_DEFAULT_FONTSTYLE;
-
     /**
      * font size.
      * @var integer
      */
     public $fontSize = PDF_DEFAULT_FONTSIZE;
-
     /**
      * font color.
      * @var string
      */
     public $fontColor = PDF_DEFAULT_FONTCOLOR;
-
     /**
      * text alignment.
      * @var string
      */
     public $textAlign = PDF_DEFAULT_TEXTALIGN;
-
     /**
      * line height.
      * @var integer
      */
     public $lineHeight = PDF_DEFAULT_LINEHEIGHT;
-
     /**
      * used styles stack.
      * @var array
      */
     protected $styleStack;
-
     /**
      * current x pos.
      * @var float
      */
     private $_x = 0;
-
     /**
      * indentation.
      * @var integer
      */
     private $_indent = 0;
-
     // }}}
     // Xml2PdfTextTag::__construct() {{{
-
     /**
      * Constructor.
      *
@@ -142,10 +127,8 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
             $this->lineHeight = $tagProperties['LINEHEIGHT'];
         }
     }
-
     // }}}
     // Xml2PdfTextTag::close() {{{
-
     /**
      * Manage the text writing.
      *
@@ -162,10 +145,8 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
             $this->pdf->MultiCell(190, $this->lineHeight, $this->content, false, $this->textAlign, false);
         }
     }
-
     // }}}
     // Xml2PdfTextTag::render() {{{
-
     /**
      * Text renderer.
      *
@@ -182,9 +163,7 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
             'color' => $this->fontColor,
             'indent' => 0);
         $this->_setStyle();
-
         $this->_x = 10;
-
         while (!empty($this->content)) {
             $line = $this->_makeLine();
             if (!empty($line)) {
@@ -193,10 +172,8 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
         }
         $this->pdf->Ln();
     }
-
     // }}}
     // Xml2PdfTextTag::_parseContent() {{{
-
     /**
      * Parse the content.
      *
@@ -227,7 +204,6 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
             $regs[2] = preg_replace('/^a/', 'a ', $regs[2]); // Rustine : l'espace dispara�t
             $result[1] = 'o';
             $result[2] = trim($regs[2]);
-
             // Pr�sence d'attributs
             if (preg_match('/(.+) (.+)=\'(.+)\' */', $regs[2])) {
                 $params = split(" +", $regs[2]);
@@ -258,10 +234,8 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
         $result[0] = $this->content;
         return $result;
     }
-
     // }}}
     // Xml2PdfTextTag::_makeLine() {{{
-
     /**
      * Buil the next line to write.
      *
@@ -297,10 +271,8 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
         }
         return $line;
     }
-
     // }}}
     // Xml2PdfTextTag::_printLine(string) {{{
-
     /**
      * Write a line.
      *
@@ -311,7 +283,6 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
         $width = $this->pdf->getStringWidth($line);
         $this->pdf->setX($this->_x);
         $this->_x += $width;
-
         if ($this->_x > 190) {
             $tmp = $line;
             $this->_x -= $width;
@@ -358,10 +329,8 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
             }
         }
     }
-
     // }}}
     // Xml2PdfTextTag::_setStyle() {{{
-
     /**
      * Search the styles information and put them.
      *
@@ -395,10 +364,8 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
         $fontColor = Xml2Pdf::convertColor($fontColor);
         $this->pdf->setTextColor($fontColor['r'], $fontColor['g'], $fontColor['b']);
     }
-
     // }}}
     // Xml2PdfTextTag::_cleanContent() {{{
-
     /**
      * Remove the styles information to the content.
      *
@@ -411,8 +378,6 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
         }
         $this->content = $content;
     }
-
     // }}}
 }
-
 ?>

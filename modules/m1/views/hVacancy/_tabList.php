@@ -2,7 +2,7 @@
 <h3>	
     <div class="row">
         <div class="span8">
-            <?php if ($data->applicant->vacancyLocked == 0) { ?>
+            <?php if (isset($data->applicant) && $data->applicant->vacancyLocked == 0) { ?>
                 <div class="btn-toolbar pull-left">
                     <?php
                     $this->widget('bootstrap.widgets.TbButtonGroup', array(
