@@ -70,47 +70,47 @@ $this->menu1 = tAccount::getTopUpdated();
 
                     <?php
                     if ($data->parent_id == 0) {
-                        if ($data->childs)
-                            echo "<b>";
-                        echo CHtml::link($data->account_concat, array('view', 'id' => $data->id));
-                        if ($data->childs)
-                            echo "</b>";
+                        if ($data->childs) 
+	                        echo CHtml::tag('b',array(),CHtml::link($data->account_concat, array('view', 'id' => $data->id)));
+	                    else
+	                    	echo CHtml::link($data->account_concat, array('view', 'id' => $data->id)) ." | "
+	                    	.CHtml::link('print', array('printList', 'id' => $data->id));
                     } elseif ($data->getparent->parent_id == 0) {
                         if ($data->childs)
-                            echo "<b>";
-                        echo "--- " . CHtml::link($data->account_concat, array('view', 'id' => $data->id));
-                        if ($data->childs)
-                            echo "</b>";
+	                        echo "--- " . CHtml::tag('b',array(),CHtml::link($data->account_concat, array('view', 'id' => $data->id)));
+	                    else
+	                        echo "--- " . CHtml::link($data->account_concat, array('view', 'id' => $data->id)) ." | "
+	                    	.CHtml::link('print', array('printList', 'id' => $data->id));
                     } elseif ($data->getparent->getparent->parent_id == 0) {
                         if ($data->childs)
-                            echo "<b>";
-                        echo "------ " . CHtml::link($data->account_concat, array('view', 'id' => $data->id));
-                        if ($data->childs)
-                            echo "</b>";
+							echo "------ " . CHtml::tag('b',array(),CHtml::link($data->account_concat, array('view', 'id' => $data->id)));
+						else
+							echo "------ " . CHtml::link($data->account_concat, array('view', 'id' => $data->id)) ." | "
+	                    	.CHtml::link('print', array('printList', 'id' => $data->id));
                     } elseif ($data->getparent->getparent->getparent->parent_id == 0) {
                         if ($data->childs)
-                            echo "<b>";
-                        echo "--------- " . CHtml::link($data->account_concat, array('view', 'id' => $data->id));
-                        if ($data->childs)
-                            echo "</b>";
+	                        echo "--------- " . CHtml::tag('b',array(),CHtml::link($data->account_concat, array('view', 'id' => $data->id)));
+                        else
+    	                    echo "--------- " . CHtml::link($data->account_concat, array('view', 'id' => $data->id)) ." | "
+	                    	.CHtml::link('print', array('printList', 'id' => $data->id));
                     } elseif ($data->getparent->getparent->getparent->getparent->parent_id == 0) {
                         if ($data->childs)
-                            echo "<b>";
-                        echo "------------ " . CHtml::link($data->account_concat, array('view', 'id' => $data->id));
-                        if ($data->childs)
-                            echo "</b>";
+	                        echo "------------ " . CHtml::tag('b',array(),CHtml::link($data->account_concat, array('view', 'id' => $data->id)));
+                        else
+	                        echo "------------ " . CHtml::link($data->account_concat, array('view', 'id' => $data->id)) ." | "
+	                    	.CHtml::link('print', array('printList', 'id' => $data->id));
                     } elseif ($data->getparent->getparent->getparent->getparent->getparent->parent_id == 0) {
                         if ($data->childs)
-                            echo "<b>";
-                        echo "--------------- " . CHtml::link($data->account_concat, array('view', 'id' => $data->id));
-                        if ($data->childs)
-                            echo "</b>";
+	                        echo "--------------- " . CHtml::tag('b',array(),CHtml::link($data->account_concat, array('view', 'id' => $data->id)));
+						else
+    	                    echo "--------------- " . CHtml::link($data->account_concat, array('view', 'id' => $data->id)) ." | "
+	                    	.CHtml::link('print', array('printList', 'id' => $data->id));
                     } else {
                         if ($data->childs)
-                            echo "<b>";
-                        echo "------------------ " . CHtml::link($data->account_concat, array('view', 'id' => $data->id));
-                        if ($data->childs)
-                            echo "</b>";
+	                        echo "------------------ " . CHtml::tag('b',array(),CHtml::link($data->account_concat, array('view', 'id' => $data->id)));
+						else
+	                        echo "------------------ " . CHtml::link($data->account_concat, array('view', 'id' => $data->id)) ." | "
+	                    	.CHtml::link('print', array('printList', 'id' => $data->id));
                     }
                     ?>
 

@@ -29,4 +29,19 @@ class TClosingController extends Controller {
         //return true;
     }
 
+    public function actionClosingPeriodExecutionB() {
+
+        $_curPeriod = Yii::app()->settings->get("System", "cCurrentPeriod");
+        $_lastPeriod = peterFunc::cBeginDateBefore(Yii::app()->settings->get("System", "cCurrentPeriod"));
+
+        $_nextPeriod = peterFunc::cBeginDateAfter(Yii::app()->settings->get("System", "cCurrentPeriod"));
+        Yii::app()->settings->set("System", "cCurrentPeriod", $_lastPeriod, $toDatabase = true);
+
+        Yii::app()->user->setFlash('success', '<strong>Great!</strong> Closing Period has been successful...');
+
+        $this->redirect(array('index'));
+        //return true;
+    }
+
+
 }

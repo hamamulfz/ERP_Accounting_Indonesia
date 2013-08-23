@@ -469,7 +469,7 @@ class aOrganization extends BaseModel {
         return $_items;
     }
 
-    public static function compByParent($id) {
+    public function compByParent($id) {
         $_items = array();
 
         $criteria = new CDbCriteria;
@@ -579,7 +579,7 @@ class aOrganization extends BaseModel {
             else
                 $path = CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/" . $this->photo_path, CHtml::encode($this->name), array("width" => "100%", 'id' => 'photo'));
         } else {
-            $path = CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/logo_ONLY.jpg", CHtml::encode($this->name), array("width" => "100%", 'id' => 'photo'));
+            $path = CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/logoAlt4.jpg", CHtml::encode($this->name), array("width" => "100%", 'id' => 'photo'));
         }
         return $path;
     }

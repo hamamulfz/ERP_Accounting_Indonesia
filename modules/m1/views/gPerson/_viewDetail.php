@@ -38,8 +38,7 @@
                         'level' => $data->mLevel(),
                         'status' => ($data->countContract() != "") ? $data->mStatus() . " ( " . $data->countContract() . " )" : $data->mStatus(),
                         'join_date' => (isset($data->companyfirst)) ? $data->companyfirst->start_date . " ( " . $data->countJoinDate() . " )" : "",
-                        'superior_link' => (isset($data->company->superior)) ?
-                                CHtml::link($data->company->superior->employee_name, Yii::app()->createUrl('m1/gPerson/view', array('id' => $data->company->superior_id))) : "",
+				        'superior' => ($this->id == "gEss") ? $data->mSuperior() : $data->mSuperiorLink(),
                     ),
                     'attributes' => array(
                         array('name' => 'employee_id', 'label' => 'Employee ID'),
@@ -49,7 +48,7 @@
                         array('name' => 'level', 'label' => 'Level'),
                         array('name' => 'status', 'label' => 'Status'),
                         array('name' => 'join_date', 'label' => 'Join Date'),
-                        array('name' => 'superior_link', 'type' => 'raw', 'label' => 'Superior'),
+				        array('name' => 'superior', 'type' => 'raw', 'label' => 'Superior'),
                     ),
                 ));
                 ?>

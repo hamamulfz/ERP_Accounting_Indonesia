@@ -159,17 +159,17 @@ class sUser extends CActiveRecord {
         return md5($salt . $password);
     }
 
-    public function allUsers($all = '') {
+    public function getAllUsers($all = '') {
         $_items = array();
-        $models = $this->findAll(array('order' => 'username'));
+        $models = self::model()->findAll(array('order' => 'username'));
         if ($all == 'all') {
-            self::$_items[0] = 'All';
+            $_items[0] = 'All';
         }
 
         foreach ($models as $model)
-            self::$_items[$model->id] = $model->username;
+            $_items[$model->id] = $model->username;
 
-        return self::$_items;
+        return $_items;
     }
 
     public function findName($id) {

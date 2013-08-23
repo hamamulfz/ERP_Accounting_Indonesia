@@ -13,6 +13,8 @@ $this->menu = array(
 );
 ?>
 
-<h1>Create sAddressbook</h1>
+<div class="page-header">
+<h1>Create New Contact</h1>
+</div>
 
 <?php $this->renderPartial('_form', array('model' => $model)); ?>

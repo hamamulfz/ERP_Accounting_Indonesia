@@ -47,7 +47,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->textFieldRow($model, 'applicant_name', array('class' => 'span4')); ?>
+<?php echo $form->textFieldRow($model, 'applicant_name', array('hint'=>'Please sure, the APPLICANT NAME has inputed on Applicant Database','class' => 'span4')); ?>
 <?php echo $form->hiddenField($model, 'applicant_id'); ?>
 
 <div class="control-group">

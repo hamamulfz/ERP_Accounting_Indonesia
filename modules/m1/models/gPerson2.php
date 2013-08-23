@@ -2484,5 +2484,401 @@ class gPerson2 extends BaseModel {
 
         return $dataProvider;
     }
+    
+    public function compApplicantPerMonth() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM h_applicant');
+
+        //if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
+        $connection = Yii::app()->db;
+        $sql = "
+				select `o`.`id`, 'Total' as `state`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-01-31') as `201301`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-02-28') as `201302`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-03-31') as `201303`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-04-30') as `201304`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-05-31') as `201305`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-06-30') as `201306`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-07-30') as `201307`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-08-31') as `201308`
+
+
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+
+
+			";
+
+        $command = $connection->cache(3600, $dependency)->createCommand($sql);
+        $rows = $command->queryAll();
+        foreach ($rows as $row) {
+            $_data = array();
+            $_second = array();
+            $_data[] = (int) $row['201301'];
+            $_data[] = (int) $row['201302'];
+            $_data[] = (int) $row['201303'];
+            $_data[] = (int) $row['201304'];
+            $_data[] = (int) $row['201305'];
+            $_data[] = (int) $row['201306'];
+            $_data[] = (int) $row['201307'];
+            $_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
+            $_name['name'] = $row['state'];
+            $_second['data'] = $_data;
+            $_merge[] = array_merge($_name, $_second);
+        }
+
+        //	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        //} else
+        //	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+
+        return $_merge;
+    }
+    
+    public function compVacancyPerMonth() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM h_vacancy');
+
+        //if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
+        $connection = Yii::app()->db;
+        $sql = "
+				select `o`.`id`, 'Opening Jobs' as `state`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "01') as `201301`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "02') as `201302`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m')
+					= '" . date("Y") . "03') as `201303`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "04') as `201304`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m')
+					= '" . date("Y") . "05') as `201305`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "07') as `201307`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "08') as `201308`
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+
+				UNION ALL 
+				select `o`.`id`, 'Assestment' as `state`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "01') as `201301`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "02') as `201302`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "03') as `201303`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "04') as `201304`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "05') as `201305`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "07') as `201307`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "08') as `201308`
+
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+
+			";
+
+
+        $command = $connection->cache(3600, $dependency)->createCommand($sql);
+        $rows = $command->queryAll();
+        foreach ($rows as $row) {
+            $_data = array();
+            $_second = array();
+            $_data[] = (int) $row['201301'];
+            $_data[] = (int) $row['201302'];
+            $_data[] = (int) $row['201303'];
+            $_data[] = (int) $row['201304'];
+            $_data[] = (int) $row['201305'];
+            $_data[] = (int) $row['201306'];
+            $_data[] = (int) $row['201307'];
+            $_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
+            $_name['name'] = $row['state'];
+            $_second['data'] = $_data;
+            $_merge[] = array_merge($_name, $_second);
+        }
+
+        //	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        //} else
+        //	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+
+        return $_merge;
+    }
+
+
+    public function compLearningClassPerMonth() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM i_learning_sch');
+
+        //if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
+        $connection = Yii::app()->db;
+        $sql = "
+				select `o`.`id`, 'Class' as `state`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "01') as `201301`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "02') as `201302`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "03') as `201303`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "04') as `201304`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "05') as `201305`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "07') as `201307`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "08') as `201308`
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+		
+				UNION ALL
+				
+				select `o`.`id`, 'Participant' as `state`,
+				(select count(`a`.`id`) + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "01'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "01') as `201301`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "02'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "02') as `201302`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "03'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "03') as `201303`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "04'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "04') as `201304`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "05'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "05') as `201305`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "06'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "07'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "07') as `201307`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "08'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "08') as `201308`
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+				
+
+
+			";
+
+        $command = $connection->cache(3600, $dependency)->createCommand($sql);
+        $rows = $command->queryAll();
+        foreach ($rows as $row) {
+            $_data = array();
+            $_second = array();
+            $_data[] = (int) $row['201301'];
+            $_data[] = (int) $row['201302'];
+            $_data[] = (int) $row['201303'];
+            $_data[] = (int) $row['201304'];
+            $_data[] = (int) $row['201305'];
+            $_data[] = (int) $row['201306'];
+            $_data[] = (int) $row['201307'];
+            $_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
+            $_name['name'] = $row['state'];
+            $_second['data'] = $_data;
+            $_merge[] = array_merge($_name, $_second);
+        }
+
+        //	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        //} else
+        //	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+
+        return $_merge;
+    }
+
+    public function compLearningHoursPerMonth() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM i_learning_sch');
+
+        //if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
+        $connection = Yii::app()->db;
+        $sql = "
+				select `o`.`id`, 'Mandays' as `state`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "01') as `201301`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "02') as `201302`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "03') as `201303`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "04') as `201304`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "05') as `201305`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "06') as `201306`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "07') as `201307`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "07') as `201308`
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+
+
+			";
+
+        $command = $connection->cache(3600, $dependency)->createCommand($sql);
+        $rows = $command->queryAll();
+        foreach ($rows as $row) {
+            $_data = array();
+            $_second = array();
+            $_data[] = (int) $row['201301'];
+            $_data[] = (int) $row['201302'];
+            $_data[] = (int) $row['201303'];
+            $_data[] = (int) $row['201304'];
+            $_data[] = (int) $row['201305'];
+            $_data[] = (int) $row['201306'];
+            $_data[] = (int) $row['201307'];
+            $_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
+            $_name['name'] = $row['state'];
+            $_second['data'] = $_data;
+            $_merge[] = array_merge($_name, $_second);
+        }
+
+        //	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        //} else
+        //	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+
+        return $_merge;
+    }
+
+    public function proEmployee($id) {
+
+
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('proemployee' . $id . Yii::app()->user->id)) {
+
+            $models = aOrganization::model()->findAll(array('condition' => 'parent_id = ' . $id, 'order' => 'id'));
+
+            $connection = Yii::app()->db;
+
+            $_items = array();
+            foreach ($models as $model) {
+                //$sql="select count(id) from g_bi_person where company_id = ".$model->id;
+                $sql = "select 
+			count(`a`.`id`) 
+		from
+			`erp_apl`.`g_person` `a`
+			 where  
+		 
+			(select 
+					`s`.`status_id` AS `status_id`
+				from
+					`erp_apl`.`g_person_status` `s`
+				where
+					(`s`.`parent_id` = `a`.`id`)
+				order by `s`.`start_date` desc
+				limit 1) NOT IN (8,9,10,13) AND
+			(select 
+					`o`.`id` AS `id`
+				from
+					(`erp_apl`.`g_person_career` `c`
+					left join `erp_apl`.`a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+				where
+					((`a`.`id` = `c`.`parent_id`)
+						and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+				order by `c`.`start_date` desc
+				limit 1) = " . $model->id;
+
+                $command = $connection->createCommand($sql);
+                $row = $command->queryScalar();
+                $item[] = (int) $row;
+            }
+
+            Yii::app()->cache->set('proemployee' . $id . Yii::app()->user->id, $item, 3600, $dependency);
+        }
+        else
+            $item = Yii::app()->cache->get('proemployee' . $id . Yii::app()->user->id);
+
+        return $item;
+    }
+
+
 
 }

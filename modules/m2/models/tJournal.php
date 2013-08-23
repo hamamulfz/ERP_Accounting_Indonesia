@@ -134,7 +134,7 @@ class tJournal extends BaseModel {
             if ($model->module_id == 1) {
                 $returnarray[] = array('id' => $model->system_ref, 'label' => $model->system_ref, 'description' => peterFunc::shorten_string($model->remark, 8), 'icon' => 'list-alt', 'url' => array('/m2/tJournal/view', 'id' => $model->id));
             } else {
-                $returnarray[] = array('id' => $model->system_ref, 'label' => $model->system_ref, 'description' => peterFunc::shorten_string($model->remark, 8), 'icon' => 'list-alt', 'url' => array('/m2/mCashbank/view', 'id' => $model->id));
+                $returnarray[] = array('id' => $model->system_ref, 'label' => $model->system_ref, 'description' => peterFunc::shorten_string($model->remark, 8), 'icon' => 'list-alt', 'url' => array('/m2/uCashbank/view', 'id' => $model->id));
             }
         }
 
@@ -227,7 +227,7 @@ class tJournal extends BaseModel {
             $_url = CHtml::link($this->system_reff, Yii::app()->createUrl("/m2/tJournal/view", array("id" => $this->id)));
         }
         else
-            $_url = CHtml::link($this->system_reff, Yii::app()->createUrl("/m2/mCashbank/view", array("id" => $this->id)));
+            $_url = CHtml::link($this->system_reff, Yii::app()->createUrl("/m2/uCashbank/view", array("id" => $this->id)));
 
         return $_url;
     }
@@ -237,7 +237,7 @@ class tJournal extends BaseModel {
             $_url = Yii::app()->createUrl("/m2/tJournal/update", array("id" => $this->id));
         }
         else
-            $_url = Yii::app()->createUrl("/m2/mCashbank/update", array("id" => $this->id));
+            $_url = Yii::app()->createUrl("/m2/uCashbank/update", array("id" => $this->id));
 
         return $_url;
     }
@@ -247,7 +247,7 @@ class tJournal extends BaseModel {
             $_url = Yii::app()->createUrl("/m2/tJournal/update", array("id" => $this->id));
         }
         else
-            $_url = Yii::app()->createUrl("/m2/mCashbank/update", array("id" => $this->id));
+            $_url = Yii::app()->createUrl("/m2/uCashbank/update", array("id" => $this->id));
 
         return $_url;
     }

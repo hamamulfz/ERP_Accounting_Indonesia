@@ -52,6 +52,7 @@ class tJournalDetail extends BaseModel {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination'=>false,
         ));
     }
 
@@ -136,6 +137,14 @@ class tJournalDetail extends BaseModel {
 		else	
 			$remark = $this->user_remark;
 		return $remark;
+	}
+
+	public function getDebitt() {
+		return Yii::app()->indoFormat->number($this->debit);
+	}
+
+	public function getCreditt() {
+		return Yii::app()->indoFormat->number($this->credit);
 	}
 
     public function afterSave() {

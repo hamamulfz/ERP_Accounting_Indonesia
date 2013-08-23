@@ -5,6 +5,9 @@ Yii::app()->clientScript->registerScript('datepicker4', "
 		$(function() {
 		$( \"#" . CHtml::activeId($model, 'identity_valid') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
+		'changeMonth' : true,
+        'changeYear' : true,
+		'yearRange' : '" . date("Y", strtotime("-65 year")) . ":" . date("Y", strtotime("-15 year")) . "',
 });
 			
 });
@@ -84,7 +87,7 @@ $form = $this->beginWidget('TbActiveForm', array(
         ?>   
         <?php echo $form->textFieldRow($model, 'email', array('class' => 'span3')); ?>
 
-        <?php echo $form->textFieldRow($model, 'email2', array('class' => 'span3')); ?>
+        <?php //echo $form->textFieldRow($model, 'email2', array('class' => 'span3')); ?>
 
         <?php echo $form->textFieldRow($model, 'blood_id', array('class' => 'span1')); ?>
 
@@ -92,7 +95,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 
         <?php echo $form->textFieldRow($model, 'handphone', array('class' => 'span3')); ?>
 
-        <?php echo $form->textFieldRow($model, 'handphone2', array('class' => 'span3')); ?>
+        <?php //echo $form->textFieldRow($model, 'handphone2', array('class' => 'span3')); ?>
 
         <?php $this->endWidget(); ?><!-- collabsible fieldset -->
         <?php /*

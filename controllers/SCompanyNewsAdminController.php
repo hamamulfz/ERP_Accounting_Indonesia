@@ -103,7 +103,7 @@ class sCompanyNewsAdminController extends Controller {
      * @param integer the ID of the model to be loaded
      */
     public function loadModel($id) {
-        $model = sCompanyNews::model()->findByPk($id);
+        $model = sCompanyNews::model()->findByPk($id,array('condition'=>'category_id !=8'));
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;

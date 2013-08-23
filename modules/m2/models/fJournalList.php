@@ -21,7 +21,7 @@ class fJournalList extends CFormModel {
 
     public function attributeLabels() {
         return array(
-            'begindate' => 'Start Date',
+            'begindate' => 'Periode',
             'enddate' => 'End Date',
             'account_no_id' => 'Account No',
             'type_report_id' => 'Report Type',

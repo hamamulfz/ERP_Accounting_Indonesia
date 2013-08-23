@@ -45,7 +45,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 'style' => 'text-align: right; padding-right: 5px;'
             ),
         ),
-        array(
+/*        array(
             'class' => 'EJuiDlgsColumn',
             'template' => '{update}',
             'updateDialog' => array(
@@ -56,6 +56,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 'dialogHeight' => 530
             ),
         ),
+*/
     ),
 ));
 ?>

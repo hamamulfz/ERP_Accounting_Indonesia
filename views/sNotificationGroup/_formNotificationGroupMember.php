@@ -18,7 +18,7 @@
     <?php echo $form->errorSummary($model); ?>
 
     <?php //echo $form->textFieldRow($model,'user_id');  ?>
-    <?php echo $form->dropDownListRow($model, 'user_id', sUser::model()->allUsers()); ?>
+    <?php echo $form->dropDownListRow($model, 'user_id', sUser::getAllUsers()); ?>
 
     <?php echo $form->dropDownListRow($model, 'status_id', sParameter::items('cStatus')); ?>
 

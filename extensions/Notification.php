@@ -14,7 +14,7 @@
  * 
  */
 Class Notification {
-    public function create($group, $url, $message, $company = null, $photopath = null) {
+    public function create($group, $url, $message, $company = null, $photopath = "") {
         $model = new sNotification();
         $model->group_id = $group;
         $model->link = $url;

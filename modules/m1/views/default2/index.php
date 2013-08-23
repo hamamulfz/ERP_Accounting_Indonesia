@@ -130,7 +130,7 @@ $this->breadcrumbs = array(
                         'yAxis' => array(
                             'title' => array('text' => 'Total')
                         ),
-                        'series' => hApplicant::compApplicantPerMonth(),
+                        'series' => gPerson2::compApplicantPerMonth(),
                         'plotOptions' => array(
                             'column' => array(
                                 'dataLabels' => array(
@@ -158,7 +158,7 @@ $this->breadcrumbs = array(
                         'yAxis' => array(
                             'title' => array('text' => 'Total')
                         ),
-                        'series' => hVacancy::compVacancyPerMonth(),
+                        'series' => gPerson2::compVacancyPerMonth(),
                         'plotOptions' => array(
                             'column' => array(
                                 'dataLabels' => array(
@@ -191,7 +191,7 @@ $this->breadcrumbs = array(
                         'yAxis' => array(
                             'title' => array('text' => 'Total')
                         ),
-                        'series' => iLearningSch::compLearningHoursPerMonth(),
+                        'series' => gPerson2::compLearningHoursPerMonth(),
                         //'series' => array(
                         //	 array('name' => 'Total Hours', 'data' => array(500, 550, 625,700,1000,1250,1750,1800,2000,2220,2400,2700)),
                         //),
@@ -222,7 +222,7 @@ $this->breadcrumbs = array(
                         'yAxis' => array(
                             'title' => array('text' => 'Total')
                         ),
-                        'series' => iLearningSch::compLearningClassPerMonth(),
+                        'series' => gPerson2::compLearningClassPerMonth(),
                         'plotOptions' => array(
                             'column' => array(
                                 'dataLabels' => array(

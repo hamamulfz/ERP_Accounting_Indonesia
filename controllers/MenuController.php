@@ -1,6 +1,8 @@
 <?php
 class MenuController extends Controller {
     public $layout = '//layouts/main';
+    //public $pageTitle = Yii::app()->name . ' - Menu';
+
     public function init() {
         //Yii::app()->language='id';
         //return parent::init();

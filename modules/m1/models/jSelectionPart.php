@@ -142,5 +142,20 @@ class jSelectionPart extends BaseModel {
             )
         ));
     }
+    
+    public function afterSave() {
+        if ($this->isNewRecord) {
+            $model= new sNotification;
+            $model->group_id = 4;
+            $model->link = 'm1/jSelection/view/id/' . $this->parent_id;
+            $model->link2 = 'm1/hApplicant/view/id/' . $this->applicant_id;
+            $model->content = '<link2>'.$this->applicant->applicant_name . '</link2> has been added to '.$this->getparent->category->name.
+            ' Selection Schedule on <read>'. $this->getparent->schedule_date .'</read>';
+            $model->save();
+        }
+        return true;
+    }
+
+    
 
 }

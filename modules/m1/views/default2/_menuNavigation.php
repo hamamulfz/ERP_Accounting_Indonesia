@@ -5,7 +5,7 @@ $this->widget('bootstrap.widgets.TbMenu', array(
     'items' => array(
         array('label' => 'HOME'),
         array('label' => 'Main Dashboard', 'icon' => 'leaf', 'url' => Yii::app()->createUrl("/m1/default2")),
-        array('label' => 'Main Dashboard II', 'icon' => 'leaf', 'url' => Yii::app()->createUrl("/m1/default2/index2")),
+        array('label' => 'Dashboard Detail', 'icon' => 'leaf', 'url' => Yii::app()->createUrl("/m1/default2/index2")),
         array('label' => 'COMPARISON'),
         array('label' => 'Total Employee', 'icon' => 'th-large', 'url' => Yii::app()->createUrl("/m1/default2/compTotalEmployee")),
         array('label' => 'By Company Type', 'icon' => 'th-large', 'url' => Yii::app()->createUrl("/m1/default2/compCompanyType")),

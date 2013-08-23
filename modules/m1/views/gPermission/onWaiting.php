@@ -14,20 +14,27 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'header' => 'Name',
             'type' => 'raw',
-            'value' => 'CHtml::link($data->person->employee_name,Yii::app()->createUrl("/m1/gPermission/view",array("id"=>$data->parent_id)))',
+            'value' => function ($data) {
+				return CHtml::link($data->person->employee_name,Yii::app()->createUrl("/m1/gPermission/view",array("id"=>$data->parent_id)))
+                ."<br/>" . CHtml::tag('div', array('style' => 'color: #999; font-size: 12px'), $data->person->mDepartment());
+			},
         ),
         array(
-            'header' => 'Department',
-            'name' => 'person.company.department.name',
+            'header' => 'Start - End Date',
+            'type' => 'raw',
+            'value' => function ($data) {
+				return $data->start_date." to <br/>".$data->end_date;
+			},
         ),
-        'start_date',
-        'end_date',
         'number_of_day',
         array(
-            'header' => 'Permission Type',
-            'value' => '$data->permission_type->name',
+            'header' => 'Permission Type - Reason',
+            'type' => 'raw',
+            'value' => function ($data) {
+				return $data->permission_type->name
+				."<br/>" . CHtml::tag('div', array('style' => 'color: #999; font-size: 12px'), $data->permission_reason);
+			},
         ),
-        'permission_reason',
         array(
             'header' => 'Status',
             'value' => '$data->approved->name',

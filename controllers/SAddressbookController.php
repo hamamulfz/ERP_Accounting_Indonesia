@@ -4,7 +4,8 @@ class SAddressbookController extends Controller {
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
-    public $layout = '//layouts/column2';
+    //public $layout = '//layouts/column2';
+    public $layout = '//layouts/column2left';
     /**
      * @return array action filters
      */
@@ -48,8 +49,9 @@ class SAddressbookController extends Controller {
         // $this->performAjaxValidation($model);
         if (isset($_POST['sAddressbook'])) {
             $model->attributes = $_POST['sAddressbook'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
+            if ($model->save()) 
+                $this->redirect(array('index'));
+
         }
         $this->render('create', array(
             'model' => $model,
@@ -96,6 +98,20 @@ class SAddressbookController extends Controller {
             'model' => $model,
         ));
     }
+    
+    /**
+     * Manages all models.
+     */
+    public function actionGroup() {
+        $model = new sAddressbookGroup('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['sAddressbookGroup']))
+            $model->attributes = $_GET['sAddressbookGroup'];
+        $this->render('group', array(
+            'model' => $model,
+        ));
+    }
+    
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -119,4 +135,77 @@ class SAddressbookController extends Controller {
             Yii::app()->end();
         }
     }
+    
+    ///GROUP
+    /**
+     * Displays a particular model.
+     * @param integer $id the ID of the model to be displayed
+     */
+    public function actionViewGroup($id) {
+        $this->render('viewGroup', array(
+            'model' => $this->loadModelGroup($id),
+        ));
+    }
+
+    /**
+     * Creates a new model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     */
+    public function actionCreateGroup() {
+        $model = new sAddressbookGroup;
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+        if (isset($_POST['sAddressbookGroup'])) {
+            $model->attributes = $_POST['sAddressbookGroup'];
+            if ($model->save())
+                $this->redirect(array('group'));
+        }
+        $this->render('createGroup', array(
+            'model' => $model,
+        ));
+    }
+    /**
+     * Updates a particular model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id the ID of the model to be updated
+     */
+    public function actionUpdateGroup($id) {
+        $model = $this->loadModelGroup($id);
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+        if (isset($_POST['sAddressbookGroup'])) {
+            $model->attributes = $_POST['sAddressbookGroup'];
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->id));
+        }
+        $this->render('updateGroup', array(
+            'model' => $model,
+        ));
+    }
+    /**
+     * Deletes a particular model.
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * @param integer $id the ID of the model to be deleted
+     */
+    public function actionDeleteGroup($id) {
+        $this->loadModelGroup($id)->delete();
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+    }
+
+    /**
+     * Returns the data model based on the primary key given in the GET variable.
+     * If the data model is not found, an HTTP exception will be raised.
+     * @param integer $id the ID of the model to be loaded
+     * @return sAddressbookGroup the loaded model
+     * @throws CHttpException
+     */
+    public function loadModelGroup($id) {
+        $model = sAddressbookGroup::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }    
+    
 }

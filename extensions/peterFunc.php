@@ -359,5 +359,12 @@ Class peterFunc {
         }
         return $_hari;
     }
+    
+    
+    public function stringSplit($word) {
+		$variable = preg_replace('/(,+)/',"'$1'","'$word'");
+		return $variable;    
+    }
+    
 }
 ?>

@@ -1002,7 +1002,9 @@ class GPersonController extends Controller {
         $_time = strtotime("+1 week");
         gPerson::model()->updateByPk($id, array('activation_code' => $random, 'activation_expire' => $_time));
 
-        $this->redirect(array('view', "id" => $id));
+        //$this->redirect(array('view', "id" => $id));
+        $this->redirect(array('view', 'id' => $id, 'tab' => 'SSO'));
+        //return true;
     }
 
     public function actionUpdateCareerAjax($id) {

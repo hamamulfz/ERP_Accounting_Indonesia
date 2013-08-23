@@ -110,6 +110,18 @@ Yii::app()->clientScript->registerScript('myCap', "
     ?>
 </p>
 
+<p>
+    <?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'link',
+        'type' => 'primary',
+        'size' => 'large',
+        'url' => Yii::app()->createUrl("/m2/tClosing/closingPeriodExecutionB"),
+        'label' => 'Backward Month Period',
+    ));
+    ?>
+</p>
+
 <br/>
 
 <h2>Unposted Journal</h2>

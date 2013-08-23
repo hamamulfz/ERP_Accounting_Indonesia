@@ -155,6 +155,25 @@ class sCompanyNews extends BaseModel {
             return $model;
     }
 
+    public function getAnnouncementUnit() {
+        $criteria = new CDbCriteria;
+        $criteria->order = "t.created_date DESC";
+        $criteria->limit = 1;
+        $criteria->compare('category_id', 8);
+        $criteria->with=array('created');
+        $criteria->together=true;
+        $criteria->compare('created.default_group',sUser::getMyGroup());
+        $criteria->scopes = array('app_publish', 'notExpire');
+
+        $model = self::model()->find($criteria);
+
+        if ($model == null) {
+            return false;
+        }
+        else
+            return $model;
+    }
+
     public function getQuote() {
         $criteria = new CDbCriteria;
         $criteria->order = "rand ()";
@@ -225,6 +244,12 @@ class sCompanyNews extends BaseModel {
             'noQuote_Announcement_WithCalendar' => array(
                 'condition' => 'category_id  IN (1,2,3,4,7)',
             ),
+            'notBusinessUnit' => array(
+                'condition' => 'category_id  <> 8',
+            ),
+            'businessUnit' => array(
+                'condition' => 'category_id  = 8',
+            ),
             'notExpire' => array(
                 'condition' => 'unix_timestamp(expire_date) > unix_timestamp()',
             ),
@@ -237,8 +262,27 @@ class sCompanyNews extends BaseModel {
     public function searchNews() {
         $criteria = new CDbCriteria;
         $criteria->compare('title', $this->title, true);
+        $criteria->scopes = array('notBusinessUnit');
 
         $criteria->order = 'created_date DESC';
+
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 20
+            )
+        ));
+    }
+
+    public function searchNewsUnit() {
+        $criteria = new CDbCriteria;
+        $criteria->with=array('created');
+        $criteria->together=true;
+        $criteria->scopes = array('businessUnit');
+        $criteria->compare('title', $this->title, true);
+        $criteria->compare('created.default_group',sUser::getMyGroup());
+
+        $criteria->order = 't.created_date DESC';
 
         return new CActiveDataProvider(get_class($this), array(
             'criteria' => $criteria,

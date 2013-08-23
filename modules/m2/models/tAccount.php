@@ -52,6 +52,7 @@ class tAccount extends BaseModel {
             'hasJournal' => array(self::HAS_MANY, 'tJournalDetail', 'account_no_id', 'with' => 'journal',
                 'condition' => 'journal.yearmonth_periode = ' . Yii::app()->settings->get("System", "cCurrentPeriod")),
             //'balancesheet' => array(self::HAS_ONE, 'tBalanceSheet', 'parent_id','condition'=>'yearmonth_periode = '.Yii::app()->settings->get("System", "cCurrentPeriod")),
+            'journalLink' => array(self::HAS_MANY, 'tJournalDetail', 'account_no_id'),
             'balancesheet' => array(self::HAS_ONE, 'tBalanceSheet', 'parent_id'),
                 //'balancesheetLast' => array(self::HAS_ONE, 'tBalanceSheet', 'parent_id','condition'=>'yearmonth_periode = '.sParameter::cBeginDateBefore(Yii::app()->settings->get("System", "cCurrentPeriod"))),
         );

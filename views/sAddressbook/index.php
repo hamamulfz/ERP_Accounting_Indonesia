@@ -8,21 +8,10 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'Address Book Group', 'icon' => 'home', 'url' => array('/sAddressbookGroup')),
+    array('label' => 'Address Book Group', 'icon' => 'home', 'url' => array('/sAddressbook/group')),
 );
+$this->menu5=array('Contact');
 
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#s-addressbook-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
 <div class="page-header">

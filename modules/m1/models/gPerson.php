@@ -78,7 +78,7 @@ class gPerson extends BaseModel {
             //array('handphone', 'ext.BPhoneNumberValidator'),
             array('birth_place', 'length', 'max' => 20),
             array('address1, identity_address1, c_pathfoto', 'length', 'max' => 255),
-            array('c_pathfoto, employee_code_global', 'unique'),
+            array('c_pathfoto', 'unique','on'=>'create'),
             array('address2, identity_address2, home_phone, handphone, handphone2, account_number, account_name, bank_name', 'length', 'max' => 50),
             array('pos_code, identity_pos_code', 'length', 'max' => 5),
             array('identity_number', 'length', 'max' => 25),
@@ -511,58 +511,6 @@ class gPerson extends BaseModel {
         return $years;
     }
 
-    public function proEmployee($id) {
-
-
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
-
-        if (!Yii::app()->cache->get('proemployee' . $id . Yii::app()->user->id)) {
-
-            $models = aOrganization::model()->findAll(array('condition' => 'parent_id = ' . $id, 'order' => 'id'));
-
-            $connection = Yii::app()->db;
-
-            $_items = array();
-            foreach ($models as $model) {
-                //$sql="select count(id) from g_bi_person where company_id = ".$model->id;
-                $sql = "select 
-			count(`a`.`id`) 
-		from
-			`erp_apl`.`g_person` `a`
-			 where  
-		 
-			(select 
-					`s`.`status_id` AS `status_id`
-				from
-					`erp_apl`.`g_person_status` `s`
-				where
-					(`s`.`parent_id` = `a`.`id`)
-				order by `s`.`start_date` desc
-				limit 1) NOT IN (8,9,10,13) AND
-			(select 
-					`o`.`id` AS `id`
-				from
-					(`erp_apl`.`g_person_career` `c`
-					left join `erp_apl`.`a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
-				where
-					((`a`.`id` = `c`.`parent_id`)
-						and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
-				order by `c`.`start_date` desc
-				limit 1) = " . $model->id;
-
-                $command = $connection->createCommand($sql);
-                $row = $command->queryScalar();
-                $item[] = (int) $row;
-            }
-
-            Yii::app()->cache->set('proemployee' . $id . Yii::app()->user->id, $item, 3600, $dependency);
-        }
-        else
-            $item = Yii::app()->cache->get('proemployee' . $id . Yii::app()->user->id);
-
-        return $item;
-    }
-
     public function holdingTotal() {
 
 
@@ -774,6 +722,33 @@ class gPerson extends BaseModel {
         }
         else
             return '.::INCOMPLETE::.';
+    }
+
+    public function mSuperiorLink() {
+        $criteria = new CDbCriteria;
+        $criteria->compare('parent_id', $this->id);
+        $criteria->order = 'start_date DESC';
+        $criteria->addInCondition("status_id", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY);
+        $_value = gPersonCareer::model()->find($criteria);
+        if ($_value->superior_id != null && isset($_value->superior)) {
+            return CHtml::link($_value->superior->employee_name, 
+            Yii::app()->createUrl('m1/gPerson/view', array('id' => $_value->superior_id)));
+        }
+        else
+            return null;
+    }
+
+    public function mSuperior() {
+        $criteria = new CDbCriteria;
+        $criteria->compare('parent_id', $this->id);
+        $criteria->order = 'start_date DESC';
+        $criteria->addInCondition("status_id", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY);
+        $_value = gPersonCareer::model()->find($criteria);
+        if ($_value->superior_id != null && $_value->superior->employee_name != null) {
+            return $_value->superior->employee_name;
+        }
+        else
+            return null;
     }
 
     public function mJobTitle() {

@@ -219,6 +219,7 @@ class GPermissionController extends Controller {
 
     public function actionApproved($id, $pid) {
         $model = $this->loadModelPermission($id);
+        $modelPerson = gPerson::model()->findByPk($pid);
 
 
         gPermission::model()->updateByPk((int) $id, array(
@@ -226,7 +227,7 @@ class GPermissionController extends Controller {
         ));
 
         Notification::newInbox(
-                $modelBalance->userid, "Permission Approved. Your Permission has been approved by HR Admin", "Dear " . $model->person->employee_name . ",<br/> 
+                $modelPerson->userid, "Permission Approved. Your Permission has been approved by HR Admin", "Dear " . $model->person->employee_name . ",<br/> 
 			Your permission request on " . $model->start_date . " has been approved by HR Admin. <br/> 
 			Thank You.. <br/>
 			APHRIS"

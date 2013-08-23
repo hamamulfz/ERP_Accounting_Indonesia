@@ -32,7 +32,7 @@ class sSmsout extends BaseModel {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('sender_id, receivergroup_id, message', 'required'),
+            array('receivergroup_tag, message', 'required'),
             array('sender_id, receivergroup_id, modem, approved_id, created_date, created_by, updated_date, updated_by', 'numerical', 'integerOnly' => true),
             array('receivergroup_tag', 'length', 'max' => 100),
             array('message', 'length', 'max' => 767),
@@ -49,6 +49,8 @@ class sSmsout extends BaseModel {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'sender' => array(self::BELONGS_TO, 'aOrganization', 'sender_id'),
+            'created' => array(self::BELONGS_TO, 'sUser', 'created_by'),
         );
     }
 
@@ -102,6 +104,12 @@ class sSmsout extends BaseModel {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination'=>array(
+            	'pageSize'=>50
+            ),
+            'sort'=>array(
+            	'defaultOrder'=>'created_date DESC',
+            )
         ));
     }
 

@@ -28,6 +28,7 @@ $this->widget('TbDetailView', array(
         'address',
         'handphone',
         'email',
+        'member_of',
     ),
 ));
 ?>

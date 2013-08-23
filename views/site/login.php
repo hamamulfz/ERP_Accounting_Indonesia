@@ -3,6 +3,9 @@ $isExist = is_file(Yii::app()->basePath . "/views/site/theme.php");
 if ($isExist) {
     $this->renderPartial('theme');
 }
+
+$this->pageTitle = Yii::app()->name . ' - Home';
+
 ?>
 
 

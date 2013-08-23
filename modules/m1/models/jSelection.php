@@ -114,4 +114,17 @@ class jSelection extends BaseModel {
         ));
     }
 
+    public function afterSave() {
+        if ($this->isNewRecord) {
+            $model= new sNotification;
+            $model->group_id = 4;
+            $model->link = 'm1/jSelection/view/id/' . $this->id;
+            $model->content = 'Selection. New Selection: '.$this->category->name .' created on: <read>' . $this->schedule_date .'</read>';
+            $model->save();
+
+        }
+        return true;
+    }
+
+
 }

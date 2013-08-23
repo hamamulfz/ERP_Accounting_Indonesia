@@ -26,13 +26,13 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->dropDownListRow($model, 'account_no_id', tAccount::item()); ?>
+<?php echo $form->dropDownListRow($model, 'account_no_id', tAccount::item(),array('class'=>'span5')); ?>
 
 <?php //echo $form->textFieldRow($model, 'begindate'); ?>
 <?php //echo $form->textFieldRow($model, 'enddate'); ?>
 
 <div class="control-group">
-    <?php echo $form->labelEx($model, 'periode_date', array('class' => 'control-label')); ?>
+    <?php echo $form->labelEx($model, 'begindate', array('class' => 'control-label')); ?>
 
     <div class="controls">
 

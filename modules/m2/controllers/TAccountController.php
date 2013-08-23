@@ -587,8 +587,7 @@ class TAccountController extends Controller {
         echo CJSON::encode($res);
     }
 
-    public function actionPrintList() {
-        $_curPeriod = Yii::app()->settings->get("System", "cCurrentPeriod");
+    public function actionPrintList($id=null) {
         $model = new fJournalList;
 
         if (isset($_POST['fJournalList'])) {
@@ -610,24 +609,26 @@ class TAccountController extends Controller {
                 $criteria->compare('account_no_id', $_POST['fJournalList']['account_no_id']);
                 $criteria->order = 'journal.input_date';
 
-                //if ($_POST['fJournalList']['post_id'] != 0)
-                //    $criteria->compare('journal.state_id', $_POST['fJournalList']['post_id']);
-                //$criteria->addBetweenCondition('journal.input_date', Yii::app()->dateFormatter->format('yyyy-MM-dd', $_POST['fJournalList']['begindate']), Yii::app()->dateFormatter->format('yyyy-MM-dd', $_POST['fJournalList']['enddate']));
-                $criteria->compare('DATE_FORMAT(journal.input_date,"%Y%m")', $_POST['fJournalList']['begindate']);
+                //$criteria->compare('DATE_FORMAT(journal.input_date,"%Y%m")', $_POST['fJournalList']['begindate']);
+                $criteria->compare('journal.yearmonth_periode', $_POST['fJournalList']['begindate']);
 
                 $models = tJournalDetail::model()->findAll($criteria);
-
-                $pdf->report($models, $_POST['fJournalList']['begindate'], $_POST['fJournalList']['account_no_id']);
-                $pdf->Output();
+                
+                if ($models != null) {
+					$pdf->report($models, $_POST['fJournalList']['begindate'], $_POST['fJournalList']['account_no_id']);
+					$pdf->Output();
+				} else
+		            Yii::app()->user->setFlash("error", "<strong>Error!</strong> No Transaction on this account for this period...");
+				
             }
         }
 
-        //(!isset($model->begindate)) ? $model->begindate = "01-" . substr($_curPeriod, 4, 2) . "-" . substr($_curPeriod, 0, 4) : null;
-        //if (!isset($model->enddate)) {
-        //    $_val = date('d-m-Y', strtotime('next month', strtotime("01-" . substr($_curPeriod, 4, 2) . "-" . substr($_curPeriod, 0, 4))) - 1);
-        //    $model->enddate = $_val;
-        //}
+    	if (!isset($model->begindate))
+			$model->begindate = Yii::app()->settings->get("System", "cCurrentPeriod");
 
+    	if (isset($id))
+			$model->account_no_id = $id;
+						
         $this->render('printList', array('model' => $model));
     }
 

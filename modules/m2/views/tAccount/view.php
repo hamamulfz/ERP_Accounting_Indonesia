@@ -30,7 +30,7 @@ $this->menu = array(
     array('label' => 'Delete', 'icon' => 'remove', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Are you sure you want to delete this item?'),
         'visible' => empty($model->hasJournal)),
     array('label' => 'Generate Empty Balance', 'icon' => 'random', 'visible' => $model->isEmptyBalance, 'url' => array('generate', 'id' => $model->id)),
-    array('label' => 'Print Journal List', 'icon' => 'print', 'url' => array('printList')),
+    array('label' => 'Print Journal List', 'icon' => 'print', 'url' => array('printList','id'=>$model->id)),
 );
 
 $this->menu1 = tAccount::getTopUpdated();

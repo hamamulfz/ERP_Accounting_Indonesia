@@ -53,12 +53,12 @@ Yii::app()->clientScript->registerScript('myCap' . $data->id, "
 
         <p>
             <?php
-            if ($data->state_id != 4) {
+            //if ($data->state_id != 4) {
                 echo CHtml::link('delete', "#", array("class" => "btn btn-mini", "submit" => array('deleteMasihError', 'id' => $data->id), 'confirm' => 'Are you sure to delete this journal?'));
                 echo " ";
                 echo CHtml::link('update', $data->linkUrlUpdate, array("class" => "btn btn-mini"));
                 echo " ";
-            }
+            //}
             echo CHtml::link('<i class="fam-printer"></i>', Yii::app()->createUrl($this->module->id . '/' . $this->id . '/print', array("id" => $data->id)), array('target' => '_blank', "class" => "btn btn-mini"));
 
             echo ($data->journalSum != $data->journalSumCek) ? " WARNING!!!... FAULT BY SYSTEM. JOURNAL IS NOT BALANCE, PLEASE DELETE.." : "";

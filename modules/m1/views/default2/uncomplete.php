@@ -231,4 +231,5 @@ $this->breadcrumbs = array(
             <br/>
         </div>
     </div>
+</div>
 

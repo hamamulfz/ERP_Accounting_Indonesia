@@ -51,17 +51,16 @@ class journalVoucherList2 extends fpdf {
 
         $this->Ln(5);
 
-        $w = array(7, 18, 14, 40, 18, 18, 60, 15);
+        $w = array(7, 18, 40, 23, 23, 64, 15);
         //Header
         $this->SetFont('Arial', '', 8);
         $this->Cell($w[0], 8, 'No.', 1, 0, 'R');
         $this->Cell($w[1], 8, 'Date', 1);
-        $this->Cell($w[2], 8, 'Period', 1);
-        $this->Cell($w[3], 8, 'No. Ref', 1);
-        $this->Cell($w[4], 8, 'Debit', 1);
-        $this->Cell($w[5], 8, 'Credit', 1);
-        $this->Cell($w[6], 8, 'User Remark', 1);
-        $this->Cell($w[7], 8, 'Status', 1);
+        $this->Cell($w[2], 8, 'No. Ref', 1);
+        $this->Cell($w[3], 8, 'Debit', 1,0,'C');
+        $this->Cell($w[4], 8, 'Credit', 1,0,'C');
+        $this->Cell($w[5], 8, 'User Remark', 1);
+        $this->Cell($w[6], 8, 'Status', 1);
         $this->Ln();
 
         $this->Cell(array_sum($w), 1, '', 'TB');
@@ -88,7 +87,19 @@ class journalVoucherList2 extends fpdf {
         //Data
         $fill = false;
 
-        $w = array(7, 18, 14, 40, 18, 18, 60, 15);
+        $w = array(7, 18, 40, 23, 23, 64, 15);
+
+        $_mod = $models[0]->account->balancesheet(array('condition' => 'yearmonth_periode =' . $begindate));
+
+		$this->SetFont('Arial', 'B', 8);
+		$this->Cell($w[0], 8, '', 'LB', 0, 'R', $fill);
+		$this->Cell($w[1], 8, 'BEGINNING BALANCE', 'LB');
+		$this->Cell($w[2], 8, '', 'B', 0, 'L', $fill);
+		$this->Cell($w[3], 8, ($models[0]->account->sideValue ==1) ? $_mod->beginning_balancee : 0, 'LB', 0, 'R', $fill);
+		$this->Cell($w[4], 8, ($models[0]->account->sideValue ==2) ? $_mod->beginning_balancee : 0, 'LB', 0, 'R', $fill);
+		$this->Cell($w[5], 8, '', 'LB', 0, 'L', $fill);
+		$this->Cell($w[6], 8, '', 'LBR', 0, 'L', $fill);
+		$this->Ln();
 
         foreach ($models as $mod) {
             $this->SetFont('Arial', '', 8);
@@ -101,12 +112,11 @@ class journalVoucherList2 extends fpdf {
 
             $_mdate = $mod->journal->input_date;
 
-            $this->Cell($w[2], 6, $mod->journal->yearmonth_periode, 'L', 0, 'L', $fill);
-            $this->Cell($w[3], 6, $mod->journal->system_ref, 'L', 0, 'L', $fill);
-            $this->Cell($w[4], 6, number_format($mod->debit, 0, ',', '.'), 'L', 0, 'R', $fill);
-            $this->Cell($w[5], 6, number_format($mod->credit, 0, ',', '.'), 'L', 0, 'R', $fill);
-            $this->Cell($w[6], 6, (strlen($mod->journal->remark) >= 40 ) ? substr($mod->journal->remark, 0, 38) . " ... " : $mod->journal->remark, 'L', 0, 'L', $fill);
-            $this->Cell($w[7], 6, $mod->journal->status->name, 'LR', 0, 'L', $fill);
+            $this->Cell($w[2], 6, $mod->journal->system_ref, 'L', 0, 'L', $fill);
+            $this->Cell($w[3], 6, $mod->debitt, 'L', 0, 'R', $fill);
+            $this->Cell($w[4], 6, $mod->creditt, 'L', 0, 'R', $fill);
+            $this->Cell($w[5], 6, (strlen($mod->journal->remark) >= 42 ) ? substr($mod->journal->remark, 0, 40) . " ... " : $mod->journal->remark, 'L', 0, 'L', $fill);
+            $this->Cell($w[6], 6, $mod->journal->status->name, 'LR', 0, 'L', $fill);
 
             $this->Ln();
 
@@ -127,20 +137,40 @@ class journalVoucherList2 extends fpdf {
             $fill = !$fill;
         }
 
+		$_tdebetF = Yii::app()->indoFormat->number($_tdebet);
+		$_tcreditF = Yii::app()->indoFormat->number($_tcredit);
+		
         //Closure line
         $this->Cell(array_sum($w), 0, '', 'T');
         $this->Ln(1);
 
         $this->SetFont('Arial', 'B', 8);
         $this->Cell($w[0], 8, '', 'TLB');
-        $this->Cell($w[1], 8, 'T O T A L', 'TLB', 0, 'C');
-        $this->Cell($w[2], 8, '', 'TLB');
-        $this->Cell($w[3], 8, '', 'TLB');
-        $this->Cell($w[4], 8, number_format($_tdebet, 0, ',', '.'), 'TLB', 0, 'R');
-        $this->Cell($w[5], 8, number_format($_tcredit, 0, ',', '.'), 'TLB', 0, 'R');
-        $this->Cell($w[6], 8, '', 'TLB');
-        $this->Cell($w[7], 8, '', 'TLBR', 0, 'R');
+        $this->Cell($w[1], 8, 'T O T A L', 'TLB', 0, 'L');
+        $this->Cell($w[2], 8, '', 'TB');
+        $this->Cell($w[3], 8, $_tdebetF, 'TLB', 0, 'R');
+        $this->Cell($w[4], 8, $_tcreditF, 'TLB', 0, 'R');
+        $this->Cell($w[5], 8, '', 'TLB');
+        $this->Cell($w[6], 8, '', 'TLBR', 0, 'R');
         $this->Ln();
+
+		$calc = $_mod->beginning_balance + $_tdebet - $_tcredit;
+		$calcF = Yii::app()->indoFormat->number($calc);
+		
+		//$this->Cell($w[6], 8, ($test == $_mod->end_balance) ? "":"MANUAL CALCULATION <> END BALANCE. CONTACT PETER", 0, 0, 'L');
+
+        $fill = false;
+		$this->SetFont('Arial', 'B', 8);
+		$this->Cell($w[0], 8, '', 'LB', 0, 'R', $fill);
+		$this->Cell($w[1], 8, 'END BALANCE', 'LB');
+		$this->Cell($w[2], 8, '', 'B', 0, 'L', $fill);
+		$this->Cell($w[3], 8, ($models[0]->account->sideValue ==1) ? $calcF : 0, 'LB', 0, 'R');
+		$this->Cell($w[4], 8, ($models[0]->account->sideValue ==2) ? $calcF : 0, 'LB', 0, 'R');
+		$this->Cell($w[5], 8, '', 'LB', 0, 'L', $fill);
+		$this->Cell($w[6], 8, '', 'LBR', 0, 'L', $fill);
+		$this->Ln();
+
+
     }
 
 }

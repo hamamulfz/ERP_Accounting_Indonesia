@@ -80,7 +80,7 @@ class TPostingController extends Controller {
         ));
     }
 
-    public function actionIndexUnPost($acc = null) {
+    public function actionAllJournal($acc = null) {
         $model = new tJournal('search');
         $model->unsetAttributes();  // clear any default values
 
@@ -114,7 +114,7 @@ class TPostingController extends Controller {
             )
         ));
 
-        $this->render('indexUnpost', array(
+        $this->render('allJournal', array(
             'dataProvider' => $dataProvider,
             'model' => $model,
         ));

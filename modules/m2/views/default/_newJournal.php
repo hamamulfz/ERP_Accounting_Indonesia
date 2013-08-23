@@ -22,9 +22,9 @@
         echo CHtml::openTag('li', array());
         echo CHtml::tag('strong', array(), $model->linkUrl);
         echo "<br/>";
-        echo $model->input_date . " | " . number_format($model->journalSum, 0, ",", ".");
+        echo CHtml::tag('strong', array(), $model->input_date . " | " . number_format($model->journalSum, 0, ",", "."));
         echo "<br/>";
-        echo $model->remark;
+        echo CHtml::tag('div',array('style'=>'font-size:12px;color:grey'),$model->remark);
         echo CHtml::closeTag('li');
     }
     ?>

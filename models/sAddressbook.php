@@ -14,7 +14,7 @@
  * @property string $email
  */
 class sAddressbook extends BaseModel {
-
+	
     /**
      * @return string the associated database table name
      */
@@ -29,6 +29,7 @@ class sAddressbook extends BaseModel {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
+            array('complete_name, title, handphone, member_of', 'required'),
             array('category_name', 'length', 'max' => 15),
             array('complete_name', 'length', 'max' => 50),
             array('company_name, title, handphone', 'length', 'max' => 100),
@@ -47,7 +48,6 @@ class sAddressbook extends BaseModel {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'group' => array(self::HAS_MANY, 'sAddressbookGroupDetail', 'parent_id'),
         );
     }
 
@@ -64,6 +64,7 @@ class sAddressbook extends BaseModel {
             'address' => 'Address',
             'handphone' => 'Handphone',
             'email' => 'Email',
+            'member_of' => 'Member Of',
         );
     }
 
@@ -98,6 +99,20 @@ class sAddressbook extends BaseModel {
         ));
     }
 
+
+	//NOT WORKING YET
+	public function getMemberLink() {
+		$members = explode (",",$this->member_of);
+		if (isset($members)) {
+			foreach ($members as $member) {
+				$link[]=CHtml::link($member);
+			}
+			return $link;
+		}
+	} 
+	
+	
+	
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
