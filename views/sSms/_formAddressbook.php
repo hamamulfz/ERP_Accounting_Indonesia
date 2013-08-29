@@ -13,9 +13,6 @@ Yii::app()->clientScript->registerScript('sel2', "
 			{tags:". sAddressbookGroup::model()->getGroupList() ."}
 		);
 
-		$( \"textarea#" . CHtml::activeId($model, 'message') . "\" ).maxlength({
-			alwaysShow: true
-		});
 
 		});
 

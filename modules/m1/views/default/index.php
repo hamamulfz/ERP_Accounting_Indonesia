@@ -73,6 +73,42 @@ $this->breadcrumbs = array(
                 ?>
             </div>
         </div>
+
+		<br/>
+        <div class="row">
+          <div class="span10">
+          <?php
+          $this->Widget('ext.highcharts.HighchartsWidget', array(
+          'options'=>array(
+          'chart' => array('defaultSeriesType' => 'column'),
+          'title' => array('text' => 'Promotion-Mutation-Demotion per Month ('.date("Y").')'),
+          'xAxis' => array(
+          'categories' => array('Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des')
+          ),
+          'yAxis' => array(
+          'title' => array('text' => 'Total')
+          ),
+          'series' => gPerson2::compEmployeePmd(),
+          'plotOptions'=> array (
+          'column'=> array (
+          'dataLabels'=> array (
+          'enabled'=> true,
+          'color'=> 'colors[0]',
+          'style'=> array (
+          'fontWeight'=> 'bold'
+          ),
+          )
+          )
+          ),
+          )
+          ));
+          ?>
+          </div>
+        </div>
+
+        <br/>
+
+
         <?php /*
           <br/>
 

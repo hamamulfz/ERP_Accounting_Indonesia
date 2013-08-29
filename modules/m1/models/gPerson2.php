@@ -626,6 +626,600 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
 
+    public function compEmployeePmdAll() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('employeepmdall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "
+            	SELECT 'Promotion' AS 'state',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31') as 'l01', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28') as 'l02', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31') as 'l03', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30') as 'l04', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31') as 'l05', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30') as 'l06', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31') as 'l07', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08'
+					
+				FROM `a_organization` `g` where `g`.`id` = 1
+				
+				UNION ALL
+				
+            	SELECT 'Mutation' AS 'state',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31') as 'l01', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28') as 'l02', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31') as 'l03', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30') as 'l04', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31') as 'l05', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30') as 'l06', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31') as 'l07', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08'
+					
+				FROM `a_organization` `g` where `g`.`id` = 1
+				
+			";
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $rows = $command->queryAll();
+            foreach ($rows as $row) {
+                $_data = array();
+                $_second = array();
+                $_data[] = (int) $row['l01'];
+                $_data[] = (int) $row['l02'];
+                $_data[] = (int) $row['l03'];
+                $_data[] = (int) $row['l04'];
+                $_data[] = (int) $row['l05'];
+                $_data[] = (int) $row['l06'];
+                $_data[] = (int) $row['l07'];
+                $_data[] = (int) $row['l08'];
+                //$_data[] = (int) $row['l09'];
+                //$_data[] = (int) $row['l10'];
+                //$_data[] = (int) $row['l11'];
+                //$_data[] = (int) $row['l12'];
+                $_name['name'] = $row['state'];
+                $_second['data'] = $_data;
+                $_merge[] = array_merge($_name, $_second);
+            }
+
+            Yii::app()->cache->set('employeepmdall' . Yii::app()->user->id, $_merge, 3600, $dependency);
+        }
+        else
+            $_merge = Yii::app()->cache->get('employeepmdall' . Yii::app()->user->id);
+
+        return $_merge;
+    }
+    
+    public function compEmployeePmd() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('employeepmd' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "
+            	SELECT 'Promotion' AS 'state',
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31'
+						order by `c`.`start_date` desc limit 1)) as 'l01' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+				) as 'l01',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28'
+						order by `c`.`start_date` desc limit 1)) as 'l02' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+				) as 'l02',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31'
+						order by `c`.`start_date` desc limit 1)) as 'l03' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l03',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30'
+						order by `c`.`start_date` desc limit 1)) as 'l04' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l04',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31'
+						order by `c`.`start_date` desc limit 1)) as 'l05' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l05',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30'
+						order by `c`.`start_date` desc limit 1)) as 'l06' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l06',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31'
+						order by `c`.`start_date` desc limit 1)) as 'l07' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l07',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31'
+						order by `c`.`start_date` desc limit 1)) as 'l08' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l08'
+					
+				FROM `a_organization` `g` where `g`.`id` = 1
+				
+				UNION ALL
+				
+            	SELECT 'Mutation' AS 'state',
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31'
+						order by `c`.`start_date` desc limit 1)) as 'l01' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l01',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28'
+						order by `c`.`start_date` desc limit 1)) as 'l02' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l02',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31'
+						order by `c`.`start_date` desc limit 1)) as 'l03' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l03',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30'
+						order by `c`.`start_date` desc limit 1)) as 'l04' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l04',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31'
+						order by `c`.`start_date` desc limit 1)) as 'l05' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l05',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30'
+						order by `c`.`start_date` desc limit 1)) as 'l06' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l06',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31'
+						order by `c`.`start_date` desc limit 1)) as 'l07' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l07',
+
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31'
+						order by `c`.`start_date` desc limit 1)) as 'l08' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l08'
+					
+				FROM `a_organization` `g` where `g`.`id` = 1
+				
+			";
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $rows = $command->queryAll();
+            foreach ($rows as $row) {
+                $_data = array();
+                $_second = array();
+                $_data[] = (int) $row['l01'];
+                $_data[] = (int) $row['l02'];
+                $_data[] = (int) $row['l03'];
+                $_data[] = (int) $row['l04'];
+                $_data[] = (int) $row['l05'];
+                $_data[] = (int) $row['l06'];
+                $_data[] = (int) $row['l07'];
+                $_data[] = (int) $row['l08'];
+                //$_data[] = (int) $row['l09'];
+                //$_data[] = (int) $row['l10'];
+                //$_data[] = (int) $row['l11'];
+                //$_data[] = (int) $row['l12'];
+                $_name['name'] = $row['state'];
+                $_second['data'] = $_data;
+                $_merge[] = array_merge($_name, $_second);
+            }
+
+            Yii::app()->cache->set('employeepmd' . Yii::app()->user->id, $_merge, 3600, $dependency);
+        }
+        else
+            $_merge = Yii::app()->cache->get('employeepmd' . Yii::app()->user->id);
+
+        return $_merge;
+    }
+    
     public function compEmployeePerMonth() {
 
         $_data = array();
@@ -735,7 +1329,7 @@ class gPerson2 extends BaseModel {
 
 
 				FROM `a_organization` `o`
-				where `id` = " . sUser::model()->myGroup . "  
+				where `id` IN (" . implode(",", sUser::model()->myGroupArray) . ")  
 
 
 			";
@@ -2790,7 +3384,15 @@ class gPerson2 extends BaseModel {
 				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
 					<= '" . date("Y") . "07') as `201307`,
 				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "07') as `201308`
+					<= '" . date("Y") . "08') as `201308`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "08') as `201309`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "08') as `201310`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "08') as `201311`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "08') as `201312`
 
 				FROM `a_organization` `o`
 				where `id` = 1  
@@ -2811,10 +3413,10 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201306'];
             $_data[] = (int) $row['201307'];
             $_data[] = (int) $row['201308'];
-            //$_data[] = (int) $row['201309'];
-            //$_data[] = (int) $row['201310'];
-            //$_data[] = (int) $row['201311'];
-            //$_data[] = (int) $row['201312'];
+            $_data[] = (int) $row['201309'];
+            $_data[] = (int) $row['201310'];
+            $_data[] = (int) $row['201311'];
+            $_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);
@@ -2844,13 +3446,13 @@ class gPerson2 extends BaseModel {
                 $sql = "select 
 			count(`a`.`id`) 
 		from
-			`erp_apl`.`g_person` `a`
+			`g_person` `a`
 			 where  
 		 
 			(select 
 					`s`.`status_id` AS `status_id`
 				from
-					`erp_apl`.`g_person_status` `s`
+					`g_person_status` `s`
 				where
 					(`s`.`parent_id` = `a`.`id`)
 				order by `s`.`start_date` desc
@@ -2858,8 +3460,8 @@ class gPerson2 extends BaseModel {
 			(select 
 					`o`.`id` AS `id`
 				from
-					(`erp_apl`.`g_person_career` `c`
-					left join `erp_apl`.`a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					(`g_person_career` `c`
+					left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
 				where
 					((`a`.`id` = `c`.`parent_id`)
 						and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
@@ -2879,6 +3481,104 @@ class gPerson2 extends BaseModel {
         return $item;
     }
 
+    public function holdingTotal() {
+
+
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('holdingtotal' . Yii::app()->user->id)) {
+
+            $models = aOrganization::model()->findAll(array('condition' => 'parent_id = 5 AND id <>1690', 'order' => 'id'));
+
+            $connection = Yii::app()->db;
+
+            $_items = array();
+            foreach ($models as $model) {
+                $sql = "select 
+				(select 
+					`oo`.`name`
+				from
+					`erp_apl`.`g_person_career` `c`
+					left join `erp_apl`.`a_organization` `o` ON `o`.`id` = `c`.`company_id`
+					inner join `erp_apl`.`a_organization` `oo` ON `o`.`parent_id` = `oo`.`id`
+				where
+					((`a`.`id` = `c`.`parent_id`)
+						and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+				order by `c`.`start_date` desc
+				limit 1) as `nn`,
+			
+				count(`a`.`id`) as `total`
+		from
+			`erp_apl`.`g_person` `a`
+			 where  
+		 
+			(select 
+					`s`.`status_id` AS `status_id`
+				from
+					`erp_apl`.`g_person_status` `s`
+				where
+					(`s`.`parent_id` = `a`.`id`)
+				order by `s`.`start_date` desc
+				limit 1) NOT IN (8,9,10,13) AND
+			(select 
+					`o`.`parent_id` AS `id`
+				from
+					(`erp_apl`.`g_person_career` `c`
+					left join `erp_apl`.`a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+				where
+					((`a`.`id` = `c`.`parent_id`)
+						and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+				order by `c`.`start_date` desc
+				limit 1) = " . $model->id;
+
+                $command = $connection->createCommand($sql);
+                $row = $command->queryAll();
+                $_n1['name'] = $row[0]['nn'];
+                $_n1['y'] = (int) $row[0]['total'];
+                $item[] = $_n1;
+            }
+
+            Yii::app()->cache->set('holdingtotal' . Yii::app()->user->id, $item, 3600, $dependency);
+        }
+        else
+            $item = Yii::app()->cache->get('holdingtotal' . Yii::app()->user->id);
+
+        return $item;
+    }
+
+    public function grandTotal() {
+
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('grandtotal' . Yii::app()->user->id)) {
+
+            $connection = Yii::app()->db;
+            $_items = array();
+            $sql = "select 
+				count(`a`.`id`) as `total`
+				from `erp_apl`.`g_person` `a`
+				where  
+		 
+				(select 
+					`s`.`status_id` AS `status_id`
+				from
+					`erp_apl`.`g_person_status` `s`
+				where
+					(`s`.`parent_id` = `a`.`id`)
+				order by `s`.`start_date` desc
+				limit 1) NOT IN (8,9,10,13)";
+
+            $command = $connection->createCommand($sql);
+            $row = $command->queryScalar();
+            $item[] = (int) $row;
+
+            Yii::app()->cache->set('grandtotal' . Yii::app()->user->id, $item, 3600, $dependency);
+        }
+        else
+            $item = Yii::app()->cache->get('grandtotal' . Yii::app()->user->id);
+
+        return $item;
+    }
 
 
 }

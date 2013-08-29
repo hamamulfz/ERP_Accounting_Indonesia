@@ -56,13 +56,16 @@ $this->breadcrumbs = array(
 
         <br/>
 
-        <?php $this->renderPartial("_learningPhoto", array()) ?>
+        <?php //$this->renderPartial("_learningPhoto", array()) ?>
 
     </div>
     <div class="span4">
-        <?php $this->renderPartial("/site/_category", array('category_id' => 1)) ?>
+
+        <?php $this->renderPartial("_learningPhoto", array()) ?>
+		<br/>
+        <?php //$this->renderPartial("/site/_category", array('category_id' => 1)) ?>
         <?php $this->renderPartial("/site/_category", array('category_id' => 2)) ?>
-        <?php $this->renderPartial("/site/_category", array('category_id' => 3)) ?>
+        <?php //$this->renderPartial("/site/_category", array('category_id' => 3)) ?>
     </div>
 </div>
 

@@ -8,7 +8,7 @@
  * @property integer $parent_id
  * @property string $input_date
  * @property integer $year
- * @property string $predicate
+ * @property string $pa_value
  * @property string $remark
  *
  * The followings are the available model relations:
@@ -39,14 +39,15 @@ class gTalentPerformance extends BaseModel {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('parent_id, input_date, year,amount, predicate', 'required'),
+            array('parent_id, input_date, year, pa_value', 'required'),
             array('input_date', 'date', 'format' => 'dd-MM-yyyy'),
             array('parent_id, year', 'numerical', 'integerOnly' => true),
-            array('predicate', 'length', 'max' => 1),
-            array('remark', 'length', 'max' => 300),
+            array('pa_value, potential', 'length', 'max' => 5),
+            array('parent_id', 'UniqueAttributesValidator', 'with'=>'year','message'=>'Double Year Input'),
+            array('remark, future_dev', 'length', 'max' => 300),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, parent_id, input_date, year, predicate, remark', 'safe', 'on' => 'search'),
+            array('id, parent_id, input_date, year, pa_value, remark', 'safe', 'on' => 'search'),
         );
     }
 
@@ -71,7 +72,9 @@ class gTalentPerformance extends BaseModel {
             'input_date' => 'Input Date',
             'year' => 'Year',
             'amount' => 'Amount',
-            'predicate' => 'Predicate',
+            'pa_value' => 'PA Value',
+            'potential' => 'Category',
+            'future_dev' => 'Future Development',
             'remark' => 'Remark',
         );
     }

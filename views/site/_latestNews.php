@@ -1,3 +1,18 @@
+<style>
+.ticker {
+	height: 250px;
+	overflow: hidden;
+}
+
+#ticker_02 {
+	height: 250px;
+}
+
+.ticker li {
+	height: 250px;
+}
+</style>
+
 <?php
 $models = sCompanyNews::model()->latestNews;
 
@@ -9,24 +24,38 @@ if ($models) {
         'title' => false,
         'headerIcon' => 'icon-globe',
         'htmlHeaderOptions' => array('style' => 'background:white'),
-        'htmlContentOptions' => array('style' => 'background:#E9E9E9'),
+        'htmlContentOptions' => array('style' => 'background:#E9E9E9;'),
     ));
     ?>
 
-    <h4><i class="iconic-article"></i> Latest Article</h4>
+	<ul id="ticker_02" class="ticker";>
+
     <?php foreach ($models as $model) { ?>
+		<li>
         <strong><?php echo CHtml::link(CHtml::encode($model->title), Yii::app()->createUrl('/sCompanyNews/view', array("id" => $model->id))); ?></strong>
-        <?php //echo date('d-m-Y',$data->created_date); ?>
+		<br/>
         <?php
-        $this->beginWidget('CMarkdown', array('purifyOutput' => true));
-        $_desc = peterFunc::shorten_string(strip_tags($model->content), 10);
+        //$this->beginWidget('CMarkdown', array('purifyOutput' => true));
+        $_desc = peterFunc::shorten_string(strip_tags($model->content), 40);
         echo $_desc;
-        $this->endWidget();
+        //$this->endWidget();
         ?>
+		</li>
 
     <?php } ?>
-
+	</ul>
     <?php $this->endWidget(); ?>
 
     <?php
 }
+?>
+
+<script>
+
+	function tick2(){
+		$('#ticker_02 li:first').animate({'opacity':0}, 400, function () { $(this).appendTo($('#ticker_02')).css('opacity', 1); });
+	}
+	setInterval(function(){ tick2 () }, 3000);
+
+
+</script>

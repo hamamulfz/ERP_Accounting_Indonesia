@@ -1,9 +1,7 @@
-<div class="page-header">
     <h3>
         <i class="icon-fa-picture"></i>
-        Random Learning Photo Activity
+        Learning Photo Activity
     </h3>
-</div>
 
 <?php
 $dir = Yii::app()->basePath . "/../shareimages/hr/learning";
@@ -40,20 +38,20 @@ foreach ($contents as $content) {
 
                 <?php
                 $counter++;
-                if ($counter == 5) {
+                if ($counter == 3) {
                     ?>
                 </ul>
             </div>
             <?php
         }
 
-        if ($counter == 5)
+        if ($counter == 3)
             $counter = 1;
     }
 
     $counterdir++;
 
-    if ($counterdir == 9)
+    if ($counterdir == 7)
         break;
 };
 ?>

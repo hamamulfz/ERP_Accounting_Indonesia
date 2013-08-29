@@ -47,14 +47,14 @@ class GTalentController extends Controller {
      */
     public function actionView($id) {
         $model = $this->loadModel($id);
+        $modelTarget = $this->newTarget($id);
         $modelPerformance = $this->newPerformance($id);
-        $modelPerformance2 = $this->newPerformance2($id);
         $modelPotential = $this->newPotential($id);
 
         $this->render('view', array(
             'model' => $model,
+            'modelTarget' => $modelTarget,
             'modelPerformance' => $modelPerformance,
-            'modelPerformance2' => $modelPerformance2,
             'modelPotential' => $modelPotential,
         ));
     }
@@ -63,7 +63,7 @@ class GTalentController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function newPerformance($id) {
+    public function newTarget($id) {
         $model = new fPerformance;
 
         // Uncomment the following line if AJAX validation is needed
@@ -83,7 +83,7 @@ class GTalentController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function newPerformance2($id) {
+    public function newPerformance($id) {
         $model = new gTalentPerformance;
 
         // Uncomment the following line if AJAX validation is needed

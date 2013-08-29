@@ -263,8 +263,13 @@ class GAttendanceController extends Controller {
     }
 
     public function actionTimeblock($flash = "off") {
+
+        $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
+        if (!is_dir(Yii::getPathOfAlias('webroot') . $folder))
+	        mkdir(Yii::getPathOfAlias('webroot') . '/sharedocs/temporarydocuments/' .sUser::getMyGroup() );
+
         Yii::import('ext.phpexcelreader.JPhpExcelReader');
-        $file = Yii::app()->basePath . '/../sharedocs/temporarydocuments/schedule.xls';
+        $file = Yii::getPathOfAlias('webroot') . $folder.'/schedule.xls';
         if (is_file($file)) {
             $this->layout = '//layouts/column1';
 
@@ -324,7 +329,8 @@ class GAttendanceController extends Controller {
     public function actionTimeblockSave() {
 
         Yii::import('ext.phpexcelreader.JPhpExcelReader');
-        $file = Yii::app()->basePath . '/../sharedocs/temporarydocuments/schedule.xls';
+        $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
+        $file = Yii::getPathOfAlias('webroot') . $folder.'/schedule.xls';
         if (!is_file($file)) {
             $this->redirect('timeBlock');
         }
@@ -352,13 +358,14 @@ class GAttendanceController extends Controller {
                                         $model->$header = $row[$i + 1];
                                     }
                                     else
-                                        $model->$header = 91;
+                                        $model->$header = 91; //91 Code Not Found
                                 }
                                 else
                                     $model->$header = $row[$i + 1];
                             }
-                            if ($model->save(false))
-                                continue;
+                            $modelG=gAttendanceTimeblock::model()->find(array('condition'=>'parent_id = '.$model->parent_id.' AND begin_date = '.$model->begin_date));
+                            if ($modelG == null)
+	                            $model->save(false);
                         }
                     }
                 }
@@ -374,13 +381,15 @@ class GAttendanceController extends Controller {
     }
 
     private function deleteFile() {
-        $file = Yii::app()->basePath . '/../sharedocs/temporarydocuments/schedule.xls';
+        $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
+        $file = Yii::getPathOfAlias('webroot') . $folder.'/schedule.xls';
         if (is_file($file))
             unlink($file);
     }
 
     private function deleteFileAttendant() {
-        $file = Yii::app()->basePath . '/../sharedocs/temporarydocuments/attendant.xls';
+        $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
+        $file = Yii::getPathOfAlias('webroot') . $folder.'/attendant.xls';
         if (is_file($file))
             unlink($file);
     }
@@ -388,7 +397,8 @@ class GAttendanceController extends Controller {
     public function actionTimeblockUpload() {
         Yii::import("ext.EAjaxUpload.qqFileUploader");
 
-        $folder = 'sharedocs/temporarydocuments/';  // folder for uploaded files
+        $folder = 'sharedocs/temporarydocuments/'.sUser::getMyGroup().'/';  // folder for uploaded files
+
         $allowedExtensions = array("xls");  //array("jpg","jpeg","gif","exe","mov" and etc...
         $sizeLimit = 5 * 1024 * 1024; // maximum file size in bytes
         $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
@@ -411,7 +421,8 @@ class GAttendanceController extends Controller {
 
         $this->deleteFileAttendant();
 
-        $folder = 'sharedocs/temporarydocuments/';  // folder for uploaded files
+        $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
+        $file = Yii::getPathOfAlias('webroot') . $folder.'/schedule.xls';
         $allowedExtensions = array("xls");  //array("jpg","jpeg","gif","exe","mov" and etc...
         $sizeLimit = 5 * 1024 * 1024; // maximum file size in bytes
         $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
@@ -422,7 +433,7 @@ class GAttendanceController extends Controller {
         $fileName = $result['filename']; //GETTING FILE NAME
 
         Yii::import('ext.phpexcelreader.JPhpExcelReader');
-        $file = Yii::app()->basePath . '/../sharedocs/temporarydocuments/attendant.xls';
+        $file = Yii::getPathOfAlias('webroot') . $folder.'/attendant.xls';
         if (!is_file($file)) {
             $this->redirect('attendBlock');
         }
@@ -430,34 +441,65 @@ class GAttendanceController extends Controller {
         $reader = new JPhpExcelReader($file);
 
         foreach ($reader->sheets as $k => $data)
-            if ($k == 0) { {
-                    foreach ($data['cells'] as $r => $row) {
-                        if ($r == 1) {
-                            //do nothing
-                        } else {
-                            $model = array();
-                            $criteria = new CDbCriteria;
-                            if (isset($row[1])) {
-                                $criteria->compare('parent_id', $row[1]);
-                            }
-                            else
-                                $criteria->compare('parent_id', 'empty');
+            if ($k == 0) { 
+				foreach ($data['cells'] as $r => $row) {
+					if ($r == 1) {
+						//do nothing
+					} else {
+						$model = array();
+						$criteria = new CDbCriteria;
+						if (isset($row[1])) {
+							$criteria->compare('parent_id', $row[1]);
+						}
+						else
+							$criteria->compare('parent_id', 'empty'); //force N.A.
+							
+						if (isset($row[2]))
+							$criteria->compare('cdate', date("Y-m-d", strtotime($row[2])));
 
-                            if (isset($row[2]))
-                                $criteria->compare('cdate', date("Y-m-d", strtotime($row[2])));
+						$model = gAttendance::model()->find($criteria);
 
-                            $model = gAttendance::model()->find($criteria);
+						//IF NULL Do Transfer
+						if ($model == null) {
+							$criteriaG = new CDbCriteria;
+							$criteriaG->compare('parent_id', $row[1]);
+							$criteriaG->compare('begin_date', date("Ym", strtotime($row[2])));
 
-                            if ($model != null) {
-                                if (isset($row[3]))
-                                    $model->in = date("d-m-Y", strtotime($row[2])) . " " . $row[3];
-                                if (isset($row[4]))
-                                    $model->out = date("d-m-Y", strtotime($row[2])) . " " . $row[4];
-                                $model->save(false);
-                            }
-                        }
-                    }
-                }
+							$modelG = gAttendanceTimeblock::model()->find($criteriaG);
+
+							if ($modelG != null) {
+								$i = 1;
+								while ($i <= 31) {
+									$criteriaAttendance = new CDbCriteria;
+									$criteriaAttendance->compare('parent_id', $row[1]);
+									
+									$criteriaAttendance->compare('cdate', date("Y-m-", strtotime($row[2])) . str_pad($i, 2, "0", STR_PAD_LEFT));
+									$modelAttendance = gAttendance::model()->find($criteriaAttendance);
+
+									if ($modelAttendance == null) {
+										$modelAttendanceNew = new gAttendance;
+										$modelAttendanceNew->parent_id = $row[1];
+										$modelAttendanceNew->cdate = str_pad($i, 2, "0", STR_PAD_LEFT) . date("-m-Y", strtotime(date("Y-m", strtotime($row[2])) . "-01"));
+										$r = "c" . $i;
+										$modelAttendanceNew->realpattern_id = $modelG->$r;
+										$modelAttendanceNew->save();
+									}
+									$i++;
+								}
+							}
+						}
+						
+						//IF NOT NULL or Do Read again
+						$modelN = gAttendance::model()->find($criteria);
+						if ($modelN != null) {
+							if (isset($row[3]))
+								$modelN->in = date("d-m-Y", strtotime($row[2])) . " " . $row[3];
+							if (isset($row[4]))
+								$modelN->out = date("d-m-Y", strtotime($row[2])) . " " . $row[4];
+							$modelN->save(false);
+						}
+					}
+				}
             }
 
         //$this->deleteFileAttendant();
@@ -468,7 +510,8 @@ class GAttendanceController extends Controller {
     public function actionShow() {
 
         Yii::import('ext.phpexcelreader.JPhpExcelReader');
-        $file = Yii::app()->basePath . '/../sharedocs/temporarydocuments/attendant.xls';
+        $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
+        $file = Yii::getPathOfAlias('webroot') . $folder.'/attendant.xls';
         if (!is_file($file)) {
             $this->redirect('attendBlock');
         }

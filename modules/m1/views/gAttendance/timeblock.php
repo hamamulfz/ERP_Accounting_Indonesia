@@ -5,7 +5,9 @@ $this->breadcrumbs = array(
 
 $this->menu = array(
     array('label' => 'Home', 'icon' => 'home', 'url' => array('/m1/gAttendance')),
-        //array('label'=>'Schedule Upload', 'icon'=>'calendar','url'=>array('timeBlock')),
+    //array('label' => 'Schedule Upload', 'icon' => 'calendar', 'url' => array('timeBlock')),
+    array('label' => 'Attendant Upload', 'icon' => 'user', 'url' => array('attendBlock')),
+    array('label' => 'Parameter Time Block', 'icon' => 'wrench', 'url' => array('paramTimeblock')),
 );
 
 $this->menu1 = gPerson::getTopUpdated();
@@ -58,3 +60,5 @@ if (!isset($gridDataProvider)) {
     ));
 }
 
+//echo sUser::getMyGroup() 
+?>

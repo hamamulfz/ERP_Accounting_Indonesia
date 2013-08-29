@@ -252,7 +252,7 @@ class gPermission extends BaseModel {
         if ($this->isNewRecord) {
             $model= new sNotification;
             $model->group_id = 1;
-            $model->link = 'm1/gLeave/view/id/' . $this->parent_id;
+            $model->link = 'm1/gPermission/view/id/' . $this->parent_id;
             $model->content = 'Permission. New Permission created for <read>' . $this->person->employee_name . '</read>';
             $model->photo_path = $this->person->photoPath;
             $model->save();

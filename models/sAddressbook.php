@@ -33,6 +33,7 @@ class sAddressbook extends BaseModel {
             array('category_name', 'length', 'max' => 15),
             array('complete_name', 'length', 'max' => 50),
             array('company_name, title, handphone', 'length', 'max' => 100),
+            array('handphone', 'ext.IndoHpValidator'),
             array('address', 'length', 'max' => 255),
             array('email', 'length', 'max' => 150),
             // The following rule is used by search().

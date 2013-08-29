@@ -76,27 +76,20 @@ $this->breadcrumbs = array(
 
         <br/>
 
-        <?php /*
-
           <div class="row">
           <div class="span10">
           <?php
           $this->Widget('ext.highcharts.HighchartsWidget', array(
           'options'=>array(
           'chart' => array('defaultSeriesType' => 'column'),
-          'title' => array('text' => '#Dummy DATA# P-D-M per Month ('.date("Y").')'),
+          'title' => array('text' => 'Promotion-Mutation-Demotion per Month ('.date("Y").')'),
           'xAxis' => array(
           'categories' => array('Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des')
           ),
           'yAxis' => array(
           'title' => array('text' => 'Total')
           ),
-          //'series'=>jSelectionPart::compSelectionPerMonth(),
-          'series' => array(
-          array('name' => 'Promotion', 'data' => array(1, 0, 4,5,6,7,3,5,4,5,9,10)),
-          array('name' => 'Demotion', 'data' => array(2, 6, 3,4,5,6,8,7,9,11,12,10)),
-          array('name' => 'Mutation', 'data' => array(5, 7, 3,7,4,3,2,1,2,3,2,1)),
-          ),
+          'series' => gPerson2::compEmployeePmdAll(),
           'plotOptions'=> array (
           'column'=> array (
           'dataLabels'=> array (
@@ -115,7 +108,6 @@ $this->breadcrumbs = array(
           </div>
 
           <br/>
-         */ ?>
 
         <div class="row">
             <div class="span5">

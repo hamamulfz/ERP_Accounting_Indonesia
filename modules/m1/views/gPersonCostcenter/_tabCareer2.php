@@ -38,7 +38,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 'dialogWidth' => 512, //override the value from the dialog config
                 'dialogHeight' => 530
             ),
-            'visible' => ($this->id == "gPerson")
+            'visible' => ($this->id == "gPersonCostcenter")
         ),
     ),
 ));
