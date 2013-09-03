@@ -30,11 +30,13 @@ class GEssController extends Controller {
     public function actionIndex() {
         //$this->loadId();
         $model = gPerson::model()->find('userid = ' . Yii::app()->user->id);
-
+		$month=0;
+		
         if ($model != null) {
             $id = $model->id;
             $this->render('index', array(
                 'model' => $this->loadModel($id),
+	            'month'=>$month,
             ));
         }
         else
@@ -45,27 +47,32 @@ class GEssController extends Controller {
     public function actionLeave($id = 1) {
         $this->loadId();
         $id = gPerson::model()->find('userid = ' . Yii::app()->user->id)->id;
-
+		$month=0;
+		
         $this->render('leave', array(
             'model' => $this->loadModel($id),
+            'month'=>$month,
         ));
     }
 
     public function actionPermission($id = 1) {
         $this->loadId();
         $id = gPerson::model()->find('userid = ' . Yii::app()->user->id)->id;
-
+		$month=0;
+		
         $this->render('permission', array(
             'model' => $this->loadModel($id),
+            'month'=>$month,
         ));
     }
 
-    public function actionAttendance($id = 1) {
+    public function actionAttendance($id = 1,$month=0) {
         $this->loadId();
         $id = gPerson::model()->find('userid = ' . Yii::app()->user->id)->id;
 
         $this->render('attendance', array(
             'model' => $this->loadModel($id),
+            'month'=>$month,
         ));
     }
 
@@ -76,11 +83,13 @@ class GEssController extends Controller {
     public function actionPerson($id = 1) {
         $this->loadId();
         $id = gPerson::model()->find('userid = ' . Yii::app()->user->id)->id;
+		$month=0;
         $modelOther = $this->newOther($id);
 
         $this->render('person', array(
             'model' => $this->loadModel($id),
             'modelOther' => $modelOther,
+            'month'=>$month,
         ));
     }
 
@@ -423,6 +432,35 @@ class GEssController extends Controller {
             throw new CHttpException(404, 'The requested page does not exist.');
 
         $pdf->report($model);
+
+        $pdf->Output();
+    }
+
+    public function actionSummaryAttendance($id, $month) {
+        $pdf = new attendanceDetail('P', 'mm', 'A4');
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', '', 12);
+
+        $criteria = new CDbCriteria;
+
+        $criteria->compare('parent_id', $id);
+        $criteria->addBetweenCondition('cdate', date("Y-m-d", strtotime(date("Y-m", strtotime($month . " month")) . "-01")), date("Y-m-d", strtotime("-1 day", strtotime(date("Y-m", strtotime($month + 1 . " month")) . "-01"))));
+        //$criteria->compare('cdate',$this->cdate,true);
+        //$criteria->compare('realpattern_id',$this->realpattern_id);
+        //$criteria->compare('daystatus1_id',$this->daystatus1_id);
+        //$criteria->compare('in',$this->in,true);
+        //$criteria->compare('out',$this->out,true);
+        $criteria->order = 'cdate';
+        $criteria->with = 'realpattern';
+        $criteria->select = 'CASE WHEN TIME(realpattern.in) < TIME(t.in) THEN "Late In" ELSE "" END as lateIn,
+		CASE WHEN TIME(realpattern.out) > TIME(t.out) THEN "Early Out" ELSE "" END as earlyOut, *';
+
+        $models = gAttendance::model()->findAll($criteria);
+        if ($models == null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+
+        $pdf->report($models);
 
         $pdf->Output();
     }

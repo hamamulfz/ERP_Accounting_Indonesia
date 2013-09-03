@@ -37,8 +37,30 @@ class SSmsController extends Controller {
         if (isset($_POST['sSmsout'])) {
             $model->attributes = $_POST['sSmsout'];
             $model->sender_id = sUser::model()->myGroup;
-            if ($model->save())
+            if ($model->save()) {
+				$receivers=explode(",",$model->receivergroup_tag);
+
+				$connection = Yii::app()->db;
+				$sql = "SELECT DISTINCT handphone FROM `s_addressbook` 
+					WHERE member_of regexp '^".$receivers[0]."(,|$)' 
+				";
+
+				$command = $connection->createCommand($sql);
+				$rows = $command->queryAll();
+				
+				foreach ($rows as $row) {
+					$firstnumber=explode(",",$row['handphone']);
+					
+					$connection2 = Yii::app()->db;
+					$sql = "INSERT INTO outbox (DestinationNumber, SenderID, TextDecoded, CreatorID) 
+							VALUES ('".$firstnumber[0]."', 'modem1', '".$model->message."', '".Yii::app()->name."') 
+					";
+					$connection2->createCommand($sql)->execute();
+				
+				}
+				
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
         $this->render('create', array(
             'model' => $model,

@@ -13,14 +13,14 @@
                 <td><?php
                     echo CHtml::dropDownList('expression[]', '', array(
                         '' => null,
-                        '=' => '=',
-                        '<>' => '<>',
-                        '>' => '>',
-                        '>=' => '>=',
-                        '<' => '<',
-                        '<=' => '<=',
-                        'LIKE' => 'LIKE',
-                        'IN' => 'IN',
+                        '=' => '= (Sama Dengan)',
+                        '<>' => '<> (Selain Daripada)',
+                        '>' => '> (Lebih Besar)',
+                        '>=' => '>= (Sama Dengan atau Lebih Besar Dari) ',
+                        '<' => '< (Lebih Kecil)',
+                        '<=' => '<= (Sama Dengan atau Lebih Kecil Dari)',
+                        'LIKE' => 'LIKE (Mengandung Huruf/Angka/Kata)',
+                        'IN' => 'IN (Mengandung Dua Huruf/Angka/Kata atau Lebih)',
                     ));
                     ?>
                 </td>

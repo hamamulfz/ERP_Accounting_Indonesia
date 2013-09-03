@@ -25,8 +25,8 @@ Yii::app()->getClientScript()->registerCssFile(Yii::app()->baseUrl . "/css/boots
 Yii::app()->clientScript->registerScript('sel2', "
 		$(function() {
 		$( \"#" . CHtml::activeId($model, 'year') . "\" ).spinedit({
-	    minimum: ".date('Y',strtotime('4 year ago')).",
-    	maximum: ".date('Y').",
+	    minimum: ".date('Y',strtotime('3 year ago')).",
+    	maximum: ".date('Y',strtotime('1 year ago')).",
 	    step: 1,
     	numberOfDecimals: 0,
 		});
@@ -38,6 +38,10 @@ Yii::app()->clientScript->registerScript('sel2', "
 ");
 		
 ?>
+
+<div class="page-header">
+    <h3>New Performance</h3>
+</div>
 
 <div class="row">
 
@@ -57,7 +61,8 @@ Yii::app()->clientScript->registerScript('sel2', "
 
     <?php //echo $form->textFieldRow($model, 'amount', array('class' => 'span2')); ?>
 
-    <?php echo $form->textFieldRow($model, 'pa_value', array('class' => 'span2')); ?>
+    <?php //echo $form->textFieldRow($model, 'pa_value', array('class' => 'span2','style' => 'text-transform: uppercase')); ?>
+    <?php echo $form->dropDownListRow($model, 'pa_value', array('A'=>'A','B'=>'B','C'=>'C','D'=>'D','E'=>'E'),array('class'=>'span1')); ?>
 
     <?php echo $form->textFieldRow($model, 'potential', array('class' => 'span2')); ?>
 

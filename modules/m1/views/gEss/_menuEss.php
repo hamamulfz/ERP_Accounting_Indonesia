@@ -25,6 +25,7 @@ if (isset($mEss->employee_name)) {
 
     $this->menu1 = array(
         array('label' => 'Print Leave History', 'icon' => 'print', 'url' => array('/m1/gEss/summaryLeave', "pid" => $mEss->id)),
+	    array('label' => 'Print Monthly Attendance', 'icon' => 'print', 'url' => array('/m1/gEss/summaryAttendance', 'id' => $mEss->id, 'month' => $month)),
     );
 } else {
     $this->menu4 = array(

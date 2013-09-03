@@ -31,13 +31,12 @@ $this->widget('TbGridView', array(
                 'dialogWidth' => 512, //override the value from the dialog config
                 'dialogHeight' => 530
             ),
+            'visible'=>($this->id == "gTalent"),
         ),
     ),
 ));
 ?>
 
-<div class="page-header">
-    <h3>New Potential</h3>
-</div>
 <?php
-echo $this->renderPartial('_formPotential', array('model' => $modelPotential));
+if (isset($modelPotential))
+	echo $this->renderPartial('_formPotential', array('model' => $modelPotential));

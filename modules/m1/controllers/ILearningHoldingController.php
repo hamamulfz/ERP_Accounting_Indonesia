@@ -93,7 +93,8 @@ class ILearningHoldingController extends Controller {
                 if (isset($images) && count($images) > 0) {
 
                     foreach ($images as $image => $pic) {
-                        $pic->saveAs(Yii::getPathOfAlias('webroot') . '/shareimages/hr/learning/' . $id . "/" . $pic->name);
+                        //$pic->saveAs(Yii::getPathOfAlias('webroot') . '/shareimages/hr/learning/' . $id . "/" . $pic->name);
+                        $pic->saveAs(Yii::getPathOfAlias('webroot') . '/shareimages/hr/learning/' .  $pic->name);
                     }
 
                     //change permission

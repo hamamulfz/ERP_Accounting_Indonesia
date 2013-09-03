@@ -15,7 +15,7 @@ class fPhoto extends CFormModel {
     public function rules() {
         return array(
             // username and password are required
-            array('datetime,title, description', 'required'),
+            //array('datetime,title, description', 'required'),
             array('datetime', 'date', 'format' => 'dd-MM-yyyy'),
             array('title', 'length', 'max' => 100),
             array('images', 'safe'),

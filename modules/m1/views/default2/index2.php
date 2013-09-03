@@ -11,7 +11,7 @@ $this->breadcrumbs = array(
 
     <div class="span10">
         <div class="page-header">
-            <h1>Main Dashboard II</h1>
+            <h1>Dashboard Detail</h1>
         </div>
 
         <div class="row">

@@ -23,8 +23,6 @@ $this->widget('TbGridView', array(
 ));
 ?>
 
-<div class="page-header">
-    <h3>New Performance</h3>
-</div>
 <?php
-echo $this->renderPartial('_formTarget', array('model' => $modelTarget));
+if (isset($modelTarget))
+	echo $this->renderPartial('_formTarget', array('model' => $modelTarget));

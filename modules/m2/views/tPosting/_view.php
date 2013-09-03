@@ -43,7 +43,7 @@ Yii::app()->clientScript->registerScript('myCap' . $data->id, "
 
 
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="span5">
             <h3>
                 <?php

@@ -69,8 +69,9 @@ $form = $this->beginWidget('TbActiveForm', array(
 </div>
 
 <?php
-echo $form->html5EditorRow($model, 'content', array(
-    'class' => 'span4', 'rows' => 25, 'height' => '300', 'options' => array('color' => true)));
+//echo $form->html5EditorRow($model, 'content', array(
+//    'class' => 'span4', 'rows' => 25, 'height' => '300', 'options' => array('color' => true)));
+echo $form->redactorRow($model, 'content', array('class'=>'span4', 'rows'=>15));
 ?>
 
 <div class="form-actions">

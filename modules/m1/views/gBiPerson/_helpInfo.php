@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row">
     <div class="span2">
         <h6>Sex/Gender</h6>
         <ul>

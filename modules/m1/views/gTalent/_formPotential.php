@@ -18,7 +18,11 @@ Yii::app()->clientScript->registerScript('datepicker5', "
 		");
 ?>
 
-<div class="row-fluid">
+<div class="page-header">
+    <h3>New Potential</h3>
+</div>
+
+<div class="row">
 
     <?php
     $form = $this->beginWidget('TbActiveForm', array(

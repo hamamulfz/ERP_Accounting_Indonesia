@@ -26,7 +26,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->errorSummary($model); ?>
 
 <div class="row">
-    <div class="span10">
+    <div class="span9">
         <?php /*
           <?php $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
           'legend'=>'Basic Info'
@@ -113,7 +113,7 @@ $form = $this->beginWidget('TbActiveForm', array(
     </div>
 </div>
 <div class="row">
-    <div class="span10">
+    <div class="span9">
 
         <div class="form-actions">
             <?php

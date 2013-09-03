@@ -33,13 +33,12 @@ $this->widget('TbGridView', array(
                 'dialogWidth' => 512, //override the value from the dialog config
                 'dialogHeight' => 530
             ),
+            'visible'=>($this->id == "gTalent"),
         ),
     ),
 ));
 ?>
 
-<div class="page-header">
-    <h3>New Performance</h3>
-</div>
 <?php
-echo $this->renderPartial('_formPerformance', array('model' => $modelPerformance));
+if (isset($modelPerformance))
+	echo $this->renderPartial('_formPerformance', array('model' => $modelPerformance));

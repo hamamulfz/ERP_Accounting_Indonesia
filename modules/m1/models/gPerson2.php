@@ -658,7 +658,19 @@ class gPerson2 extends BaseModel {
 						AND `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31') as 'l07', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08'
+						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30') as 'l09',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31') as 'l10',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30') as 'l11',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31') as 'l12'
 					
 				FROM `a_organization` `g` where `g`.`id` = 1
 				
@@ -688,7 +700,19 @@ class gPerson2 extends BaseModel {
 						AND `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31') as 'l07', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08'
+						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30') as 'l09',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31') as 'l10',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30') as 'l11',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31') as 'l12'
 					
 				FROM `a_organization` `g` where `g`.`id` = 1
 				
@@ -707,10 +731,10 @@ class gPerson2 extends BaseModel {
                 $_data[] = (int) $row['l06'];
                 $_data[] = (int) $row['l07'];
                 $_data[] = (int) $row['l08'];
-                //$_data[] = (int) $row['l09'];
-                //$_data[] = (int) $row['l10'];
-                //$_data[] = (int) $row['l11'];
-                //$_data[] = (int) $row['l12'];
+                $_data[] = (int) $row['l09'];
+                $_data[] = (int) $row['l10'];
+                $_data[] = (int) $row['l11'];
+                $_data[] = (int) $row['l12'];
                 $_name['name'] = $row['state'];
                 $_second['data'] = $_data;
                 $_merge[] = array_merge($_name, $_second);
@@ -955,7 +979,119 @@ class gPerson2 extends BaseModel {
 							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
 					order by `c`.`start_date` desc
 					limit 1) = ". sUser::model()->myGroup ."					
-					) as 'l08'
+					) as 'l08',
+					
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30'
+						order by `c`.`start_date` desc limit 1)) as 'l09' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l09',
+					
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31'
+						order by `c`.`start_date` desc limit 1)) as 'l10' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l10',
+					
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30'
+						order by `c`.`start_date` desc limit 1)) as 'l08' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l11',
+					
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31'
+						order by `c`.`start_date` desc limit 1)) as 'l12' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` in (3, 5)
+							and `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (3,5) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l12'
 					
 				FROM `a_organization` `g` where `g`.`id` = 1
 				
@@ -1184,7 +1320,119 @@ class gPerson2 extends BaseModel {
 							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
 					order by `c`.`start_date` desc
 					limit 1) = ". sUser::model()->myGroup ."					
-					) as 'l08'
+					) as 'l08',
+					
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30'
+						order by `c`.`start_date` desc limit 1)) as 'l09' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l09',
+					
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31'
+						order by `c`.`start_date` desc limit 1)) as 'l10' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l10',
+					
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30'
+						order by `c`.`start_date` desc limit 1)) as 'l11' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l11',
+					
+				(select 
+					COUNT((select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31'
+						order by `c`.`start_date` desc limit 1)) as 'l12' 
+				from `g_person` `a`
+				where
+					(select `c`.`status_id` AS `status_id`
+						from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id`
+							and `c`.`status_id` = 2
+							and `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31'
+						order by `c`.`start_date` desc
+					limit 1) IN (2) AND
+
+					(select 
+						`o`.`id` AS `id`
+					from
+						(`g_person_career` `c`
+						left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+					where
+						((`a`.`id` = `c`.`parent_id`)
+							and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+					order by `c`.`start_date` desc
+					limit 1) = ". sUser::model()->myGroup ."					
+					) as 'l12'
 					
 				FROM `a_organization` `g` where `g`.`id` = 1
 				
@@ -1203,10 +1451,10 @@ class gPerson2 extends BaseModel {
                 $_data[] = (int) $row['l06'];
                 $_data[] = (int) $row['l07'];
                 $_data[] = (int) $row['l08'];
-                //$_data[] = (int) $row['l09'];
-                //$_data[] = (int) $row['l10'];
-                //$_data[] = (int) $row['l11'];
-                //$_data[] = (int) $row['l12'];
+                $_data[] = (int) $row['l09'];
+                $_data[] = (int) $row['l10'];
+                $_data[] = (int) $row['l11'];
+                $_data[] = (int) $row['l12'];
                 $_name['name'] = $row['state'];
                 $_second['data'] = $_data;
                 $_merge[] = array_merge($_name, $_second);
@@ -1225,7 +1473,7 @@ class gPerson2 extends BaseModel {
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
 
-        //if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
         $connection = Yii::app()->db;
         $sql = "
 				select `o`.`id`, 'Total' as `state`,
@@ -1356,9 +1604,9 @@ class gPerson2 extends BaseModel {
             $_merge[] = array_merge($_name, $_second);
         }
 
-        //	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
-        //} else
-        //	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+        	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
 
         return $_merge;
     }
@@ -1368,7 +1616,7 @@ class gPerson2 extends BaseModel {
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
 
-        //if (!Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id)) {
         $connection = Yii::app()->db;
         $sql = "
 				select `o`.`id`, 'Total' as `state`,
@@ -1435,7 +1683,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-08-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201308`
+				) as `201308`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-09-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-09-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201309`
 
 
 
@@ -1458,7 +1714,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201306'];
             $_data[] = (int) $row['201307'];
             $_data[] = (int) $row['201308'];
-            //$_data[] = (int) $row['201309'];
+            $_data[] = (int) $row['201309'];
             //$_data[] = (int) $row['201310'];
             //$_data[] = (int) $row['201311'];
             //$_data[] = (int) $row['201312'];
@@ -1467,9 +1723,9 @@ class gPerson2 extends BaseModel {
             $_merge[] = array_merge($_name, $_second);
         }
 
-        //	Yii::app()->cache->set('employeepermonthall'.Yii::app()->user->id,$_merge,3600,$dependency);
-        //} else
-        //	$_merge=Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id);
+        	Yii::app()->cache->set('employeepermonthall'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id);
 
         return $_merge;
     }
@@ -1479,7 +1735,7 @@ class gPerson2 extends BaseModel {
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
 
-        //if (!Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('employeepermonthallage'.Yii::app()->user->id)) {
         $_age = "DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '00-%m-%d'))";
         $connection = Yii::app()->db;
         $sql = "
@@ -2076,9 +2332,9 @@ class gPerson2 extends BaseModel {
             $_merge[] = array_merge($_name, $_second);
         }
 
-        //	Yii::app()->cache->set('employeepermonthall'.Yii::app()->user->id,$_merge,3600,$dependency);
-        //} else
-        //	$_merge=Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id);
+        	Yii::app()->cache->set('employeepermonthallage'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('employeepermonthallage'.Yii::app()->user->id);
 
         return $_merge;
     }
@@ -2088,7 +2344,7 @@ class gPerson2 extends BaseModel {
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
 
-        //if (!Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('employeepermonthallgender'.Yii::app()->user->id)) {
         $connection = Yii::app()->db;
         $sql = "
 				select `o`.`id`, 'Male' as `state`,
@@ -2257,9 +2513,9 @@ class gPerson2 extends BaseModel {
             $_merge[] = array_merge($_name, $_second);
         }
 
-        //	Yii::app()->cache->set('employeepermonthall'.Yii::app()->user->id,$_merge,3600,$dependency);
-        //} else
-        //	$_merge=Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id);
+        	Yii::app()->cache->set('employeepermonthallgender'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('employeepermonthallgender'.Yii::app()->user->id);
 
         return $_merge;
     }
@@ -2269,7 +2525,7 @@ class gPerson2 extends BaseModel {
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
 
-        //if (!Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('employeepermonthallreligion'.Yii::app()->user->id)) {
         $connection = Yii::app()->db;
         $sql = "
 				select `o`.`id`, 'Islam' as `state`,
@@ -2793,9 +3049,9 @@ class gPerson2 extends BaseModel {
             $_merge[] = array_merge($_name, $_second);
         }
 
-        //	Yii::app()->cache->set('employeepermonthall'.Yii::app()->user->id,$_merge,3600,$dependency);
-        //} else
-        //	$_merge=Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id);
+        	Yii::app()->cache->set('employeepermonthallreligion'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('employeepermonthallreligion'.Yii::app()->user->id);
 
         return $_merge;
     }
@@ -3084,7 +3340,7 @@ class gPerson2 extends BaseModel {
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM h_applicant');
 
-        //if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('applicantpermonth'.Yii::app()->user->id)) {
         $connection = Yii::app()->db;
         $sql = "
 				select `o`.`id`, 'Total' as `state`,
@@ -3135,9 +3391,9 @@ class gPerson2 extends BaseModel {
             $_merge[] = array_merge($_name, $_second);
         }
 
-        //	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
-        //} else
-        //	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+        	Yii::app()->cache->set('applicantpermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('applicantpermonth'.Yii::app()->user->id);
 
         return $_merge;
     }
@@ -3147,7 +3403,7 @@ class gPerson2 extends BaseModel {
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM h_vacancy');
 
-        //if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('vacancypermonth'.Yii::app()->user->id)) {
         $connection = Yii::app()->db;
         $sql = "
 				select `o`.`id`, 'Opening Jobs' as `state`,
@@ -3235,9 +3491,9 @@ class gPerson2 extends BaseModel {
             $_merge[] = array_merge($_name, $_second);
         }
 
-        //	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
-        //} else
-        //	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+        	Yii::app()->cache->set('vacancypermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('vacancypermonth'.Yii::app()->user->id);
 
         return $_merge;
     }
@@ -3248,7 +3504,7 @@ class gPerson2 extends BaseModel {
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM i_learning_sch');
 
-        //if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('learningclasspermonth'.Yii::app()->user->id)) {
         $connection = Yii::app()->db;
         $sql = "
 				select `o`.`id`, 'Class' as `state`,
@@ -3353,9 +3609,9 @@ class gPerson2 extends BaseModel {
             $_merge[] = array_merge($_name, $_second);
         }
 
-        //	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
-        //} else
-        //	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+        	Yii::app()->cache->set('learningclasspermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('learningclasspermonth'.Yii::app()->user->id);
 
         return $_merge;
     }
@@ -3365,7 +3621,7 @@ class gPerson2 extends BaseModel {
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM i_learning_sch');
 
-        //if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('learninghourspermonth'.Yii::app()->user->id)) {
         $connection = Yii::app()->db;
         $sql = "
 				select `o`.`id`, 'Mandays' as `state`,
@@ -3386,7 +3642,7 @@ class gPerson2 extends BaseModel {
 				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
 					<= '" . date("Y") . "08') as `201308`,
 				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "08') as `201309`,
+					<= '" . date("Y") . "09') as `201309`,
 				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
 					<= '" . date("Y") . "08') as `201310`,
 				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
@@ -3422,9 +3678,9 @@ class gPerson2 extends BaseModel {
             $_merge[] = array_merge($_name, $_second);
         }
 
-        //	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
-        //} else
-        //	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+        	Yii::app()->cache->set('learninghourspermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('learninghourspermonth'.Yii::app()->user->id);
 
         return $_merge;
     }

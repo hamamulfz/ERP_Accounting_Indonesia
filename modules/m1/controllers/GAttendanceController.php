@@ -264,12 +264,12 @@ class GAttendanceController extends Controller {
 
     public function actionTimeblock($flash = "off") {
 
-        $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
-        if (!is_dir(Yii::getPathOfAlias('webroot') . $folder))
-	        mkdir(Yii::getPathOfAlias('webroot') . '/sharedocs/temporarydocuments/' .sUser::getMyGroup() );
+        $this->createFolder();
 
         Yii::import('ext.phpexcelreader.JPhpExcelReader');
+        $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
         $file = Yii::getPathOfAlias('webroot') . $folder.'/schedule.xls';
+
         if (is_file($file)) {
             $this->layout = '//layouts/column1';
 
@@ -288,45 +288,76 @@ class GAttendanceController extends Controller {
                                 }
                             }
                         } else {
-                            foreach ($headers as $i => $header) {
-                                if ($header == "parent_id") {
-                                    $model = gPerson::model()->findByPk($row[$i + 1]);
-                                    if ($model != null) {
-                                        $inside[$header] = $model->employee_name . " (" . $row[$i + 1] . ")";
-                                    }
-                                    else
-                                        $inside[$header] = $row[$i + 1];
-                                } elseif (substr($header, 0, 1) == "c") {
-                                    $mod = gParamTimeblock::model()->findByPk($row[$i + 1]);
-                                    if ($mod != null) {
-                                        $inside[$header] = $row[$i + 1];
-                                    }
-                                    else
-                                        $inside[$header] = "??";
-                                } else {
-                                    $inside[$header] = $row[$i + 1];
-                                }
-                            }
-                            $all[] = $inside;
+                        	if ($headers !=null) {
+								foreach ($headers as $i => $header) {
+									if ($header == "parent_id") {
+										$model = gPerson::model()->findByPk($row[$i + 1]);
+										if ($model != null) {
+											$inside[$header] = $model->employee_name . " (" . $row[$i + 1] . ")";
+										}
+										else
+											$inside[$header] = $row[$i + 1];
+									} elseif (substr($header, 0, 1) == "c") {
+										$mod = gParamTimeblock::model()->findByPk($row[$i + 1]);
+										if ($mod != null) {
+											$inside[$header] = $row[$i + 1];
+										}
+										else
+											$inside[$header] = "??";
+									} else {
+										$inside[$header] = $row[$i + 1];
+									}
+								}
+								$all[] = $inside;
+							}
                         }
                     }
                 }
             }
 
-            $gridDataProvider = new CArrayDataProvider($all, array('pagination' => false));
-            $this->render('timeblock', array(
-                'headers' => $headers,
-                'gridDataProvider' => $gridDataProvider,
-            ));
+            if ($headers !=null) {
+	            $gridDataProvider = new CArrayDataProvider($all, array('pagination' => false));
+				$this->render('timeblock', array(
+					'headers' => $headers,
+					'gridDataProvider' => $gridDataProvider,
+	            ));
+	        } //else
+            //    Yii::app()->user->setFlash('error', '<strong>Error!</strong> Invalid schedule.xls format');
+		    //    $this->deleteFile();
+			//	$this->render('timeblock', array(
+	        //    ));
+		        
         } else {
-            if ($flash == "on")
+            if ($flash == "on") {
                 Yii::app()->user->setFlash('success', '<strong>Great!</strong> Migration Data from Excel to Schedule Tabel finished..');
-
+			}
+			
             $this->render('timeblock', array());
         }
     }
 
+    public function actionTimeblockUpload() {
+        $this->createFolder();
+
+        Yii::import("ext.EAjaxUpload.qqFileUploader");
+
+        $folder = 'sharedocs/temporarydocuments/'.sUser::getMyGroup().'/';  // folder for uploaded files
+
+        $allowedExtensions = array("xls");  //array("jpg","jpeg","gif","exe","mov" and etc...
+        $sizeLimit = 5 * 1024 * 1024; // maximum file size in bytes
+        $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+        $result = $uploader->handleUpload($folder);
+        $return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+
+        $fileSize = filesize($folder . $result['filename']); //GETTING FILE SIZE
+        $fileName = $result['filename']; //GETTING FILE NAME
+
+        echo $return; // it's array
+    }
+
     public function actionTimeblockSave() {
+
+        $this->createFolder();
 
         Yii::import('ext.phpexcelreader.JPhpExcelReader');
         $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
@@ -380,6 +411,13 @@ class GAttendanceController extends Controller {
         $this->redirect(array('timeBlock'));
     }
 
+    public function createFolder() {
+
+        $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
+        if (!is_dir(Yii::getPathOfAlias('webroot') . $folder))
+	        mkdir(Yii::getPathOfAlias('webroot') . '/sharedocs/temporarydocuments/' .sUser::getMyGroup() );
+	}
+	
     private function deleteFile() {
         $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
         $file = Yii::getPathOfAlias('webroot') . $folder.'/schedule.xls';
@@ -394,7 +432,16 @@ class GAttendanceController extends Controller {
             unlink($file);
     }
 
-    public function actionTimeblockUpload() {
+    public function actionAttendBlock() {
+
+        $this->render('attendblock', array());
+    }
+
+    public function actionAttendblockUpload() {
+
+        $this->createFolder();
+        $this->deleteFileAttendant();
+
         Yii::import("ext.EAjaxUpload.qqFileUploader");
 
         $folder = 'sharedocs/temporarydocuments/'.sUser::getMyGroup().'/';  // folder for uploaded files
@@ -408,50 +455,22 @@ class GAttendanceController extends Controller {
         $fileSize = filesize($folder . $result['filename']); //GETTING FILE SIZE
         $fileName = $result['filename']; //GETTING FILE NAME
 
-        echo $return; // it's array
-    }
-
-    public function actionAttendBlock() {
-
-        $this->render('attendblock', array());
-    }
-
-    public function actionAttendblockUpload() {
-        Yii::import("ext.EAjaxUpload.qqFileUploader");
-
-        $this->deleteFileAttendant();
-
-        $folder = '/sharedocs/temporarydocuments/'.sUser::getMyGroup();  // folder for uploaded files
-        $file = Yii::getPathOfAlias('webroot') . $folder.'/schedule.xls';
-        $allowedExtensions = array("xls");  //array("jpg","jpeg","gif","exe","mov" and etc...
-        $sizeLimit = 5 * 1024 * 1024; // maximum file size in bytes
-        $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-        $result = $uploader->handleUpload($folder);
-        $return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
-
-        $fileSize = filesize($folder . $result['filename']); //GETTING FILE SIZE
-        $fileName = $result['filename']; //GETTING FILE NAME
+        $file = Yii::getPathOfAlias('webroot') .'/'. $folder.'attendant.xls';
 
         Yii::import('ext.phpexcelreader.JPhpExcelReader');
-        $file = Yii::getPathOfAlias('webroot') . $folder.'/attendant.xls';
-        if (!is_file($file)) {
-            $this->redirect('attendBlock');
-        }
-
         $reader = new JPhpExcelReader($file);
 
-        foreach ($reader->sheets as $k => $data)
+	    foreach ($reader->sheets as $k => $data) {
             if ($k == 0) { 
 				foreach ($data['cells'] as $r => $row) {
 					if ($r == 1) {
 						//do nothing
 					} else {
-						$model = array();
+						//$model = array();
 						$criteria = new CDbCriteria;
 						if (isset($row[1])) {
-							$criteria->compare('parent_id', $row[1]);
-						}
-						else
+							$criteria->compare('parent_id', (int)$row[1]);
+						} else
 							$criteria->compare('parent_id', 'empty'); //force N.A.
 							
 						if (isset($row[2]))
@@ -462,7 +481,7 @@ class GAttendanceController extends Controller {
 						//IF NULL Do Transfer
 						if ($model == null) {
 							$criteriaG = new CDbCriteria;
-							$criteriaG->compare('parent_id', $row[1]);
+							$criteriaG->compare('parent_id', (int)$row[1]);
 							$criteriaG->compare('begin_date', date("Ym", strtotime($row[2])));
 
 							$modelG = gAttendanceTimeblock::model()->find($criteriaG);
@@ -476,19 +495,19 @@ class GAttendanceController extends Controller {
 									$criteriaAttendance->compare('cdate', date("Y-m-", strtotime($row[2])) . str_pad($i, 2, "0", STR_PAD_LEFT));
 									$modelAttendance = gAttendance::model()->find($criteriaAttendance);
 
-									if ($modelAttendance == null) {
+									//if ($modelAttendance == null) {
 										$modelAttendanceNew = new gAttendance;
 										$modelAttendanceNew->parent_id = $row[1];
 										$modelAttendanceNew->cdate = str_pad($i, 2, "0", STR_PAD_LEFT) . date("-m-Y", strtotime(date("Y-m", strtotime($row[2])) . "-01"));
 										$r = "c" . $i;
 										$modelAttendanceNew->realpattern_id = $modelG->$r;
-										$modelAttendanceNew->save();
-									}
+										$modelAttendanceNew->save(false);
+									//}
 									$i++;
 								}
 							}
 						}
-						
+												
 						//IF NOT NULL or Do Read again
 						$modelN = gAttendance::model()->find($criteria);
 						if ($modelN != null) {
@@ -498,10 +517,10 @@ class GAttendanceController extends Controller {
 								$modelN->out = date("d-m-Y", strtotime($row[2])) . " " . $row[4];
 							$modelN->save(false);
 						}
-					}
+					} 
 				}
             }
-
+		}
         //$this->deleteFileAttendant();
 
         echo $return; // it's array
@@ -521,10 +540,12 @@ class GAttendanceController extends Controller {
         foreach ($reader->sheets as $k => $data)
             if ($k == 0) { {
                     foreach ($data['cells'] as $r => $row) {
-                        if ($r == 8) {
-                            //echo date("Y-m-d",strtotime($row[2]))." ".$row[3];
-                            echo print_r($row);
-                        }
+                        //if ($r == 8) {
+                        	echo $row[2];
+                            //echo $row[1]." | ".date("d-m-Y",strtotime($row[2]))." ".$row[3]." | ".date("d-m-Y",strtotime($row[2]))." ".$row[4];
+                            //echo print_r($row);
+                            echo "<br/>";
+                        //}
                     }
                 }
             }
@@ -632,5 +653,5 @@ class GAttendanceController extends Controller {
         else
             return false;
     }
-
+    
 }

@@ -40,9 +40,6 @@ $this->widget('TbDetailView', array(
 ?>
 
 
-<div class="page-header">
-    <h3>New Participant</h3>
-</div>
 
 <?php if ($model->partCount() == 15 || $model->status_id != 1 || strtotime($model->schedule_date) < time()) { ?>
     <div class="alert">
@@ -52,17 +49,28 @@ $this->widget('TbDetailView', array(
     <?php
 }
 else
-    echo $this->renderPartial('_formParticipant', array('model' => $modelParticipant));
+	if ($model->category_id == 1) {
+	    echo $this->renderPartial('_formParticipant', array('model' => $modelParticipant));
+
+		$this->widget('bootstrap.widgets.TbTabs', array(
+			'type' => 'tabs', // 'tabs' or 'pills'
+			'id' => 'tabs',
+			'tabs' => array(
+				array('id' => 'tab1', 'label' => 'Detail', 'content' => $this->renderPartial("_tabViewDetail", array("model" => $model), true), 'active' => true),
+			),
+		));
+
+	} else {
+	    echo $this->renderPartial('_formEmployee', array('model' => $modelParticipant));
+
+		$this->widget('bootstrap.widgets.TbTabs', array(
+			'type' => 'tabs', // 'tabs' or 'pills'
+			'id' => 'tabs',
+			'tabs' => array(
+				array('id' => 'tab1', 'label' => 'Detail', 'content' => $this->renderPartial("_tabViewDetailEmp", array("model" => $model), true), 'active' => true),
+			),
+		));
+	}
 ?>
-
-
-<?php
-$this->widget('bootstrap.widgets.TbTabs', array(
-    'type' => 'tabs', // 'tabs' or 'pills'
-    'id' => 'tabs',
-    'tabs' => array(
-        array('id' => 'tab1', 'label' => 'Detail', 'content' => $this->renderPartial("_tabViewDetail", array("model" => $model), true), 'active' => true),
-    ),
-));
 
 

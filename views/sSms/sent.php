@@ -18,6 +18,11 @@ $this->widget('TbGridView', array(
     //'filter' => $model,
     'enableSorting'=>false,
     'columns' => array(
+    	array(
+    		'header'=>'Time',
+    		'type'=>'raw',
+    		'value'=> 'date("d-m-Y h:i",$data->created_date)',
+    	),
         'receivergroup_tag',
         //'modem',
         array(
@@ -29,11 +34,6 @@ $this->widget('TbGridView', array(
     		'header'=>'Sender',
     		'type'=>'raw',
     		'value'=> '$data->created->username',
-    	),
-    	array(
-    		'header'=>'Time',
-    		'type'=>'raw',
-    		'value'=> 'waktu::nicetime($data->created_date)',
     	),
 		/*
 		  'approved_id',

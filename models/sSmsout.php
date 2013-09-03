@@ -51,6 +51,7 @@ class sSmsout extends BaseModel {
         return array(
             'sender' => array(self::BELONGS_TO, 'aOrganization', 'sender_id'),
             'created' => array(self::BELONGS_TO, 'sUser', 'created_by'),
+            'recepient' => array(self::HAS_MANY, 'Sentitems', 'id'),
         );
     }
 

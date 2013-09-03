@@ -94,6 +94,9 @@ class gTalentPerformance extends BaseModel {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'pagination' => false,
+            'sort'=>array(
+            	'defaultOrder'=>'year DESC',
+            )
         ));
     }
 

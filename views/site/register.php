@@ -22,6 +22,7 @@ $this->menu = array(
 $form = $this->beginWidget('TbActiveForm', array(
     'id' => 's-user-registration-form',
     'enableAjaxValidation' => false,
+    'type'=>'horizontal',
         ));
 ?>
 
@@ -29,8 +30,8 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->textFieldRow($model, 'username', array('class' => 'span4', 'hint' => 'type your desire username')); ?>
 <?php echo $form->textFieldRow($model, 'activation_code', array('class' => 'span4', 'hint' => 'ask your HR Manager for your activation code')); ?>
-<?php echo $form->passwordFieldRow($model, 'password', array('class' => 'span3')); ?>
-<?php echo $form->passwordFieldRow($model, 'password_repeat', array('class' => 'span3')); ?>
+<?php echo $form->passwordFieldRow($model, 'password', array('class' => 'span3', 'hint' => 'input your password and do not forget')); ?>
+<?php echo $form->passwordFieldRow($model, 'password_repeat', array('class' => 'span3', 'hint' => 'input your password once again')); ?>
 
 <?php /*
   <?php if (extension_loaded('gd')): ?>

@@ -57,6 +57,7 @@ class jSelectionPart extends BaseModel {
         return array(
             'getparent' => array(self::BELONGS_TO, 'jSelection', 'parent_id'),
             'applicant' => array(self::BELONGS_TO, 'hApplicant', 'applicant_id'),
+            'employee' => array(self::BELONGS_TO, 'gPerson', 'applicant_id'),
             'flow' => array(self::BELONGS_TO, 'sParameter', array('flow_id' => 'code'), 'condition' => 'type = \'cTrainingRegister\''),
             'company' => array(self::BELONGS_TO, 'aOrganization', 'company_id'),
             'department' => array(self::BELONGS_TO, 'aOrganization', 'department_id'),

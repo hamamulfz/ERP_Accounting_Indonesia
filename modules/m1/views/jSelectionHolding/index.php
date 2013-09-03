@@ -15,7 +15,7 @@ $this->menu5 = array('Selection Holding');
 <div class="page-header">
     <h1>
         <i class="icon-fa-tasks"></i>
-        Selection Holding
+        Selection Schedule
     </h1>
 </div>
 

@@ -198,6 +198,7 @@ class SiteController extends Controller {
                 $command2 = $connection->createCommand($sql2);
                 $command2->execute();
                 $cekValidationCode->userid = $model->id;
+                $cekValidationCode->activation_expire = time(); //set now and expire automatically
                 $cekValidationCode->save(false);
                 Yii::app()->user->setFlash('success', '<strong>Your Registration process is succesfull. Please, login with your given username and password');
                 $this->redirect(array('site/login2'));

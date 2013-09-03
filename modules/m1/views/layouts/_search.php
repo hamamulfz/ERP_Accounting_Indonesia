@@ -16,10 +16,11 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?php
 
 $model->employee_name = null;
+//$test=3492;
 $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
     'model' => $model,
     'attribute' => 'employee_name',
-    'source' => $this->createUrl('/m1/gPerson/personAutoComplete'),
+    'source' => $this->createUrl('/m1/gPerson/personAutoCompletePhoto'),
     'options' => array(
         'minLength' => '2',
         'focus' => 'js:function( event, ui ) {
@@ -27,6 +28,8 @@ $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
 					return false;
 					}',
         'select' => 'js:function( event, ui ) {
+					//window.location = "'.CHtml::normalizeUrl(array("gPerson/view","id"=>3492)).'";
+					//window.location = "test"+ui.item.id;
 					$("#searchForm").submit();
 					return false;
 					}',
@@ -37,6 +40,8 @@ $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
         'prepend' => '<i class="icon-search"></i>',
     ),
 ));
+
+
 ?>
 
 

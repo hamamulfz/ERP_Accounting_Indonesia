@@ -46,7 +46,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <br/>
 <br/>
 
-<?php echo $form->textAreaRow($model, 'message', array('maxlength' => 160, 'class' => 'span9', 'rows' => 10)); ?>
+<?php echo $form->textAreaRow($model, 'message', array('maxlength' => 767, 'class' => 'span9', 'rows' => 10)); ?>
 
 <div class="form-actions">
     <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Send', array('class' => 'btn', 'type' => 'submit')); ?>

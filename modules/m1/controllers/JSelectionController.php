@@ -105,14 +105,41 @@ class JSelectionController extends Controller {
         Yii::app()->end();
     }
 
-    public function actionPersonAutoCompletePhoto() { //KELUAR ASAL UNIT///TO.DO
+    public function actionEmployeeAutoCompletePhoto() {
+        $res = array();
+        if (isset($_GET['term'])) {
+            if (Yii::app()->user->name != "admin") {
+                $qtxt = 'SELECT a.employee_name as label, c_pathfoto as photo, a.id as id FROM g_person a
+			WHERE a.employee_name LIKE :name AND' .
+                        '((select c.company_id from g_person_career c WHERE a.id=c.parent_id AND c.status_id IN (' .
+                        implode(",", Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) .
+                        ') ORDER BY c.start_date DESC LIMIT 1) IN (' .
+                        implode(",", sUser::model()->myGroupArray) . ') OR ' .
+                        '(select c2.company_id from g_person_career2 c2 WHERE a.id=c2.parent_id AND c2.company_id IN (' .
+                        implode(",", sUser::model()->myGroupArray) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
+                        implode(",", sUser::model()->myGroupArray) . ')) ' .
+                        'ORDER BY a.employee_name LIMIT 20';
+            } else {
+                $qtxt = "SELECT employee_name as label, c_pathfoto as photo, id FROM g_person 
+			WHERE employee_name LIKE :name 
+			ORDER BY employee_name LIMIT 20";
+            }
+            $command = Yii::app()->db->createCommand($qtxt);
+            $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
+            $res = $command->queryAll();
+        }
+        echo CJSON::encode($res);
+    }
+
+
+    public function actionPersonAutoCompletePhoto() { 
         $res = array();
         if (isset($_GET['term'])) {
             $qtxt = "SELECT applicant_name as label, c_pathfoto as photo, id, 
 			CONCAT(DATE_FORMAT(birth_date,'%d-%m-%Y'),' ; ',left(address1,30)) as detail 
 			FROM h_applicant 
 			WHERE applicant_name LIKE :name 
-			ORDER BY applicant_name LIMIT 20";
+			ORDER BY updated_date DESC, applicant_name LIMIT 20";
 
             $command = Yii::app()->db->createCommand($qtxt);
             $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);

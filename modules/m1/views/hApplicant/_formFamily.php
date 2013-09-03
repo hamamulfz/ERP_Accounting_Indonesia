@@ -20,8 +20,8 @@ $form = $this->beginWidget('TbActiveForm', array(
         ));
 ?>
 
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="span7">
         <?php echo $form->errorSummary($model); ?>
 
         <?php echo $form->textFieldRow($model, 'f_name', array()); ?>

@@ -18,6 +18,11 @@ $this->widget('TbGridView', array(
     //'filter' => $model,
     'enableSorting'=>false,
     'columns' => array(
+    	array(
+    		'header'=>'Time',
+    		'type'=>'raw',
+    		'value'=> 'date("d-m-Y h:i",$data->created_date)',
+    	),
         'sender_number',
         //'modem',
         array(
@@ -25,11 +30,6 @@ $this->widget('TbGridView', array(
             'type' => 'raw',
             'value' => 'CHtml::link($data->message,Yii::app()->createUrl("/sSmsout/view",array("id"=>$data->id)))'
         ),
-    	array(
-    		'header'=>'Time',
-    		'type'=>'raw',
-    		'value'=> 'waktu::nicetime($data->created_date)',
-    	),
 		/*
 		  'approved_id',
 		 */

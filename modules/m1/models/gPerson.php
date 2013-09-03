@@ -718,6 +718,19 @@ class gPerson extends BaseModel {
             return $_value->department_id;
     }
 
+    public function mCareerDate() {
+        $criteria = new CDbCriteria;
+        $criteria->compare('parent_id', $this->id);
+        $criteria->addInCondition('status_id', Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY);
+        $criteria->order = 'start_date DESC';
+        $_value = gPersonCareer::model()->find($criteria);
+        if ($_value == null) {
+            return null;
+        }
+        else
+            return $_value->start_date;
+    }
+
     public function mStatus() {
         $criteria = new CDbCriteria;
         $criteria->compare('parent_id', $this->id);
@@ -995,6 +1008,29 @@ class gPerson extends BaseModel {
         ));
     }
 
+    public function getNewPromotionAll($periode) {
+		if ($periode ==null)
+			$periode = date("Ym");
+
+        $criteria = new CDbCriteria;
+
+        //$criteria1=new CDbCriteria;
+
+        $criteria->condition =
+                '(select s.status_id from g_person_status s WHERE t.id=s.parent_id ORDER BY s.start_date DESC LIMIT 1) NOT IN 
+		(' . implode(",", Yii::app()->getModule("m1")->PARAM_RESIGN_ARRAY) . ') AND ' .
+                '(select concat(left(a.start_date,4),mid(a.start_date,6,2)) from g_person_career a 
+			WHERE t.id=a.parent_id AND status_id IN (5) ORDER BY a.start_date DESC LIMIT 1) = ' . $periode;
+
+
+        //$criteria->mergeWith($criteria1);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination'=>false
+        ));
+    }
+
     public function getNewMutation() {
         $criteria = new CDbCriteria;
 
@@ -1013,6 +1049,21 @@ class gPerson extends BaseModel {
 
 
         //$criteria->mergeWith($criteria1);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+    public function getNewMutationAll($periode) {
+		if ($periode ==null)
+			$periode = date("Ym");
+        $criteria = new CDbCriteria;
+        $criteria->condition =
+                '(select s.status_id from g_person_status s WHERE t.id=s.parent_id ORDER BY s.start_date DESC LIMIT 1) NOT IN 
+		(' . implode(",", Yii::app()->getModule("m1")->PARAM_RESIGN_ARRAY) . ') AND ' .
+                '(select concat(left(a.start_date,4),mid(a.start_date,6,2)) from g_person_career a 
+			WHERE t.id=a.parent_id AND status_id IN (3,4) ORDER BY a.start_date DESC LIMIT 1) = ' . $periode;
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

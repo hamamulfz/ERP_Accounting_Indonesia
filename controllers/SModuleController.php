@@ -11,7 +11,7 @@ class SModuleController extends Controller {
         if (isset($_POST['sUserModule'])) {
             $modelUserModule->attributes = $_POST['sUserModule'];
             $modelUserModule->s_module_id = $id;
-            $modelUserModule->save();
+            $modelUserModule->save(false);
             $this->refresh();
         }
         $this->render('view', array(

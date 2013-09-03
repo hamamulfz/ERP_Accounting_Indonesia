@@ -556,4 +556,34 @@ class HApplicantController extends Controller {
         }
     }
 
+
+    public function actionViewEmp($id) {
+        $model = $this->loadModelEmp($id);
+
+        $this->render('viewEmp', array(
+            'model' => $model,
+        ));
+    }
+    
+    public function loadModelEmp($id) {
+        $criteria = new CDbCriteria;
+
+        if (Yii::app()->user->name != "admin") {
+            $criteria->condition = '(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' .
+                    implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) .
+                    ') ORDER BY c.start_date DESC LIMIT 1) IN (' .
+                    implode(",", sUser::model()->myGroupArray) . ') OR ' .
+                    '(select c2.company_id from g_person_career2 c2 WHERE t.id=c2.parent_id AND c2.company_id IN (' .
+                    implode(",", sUser::model()->myGroupArray) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
+                    implode(",", sUser::model()->myGroupArray) . ')';
+        }
+
+        $model = gPerson::model()->findByPk((int) $id, $criteria);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
+
+
+
 }

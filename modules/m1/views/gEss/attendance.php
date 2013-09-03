@@ -1,5 +1,5 @@
 <?php
-$this->renderPartial('_menuEss', array('model' => $model));
+$this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
 ?>
 
 
@@ -11,9 +11,22 @@ $this->renderPartial('_menuEss', array('model' => $model));
 </div>
 
 <?php
+$this->widget('bootstrap.widgets.TbMenu', array(
+    'type' => 'pills', // '', 'tabs', 'pills' (or 'list')
+    'stacked' => false, // whether this is a stacked menu
+    'items' => array(
+        array('label' => '<< Previous Month', 'url' => Yii::app()->createUrl("/m1/gEss/attendance", array("id" => $model->id, "month" => $month - 1))),
+        array('label' => date("Ym", strtotime(date("Y-m", strtotime($month . " month")) . "-01")),
+            'url' => Yii::app()->createUrl("/m1/gEss/attendance", array("id" => $model->id, "month" => $month))),
+        array('label' => 'Next Month >>', 'url' => Yii::app()->createUrl("/m1/gEss/attendance", array("id" => $model->id, "month" => $month + 1))),
+    ),
+));
+?>
+
+<?php
 $this->widget('bootstrap.widgets.TbGridView', array(
     'id' => 'cpersonalia-Attendance-grid',
-    'dataProvider' => gAttendance::model()->search((int) $model->id, 0),
+    'dataProvider' => gAttendance::model()->search((int) $model->id, $month),
     'template' => '{items}',
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
     'template' => '{summary}{items}{pager}',

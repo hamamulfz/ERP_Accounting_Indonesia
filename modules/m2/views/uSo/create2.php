@@ -13,7 +13,7 @@
     echo "<h3>Header</h3>";
     echo $form->errorSummary($sla);
     ?>
-    <div class="row-fluid">
+    <div class="row">
         <div class="span4">
             <?php
             echo $form->labelEx($sla, 'customer_id');

@@ -7,7 +7,7 @@ $this->beginWidget('bootstrap.widgets.TbBox', array(
 ));
 ?>
 
-<div class="row-fluid">
+<div class="row">
     <div class="span4">
         <h3>
             <?php

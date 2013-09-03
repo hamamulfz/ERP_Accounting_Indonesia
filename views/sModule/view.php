@@ -119,7 +119,7 @@ $this->menu4 = sModule::getTopOther();
         ?>
 
 
-        <?php //echo $form->textField($modelUserModule, 's_user_id'); ?>
+        <?php echo $form->hiddenField($modelUserModule, 's_user_id'); ?>
         <?php echo $form->textFieldRow($modelUserModule, 's_user_name'); ?>
 
         <?php //echo $form->dropDownListRow($modelUserModule,'s_matrix_id', sMatrix::items('sMatrix'),array('class'=>'span3'));  ?>

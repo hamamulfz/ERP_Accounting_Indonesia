@@ -36,6 +36,10 @@ Yii::app()->clientScript->registerScript('datepicker', "
 		");
 ?>
 
+<div class="page-header">
+    <h3>New Participant</h3>
+</div>
+
 
 <?php
 $form = $this->beginWidget('TbActiveForm', array(

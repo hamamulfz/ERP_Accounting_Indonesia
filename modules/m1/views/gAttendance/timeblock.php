@@ -17,7 +17,7 @@ $this->menu2 = gPerson::getTopCreated();
 <div class="page-header">
     <h1>
         <i class="icon-fa-key"></i>
-        Attendance Schedule Import
+        Schedule Import
     </h1>
 </div>
 

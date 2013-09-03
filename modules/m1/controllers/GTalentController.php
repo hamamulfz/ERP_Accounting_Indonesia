@@ -92,6 +92,7 @@ class GTalentController extends Controller {
         if (isset($_POST['gTalentPerformance'])) {
             $model->attributes = $_POST['gTalentPerformance'];
             $model->parent_id = $id;
+            //$model->pa_value = strtoupper($model->pa_value);
             if ($model->save())
                 $this->redirect(array('view', 'id' => $id));
         }

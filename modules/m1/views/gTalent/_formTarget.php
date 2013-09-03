@@ -4,6 +4,10 @@
 /* @var $form CActiveForm */
 ?>
 
+<div class="page-header">
+    <h3>New Target Setting</h3>
+</div>
+
 <?php
 $form = $this->beginWidget('TbActiveForm', array(
     'id' => 'g-performance-form',
