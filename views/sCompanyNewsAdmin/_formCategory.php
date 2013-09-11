@@ -12,6 +12,8 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->textFieldRow($model, 'category_name', array('class' => 'span3')); ?>
 
+<?php echo $form->textAreaRow($model, 'category_description', array('class' => 'span5','rows'=>3)); ?>
+
 <div class="form-actions">
     <?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>

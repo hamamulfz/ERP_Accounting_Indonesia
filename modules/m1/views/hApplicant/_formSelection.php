@@ -50,10 +50,10 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->dropDownListRow($model, 'workflow_result_id', array()); ?>
 
 <?php //echo $form->dropDownListRow($model,'workflow_id',sParameter::items('cSelectionProcess')); ?>
-<?php echo $form->textFieldRow($model, 'assestment_date'); ?>
+<?php echo $form->textFieldRow($model, 'assessment_date'); ?>
 <?php echo $form->textFieldRow($model, 'workflow_by', array('class' => 'span3')); ?>
 <?php //echo $form->dropDownListRow($model,'workflow_result_id',sParameter::items('cSelectionResult')); ?>
-<?php echo $form->textAreaRow($model, 'assestment_summary', array('rows' => 4, 'class' => 'span4')); ?>
+<?php echo $form->textAreaRow($model, 'assessment_summary', array('rows' => 4, 'class' => 'span4')); ?>
 <?php echo $form->textAreaRow($model, 'development_area', array('rows' => 4, 'class' => 'span4')); ?>
 
 <div class="form-actions">

@@ -1,4 +1,6 @@
 <?php
+Yii::app()->getClientScript()->registerCoreScript('jquery.ui');
+
 Yii::app()->clientScript->registerScript('autocomplet', "
 		$(function() {
 		$( \"#" . CHtml::activeId($model, 'default_group_name') . "\" ).autocomplete({

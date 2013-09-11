@@ -32,57 +32,57 @@ class IndoHpValidator extends CValidator
 		}		
 
 		//between 10 to 12 digits
-	    if (!preg_match('/^[0-9]{10,12}$/',$value)) {
-	        $message=Yii::t('yii','{attribute} number should contain between 10 to 12 digits');
+	    if (!preg_match('/^[0-9]{9,12}$/',$value)) {
+	        $message=Yii::t('yii','{attribute} number should contain between 9 to 12 digits');
 			$this->addError($object,$attribute,$message);
 	    }
 
-		//should start from 0
-		//if (!preg_match('/^08[0-9]{9,10}$/',$value)) {
-	    //    $message=Yii::t('yii','{attribute} should start with 08');
-		//	$this->addError($object,$attribute,$message);
-	    //}
+		//should start from 8
+		if (!preg_match('/^8[0-9]{8,11}$/',$value)) {
+	        $message=Yii::t('yii','{attribute} should start with 8');
+			$this->addError($object,$attribute,$message);
+	    }
 	    	    
 	    //Check Prefix
 	    //$tnexp[1] =  '/^02079460[0-9]{3}$/';
 
-		$tnexp[0] =  '/^0811[0-9]{8,10}$/';	//KartuHALO	Telkomsel
-		$tnexp[1] =  '/^0812[0-9]{8,10}$/';	//	SimPATI, KartuHALO	Telkomsel
-		$tnexp[2] =  '/^0813[0-9]{8,10}$/';	//	SimPATI, KartuHALO	Telkomsel
-		$tnexp[3] =  '/^0814[0-9]{8,10}$/';	//	Indosat 3,5G Broadband	Indosat (IndosatM2)
-		$tnexp[4] =  '/^0815[0-9]{8,10}$/';	//	Mentari, Matrix	Indosat
-		$tnexp[5] =  '/^0816[0-9]{8,10}$/';	//	Mentari, Matrix	Indosat
-		$tnexp[6] =  '/^0817[0-9]{8,10}$/';	//	XL Prabayar, XL Pascabayar	XL Axiata
-		$tnexp[7] =  '/^0818[0-9]{8,10}$/';	//	XL Prabayar, XL Pascabayar	XL Axiata
-		$tnexp[8] =  '/^0819[0-9]{8,10}$/';	//	XL Prabayar, XL Pascabayar	XL Axiata
-		$tnexp[9] =  '/^0821[0-9]{8,10}$/';	//	SimPATI Freedom	Telkomsel
-		$tnexp[10] =  '/^0822[0-9]{8,10}$/';	//	SimPATI (Kartu Facebook)	Telkomsel
-		$tnexp[11] =  '/^0823[0-9]{8,10}$/';	//	Kartu As[1]	Telkomsel
-		$tnexp[12] =  '/^0828[0-9]{8,10}$/';	//	Ceria	Sampoerna Telekom
-		$tnexp[13] =  '/^0831[0-9]{8,10}$/';	//	Axis	AXIS Telekom Indonesia
-		$tnexp[14] =  '/^0838[0-9]{8,10}$/';	//	Axis	AXIS Telekom Indonesia
-		$tnexp[15] =  '/^0852[0-9]{8,10}$/';	//	Kartu As	Telkomsel
-		$tnexp[16] =  '/^0853[0-9]{8,10}$/';	//	Kartu As (Kartu Prima)	Telkomsel
-		$tnexp[17] =  '/^0855[0-9]{8,10}$/';	//	Matrix Auto	Indosat
-		$tnexp[18] =  '/^0856[0-9]{8,10}$/';	//	IM3	Indosat
-		$tnexp[19] =  '/^0857[0-9]{8,10}$/';	//	IM3	Indosat
-		$tnexp[20] =  '/^0858[0-9]{8,10}$/';	//	Mentari	Indosat
-		$tnexp[21] =  '/^0859[0-9]{8,10}$/';	//	XL Prabayar, XL Pascabayar	XL Axiata
-		$tnexp[22] =  '/^08681[0-9]{7,9}$/';	//	ByRU	PSN/ACeS
-		$tnexp[23] =  '/^0877[0-9]{8,10}$/';	//	XL Prabayar, Hauraa	XL Axiata
-		$tnexp[24] =  '/^0878[0-9]{8,10}$/';	//	XL Prabayar	XL Axiata
-		$tnexp[25] =  '/^0879[0-9]{8,10}$/';	//	XL Prabayar	XL Axiata
-		$tnexp[26] =  '/^0881[0-9]{8,10}$/';	//	smartfren	Smartfren Telecom
-		$tnexp[27] =  '/^0882[0-9]{8,10}$/';	//	smartfren	Smartfren Telecom
-		$tnexp[28] =  '/^0883[0-9]{8,10}$/';	//	Smartfren	Smartfren Telecom
-		$tnexp[29] =  '/^0884[0-9]{8,10}$/';	//	Smartfren	Smartfren Telecom
-		$tnexp[30] =  '/^0887[0-9]{8,10}$/';	//	smartfren	Smartfren Telecom
-		$tnexp[31] =  '/^0888[0-9]{8,10}$/';	//	smartfren	Smartfren Telecom
-		$tnexp[32] =  '/^0889[0-9]{8,10}$/';	//	smartfren	Smartfren Telecom
-		$tnexp[33] =  '/^0896[0-9]{8,10}$/';	//	3	Hutchison Charoen Pokphand Telecom
-		$tnexp[34] =  '/^0897[0-9]{8,10}$/';	//	3	Hutchison Charoen Pokphand Telecom
-		$tnexp[35] =  '/^0898[0-9]{8,10}$/';	//	3	Hutchison Charoen Pokphand Telecom
-		$tnexp[36] =  '/^0899[0-9]{8,10}$/';	//	3	Hutchison Charoen Pokphand Telecom
+		$tnexp[0] =  '/^811[0-9]{6,9}$/';	//KartuHALO	Telkomsel
+		$tnexp[1] =  '/^812[0-9]{6,9}$/';	//	SimPATI, KartuHALO	Telkomsel
+		$tnexp[2] =  '/^813[0-9]{6,9}$/';	//	SimPATI, KartuHALO	Telkomsel
+		$tnexp[3] =  '/^814[0-9]{6,9}$/';	//	Indosat 3,5G Broadband	Indosat (IndosatM2)
+		$tnexp[4] =  '/^815[0-9]{6,9}$/';	//	Mentari, Matrix	Indosat
+		$tnexp[5] =  '/^816[0-9]{6,9}$/';	//	Mentari, Matrix	Indosat
+		$tnexp[6] =  '/^817[0-9]{6,9}$/';	//	XL Prabayar, XL Pascabayar	XL Axiata
+		$tnexp[7] =  '/^818[0-9]{6,9}$/';	//	XL Prabayar, XL Pascabayar	XL Axiata
+		$tnexp[8] =  '/^819[0-9]{6,9}$/';	//	XL Prabayar, XL Pascabayar	XL Axiata
+		$tnexp[9] =  '/^821[0-9]{6,9}$/';	//	SimPATI Freedom	Telkomsel
+		$tnexp[10] =  '/^822[0-9]{6,9}$/';	//	SimPATI (Kartu Facebook)	Telkomsel
+		$tnexp[11] =  '/^823[0-9]{6,9}$/';	//	Kartu As[1]	Telkomsel
+		$tnexp[12] =  '/^828[0-9]{6,9}$/';	//	Ceria	Sampoerna Telekom
+		$tnexp[13] =  '/^831[0-9]{6,9}$/';	//	Axis	AXIS Telekom Indonesia
+		$tnexp[14] =  '/^838[0-9]{6,9}$/';	//	Axis	AXIS Telekom Indonesia
+		$tnexp[15] =  '/^852[0-9]{6,9}$/';	//	Kartu As	Telkomsel
+		$tnexp[16] =  '/^853[0-9]{6,9}$/';	//	Kartu As (Kartu Prima)	Telkomsel
+		$tnexp[17] =  '/^855[0-9]{6,9}$/';	//	Matrix Auto	Indosat
+		$tnexp[18] =  '/^856[0-9]{6,9}$/';	//	IM3	Indosat
+		$tnexp[19] =  '/^857[0-9]{6,9}$/';	//	IM3	Indosat
+		$tnexp[20] =  '/^858[0-9]{6,9}$/';	//	Mentari	Indosat
+		$tnexp[21] =  '/^859[0-9]{6,9}$/';	//	XL Prabayar, XL Pascabayar	XL Axiata
+		$tnexp[22] =  '/^8681[0-9]{5,8}$/';	//	ByRU	PSN/ACeS
+		$tnexp[23] =  '/^877[0-9]{6,9}$/';	//	XL Prabayar, Hauraa	XL Axiata
+		$tnexp[24] =  '/^878[0-9]{6,9}$/';	//	XL Prabayar	XL Axiata
+		$tnexp[25] =  '/^879[0-9]{6,9}$/';	//	XL Prabayar	XL Axiata
+		$tnexp[26] =  '/^881[0-9]{6,9}$/';	//	smartfren	Smartfren Telecom
+		$tnexp[27] =  '/^882[0-9]{6,9}$/';	//	smartfren	Smartfren Telecom
+		$tnexp[28] =  '/^883[0-9]{6,9}$/';	//	Smartfren	Smartfren Telecom
+		$tnexp[29] =  '/^884[0-9]{6,9}$/';	//	Smartfren	Smartfren Telecom
+		$tnexp[30] =  '/^887[0-9]{6,9}$/';	//	smartfren	Smartfren Telecom
+		$tnexp[31] =  '/^888[0-9]{6,9}$/';	//	smartfren	Smartfren Telecom
+		$tnexp[32] =  '/^889[0-9]{6,9}$/';	//	smartfren	Smartfren Telecom
+		$tnexp[33] =  '/^896[0-9]{6,9}$/';	//	3	Hutchison Charoen Pokphand Telecom
+		$tnexp[34] =  '/^897[0-9]{6,9}$/';	//	3	Hutchison Charoen Pokphand Telecom
+		$tnexp[35] =  '/^898[0-9]{6,9}$/';	//	3	Hutchison Charoen Pokphand Telecom
+		$tnexp[36] =  '/^899[0-9]{6,9}$/';	//	3	Hutchison Charoen Pokphand Telecom
 
 		$valid=false;
 		foreach ($tnexp as $regexp) {

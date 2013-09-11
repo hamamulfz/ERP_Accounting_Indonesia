@@ -71,6 +71,7 @@ class AOrganizationController extends Controller {
         if (isset($_GET['aOrganization'])) {
             $model->attributes = $_GET['aOrganization'];
             $criteria->compare('name', $_GET['aOrganization']['name'], true);
+            //$criteria->compare('branch_code', $_GET['aOrganization']['name'], true);
         }
         $criteria->order = 'updated_date DESC';
         $dataProvider = new CActiveDataProvider('aOrganization', array(

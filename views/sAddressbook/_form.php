@@ -40,7 +40,7 @@ Yii::app()->clientScript->registerScript('sel2', "
 
         <?php echo $form->textFieldRow($model, 'complete_name', array('class' => 'span4')); ?>
         <?php echo $form->textFieldRow($model, 'title', array('class' => 'span3')); ?>
-        <?php echo $form->textFieldRow($model, 'handphone', array('class' => 'span3')); ?>
+        <?php echo $form->textFieldRow($model, 'handphone', array('hint'=>'start with number 8 not +62 or 0','prepend'=>'+62','class' => 'span3')); ?>
         <?php echo $form->textFieldRow($model, 'company_name', array('class' => 'span6')); ?>
         <?php echo $form->textAreaRow($model, 'address', array('class' => 'span5','rows'=>3)); ?>
         <?php echo $form->textFieldRow($model, 'email', array('class' => 'span3')); ?>

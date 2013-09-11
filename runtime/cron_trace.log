@@ -1,0 +1,45 @@
+2013/09/05 10:43:15 [trace] [system.CModule] Loading "log" application component
+2013/09/05 10:52:03 [trace] [system.CModule] Loading "log" application component
+2013/09/05 10:52:03 [trace] [system.CModule] Loading "request" application component
+2013/09/05 10:52:03 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/05 10:52:23 [trace] [system.CModule] Loading "log" application component
+2013/09/05 10:52:23 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/05 10:53:54 [trace] [system.CModule] Loading "log" application component
+2013/09/05 14:12:49 [trace] [system.CModule] Loading "log" application component
+2013/09/05 14:13:17 [trace] [system.CModule] Loading "log" application component
+2013/09/05 14:13:17 [trace] [system.CModule] Loading "db" application component
+2013/09/05 14:13:17 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/05 14:13:17 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT * FROM h_applicant WHERE email IS NOT null AND t_status IS NULL AND id <= 14346
+			ORDER BY `h_applicant`.`id` LIMIT 10
+        
+2013/09/05 14:13:17 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/05 14:13:35 [trace] [system.CModule] Loading "log" application component
+2013/09/05 14:13:35 [trace] [system.CModule] Loading "db" application component
+2013/09/05 14:13:35 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/05 14:13:35 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT * FROM h_applicant WHERE email IS NOT null AND t_status IS NULL AND id <= 14346
+			ORDER BY `h_applicant`.`id` LIMIT 10
+        
+2013/09/05 14:13:35 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/05 14:14:22 [trace] [system.CModule] Loading "log" application component
+2013/09/05 14:14:22 [trace] [system.CModule] Loading "db" application component
+2013/09/05 14:14:22 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/05 14:14:22 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT * FROM h_applicant WHERE email IS NOT null AND t_status IS NULL AND id <= 14346
+			ORDER BY `h_applicant`.`id` LIMIT 10
+        
+2013/09/05 14:15:45 [trace] [system.CModule] Loading "log" application component
+2013/09/05 14:15:45 [trace] [system.CModule] Loading "db" application component
+2013/09/05 14:15:45 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/05 14:15:45 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT * FROM h_applicant WHERE email IS NOT null AND t_status IS NULL AND id <= 14346
+			ORDER BY `h_applicant`.`id` LIMIT 10
+        
+2013/09/06 17:17:50 [trace] [system.CModule] Loading "log" application component
+2013/09/06 17:17:50 [trace] [system.CModule] Loading "db" application component
+2013/09/06 17:17:50 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/06 17:17:50 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT * FROM h_applicant WHERE email IS NOT null AND t_status IS NULL AND id <= 14346
+			ORDER BY `h_applicant`.`id` LIMIT 10
+        

@@ -23,4 +23,5 @@ return array(
     'currentYearChristmasStart' => '2013-12-26',
     'currentYearChristmasEnd' => '2013-12-31',
     'webcareer' => 'http://www.agungpodomoro-career.com',
+    'selfregistration'=>true,
 );

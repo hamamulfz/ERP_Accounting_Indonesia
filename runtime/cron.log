@@ -1,0 +1,44 @@
+2013/09/05 10:52:03 [error] [php] Undefined index: SERVER_NAME (/usr/local/zend/apache2/htdocs/framework/web/CHttpRequest.php:317)
+Stack trace:
+#0 unknown(0): emailCommand->actionIndex()
+#1 /usr/local/zend/apache2/htdocs/framework/console/CConsoleCommand.php(172): ReflectionMethod->invokeArgs()
+#2 /usr/local/zend/apache2/htdocs/framework/console/CConsoleCommandRunner.php(71): emailCommand->run()
+#3 /usr/local/zend/apache2/htdocs/framework/console/CConsoleApplication.php(92): CConsoleCommandRunner->run()
+#4 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CConsoleApplication->processRequest()
+#5 /usr/local/zend/apache2/htdocs/framework/yiic.php(33): CConsoleApplication->run()
+#6 /usr/local/zend/apache2/htdocs/aphris/protected/yiic.php(7): require_once()
+#7 /usr/local/zend/apache2/htdocs/aphris/protected/yiic(3): require_once()
+
+2013/09/05 10:52:23 [error] [php] include(EmailComponent.php): failed to open stream: No such file or directory (/usr/local/zend/apache2/htdocs/framework/YiiBase.php:427)
+Stack trace:
+#0 /usr/local/zend/apache2/htdocs/aphris/protected/commands/emailCommand.php(19): spl_autoload_call()
+#1 unknown(0): emailCommand->actionIndex()
+#2 /usr/local/zend/apache2/htdocs/framework/console/CConsoleCommand.php(172): ReflectionMethod->invokeArgs()
+#3 /usr/local/zend/apache2/htdocs/framework/console/CConsoleCommandRunner.php(71): emailCommand->run()
+#4 /usr/local/zend/apache2/htdocs/framework/console/CConsoleApplication.php(92): CConsoleCommandRunner->run()
+#5 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CConsoleApplication->processRequest()
+#6 /usr/local/zend/apache2/htdocs/framework/yiic.php(33): CConsoleApplication->run()
+#7 /usr/local/zend/apache2/htdocs/aphris/protected/yiic.php(7): require_once()
+#8 /usr/local/zend/apache2/htdocs/aphris/protected/yiic(3): require_once()
+
+2013/09/05 14:13:17 [error] [php] Undefined variable: id (/usr/local/zend/apache2/htdocs/aphris/protected/commands/emailCommand.php:36)
+Stack trace:
+#0 /usr/local/zend/apache2/htdocs/framework/console/CConsoleCommandRunner.php(71): emailCommand->run()
+#1 /usr/local/zend/apache2/htdocs/framework/console/CConsoleApplication.php(92): CConsoleCommandRunner->run()
+#2 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CConsoleApplication->processRequest()
+#3 /usr/local/zend/apache2/htdocs/framework/yiic.php(33): CConsoleApplication->run()
+#4 /usr/local/zend/apache2/htdocs/aphris/protected/yiic.php(7): require_once()
+#5 /usr/local/zend/apache2/htdocs/aphris/protected/yiic(3): require_once()
+
+2013/09/05 14:13:35 [error] [php] include(hApplicant.php): failed to open stream: No such file or directory (/usr/local/zend/apache2/htdocs/framework/YiiBase.php:427)
+Stack trace:
+#0 /usr/local/zend/apache2/htdocs/aphris/protected/commands/emailCommand.php(71): spl_autoload_call()
+#1 unknown(0): emailCommand->actionIndex()
+#2 /usr/local/zend/apache2/htdocs/framework/console/CConsoleCommand.php(172): ReflectionMethod->invokeArgs()
+#3 /usr/local/zend/apache2/htdocs/framework/console/CConsoleCommandRunner.php(71): emailCommand->run()
+#4 /usr/local/zend/apache2/htdocs/framework/console/CConsoleApplication.php(92): CConsoleCommandRunner->run()
+#5 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CConsoleApplication->processRequest()
+#6 /usr/local/zend/apache2/htdocs/framework/yiic.php(33): CConsoleApplication->run()
+#7 /usr/local/zend/apache2/htdocs/aphris/protected/yiic.php(7): require_once()
+#8 /usr/local/zend/apache2/htdocs/aphris/protected/yiic(3): require_once()
+

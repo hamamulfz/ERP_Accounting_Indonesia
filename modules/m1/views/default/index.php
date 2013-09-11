@@ -43,6 +43,7 @@ $this->breadcrumbs = array(
                     )
                 ));
                 ?>
+                <br/>
             </div>
             <div class="span5">
                 <?php

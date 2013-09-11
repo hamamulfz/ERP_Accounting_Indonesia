@@ -61,7 +61,7 @@ $this->widget('TbDetailView', array(
 			'id' => 'tabs',
 			'tabs' => array(
 				array('id' => 'tab1', 'label' => 'Detail', 'content' => $this->renderPartial("_tabViewDetailEmp", array("model" => $model), true), 'active' => true),
-		        array('id' => 'tab2', 'label' => 'Assestment', 'content' => $this->renderPartial("_tabViewAssestmentEmp", array("model" => $model), true)),
+		        array('id' => 'tab2', 'label' => 'Assessment', 'content' => $this->renderPartial("_tabViewAssessmentEmp", array("model" => $model), true)),
 			),
 		));
 	}

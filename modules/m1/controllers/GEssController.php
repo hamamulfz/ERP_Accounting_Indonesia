@@ -117,7 +117,7 @@ class GEssController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreateLeave() {
+    public function actionCreateLeave($month=0) {
         $model = new gLeave;
 
 
@@ -138,6 +138,7 @@ class GEssController extends Controller {
 
         $this->render('createLeave', array(
             'model' => $model,
+            'month' => $month,
         ));
     }
 
@@ -145,7 +146,7 @@ class GEssController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreateCancellationLeave() {
+    public function actionCreateCancellationLeave($month=0) {
         $model = new gLeave;
 
         // Uncomment the following line if AJAX validation is needed
@@ -161,6 +162,7 @@ class GEssController extends Controller {
 
         $this->render('createCancellationLeave', array(
             'model' => $model,
+            'month' => $month,
         ));
     }
 
@@ -168,7 +170,7 @@ class GEssController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreateExtendedLeave() {
+    public function actionCreateExtendedLeave($month=0) {
         $model = new gLeave;
 
         // Uncomment the following line if AJAX validation is needed
@@ -191,6 +193,7 @@ class GEssController extends Controller {
         $model->number_of_day = $modG->leaveBalance->balance;
         $this->render('createExtendedLeave', array(
             'model' => $model,
+            'month' => $month,
         ));
     }
 
@@ -198,7 +201,7 @@ class GEssController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreatePermission() {
+    public function actionCreatePermission($month=0) {
         $model = new gPermission;
 
         // Uncomment the following line if AJAX validation is needed
@@ -214,6 +217,7 @@ class GEssController extends Controller {
 
         $this->render('createPermission', array(
             'model' => $model,
+            'month'=>$month,
         ));
     }
 
@@ -222,7 +226,7 @@ class GEssController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdatePerson() {
+    public function actionUpdatePerson($month=0) {
         //$this->layout='//layouts/column2';
 
         $model = $this->loadModel();
@@ -238,6 +242,7 @@ class GEssController extends Controller {
 
         $this->render('updatePerson', array(
             'model' => $model,
+            'month'=>$month,
         ));
     }
 
@@ -491,9 +496,10 @@ class GEssController extends Controller {
     }
 
     public function actionViewDetailEss($id) {
-
+		$month=0;
         $this->render('viewDetailEss', array(
             'model' => $this->loadModelSchedule($id),
+            'month'=>$month,
         ));
     }
 

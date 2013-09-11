@@ -6,7 +6,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
         array(
             'label' => 'Parent Organization',
             'type' => 'raw',
-            'value' => (isset($model->getparent)) ? CHtml::link($model->getparent->name, Yii::app()->createUrl("/aOrganization/view", array("id" => $model->getparent->id))) : ".::ROOT::.",
+            'value' => (isset($model->getparent)) ? CHtml::link($model->getparent->name, Yii::app()->createUrl("/aOrganization/view", array("id" => $model->getparent->id))) : "..ROOT..",
         ),
         //'branch_code_number',
         'branch_code',

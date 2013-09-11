@@ -58,7 +58,7 @@ class HApplicantController extends Controller {
     }
 
     public function actionIndex($id = 0) {
-        $model = new fApplicant;
+        $model = new hApplicant('search');
         $model->unsetAttributes();  // clear any default values
 
         $criteria = new CDbCriteria;
@@ -66,6 +66,19 @@ class HApplicantController extends Controller {
             $criteria->compare('company_id', sUser::model()->myGroup, false, 'OR');
             $criteria->compare('company_id', 0, false, 'OR');
         }
+
+		if(isset($_GET['hApplicant'])) {
+			$model->attributes=$_GET['hApplicant'];
+
+			$criteria1=new CDbCriteria;
+			$criteria1->with = array('many_experience');
+			$criteria1->together=true;
+			$criteria1->compare('applicant_name',$_GET['hApplicant']['applicant_name'],true,'OR');
+			$criteria1->compare('many_experience.job_description',$_GET['hApplicant']['applicant_name'],true,'OR');
+			$criteria1->compare('many_experience.job_title',$_GET['hApplicant']['applicant_name'],true,'OR');
+			$criteria->mergeWith($criteria1);
+		}
+		
 
         $dataProvider = new CActiveDataProvider('hApplicant', array(
             'criteria' => $criteria,
@@ -505,8 +518,8 @@ class HApplicantController extends Controller {
         $modelAppSel->workflow_id = 19; //User Decision
         $modelAppSel->workflow_result_id = 3; //Join
         $modelAppSel->workflow_by = "SYSTEM"; //Join
-        $modelAppSel->assestment_date = date("d-m-Y"); //start Today
-        $modelAppSel->assestment_summary = "AUTOMATE DATA INSERTION";
+        $modelAppSel->assessment_date = date("d-m-Y"); //start Today
+        $modelAppSel->assessment_summary = "AUTOMATE DATA INSERTION";
         $modelAppSel->development_area = "AUTOMATE DATA INSERTION";
         $modelAppSel->save(false);
 
@@ -554,34 +567,6 @@ class HApplicantController extends Controller {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-    }
-
-
-    public function actionViewEmp($id) {
-        $model = $this->loadModelEmp($id);
-
-        $this->render('viewEmp', array(
-            'model' => $model,
-        ));
-    }
-    
-    public function loadModelEmp($id) {
-        $criteria = new CDbCriteria;
-
-        if (Yii::app()->user->name != "admin") {
-            $criteria->condition = '(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' .
-                    implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) .
-                    ') ORDER BY c.start_date DESC LIMIT 1) IN (' .
-                    implode(",", sUser::model()->myGroupArray) . ') OR ' .
-                    '(select c2.company_id from g_person_career2 c2 WHERE t.id=c2.parent_id AND c2.company_id IN (' .
-                    implode(",", sUser::model()->myGroupArray) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
-                    implode(",", sUser::model()->myGroupArray) . ')';
-        }
-
-        $model = gPerson::model()->findByPk((int) $id, $criteria);
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
-        return $model;
     }
 
 

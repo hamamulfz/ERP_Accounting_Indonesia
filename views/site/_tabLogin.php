@@ -33,7 +33,10 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php //echo $form->checkBoxRow($model,'rememberMe');  ?>
 
 <p>
-    <?php echo "Are you employee? " . CHtml::link('register here', Yii::app()->createUrl('site/register')); ?>
+    <?php
+    	if (Yii::app()->params['selfregistration']) 
+	    	echo "Are you employee? " . CHtml::link('register here', Yii::app()->createUrl('site/register')); 
+    ?>
 </p>
 
 <div class="form-actions">

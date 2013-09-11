@@ -88,7 +88,7 @@ $this->widget('TbGridView', array(
     'template' => '{items}{pager}',
     'columns' => array(
         'workflow_by',
-        'assestment_date',
+        'assessment_date',
         array(
             'header' => 'Work Flow',
             'value' => '$data->workflow->name',
@@ -97,7 +97,7 @@ $this->widget('TbGridView', array(
             'header' => 'Work Flow Result',
             'value' => '$data->workflow_result_id',
         ),
-        'assestment_summary',
+        'assessment_summary',
         'development_area',
     ),
 ));

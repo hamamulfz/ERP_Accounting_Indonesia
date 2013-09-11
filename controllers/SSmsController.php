@@ -40,23 +40,25 @@ class SSmsController extends Controller {
             if ($model->save()) {
 				$receivers=explode(",",$model->receivergroup_tag);
 
-				$connection = Yii::app()->db;
-				$sql = "SELECT DISTINCT handphone FROM `s_addressbook` 
-					WHERE member_of regexp '^".$receivers[0]."(,|$)' 
-				";
-
-				$command = $connection->createCommand($sql);
-				$rows = $command->queryAll();
-				
-				foreach ($rows as $row) {
-					$firstnumber=explode(",",$row['handphone']);
-					
-					$connection2 = Yii::app()->db;
-					$sql = "INSERT INTO outbox (DestinationNumber, SenderID, TextDecoded, CreatorID) 
-							VALUES ('".$firstnumber[0]."', 'modem1', '".$model->message."', '".Yii::app()->name."') 
+				foreach ($receivers as $receiver) {
+					$connection = Yii::app()->db;
+					$sql = "SELECT DISTINCT handphone FROM `s_addressbook` 
+						WHERE member_of regexp '^".$receiver."(,|$)' 
 					";
-					$connection2->createCommand($sql)->execute();
+
+					$command = $connection->createCommand($sql);
+					$rows = $command->queryAll();
 				
+					foreach ($rows as $row) {
+						$firstnumber=explode(",",$row['handphone']);
+					
+						$connection2 = Yii::app()->db;
+						$sql = "INSERT INTO outbox (DestinationNumber, SenderID, TextDecoded, CreatorID) 
+								VALUES (CONCAT('+62','".$firstnumber[0]."'), 'modem1', '".$model->message."', '".Yii::app()->name."') 
+						";
+						$connection2->createCommand($sql)->execute();
+				
+					}
 				}
 				
                 $this->redirect(array('view', 'id' => $model->id));

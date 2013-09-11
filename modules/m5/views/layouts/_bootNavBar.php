@@ -45,8 +45,9 @@ if (!Yii::app()->user->isGuest) {
 
     $this->widget('bootstrap.widgets.TbNavbar', array(
         //'fixed'=>true,
-        'brand' => Yii::app()->name,
-        //'brand'=>CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/FA-logo-APL-3-mini.jpg", Yii::app()->name, array("height"=>"100%",'id'=>'photo','padding'=>0)),
+        //'brand' => Yii::app()->name,
+        'brand' => '',
+        //'brand'=>CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/logo.jpg", Yii::app()->name, array("height"=>"100%",'id'=>'photo','padding'=>0)),
         'brandUrl' => Yii::app()->createUrl("menu"),
         'collapse' => true, // requires bootstrap-responsive.css
         'items' => array(

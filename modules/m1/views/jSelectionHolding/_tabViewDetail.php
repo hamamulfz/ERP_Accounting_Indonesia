@@ -6,7 +6,7 @@ $this->widget('TbGridView', array(
     //'filter'=>$model,
     'columns' => array(
         array(
-            'value' => 'CHtml::link($data->applicant->applicant_name,Yii::app()->createUrl("m1/hApplicant/view",array("id"=>$data->applicant_id)))',
+            'value' => 'CHtml::link($data->applicant->applicant_name,Yii::app()->createUrl("m1/jSelectionHolding/viewApplicant",array("id"=>$data->applicant_id)))',
             'type' => 'raw',
             'header' => 'Applicant Name',
         ),

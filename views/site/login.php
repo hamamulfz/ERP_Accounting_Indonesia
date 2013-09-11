@@ -36,7 +36,7 @@ $this->pageTitle = Yii::app()->name . ' - Home';
 
                 <?php $this->renderPartial("_category", array('category_id' => 1)) ?>
                 <?php //$this->renderPartial("_category",array('category_id'=>2)) ?>
-                <?php $this->renderPartial("_category", array('category_id' => 3)) ?>
+                <?php $this->renderPartial("_category", array('category_id' => 4)) ?>
 
                 <hr/>
                 <div class="pull-right">

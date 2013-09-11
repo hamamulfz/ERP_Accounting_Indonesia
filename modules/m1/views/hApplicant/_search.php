@@ -3,11 +3,11 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'method' => 'get',
     'id' => 'searchForm',
     'type' => 'horizontal',
-    'action' => Yii::app()->createUrl('/m1/hApplicant/filter'),
-        ));
+    'action' => Yii::app()->createUrl('/m1/hApplicant/index'),
+));
 ?>
 
-<?php echo $form->textFieldRow($model, 'keyword', array('class' => 'span4', 'hint' => 'search contain name or job title')); ?>
+<?php echo $form->textField($model, 'applicant_name', array('class' => 'span6', 'placeholder' => 'search name, job description or job title')); ?>
 
 <?php //echo $form->dropDownListRow($model,'sex_id',sParameter::itemsWithAll('cKelamin')); ?>
 
@@ -32,10 +32,5 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php //echo $form->dropDownListRow($model,'education_id',sParameter::itemsWithAll('EDU'));  ?>
 
-<div class="control-group">
-    <div class="controls">
-        <?php echo CHtml::htmlButton('<i class="icon-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
-    </div>
-</div>
 <?php
 $this->endWidget();

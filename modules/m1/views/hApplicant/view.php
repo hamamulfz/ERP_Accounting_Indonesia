@@ -13,7 +13,7 @@ $this->menu = array(
     array('label' => 'Selection Registration', 'icon' => 'tint', 'url' => array('/m1/jSelection')),
     array('label' => 'Interview', 'icon' => 'volume-up', 'url' => array('/m1/hVacancy/interview')),
     array('label' => 'Print CV', 'icon' => 'print', 'url' => array('printCv', 'id' => $model->id)),
-    array('label' => 'Transfer', 'icon' => 'forward', 'url' => '#', 'linkOptions' => array('submit' => array('transfer', 'id' => $model->id), 'confirm' => 'Are you sure you want to transfer this employee to Person Administration?')),
+    //array('label' => 'Transfer', 'icon' => 'forward', 'url' => '#', 'linkOptions' => array('submit' => array('transfer', 'id' => $model->id), 'confirm' => 'Are you sure you want to transfer this employee to Person Administration?')),
 );
 ?>
 
@@ -36,8 +36,8 @@ $this->menu = array(
         $this->widget('bootstrap.widgets.TbTabs', array(
             'type' => 'tabs', // 'tabs' or 'pills'
             'tabs' => array(
-                array('label' => 'Selection Process', 'content' => $this->renderPartial("_tabSelection", array("model" => $model), true), 'active' => true),
-                array('label' => 'Candidate Profile', 'content' => $this->renderPartial("_tabDetail", array("model" => $model), true)),
+                array('label' => 'Selection Process', 'content' => $this->renderPartial("/hApplicant/_tabSelection", array("model" => $model), true), 'active' => true),
+                array('label' => 'Candidate Profile', 'content' => $this->renderPartial("/hApplicant/_tabDetail", array("model" => $model), true)),
                 array('id' => 'tab2', 'label' => 'Create New', 'items' => array(
                         array('label' => 'Experience', 'content' => $this->renderPartial("_tabExperience", array("model" => $model, "modelExperience" => $modelExperience), true)),
                         array('label' => 'Education', 'content' => $this->renderPartial("_tabEducation", array("model" => $model, "modelEducation" => $modelEducation), true)),

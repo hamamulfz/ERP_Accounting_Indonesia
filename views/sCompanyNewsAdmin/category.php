@@ -24,6 +24,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         //'parent_id',
         'sort',
         'category_name',
+        'category_description',
         array(
             'class' => 'EJuiDlgsColumn',
             'template' => '{update}{delete}',

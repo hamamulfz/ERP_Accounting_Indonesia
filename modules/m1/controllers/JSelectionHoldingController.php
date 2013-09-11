@@ -18,7 +18,7 @@ class JSelectionHoldingController extends Controller {
         );
     }
 
-    public function actionUpdateAssestment($id) {
+    public function actionUpdateAssessment($id) {
         $model = $this->loadModelApplicantSelection($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -35,10 +35,10 @@ class JSelectionHoldingController extends Controller {
                 EQuickDlgs::checkDialogJsScript();
         }
 
-        EQuickDlgs::render('_formAssestment', array('model' => $model, 'id' => $id));
+        EQuickDlgs::render('_formAssessment', array('model' => $model, 'id' => $id));
     }
 
-    public function actionDeleteAssestment($id) {
+    public function actionDeleteAssessment($id) {
         $this->loadModelApplicantSelection($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -58,6 +58,41 @@ class JSelectionHoldingController extends Controller {
             'modelParticipant' => $newParticipant,
         ));
     }
+
+    public function actionViewApplicant($id) {
+
+    	$this->layout = '//layouts/column2left';
+
+        $this->render('viewApplicant', array(
+            'model' => $this->loadModelApplicant($id),
+        ));
+    }
+
+    public function loadModelApplicant($id) {
+        $criteria = new CDbCriteria;
+        $model = hApplicant::model()->findByPk((int) $id, $criteria);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
+
+    public function actionViewEmployee($id) {
+        $model = $this->loadModelEmployee($id);
+
+        $this->render('viewEmployee', array(
+            'model' => $model,
+        ));
+    }
+    
+    public function loadModelEmployee($id) {
+        $criteria = new CDbCriteria;
+        $model = gPerson::model()->findByPk((int) $id, $criteria);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
+
+
 
     /**
      * Creates a new model.

@@ -102,8 +102,8 @@ class hApplicant extends BaseModel {
             'jobalert' => array(self::HAS_MANY, 'hApplicantJobalert', 'parent_id', 'condition' => 'jobalert.status_id = 1'),
             'comment' => array(self::HAS_MANY, 'hApplicantComment', 'parent_id'),
             'commentC' => array(self::STAT, 'hApplicantComment', 'parent_id'),
-            'selection' => array(self::HAS_ONE, 'hApplicantSelection', 'parent_id', 'order' => 'assestment_date DESC'),
-            'selection_many' => array(self::HAS_MANY, 'hApplicantSelection', 'parent_id', 'order' => 'assestment_date DESC'),
+            'selection' => array(self::HAS_ONE, 'hApplicantSelection', 'parent_id', 'order' => 'assessment_date DESC'),
+            'selection_many' => array(self::HAS_MANY, 'hApplicantSelection', 'parent_id', 'order' => 'assessment_date DESC'),
             'selectionC' => array(self::STAT, 'hApplicantSelection', 'parent_id'),
             'schedule' => array(self::HAS_ONE, 'jSelectionPart', 'applicant_id', 'order' => 'created_date DESC'),
             'schedule_many' => array(self::HAS_MANY, 'jSelectionPart', 'applicant_id', 'order' => 'created_date DESC'),
@@ -215,31 +215,7 @@ class hApplicant extends BaseModel {
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
         $criteria->compare('applicant_name', $this->applicant_name, true);
-        $criteria->compare('idcard', $this->idcard, true);
-        $criteria->compare('birth_place', $this->birth_place, true);
-        $criteria->compare('birth_date', $this->birth_date, true);
-        $criteria->compare('religion_id', $this->religion_id);
-        $criteria->compare('sex_id', $this->sex_id);
-        $criteria->compare('employee_maritalstat', $this->employee_maritalstat);
-        $criteria->compare('employee_nationality', $this->employee_nationality);
-        $criteria->compare('employee_bloodtype', $this->employee_bloodtype, true);
-        $criteria->compare('employee_ras', $this->employee_ras, true);
-        $criteria->compare('employee_hometype', $this->employee_hometype);
-        $criteria->compare('employee_address', $this->employee_address, true);
-        $criteria->compare('employee_kec', $this->employee_kec, true);
-        $criteria->compare('employee_city', $this->employee_city, true);
-        $criteria->compare('employee_postcode', $this->employee_postcode, true);
-        $criteria->compare('employee_country', $this->employee_country);
-        $criteria->compare('employee_phone', $this->employee_phone, true);
-        $criteria->compare('employee_hp1', $this->employee_hp1, true);
-        $criteria->compare('employee_hp2', $this->employee_hp2, true);
-        $criteria->compare('e_industryid', $this->e_industryid);
-        $criteria->compare('e_plevelid', $this->e_plevelid);
-        $criteria->compare('work_exp_start', $this->work_exp_start);
-        $criteria->compare('highest_edulevel', $this->highest_edulevel);
-        $criteria->compare('mainimagename', $this->mainimagename, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

@@ -37,10 +37,10 @@ class hApplicantSelection extends BaseModel {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('parent_id, assestment_date, assestment_summary, development_area', 'required'),
+            array('parent_id, assessment_date, assessment_summary, development_area', 'required'),
             array('parent_id, created_date, workflow_id, workflow_result_id, created_by', 'numerical', 'integerOnly' => true),
             array('workflow_by', 'length', 'max' => 30),
-            array('id, parent_id, assestment_summary, assestment_date, development_area, created_date, created_by', 'safe', 'on' => 'search'),
+            array('id, parent_id, assessment_summary, assessment_date, development_area, created_date, created_by', 'safe', 'on' => 'search'),
         );
     }
 
@@ -67,8 +67,8 @@ class hApplicantSelection extends BaseModel {
             'workflow_id' => 'Work Flow',
             'workflow_by' => 'Assest By',
             'workflow_result_id' => 'Work Flow Result',
-            'assestment_date' => 'Assestment Date',
-            'assestment_summary' => 'Assestment Summary',
+            'assessment_date' => 'Assessment Date',
+            'assessment_summary' => 'Assessment Summary',
             'development_area' => 'Development Area',
             'created_date' => 'Created Date',
             'created_by' => 'Created By',

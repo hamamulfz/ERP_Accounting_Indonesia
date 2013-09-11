@@ -22,14 +22,14 @@ $this->menu = array(
 $form = $this->beginWidget('TbActiveForm', array(
     'id' => 's-user-registration-form',
     'enableAjaxValidation' => false,
-    'type'=>'horizontal',
+    //'type'=>'horizontal',
         ));
 ?>
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->textFieldRow($model, 'username', array('class' => 'span4', 'hint' => 'type your desire username')); ?>
-<?php echo $form->textFieldRow($model, 'activation_code', array('class' => 'span4', 'hint' => 'ask your HR Manager for your activation code')); ?>
+<?php echo $form->textFieldRow($model, 'username', array('class' => 'span4', 'hint' => 'You are free to select your own username login. Username that will be easy to remember')); ?>
+<?php echo $form->textFieldRow($model, 'activation_code', array('class' => 'span4', 'hint' => 'ask your activation code to HR Manager')); ?>
 <?php echo $form->passwordFieldRow($model, 'password', array('class' => 'span3', 'hint' => 'input your password and do not forget')); ?>
 <?php echo $form->passwordFieldRow($model, 'password_repeat', array('class' => 'span3', 'hint' => 'input your password once again')); ?>
 

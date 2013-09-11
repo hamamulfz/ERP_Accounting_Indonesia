@@ -1,9 +1,9 @@
 <?php
         if (Yii::app()->user->name == "admin" || sUser::model()->rightCountM > 2 || !Yii::app()->user->checkAccess('HR ESS Staff'))
-            $this->renderPartial("_notificationSystem");
+            $this->renderPartial("_reminderSystem");
 
         if (Yii::app()->user->name == "admin" || sUser::model()->rightCountM > 2 || !Yii::app()->user->checkAccess('HR ESS Staff'))
-            $this->renderPartial("_reminderSystem");
+            $this->renderPartial("_notificationSystem");
 
         $this->renderPartial("_photoNews");
 

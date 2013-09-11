@@ -4,8 +4,8 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'Home', 'url' => array('/m1/gPerson')),
-        //array('label'=>'Manage gPerson','url'=>array('admin')),
+    //array('label' => 'Home', 'icon'=>'home', 'url' => array('/m1/gTalent')),
+    //array('label'=>'Manage gPerson','url'=>array('admin')),
 );
 
 

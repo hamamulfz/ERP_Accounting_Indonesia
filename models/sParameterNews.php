@@ -41,6 +41,7 @@ class sParameterNews extends BaseModel {
             array('category_name', 'required'),
             array('parent_id, sort, created_date, created_by, updated_date, updated_by', 'numerical', 'integerOnly' => true),
             array('category_name', 'length', 'max' => 100),
+            array('category_description', 'length', 'max' => 300),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, parent_id, sort, category_name, created_date, created_by, updated_date, updated_by', 'safe', 'on' => 'search'),
@@ -68,6 +69,7 @@ class sParameterNews extends BaseModel {
             'parent_id' => 'Parent',
             'sort' => 'Sort',
             'category_name' => 'Category',
+            'category_description' => 'Description',
             'created_date' => 'Created Date',
             'created_by' => 'Created By',
             'updated_date' => 'Updated Date',
