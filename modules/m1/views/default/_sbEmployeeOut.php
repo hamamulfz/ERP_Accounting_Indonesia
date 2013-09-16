@@ -10,7 +10,7 @@
 $this->widget('ext.groupgridview.TbGroupGridView', array(
     'extraRowColumns' => array('tMonth'),
     'id' => 'employee-grid',
-    'dataProvider' => gPerson2::model()->employeeOut(),
+    'dataProvider' => gPerson2::employeeOut(),
     'template' => '{items}',
     'enableSorting' => false,
     'htmlOptions' => array('style' => 'padding-top:0'),

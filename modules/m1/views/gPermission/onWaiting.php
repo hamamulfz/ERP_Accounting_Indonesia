@@ -26,7 +26,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 				return $data->start_date." to <br/>".$data->end_date;
 			},
         ),
-        'number_of_day',
+        //'number_of_day',
         array(
             'header' => 'Permission Type - Reason',
             'type' => 'raw',

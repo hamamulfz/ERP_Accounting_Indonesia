@@ -121,11 +121,11 @@ class gPermission extends BaseModel {
 
         $criteria = new CDbCriteria;
 
-        if (Yii::app()->user->name != "admin") {
+        //if (Yii::app()->user->name != "admin") {
             $criteria2 = new CDbCriteria;
             $criteria2->condition = '(select c.company_id from g_person_career c WHERE t.parent_id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) IN (' . implode(",", sUser::model()->myGroupArray) . ')';
             $criteria->mergeWith($criteria2);
-        }
+        //}
 
         $criteria->with = array('person');
         $criteria->together = true;
@@ -145,11 +145,11 @@ class gPermission extends BaseModel {
 
         $criteria = new CDbCriteria;
 
-        if (Yii::app()->user->name != "admin") {
+        //if (Yii::app()->user->name != "admin") {
             $criteria2 = new CDbCriteria;
             $criteria2->condition = '(select c.company_id from g_person_career c WHERE t.parent_id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) IN (' . implode(",", sUser::model()->myGroupArray) . ')';
             $criteria->mergeWith($criteria2);
-        }
+        //}
 
         $criteria->with = array('person');
         $criteria->together = true;
@@ -169,11 +169,11 @@ class gPermission extends BaseModel {
 
         $criteria = new CDbCriteria;
 
-        if (Yii::app()->user->name != "admin") {
+        //if (Yii::app()->user->name != "admin") {
             $criteria2 = new CDbCriteria;
             $criteria2->condition = '(select c.company_id from g_person_career c WHERE t.parent_id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) IN (' . implode(",", sUser::model()->myGroupArray) . ')';
             $criteria->mergeWith($criteria2);
-        }
+        //}
 
         $criteria->with = array('person');
         $criteria->together = true;
@@ -193,11 +193,11 @@ class gPermission extends BaseModel {
 
         $criteria = new CDbCriteria;
 
-        if (Yii::app()->user->name != "admin") {
+        //if (Yii::app()->user->name != "admin") {
             $criteria2 = new CDbCriteria;
             $criteria2->condition = '(select c.company_id from g_person_career c WHERE t.parent_id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) IN (' . implode(",", sUser::model()->myGroupArray) . ')';
             $criteria->mergeWith($criteria2);
-        }
+        //}
 
         $criteria->with = array('person');
         $criteria->together = true;
@@ -217,11 +217,11 @@ class gPermission extends BaseModel {
 
         $criteria = new CDbCriteria;
 
-        if (Yii::app()->user->name != "admin") {
+        //if (Yii::app()->user->name != "admin") {
             $criteria2 = new CDbCriteria;
             $criteria2->condition = '(select c.company_id from g_person_career c WHERE t.parent_id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) IN (' . implode(",", sUser::model()->myGroupArray) . ')';
             $criteria->mergeWith($criteria2);
-        }
+        //}
 
         $criteria->with = array('person');
         $criteria->together = true;

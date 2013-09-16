@@ -40,3 +40,4 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 $this->endWidget();
 ?>
 
+

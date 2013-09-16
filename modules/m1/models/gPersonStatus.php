@@ -61,7 +61,7 @@ class gPersonStatus extends BaseModel {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'parent' => array(self::BELONGS_TO, 'GPerson', 'parent_id'),
+            'parent' => array(self::BELONGS_TO, 'gPerson', 'parent_id'),
             'status' => array(self::BELONGS_TO, 'sParameter', array('status_id' => 'code'), 'condition' => 'type = \'AK\''),
         );
     }
@@ -105,6 +105,13 @@ class gPersonStatus extends BaseModel {
                 if ($this->parent->userid != 0)
                     sUser::model()->updateByPk((int) $this->parent->userid, array('status_id' => 2));
             }
+
+            $model= new sNotification;
+            $model->group_id = 1;
+            $model->link = 'm1/gPerson/view/id/' . $this->parent_id;
+            $model->content = 'Person Status. New Employee Status: '.$this->status->name.' created for <read>' . $this->parent->employee_name .'</read>';
+            $model->save();
+
         }
         return true;
     }

@@ -132,6 +132,7 @@ class gPerson extends BaseModel {
             'lastLeave' => array(self::HAS_ONE, 'gLeave', 'parent_id', 'order' => 'lastLeave.end_date DESC', 'condition' => 'lastLeave.approved_id = 2'),
             'user' => array(self::BELONGS_TO, 'sUser', 'userid'),
             'payroll' => array(self::HAS_ONE, 'gPayroll', 'parent_id', 'order' => 'payroll.yearmonth_start DESC'),
+            'updated' => array(self::BELONGS_TO, 'sUser', 'updated_by'),
         );
     }
 

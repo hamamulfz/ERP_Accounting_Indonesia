@@ -45,7 +45,7 @@ $this->breadcrumbs = array(
                 ?>
             </div>
             <div class="span5">
-                <?php
+                <?php 
                 $this->Widget('ext.highcharts.HighchartsWidget', array(
                     'options' => array(
                         'chart' => array('defaultSeriesType' => 'column'),
@@ -78,7 +78,7 @@ $this->breadcrumbs = array(
 
           <div class="row">
           <div class="span10">
-          <?php
+          <?php 
           $this->Widget('ext.highcharts.HighchartsWidget', array(
           'options'=>array(
           'chart' => array('defaultSeriesType' => 'column'),
@@ -111,7 +111,7 @@ $this->breadcrumbs = array(
 
         <div class="row">
             <div class="span5">
-                <?php
+                <?php 
                 $this->Widget('ext.highcharts.HighchartsWidget', array(
                     'options' => array(
                         'chart' => array('defaultSeriesType' => 'line'),
@@ -139,7 +139,7 @@ $this->breadcrumbs = array(
                 ?>
             </div>
             <div class="span5">
-                <?php
+                <?php 
                 $this->Widget('ext.highcharts.HighchartsWidget', array(
                     'options' => array(
                         'chart' => array('defaultSeriesType' => 'column'),
@@ -172,7 +172,7 @@ $this->breadcrumbs = array(
 
         <div class="row">
             <div class="span5">
-                <?php
+                <?php 
                 $this->Widget('ext.highcharts.HighchartsWidget', array(
                     'options' => array(
                         'chart' => array('defaultSeriesType' => 'line'),
@@ -203,7 +203,7 @@ $this->breadcrumbs = array(
                 ?>
             </div>
             <div class="span5">
-                <?php
+                <?php 
                 $this->Widget('ext.highcharts.HighchartsWidget', array(
                     'options' => array(
                         'chart' => array('defaultSeriesType' => 'column'),

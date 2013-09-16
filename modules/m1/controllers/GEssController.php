@@ -410,7 +410,7 @@ class GEssController extends Controller {
 
         $criteria = new CDbCriteria;
         $criteria->with = array('leave');
-        $criteria->condition = 'leave.approved_id = 2 or leave.approved_id = 9';
+        $criteria->condition = 'leave.approved_id IN (2,7,9)';
         $criteria->compare('t.id', (int) $pid);
         $models = gPerson::model()->find($criteria);
         if ($models === null)

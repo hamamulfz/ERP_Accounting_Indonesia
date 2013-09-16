@@ -54,7 +54,12 @@
                 ?>
 
             </div>
-
+			
+			<div style="font-size:11px;color:grey;" class="pull-right">
+			<p>
+			<?php echo isset($data->updated) ? "Last Updated by: ". $data->updated->username : ""    ?>
+			</p>
+			</div>
 
         </div>
 <?php /*

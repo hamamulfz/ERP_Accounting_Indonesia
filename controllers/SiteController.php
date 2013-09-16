@@ -1,6 +1,7 @@
 <?php
 class SiteController extends Controller {
     public $layout = '//layouts/column1';
+
     public function init() {
         //Yii::app()->language='id';
         //return parent::init();
@@ -55,6 +56,7 @@ class SiteController extends Controller {
         $this->layout = '//layouts/baseNotSupport';
         $this->render('notSupportedBrowser');
     }
+    
     public function actionLogin() {
         $this->redirect(array('/site'));
     }

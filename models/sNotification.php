@@ -172,7 +172,7 @@ class sNotification extends BaseModel {
 
         $criteria->mergeWith($criteria1);
         $criteria->mergeWith($criteria2);
-        $criteria->limit = 10;
+        $criteria->limit = 20;
 
         $notifiche = gPerson::model()->findAll($criteria);
 

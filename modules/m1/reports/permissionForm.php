@@ -59,9 +59,9 @@ class permissionForm extends fpdf {
         $this->Cell(0, 6, '', 'R');
         $this->Ln();
         $this->Cell(60, 6, 'Pukul  ', 'L');
-        $this->Cell(30, 6, ': ' . Yii::app()->dateFormatter->format("hh:mm", strtotime($model->start_date)));
+        $this->Cell(30, 6, ': ' . Yii::app()->dateFormatter->format("HH:mm", strtotime($model->start_date)));
         $this->Cell(10, 6, 's/d');
-        $this->Cell(30, 6, Yii::app()->dateFormatter->format("hh:mm", strtotime($model->end_date)));
+        $this->Cell(30, 6, Yii::app()->dateFormatter->format("HH:mm", strtotime($model->end_date)));
         $this->Cell(0, 6, '', 'R');
         $this->Ln();
         $this->Cell(60, 6, 'Jumlah Hari Kerja', 'L');

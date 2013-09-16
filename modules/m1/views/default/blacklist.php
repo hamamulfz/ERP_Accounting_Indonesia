@@ -11,7 +11,7 @@ $this->breadcrumbs = array(
 
     <div class="span10">
         <div class="page-header">
-            <h1>Employee In / Out</h1>
+            <h1>Black List Former Employee</h1>
         </div>
 
         <div class="row">

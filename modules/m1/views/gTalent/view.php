@@ -60,9 +60,14 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gT
         $this->widget('bootstrap.widgets.TbTabs', array(
             'type' => 'tabs', // 'tabs' or 'pills'
             'tabs' => array(
-                array('id' => 'tab1', 'label' => 'Target Setting', 'content' => $this->renderPartial("_tabTarget", array("model" => $model, "modelTarget" => $modelTarget), true)),
-                array('id' => 'tab2', 'label' => 'Performance', 'content' => $this->renderPartial("_tabPerformance", array("model" => $model, "modelPerformance" => $modelPerformance), true), 'active' => true),
-                //array('id' => 'tab3', 'label' => 'Potential', 'content' => $this->renderPartial("_tabPotential", array("model" => $model, "modelPotential" => $modelPotential), true)),
+                array('id' => 'tab1', 'label' => 'Target Setting', 'content' => $this->renderPartial("_tabTarget", array("model" => $model, "modelTarget" => $modelTarget), true), 'active' => true),
+                array('id' => 'tab7', 'label' => 'Performance', 'items' => array(
+					array('id' => 'tab2a', 'label' => 'Performance Process', 'content' => $this->renderPartial("_tabPerformanceP", array("model" => $model, "modelPerformance" => $modelPerformance), true)),
+					array('id' => 'tab2b', 'label' => 'Performance Result', 'content' => $this->renderPartial("_tabPerformanceR", array("model" => $model, "modelPerformance" => $modelPerformance), true)),
+					//array('id' => 'tab3', 'label' => 'Potential', 'content' => $this->renderPartial("_tabPotential", array("model" => $model, "modelPotential" => $modelPotential), true)),
+                )),
+
+
                 array('id' => 'tab4', 'label' => 'Career-Experience-Status', 'content' => $this->renderPartial("_mainCareerExperienceStatus", array("model" => $model), true)),
                 array('id' => 'tab5', 'label' => 'Education', 'content' => $this->renderPartial("_mainEducation", array("model" => $model), true)),
                 //array('id' => 'tab7', 'label' => 'Detail', 'content' => $this->renderPartial("/gPerson/_personalInfo", array("model" => $model), true)),

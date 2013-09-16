@@ -179,93 +179,55 @@ class gPerson2 extends BaseModel {
         );
     }
 
-    public function employeeOut() {
+    public function compSex() {
 
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
 
-        if (!Yii::app()->cache->get('employeeout'.Yii::app()->user->id)) {
-			$criteria = new CDbCriteria;
-
-			$criteria->with = array('status');
-			$criteria->compare('year(status.start_date)',date('Y'));
-			$criteria->compare('status.start_date >', date("Y-m-d", strtotime("-3 month")));
-			$criteria->AddInCondition('status.status_id', Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY);
-			$criteria->order = 'status.start_date DESC';
-
-
-			$criteria1 = new CDbCriteria;
-			$criteria1->condition = '(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) IN (' . implode(",", sUser::model()->myGroupArray) . ') AND
-					(select c.start_date from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) < status.start_date ';
-			$criteria->mergeWith($criteria1);
-		
-			//$dataProvider = new CActiveDataProvider($this, array(
-			$dataProvider = new CActiveDataProvider(gPerson::model()->cache(3600, $dependency, 2), array(
-				'criteria' => $criteria,
-				'pagination' => false,
-			));
-
-        	Yii::app()->cache->set('employeeout'.Yii::app()->user->id,$dataProvider,3600,$dependency);
-        } else
-        	$dataProvider=Yii::app()->cache->get('employeeout'.Yii::app()->user->id);
-
-        return $dataProvider;
-    }
- 
-    public function compDepartment() {
-
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
-
-        if (!Yii::app()->cache->get('department' . Yii::app()->user->id)) {
-            $default = sUser::model()->myGroup;
-            $org = aOrganization::model()->find('parent_id = ' . $default);
-            $dept = $org->childs[0]->id;
-            $models = aOrganization::model()->findAll(array('condition' => 'parent_id =' . $dept, 'order' => 'id'));
-
-            $_items = array();
-            foreach ($models as $model) {
-                $items[] = "SUM(IF((select b.department_id from g_person_career b where b.parent_id = a.id AND b.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by b.start_date DESC limit 1)= " . $model->id . ",1,0)) as l" . $model->id;
-            }
-
-            $extend = implode(",", $items);
-
+        if (!Yii::app()->cache->get('sex' . Yii::app()->user->id)) {
             $connection = Yii::app()->db;
-            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company, " . $extend . "
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 1,1,0)) as l1,
+			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 2,1,0)) as l2
+		
 			from g_person a
 			WHERE " . $this->module->filterUserCompany();
 
+
             $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $command = $connection->createCommand($sql);
             $row = $command->queryAll();
 
-            foreach ($models as $model) {
-                $_item[] = (int) $row[0]['l' . $model->id];
-            }
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
 
-            Yii::app()->cache->set('department' . Yii::app()->user->id, $_item, 3600, $dependency);
+            Yii::app()->cache->set('sex' . Yii::app()->user->id, $_item, 3600, $dependency);
         }
         else
-            $_item = Yii::app()->cache->get('department' . Yii::app()->user->id);
+            $_item = Yii::app()->cache->get('sex' . Yii::app()->user->id);
 
         return $_item;
     }
 
-    public function compStatus() {
+    public function compAge() {
 
         $_item = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
 
-        if (!Yii::app()->cache->get('status' . Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('age' . Yii::app()->user->id)) {
+            $_age = "DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '00-%m-%d'))";
             $connection = Yii::app()->db;
             $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
-			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 1 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 2 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 3,1,0)) as l1,
-			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 4 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 5,1,0)) as l2,
-			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 6,1,0)) as l3,
-			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 7,1,0)) as l4
-
+			SUM(IF(" . $_age . " <= 25,1,0)) as l1,
+			SUM(IF(" . $_age . " > 25 AND " . $_age . " <=30,1,0)) as l2,
+			SUM(IF(" . $_age . " > 30 AND " . $_age . " <=35,1,0)) as l3,
+			SUM(IF(" . $_age . " > 35 AND " . $_age . " <=40,1,0)) as l4,
+			SUM(IF(" . $_age . " > 40 AND " . $_age . " <=45,1,0)) as l5,
+			SUM(IF(" . $_age . " > 45 AND " . $_age . " <=50,1,0)) as l6,
+			SUM(IF(" . $_age . " > 50 AND " . $_age . " <=55,1,0)) as l7,
+			SUM(IF(" . $_age . " > 55,1,0)) as l8
+		
 			from g_person a
 			WHERE " . $this->module->filterUserCompany();
-
-            $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
 
             $command = $connection->cache(3600, $dependency)->createCommand($sql);
             $row = $command->queryAll();
@@ -274,11 +236,15 @@ class gPerson2 extends BaseModel {
             $_item[] = (int) $row[0]['l2'];
             $_item[] = (int) $row[0]['l3'];
             $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+            $_item[] = (int) $row[0]['l7'];
+            $_item[] = (int) $row[0]['l8'];
 
-            Yii::app()->cache->set('status' . Yii::app()->user->id, $_item, 3600, $dependency);
+            Yii::app()->cache->set('age' . Yii::app()->user->id, $_item, 3600, $dependency);
         }
         else
-            $_item = Yii::app()->cache->get('status' . Yii::app()->user->id);
+            $_item = Yii::app()->cache->get('age' . Yii::app()->user->id);
 
         return $_item;
     }
@@ -351,76 +317,6 @@ class gPerson2 extends BaseModel {
         }
         else
             $_item = Yii::app()->cache->get('working' . Yii::app()->user->id);
-
-        return $_item;
-    }
-
-    public function compSex() {
-
-        $_item = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
-
-        if (!Yii::app()->cache->get('sex' . Yii::app()->user->id)) {
-            $connection = Yii::app()->db;
-            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
-			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 1,1,0)) as l1,
-			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 2,1,0)) as l2
-		
-			from g_person a
-			WHERE " . $this->module->filterUserCompany();
-
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $row = $command->queryAll();
-
-            $_item[] = (int) $row[0]['l1'];
-            $_item[] = (int) $row[0]['l2'];
-
-            Yii::app()->cache->set('sex' . Yii::app()->user->id, $_item, 3600, $dependency);
-        }
-        else
-            $_item = Yii::app()->cache->get('sex' . Yii::app()->user->id);
-
-        return $_item;
-    }
-
-    public function compAge() {
-
-        $_item = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
-
-        if (!Yii::app()->cache->get('age' . Yii::app()->user->id)) {
-            $_age = "DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '00-%m-%d'))";
-            $connection = Yii::app()->db;
-            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
-			SUM(IF(" . $_age . " <= 25,1,0)) as l1,
-			SUM(IF(" . $_age . " > 25 AND " . $_age . " <=30,1,0)) as l2,
-			SUM(IF(" . $_age . " > 30 AND " . $_age . " <=35,1,0)) as l3,
-			SUM(IF(" . $_age . " > 35 AND " . $_age . " <=40,1,0)) as l4,
-			SUM(IF(" . $_age . " > 40 AND " . $_age . " <=45,1,0)) as l5,
-			SUM(IF(" . $_age . " > 45 AND " . $_age . " <=50,1,0)) as l6,
-			SUM(IF(" . $_age . " > 50 AND " . $_age . " <=55,1,0)) as l7,
-			SUM(IF(" . $_age . " > 55,1,0)) as l8
-		
-			from g_person a
-			WHERE " . $this->module->filterUserCompany();
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $row = $command->queryAll();
-
-            $_item[] = (int) $row[0]['l1'];
-            $_item[] = (int) $row[0]['l2'];
-            $_item[] = (int) $row[0]['l3'];
-            $_item[] = (int) $row[0]['l4'];
-            $_item[] = (int) $row[0]['l5'];
-            $_item[] = (int) $row[0]['l6'];
-            $_item[] = (int) $row[0]['l7'];
-            $_item[] = (int) $row[0]['l8'];
-
-            Yii::app()->cache->set('age' . Yii::app()->user->id, $_item, 3600, $dependency);
-        }
-        else
-            $_item = Yii::app()->cache->get('age' . Yii::app()->user->id);
 
         return $_item;
     }
@@ -500,159 +396,76 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compEmployeePerMonth() {
+    public function compDepartment() {
 
-        $_data = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
 
-        if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
-        $connection = Yii::app()->db;
-        $sql = "
-				select `o`.`id`, 'Total' as `state`,
-				(select count(`a`.`id`) from `g_person` `a` where 
-					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
-						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
-						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-01-31' AND
-					(select `s`.`status_id` AS `status` from `g_person_status` `s`
-						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-01-31' 
-						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
-					(select `o`.`id` AS `id` from `g_person_career` `c`
-							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
-						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
-							AND `c`.`start_date` <= '" . date("Y") . "-01-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201301`,
-				(select count(`a`.`id`) from `g_person` `a` where 
-					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
-						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
-						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-02-28' AND
-					(select `s`.`status_id` AS `status` from `g_person_status` `s`
-						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-02-28' 
-						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
-					(select `o`.`id` AS `id` from `g_person_career` `c`
-							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
-						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
-							AND `c`.`start_date` <= '" . date("Y") . "-02-28' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201302`,
-				(select count(`a`.`id`) from `g_person` `a` where 
-					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
-						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
-						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-03-31' AND
-					(select `s`.`status_id` AS `status` from `g_person_status` `s`
-						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-03-31' 
-						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
-					(select `o`.`id` AS `id` from `g_person_career` `c`
-							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
-						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
-							AND `c`.`start_date` <= '" . date("Y") . "-03-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201303`,
-				(select count(`a`.`id`) from `g_person` `a` where 
-					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
-						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
-						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-04-30' AND
-					(select `s`.`status_id` AS `status` from `g_person_status` `s`
-						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-04-30' 
-						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
-					(select `o`.`id` AS `id` from `g_person_career` `c`
-							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
-						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
-							AND `c`.`start_date` <= '" . date("Y") . "-04-30' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201304`,
-				(select count(`a`.`id`) from `g_person` `a` where 
-					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
-						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
-						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-05-31' AND
-					(select `s`.`status_id` AS `status` from `g_person_status` `s`
-						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-05-31' 
-						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
-					(select `o`.`id` AS `id` from `g_person_career` `c`
-							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
-						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
-							AND `c`.`start_date` <= '" . date("Y") . "-05-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201305`,
-				(select count(`a`.`id`) from `g_person` `a` where 
-					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
-						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
-						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-06-30' AND
-					(select `s`.`status_id` AS `status` from `g_person_status` `s`
-						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-06-30' 
-						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
-					(select `o`.`id` AS `id` from `g_person_career` `c`
-							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
-						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
-							AND `c`.`start_date` <= '" . date("Y") . "-06-30' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201306`,
-				(select count(`a`.`id`) from `g_person` `a` where 
-					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
-						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
-						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-07-31' AND
-					(select `s`.`status_id` AS `status` from `g_person_status` `s`
-						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-07-31' 
-						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
-					(select `o`.`id` AS `id` from `g_person_career` `c`
-							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
-						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
-							AND `c`.`start_date` <= '" . date("Y") . "-07-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201307`,
-				(select count(`a`.`id`) from `g_person` `a` where 
-					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
-						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
-						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-08-31' AND
-					(select `s`.`status_id` AS `status` from `g_person_status` `s`
-						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-08-31' 
-						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
-					(select `o`.`id` AS `id` from `g_person_career` `c`
-							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
-						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
-							AND `c`.`start_date` <= '" . date("Y") . "-08-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201308`,
-				(select count(`a`.`id`) from `g_person` `a` where 
-					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
-						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
-						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-09-30' AND
-					(select `s`.`status_id` AS `status` from `g_person_status` `s`
-						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-09-30' 
-						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
-					(select `o`.`id` AS `id` from `g_person_career` `c`
-							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
-						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
-							AND `c`.`start_date` <= '" . date("Y") . "-09-30' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201309`
+        if (!Yii::app()->cache->get('department' . Yii::app()->user->id)) {
+            $default = sUser::model()->myGroup;
+            $org = aOrganization::model()->find('parent_id = ' . $default);
+            $dept = $org->childs[0]->id;
+            $models = aOrganization::model()->findAll(array('condition' => 'parent_id =' . $dept, 'order' => 'id'));
 
+            $_items = array();
+            foreach ($models as $model) {
+                $items[] = "SUM(IF((select b.department_id from g_person_career b where b.parent_id = a.id AND b.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by b.start_date DESC limit 1)= " . $model->id . ",1,0)) as l" . $model->id;
+            }
 
+            $extend = implode(",", $items);
 
-				FROM `a_organization` `o`
-				where `id` IN (" . implode(",", sUser::model()->myGroupArray) . ")  
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company, " . $extend . "
+			from g_person a
+			WHERE " . $this->module->filterUserCompany();
 
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $command = $connection->createCommand($sql);
+            $row = $command->queryAll();
 
-			";
+            foreach ($models as $model) {
+                $_item[] = (int) $row[0]['l' . $model->id];
+            }
 
-        $command = $connection->cache(3600, $dependency)->createCommand($sql);
-        $rows = $command->queryAll();
-        foreach ($rows as $row) {
-            $_data = array();
-            $_second = array();
-            $_data[] = (int) $row['201301'];
-            $_data[] = (int) $row['201302'];
-            $_data[] = (int) $row['201303'];
-            $_data[] = (int) $row['201304'];
-            $_data[] = (int) $row['201305'];
-            $_data[] = (int) $row['201306'];
-            $_data[] = (int) $row['201307'];
-            $_data[] = (int) $row['201308'];
-            $_data[] = (int) $row['201309'];
-            //$_data[] = (int) $row['201310'];
-            //$_data[] = (int) $row['201311'];
-            //$_data[] = (int) $row['201312'];
-            $_name['name'] = $row['state'];
-            $_second['data'] = $_data;
-            $_merge[] = array_merge($_name, $_second);
+            Yii::app()->cache->set('department' . Yii::app()->user->id, $_item, 3600, $dependency);
         }
+        else
+            $_item = Yii::app()->cache->get('department' . Yii::app()->user->id);
 
-        	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
-        } else
-        	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+        return $_item;
+    }
 
-        return $_merge;
+    public function compStatus() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
+
+        if (!Yii::app()->cache->get('status' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 1 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 2 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 3,1,0)) as l1,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 4 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 5,1,0)) as l2,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 6,1,0)) as l3,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 7,1,0)) as l4
+
+			from g_person a
+			WHERE " . $this->module->filterUserCompany();
+
+            $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+
+            Yii::app()->cache->set('status' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('status' . Yii::app()->user->id);
+
+        return $_item;
     }
 
     public function compEmployeeIn() {
@@ -735,6 +548,206 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
 
+    public function compEmployeeInAll() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('employeeinall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "
+			SELECT 'Employee In' as state,
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-01-01' AND '" . date("Y") . "-01-31',1,0)) AS l01, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-02-01' AND '" . date("Y") . "-02-28',1,0)) AS l02, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-03-01' AND '" . date("Y") . "-03-31',1,0)) AS l03, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-04-01' AND '" . date("Y") . "-04-30',1,0)) AS l04, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-05-01' AND '" . date("Y") . "-05-31',1,0)) AS l05, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-06-01' AND '" . date("Y") . "-06-30',1,0)) AS l06, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-07-01' AND '" . date("Y") . "-07-31',1,0)) AS l07, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-08-01' AND '" . date("Y") . "-08-31',1,0)) AS l08, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-09-01' AND '" . date("Y") . "-09-30',1,0)) AS l09, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-10-01' AND '" . date("Y") . "-10-31',1,0)) AS l10, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-11-01' AND '" . date("Y") . "-11-30',1,0)) AS l11, 
+			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31',1,0)) AS l12
+			FROM a_organization a INNER JOIN a_organization aa ON a.id = aa.parent_id
+			INNER JOIN a_organization up ON a.parent_id = up.id 
+			INNER JOIN a_organization aaa ON aa.id = aaa.parent_id 
+			LEFT JOIN g_person_career g ON aaa.id = g.department_id
+			WHERE g.status_id IN (1,2)
+
+			UNION ALL 
+		
+			SELECT 'Employee Out' as state,
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-01-01' AND '" . date("Y") . "-01-31',1,0)) AS l01, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-02-01' AND '" . date("Y") . "-02-28',1,0)) AS l02, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-03-01' AND '" . date("Y") . "-03-31',1,0)) AS l03, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-04-01' AND '" . date("Y") . "-04-30',1,0)) AS l04, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-05-01' AND '" . date("Y") . "-05-31',1,0)) AS l05, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-06-01' AND '" . date("Y") . "-06-30',1,0)) AS l06, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-07-01' AND '" . date("Y") . "-07-31',1,0)) AS l07, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-08-01' AND '" . date("Y") . "-08-31',1,0)) AS l08, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-09-01' AND '" . date("Y") . "-09-30',1,0)) AS l09, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-10-01' AND '" . date("Y") . "-10-31',1,0)) AS l10, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-11-01' AND '" . date("Y") . "-11-30',1,0)) AS l11, 
+			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31',1,0)) AS l12
+
+			FROM g_person_status s 
+			WHERE s.status_id IN (8,9,10) 
+
+			";
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $rows = $command->queryAll();
+            foreach ($rows as $row) {
+                $_data = array();
+                $_second = array();
+                $_data[] = (int) $row['l01'];
+                $_data[] = (int) $row['l02'];
+                $_data[] = (int) $row['l03'];
+                $_data[] = (int) $row['l04'];
+                $_data[] = (int) $row['l05'];
+                $_data[] = (int) $row['l06'];
+                $_data[] = (int) $row['l07'];
+                $_data[] = (int) $row['l08'];
+                $_data[] = (int) $row['l09'];
+                $_data[] = (int) $row['l10'];
+                $_data[] = (int) $row['l11'];
+                $_data[] = (int) $row['l12'];
+                $_name['name'] = $row['state'];
+                $_second['data'] = $_data;
+                $_merge[] = array_merge($_name, $_second);
+            }
+
+            Yii::app()->cache->set('employeeinall' . Yii::app()->user->id, $_merge, 3600, $dependency);
+        }
+        else
+            $_merge = Yii::app()->cache->get('employeeinall' . Yii::app()->user->id);
+
+        return $_merge;
+    }
+
+    public function compEmployeePmdAll() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('employeepmdall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "
+            	SELECT 'Promotion' AS 'state',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31') as 'l01', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28') as 'l02', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31') as 'l03', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30') as 'l04', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31') as 'l05', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30') as 'l06', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31') as 'l07', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30') as 'l09',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31') as 'l10',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30') as 'l11',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (3, 5)
+						AND `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31') as 'l12'
+					
+				FROM `a_organization` `g` where `g`.`id` = 1
+				
+				UNION ALL
+				
+            	SELECT 'Mutation' AS 'state',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31') as 'l01', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28') as 'l02', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31') as 'l03', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30') as 'l04', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31') as 'l05', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30') as 'l06', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31') as 'l07', 
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30') as 'l09',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31') as 'l10',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30') as 'l11',
+				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
+					WHERE `c`.`status_id` in (2)
+						AND `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31') as 'l12'
+					
+				FROM `a_organization` `g` where `g`.`id` = 1
+				
+			";
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $rows = $command->queryAll();
+            foreach ($rows as $row) {
+                $_data = array();
+                $_second = array();
+                $_data[] = (int) $row['l01'];
+                $_data[] = (int) $row['l02'];
+                $_data[] = (int) $row['l03'];
+                $_data[] = (int) $row['l04'];
+                $_data[] = (int) $row['l05'];
+                $_data[] = (int) $row['l06'];
+                $_data[] = (int) $row['l07'];
+                $_data[] = (int) $row['l08'];
+                $_data[] = (int) $row['l09'];
+                $_data[] = (int) $row['l10'];
+                $_data[] = (int) $row['l11'];
+                $_data[] = (int) $row['l12'];
+                $_name['name'] = $row['state'];
+                $_second['data'] = $_data;
+                $_merge[] = array_merge($_name, $_second);
+            }
+
+            Yii::app()->cache->set('employeepmdall' . Yii::app()->user->id, $_merge, 3600, $dependency);
+        }
+        else
+            $_merge = Yii::app()->cache->get('employeepmdall' . Yii::app()->user->id);
+
+        return $_merge;
+    }
+    
     public function compEmployeePmd() {
 
         $_data = array();
@@ -1455,12 +1468,155 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
     
+    public function compEmployeePerMonth() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
+
+        if (!Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id)) {
+        $connection = Yii::app()->db;
+        $sql = "
+				select `o`.`id`, 'Total' as `state`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-01-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-01-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-01-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201301`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-02-28' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-02-28' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-02-28' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201302`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-03-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-03-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-03-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201303`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-04-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-04-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-04-30' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201304`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-05-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-05-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-05-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201305`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-06-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-06-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-06-30' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201306`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-07-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-07-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-07-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201307`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-08-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-08-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-07-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201308`
+
+
+
+				FROM `a_organization` `o`
+				where `id` IN (" . implode(",", sUser::model()->myGroupArray) . ")  
+
+
+			";
+
+        $command = $connection->cache(3600, $dependency)->createCommand($sql);
+        $rows = $command->queryAll();
+        foreach ($rows as $row) {
+            $_data = array();
+            $_second = array();
+            $_data[] = (int) $row['201301'];
+            $_data[] = (int) $row['201302'];
+            $_data[] = (int) $row['201303'];
+            $_data[] = (int) $row['201304'];
+            $_data[] = (int) $row['201305'];
+            $_data[] = (int) $row['201306'];
+            $_data[] = (int) $row['201307'];
+            $_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
+            $_name['name'] = $row['state'];
+            $_second['data'] = $_data;
+            $_merge[] = array_merge($_name, $_second);
+        }
+
+        	Yii::app()->cache->set('employeepermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('employeepermonth'.Yii::app()->user->id);
+
+        return $_merge;
+    }
+
     public function compEmployeePerMonthAll() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
 
-        if (!Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id)) {
+        //if (!Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id)) {
         $connection = Yii::app()->db;
         $sql = "
 				select `o`.`id`, 'Total' as `state`,
@@ -1565,618 +1721,11 @@ class gPerson2 extends BaseModel {
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);
-        }
+        //}
 
-        	Yii::app()->cache->set('employeepermonthall'.Yii::app()->user->id,$_merge,3600,$dependency);
-        } else
-        	$_merge=Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id);
-
-        return $_merge;
-    }
-    
-    public function compEmployeeInAll() {
-
-        $_data = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
-
-        if (!Yii::app()->cache->get('employeeinall' . Yii::app()->user->id)) {
-            $connection = Yii::app()->db;
-            $sql = "
-			SELECT 'Employee In' as state,
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-01-01' AND '" . date("Y") . "-01-31',1,0)) AS l01, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-02-01' AND '" . date("Y") . "-02-28',1,0)) AS l02, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-03-01' AND '" . date("Y") . "-03-31',1,0)) AS l03, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-04-01' AND '" . date("Y") . "-04-30',1,0)) AS l04, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-05-01' AND '" . date("Y") . "-05-31',1,0)) AS l05, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-06-01' AND '" . date("Y") . "-06-30',1,0)) AS l06, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-07-01' AND '" . date("Y") . "-07-31',1,0)) AS l07, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-08-01' AND '" . date("Y") . "-08-31',1,0)) AS l08, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-09-01' AND '" . date("Y") . "-09-30',1,0)) AS l09, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-10-01' AND '" . date("Y") . "-10-31',1,0)) AS l10, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-11-01' AND '" . date("Y") . "-11-30',1,0)) AS l11, 
-			Sum(IF(g.start_date BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31',1,0)) AS l12
-			FROM a_organization a INNER JOIN a_organization aa ON a.id = aa.parent_id
-			INNER JOIN a_organization up ON a.parent_id = up.id 
-			INNER JOIN a_organization aaa ON aa.id = aaa.parent_id 
-			LEFT JOIN g_person_career g ON aaa.id = g.department_id
-			WHERE g.status_id IN (1,2)
-
-			UNION ALL 
-		
-			SELECT 'Employee Out' as state,
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-01-01' AND '" . date("Y") . "-01-31',1,0)) AS l01, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-02-01' AND '" . date("Y") . "-02-28',1,0)) AS l02, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-03-01' AND '" . date("Y") . "-03-31',1,0)) AS l03, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-04-01' AND '" . date("Y") . "-04-30',1,0)) AS l04, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-05-01' AND '" . date("Y") . "-05-31',1,0)) AS l05, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-06-01' AND '" . date("Y") . "-06-30',1,0)) AS l06, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-07-01' AND '" . date("Y") . "-07-31',1,0)) AS l07, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-08-01' AND '" . date("Y") . "-08-31',1,0)) AS l08, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-09-01' AND '" . date("Y") . "-09-30',1,0)) AS l09, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-10-01' AND '" . date("Y") . "-10-31',1,0)) AS l10, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-11-01' AND '" . date("Y") . "-11-30',1,0)) AS l11, 
-			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31',1,0)) AS l12
-
-			FROM g_person_status s 
-			WHERE s.status_id IN (8,9,10) 
-
-			";
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $rows = $command->queryAll();
-            foreach ($rows as $row) {
-                $_data = array();
-                $_second = array();
-                $_data[] = (int) $row['l01'];
-                $_data[] = (int) $row['l02'];
-                $_data[] = (int) $row['l03'];
-                $_data[] = (int) $row['l04'];
-                $_data[] = (int) $row['l05'];
-                $_data[] = (int) $row['l06'];
-                $_data[] = (int) $row['l07'];
-                $_data[] = (int) $row['l08'];
-                $_data[] = (int) $row['l09'];
-                $_data[] = (int) $row['l10'];
-                $_data[] = (int) $row['l11'];
-                $_data[] = (int) $row['l12'];
-                $_name['name'] = $row['state'];
-                $_second['data'] = $_data;
-                $_merge[] = array_merge($_name, $_second);
-            }
-
-            Yii::app()->cache->set('employeeinall' . Yii::app()->user->id, $_merge, 3600, $dependency);
-        }
-        else
-            $_merge = Yii::app()->cache->get('employeeinall' . Yii::app()->user->id);
-
-        return $_merge;
-    }
-
-    public function compEmployeePmdAll() {
-
-        $_data = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
-
-        if (!Yii::app()->cache->get('employeepmdall' . Yii::app()->user->id)) {
-            $connection = Yii::app()->db;
-            $sql = "
-            	SELECT 'Promotion' AS 'state',
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31') as 'l01', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28') as 'l02', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31') as 'l03', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30') as 'l04', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31') as 'l05', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30') as 'l06', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31') as 'l07', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08',
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30') as 'l09',
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31') as 'l10',
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30') as 'l11',
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31') as 'l12'
-					
-				FROM `a_organization` `g` where `g`.`id` = 1
-				
-				UNION ALL
-				
-            	SELECT 'Mutation' AS 'state',
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31') as 'l01', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28') as 'l02', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31') as 'l03', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30') as 'l04', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31') as 'l05', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30') as 'l06', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31') as 'l07', 
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08',
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30') as 'l09',
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31') as 'l10',
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30') as 'l11',
-				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
-					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31') as 'l12'
-					
-				FROM `a_organization` `g` where `g`.`id` = 1
-				
-			";
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $rows = $command->queryAll();
-            foreach ($rows as $row) {
-                $_data = array();
-                $_second = array();
-                $_data[] = (int) $row['l01'];
-                $_data[] = (int) $row['l02'];
-                $_data[] = (int) $row['l03'];
-                $_data[] = (int) $row['l04'];
-                $_data[] = (int) $row['l05'];
-                $_data[] = (int) $row['l06'];
-                $_data[] = (int) $row['l07'];
-                $_data[] = (int) $row['l08'];
-                $_data[] = (int) $row['l09'];
-                $_data[] = (int) $row['l10'];
-                $_data[] = (int) $row['l11'];
-                $_data[] = (int) $row['l12'];
-                $_name['name'] = $row['state'];
-                $_second['data'] = $_data;
-                $_merge[] = array_merge($_name, $_second);
-            }
-
-            Yii::app()->cache->set('employeepmdall' . Yii::app()->user->id, $_merge, 3600, $dependency);
-        }
-        else
-            $_merge = Yii::app()->cache->get('employeepmdall' . Yii::app()->user->id);
-
-        return $_merge;
-    }
-    
-    public function compApplicantPerMonth() {
-
-        $_data = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM h_applicant');
-
-        if (!Yii::app()->cache->get('applicantpermonth'.Yii::app()->user->id)) {
-        $connection = Yii::app()->db;
-        $sql = "
-				select `o`.`id`, 'Total' as `state`,
-				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-01-31') as `201301`,
-				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-02-28') as `201302`,
-				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-03-31') as `201303`,
-				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-04-30') as `201304`,
-				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-05-31') as `201305`,
-				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-06-30') as `201306`,
-				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-07-30') as `201307`,
-				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-08-31') as `201308`,
-				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-09-30') as `201309`
-
-
-
-				FROM `a_organization` `o`
-				where `id` = 1  
-
-
-			";
-
-        $command = $connection->cache(3600, $dependency)->createCommand($sql);
-        $rows = $command->queryAll();
-        foreach ($rows as $row) {
-            $_data = array();
-            $_second = array();
-            $_data[] = (int) $row['201301'];
-            $_data[] = (int) $row['201302'];
-            $_data[] = (int) $row['201303'];
-            $_data[] = (int) $row['201304'];
-            $_data[] = (int) $row['201305'];
-            $_data[] = (int) $row['201306'];
-            $_data[] = (int) $row['201307'];
-            $_data[] = (int) $row['201308'];
-            $_data[] = (int) $row['201309'];
-            //$_data[] = (int) $row['201310'];
-            //$_data[] = (int) $row['201311'];
-            //$_data[] = (int) $row['201312'];
-            $_name['name'] = $row['state'];
-            $_second['data'] = $_data;
-            $_merge[] = array_merge($_name, $_second);
-        }
-
-        	Yii::app()->cache->set('applicantpermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
-        } else
-        	$_merge=Yii::app()->cache->get('applicantpermonth'.Yii::app()->user->id);
-
-        return $_merge;
-    }
-    
-    public function compVacancyPerMonth() {
-
-        $_data = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM h_vacancy');
-
-        if (!Yii::app()->cache->get('vacancypermonth'.Yii::app()->user->id)) {
-        $connection = Yii::app()->db;
-        $sql = "
-				select `o`.`id`, 'Opening Jobs' as `state`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "01') as `201301`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "02') as `201302`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m')
-					= '" . date("Y") . "03') as `201303`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "04') as `201304`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m')
-					= '" . date("Y") . "05') as `201305`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "06') as `201306`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "07') as `201307`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "08') as `201308`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "09') as `201309`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "10') as `201310`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "11') as `201311`,
-				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "12') as `201312`
-
-				FROM `a_organization` `o`
-				where `id` = 1  
-
-				UNION ALL 
-				select `o`.`id`, 'Assessment' as `state`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "01') as `201301`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "02') as `201302`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "03') as `201303`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "04') as `201304`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "05') as `201305`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "06') as `201306`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "07') as `201307`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "08') as `201308`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "09') as `201309`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "10') as `201310`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "12') as `201311`,
-				(select count(`a`.`id`) from `j_selection_part` `a` 
-				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
-				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "12') as `201312`
-
-
-				FROM `a_organization` `o`
-				where `id` = 1  
-
-			";
-
-
-        $command = $connection->cache(3600, $dependency)->createCommand($sql);
-        $rows = $command->queryAll();
-        foreach ($rows as $row) {
-            $_data = array();
-            $_second = array();
-            $_data[] = (int) $row['201301'];
-            $_data[] = (int) $row['201302'];
-            $_data[] = (int) $row['201303'];
-            $_data[] = (int) $row['201304'];
-            $_data[] = (int) $row['201305'];
-            $_data[] = (int) $row['201306'];
-            $_data[] = (int) $row['201307'];
-            $_data[] = (int) $row['201308'];
-            $_data[] = (int) $row['201309'];
-            $_data[] = (int) $row['201310'];
-            $_data[] = (int) $row['201311'];
-            $_data[] = (int) $row['201312'];
-            $_name['name'] = $row['state'];
-            $_second['data'] = $_data;
-            $_merge[] = array_merge($_name, $_second);
-        }
-
-        	Yii::app()->cache->set('vacancypermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
-        } else
-        	$_merge=Yii::app()->cache->get('vacancypermonth'.Yii::app()->user->id);
-
-        return $_merge;
-    }
-    
-    public function compLearningHoursPerMonth() {
-
-        $_data = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(created_date) FROM i_learning_sch_part');
-
-        if (!Yii::app()->cache->get('learninghourspermonth'.Yii::app()->user->id)) {
-        $connection = Yii::app()->db;
-        $sql = "
-				select `o`.`id`, 'Mandays' as `state`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "01') as `201301`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "02') as `201302`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "03') as `201303`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "04') as `201304`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "05') as `201305`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "06') as `201306`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "07') as `201307`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "08') as `201308`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "09') as `201309`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "09') as `201310`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "09') as `201311`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "09') as `201312`
-
-				FROM `a_organization` `o`
-				where `id` = 1  
-
-
-			";
-
-        $command = $connection->cache(3600, $dependency)->createCommand($sql);
-        $rows = $command->queryAll();
-        foreach ($rows as $row) {
-            $_data = array();
-            $_second = array();
-            $_data[] = (int) $row['201301'];
-            $_data[] = (int) $row['201302'];
-            $_data[] = (int) $row['201303'];
-            $_data[] = (int) $row['201304'];
-            $_data[] = (int) $row['201305'];
-            $_data[] = (int) $row['201306'];
-            $_data[] = (int) $row['201307'];
-            $_data[] = (int) $row['201308'];
-            $_data[] = (int) $row['201309'];
-            $_data[] = (int) $row['201310'];
-            $_data[] = (int) $row['201311'];
-            $_data[] = (int) $row['201312'];
-            $_name['name'] = $row['state'];
-            $_second['data'] = $_data;
-            $_merge[] = array_merge($_name, $_second);
-        }
-
-        	Yii::app()->cache->set('learninghourspermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
-        } else
-        	$_merge=Yii::app()->cache->get('learninghourspermonth'.Yii::app()->user->id);
-
-        return $_merge;
-    }
-        
-    public function compLearningClassPerMonth() {
-
-        $_data = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(created_date) FROM i_learning_sch_part');
-
-        if (!Yii::app()->cache->get('learningclasspermonth'.Yii::app()->user->id)) {
-        $connection = Yii::app()->db;
-        $sql = "
-				select `o`.`id`, 'Class' as `state`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "01') as `201301`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "02') as `201302`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "03') as `201303`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "04') as `201304`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "05') as `201305`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "06') as `201306`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "07') as `201307`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "08') as `201308`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "09') as `201309`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "10') as `201310`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "11') as `201311`,
-				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "12') as `201312`
-
-				FROM `a_organization` `o`
-				where `id` = 1  
-		
-				UNION ALL
-				
-				select `o`.`id`, 'Participant' as `state`,
-				(select count(`a`.`id`) + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "01'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "01') as `201301`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "02'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "02') as `201302`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "03'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "03') as `201303`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "04'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "04') as `201304`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "05'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "05') as `201305`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "06'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "06') as `201306`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "07'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "07') as `201307`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "08'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "08') as `201308`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "09'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "09') as `201309`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "10'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "10') as `201310`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "11'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "11') as `201311`,
-				(select count(`a`.`id`)  + 
-				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "12'),0) from `i_learning_sch_part` `a` 
-				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
-				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "12') as `201312`
-
-				FROM `a_organization` `o`
-				where `id` = 1  
-				
-
-
-			";
-
-        $command = $connection->cache(3600, $dependency)->createCommand($sql);
-        $rows = $command->queryAll();
-        foreach ($rows as $row) {
-            $_data = array();
-            $_second = array();
-            $_data[] = (int) $row['201301'];
-            $_data[] = (int) $row['201302'];
-            $_data[] = (int) $row['201303'];
-            $_data[] = (int) $row['201304'];
-            $_data[] = (int) $row['201305'];
-            $_data[] = (int) $row['201306'];
-            $_data[] = (int) $row['201307'];
-            $_data[] = (int) $row['201308'];
-            $_data[] = (int) $row['201309'];
-            $_data[] = (int) $row['201310'];
-            $_data[] = (int) $row['201311'];
-            $_data[] = (int) $row['201312'];
-            $_name['name'] = $row['state'];
-            $_second['data'] = $_data;
-            $_merge[] = array_merge($_name, $_second);
-        }
-
-        	Yii::app()->cache->set('learningclasspermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
-        } else
-        	$_merge=Yii::app()->cache->get('learningclasspermonth'.Yii::app()->user->id);
+        //	Yii::app()->cache->set('employeepermonthall'.Yii::app()->user->id,$_merge,3600,$dependency);
+        //} else
+        //	$_merge=Yii::app()->cache->get('employeepermonthall'.Yii::app()->user->id);
 
         return $_merge;
     }
@@ -3507,6 +3056,742 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
 
+    public function compSexAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
+
+        if (!Yii::app()->cache->get('sexall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 1,1,0)) as l1,
+			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 2,1,0)) as l2
+		
+			from g_person a";
+
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+
+            Yii::app()->cache->set('sexall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('sexall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compAgeAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
+
+        if (!Yii::app()->cache->get('ageall' . Yii::app()->user->id)) {
+            $_age = "DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '00-%m-%d'))";
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF(" . $_age . " <= 25,1,0)) as l1,
+			SUM(IF(" . $_age . " > 25 AND " . $_age . " <=30,1,0)) as l2,
+			SUM(IF(" . $_age . " > 30 AND " . $_age . " <=35,1,0)) as l3,
+			SUM(IF(" . $_age . " > 35 AND " . $_age . " <=40,1,0)) as l4,
+			SUM(IF(" . $_age . " > 40 AND " . $_age . " <=45,1,0)) as l5,
+			SUM(IF(" . $_age . " > 45 AND " . $_age . " <=50,1,0)) as l6,
+			SUM(IF(" . $_age . " > 50 AND " . $_age . " <=55,1,0)) as l7,
+			SUM(IF(" . $_age . " > 55,1,0)) as l8
+		
+			from g_person a";
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+            $_item[] = (int) $row[0]['l7'];
+            $_item[] = (int) $row[0]['l8'];
+
+            Yii::app()->cache->set('ageall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('ageall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compLevelAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('levelall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 21,1,0)) as l1,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 17,1,0)) as l2,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 13,1,0)) as l3,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 9,1,0)) as l4,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 5,1,0)) as l5,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 1,1,0)) as l6
+			from g_person a";
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+
+            Yii::app()->cache->set('levelall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('levelall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compWorkingAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('workingall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) < 1,1,0)) as l1,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 1 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 2,1,0)) as l2,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 3 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 4,1,0)) as l3,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 5 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 6,1,0)) as l4,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 7 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 8,1,0)) as l5,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) >8,1,0)) as l6
+		
+			from g_person a";
+
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+
+            Yii::app()->cache->set('workingall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('workingall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compEducationAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(id) FROM g_person_education');
+
+        if (!Yii::app()->cache->get('educationall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 1,1,0)) as l1,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 2,1,0)) as l2,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 3,1,0)) as l3,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 4 OR (select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1) = 5 OR (select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1) = 6 OR (select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1) = 7,1,0)) as l4,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 8,1,0)) as l5,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 9,1,0)) as l6,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 10,1,0)) as l7
+		
+			from g_person a";
+
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+            $_item[] = (int) $row[0]['l7'];
+
+            Yii::app()->cache->set('educationall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('educationall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compReligionAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
+
+        if (!Yii::app()->cache->get('religionall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 1,1,0)) as l1,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 2,1,0)) as l2,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 3,1,0)) as l3,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 4,1,0)) as l4,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 5,1,0)) as l5,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 6,1,0)) as l6
+		
+			from g_person a";
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+
+            Yii::app()->cache->set('religionall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('religionall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compStatusAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
+
+        if (!Yii::app()->cache->get('statusall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 1 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 2 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 3,1,0)) as l1,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 4 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 5,1,0)) as l2,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 6,1,0)) as l3,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 7,1,0)) as l4
+
+			from g_person a";
+
+            $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+
+            Yii::app()->cache->set('statusall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('statusall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function employeeOut() {
+
+        //$dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        //if (!Yii::app()->cache->get('employeeout'.Yii::app()->user->id)) {
+			$criteria = new CDbCriteria;
+
+			//$criteria->with = array('status');
+			//$criteria->compare('year(status.start_date)',date('Y'));
+			//$criteria->compare('status.start_date >', date("Y-m-d", strtotime("-3 month")));
+			//$criteria->AddInCondition('status.status_id', Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY);
+			//$criteria->order = 'status.start_date DESC';
+
+
+			//$criteria1 = new CDbCriteria;
+			//$criteria1->condition = '(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) IN (' . implode(",", sUser::model()->myGroupArray) . ') AND
+			//		(select c.start_date from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) < status.start_date ';
+			//$criteria->mergeWith($criteria1);
+		
+			$dataProvider = new CActiveDataProvider($this, array(
+			//$dataProvider = new CActiveDataProvider(gPerson::model()->cache(3600, $dependency, 2), array(
+				'criteria' => $criteria,
+				'pagination' => false,
+			));
+
+        //	Yii::app()->cache->set('employeeout'.Yii::app()->user->id,$dataProvider,3600,$dependency);
+        //} else
+        //	$dataProvider=Yii::app()->cache->get('employeeout'.Yii::app()->user->id);
+
+        return $dataProvider;
+    }
+    
+    public function compApplicantPerMonth() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM h_applicant');
+
+        if (!Yii::app()->cache->get('applicantpermonth'.Yii::app()->user->id)) {
+        $connection = Yii::app()->db;
+        $sql = "
+				select `o`.`id`, 'Total' as `state`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-01-31') as `201301`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-02-28') as `201302`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-03-31') as `201303`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-04-30') as `201304`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-05-31') as `201305`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-06-30') as `201306`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-07-30') as `201307`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-08-31') as `201308`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-09-30') as `201309`
+
+
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+
+
+			";
+
+        $command = $connection->cache(3600, $dependency)->createCommand($sql);
+        $rows = $command->queryAll();
+        foreach ($rows as $row) {
+            $_data = array();
+            $_second = array();
+            $_data[] = (int) $row['201301'];
+            $_data[] = (int) $row['201302'];
+            $_data[] = (int) $row['201303'];
+            $_data[] = (int) $row['201304'];
+            $_data[] = (int) $row['201305'];
+            $_data[] = (int) $row['201306'];
+            $_data[] = (int) $row['201307'];
+            $_data[] = (int) $row['201308'];
+            $_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
+            $_name['name'] = $row['state'];
+            $_second['data'] = $_data;
+            $_merge[] = array_merge($_name, $_second);
+        }
+
+        	Yii::app()->cache->set('applicantpermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('applicantpermonth'.Yii::app()->user->id);
+
+        return $_merge;
+    }
+    
+    public function compVacancyPerMonth() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM h_vacancy');
+
+        if (!Yii::app()->cache->get('vacancypermonth'.Yii::app()->user->id)) {
+        $connection = Yii::app()->db;
+        $sql = "
+				select `o`.`id`, 'Opening Jobs' as `state`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "01') as `201301`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "02') as `201302`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m')
+					= '" . date("Y") . "03') as `201303`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "04') as `201304`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m')
+					= '" . date("Y") . "05') as `201305`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "07') as `201307`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "08') as `201308`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "09') as `201309`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "10') as `201310`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "11') as `201311`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "12') as `201312`
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+
+				UNION ALL 
+				select `o`.`id`, 'Assessment' as `state`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "01') as `201301`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "02') as `201302`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "03') as `201303`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "04') as `201304`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "05') as `201305`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "07') as `201307`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "08') as `201308`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "09') as `201309`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "10') as `201310`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "12') as `201311`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "12') as `201312`
+
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+
+			";
+
+
+        $command = $connection->cache(3600, $dependency)->createCommand($sql);
+        $rows = $command->queryAll();
+        foreach ($rows as $row) {
+            $_data = array();
+            $_second = array();
+            $_data[] = (int) $row['201301'];
+            $_data[] = (int) $row['201302'];
+            $_data[] = (int) $row['201303'];
+            $_data[] = (int) $row['201304'];
+            $_data[] = (int) $row['201305'];
+            $_data[] = (int) $row['201306'];
+            $_data[] = (int) $row['201307'];
+            $_data[] = (int) $row['201308'];
+            $_data[] = (int) $row['201309'];
+            $_data[] = (int) $row['201310'];
+            $_data[] = (int) $row['201311'];
+            $_data[] = (int) $row['201312'];
+            $_name['name'] = $row['state'];
+            $_second['data'] = $_data;
+            $_merge[] = array_merge($_name, $_second);
+        }
+
+        	Yii::app()->cache->set('vacancypermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('vacancypermonth'.Yii::app()->user->id);
+
+        return $_merge;
+    }
+
+
+    public function compLearningClassPerMonth() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM i_learning_sch_part');
+
+        if (!Yii::app()->cache->get('learningclasspermonth'.Yii::app()->user->id)) {
+        $connection = Yii::app()->db;
+        $sql = "
+				select `o`.`id`, 'Class' as `state`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "01') as `201301`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "02') as `201302`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "03') as `201303`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "04') as `201304`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "05') as `201305`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "07') as `201307`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "08') as `201308`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "09') as `201309`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "10') as `201310`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "11') as `201311`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "12') as `201312`
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+		
+				UNION ALL
+				
+				select `o`.`id`, 'Participant' as `state`,
+				(select count(`a`.`id`) + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "01'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "01') as `201301`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "02'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "02') as `201302`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "03'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "03') as `201303`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "04'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "04') as `201304`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "05'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "05') as `201305`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "06'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "07'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "07') as `201307`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "08'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "08') as `201308`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "09'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "09') as `201309`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "10'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "10') as `201310`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "11'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "11') as `201311`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "12'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "12') as `201312`
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+				
+
+
+			";
+
+        $command = $connection->cache(3600, $dependency)->createCommand($sql);
+        $rows = $command->queryAll();
+        foreach ($rows as $row) {
+            $_data = array();
+            $_second = array();
+            $_data[] = (int) $row['201301'];
+            $_data[] = (int) $row['201302'];
+            $_data[] = (int) $row['201303'];
+            $_data[] = (int) $row['201304'];
+            $_data[] = (int) $row['201305'];
+            $_data[] = (int) $row['201306'];
+            $_data[] = (int) $row['201307'];
+            $_data[] = (int) $row['201308'];
+            $_data[] = (int) $row['201309'];
+            $_data[] = (int) $row['201310'];
+            $_data[] = (int) $row['201311'];
+            $_data[] = (int) $row['201312'];
+            $_name['name'] = $row['state'];
+            $_second['data'] = $_data;
+            $_merge[] = array_merge($_name, $_second);
+        }
+
+        	Yii::app()->cache->set('learningclasspermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('learningclasspermonth'.Yii::app()->user->id);
+
+        return $_merge;
+    }
+
+    public function compLearningHoursPerMonth() {
+
+        $_data = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(created_date) FROM i_learning_sch_part');
+
+        if (!Yii::app()->cache->get('learninghourspermonth'.Yii::app()->user->id)) {
+        $connection = Yii::app()->db;
+        $sql = "
+				select `o`.`id`, 'Mandays' as `state`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "01') as `201301`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "02') as `201302`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "03') as `201303`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "04') as `201304`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "05') as `201305`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "06') as `201306`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "07') as `201307`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "08') as `201308`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "09') as `201309`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "09') as `201310`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "09') as `201311`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "09') as `201312`
+
+				FROM `a_organization` `o`
+				where `id` = 1  
+
+
+			";
+
+        $command = $connection->cache(3600, $dependency)->createCommand($sql);
+        $rows = $command->queryAll();
+        foreach ($rows as $row) {
+            $_data = array();
+            $_second = array();
+            $_data[] = (int) $row['201301'];
+            $_data[] = (int) $row['201302'];
+            $_data[] = (int) $row['201303'];
+            $_data[] = (int) $row['201304'];
+            $_data[] = (int) $row['201305'];
+            $_data[] = (int) $row['201306'];
+            $_data[] = (int) $row['201307'];
+            $_data[] = (int) $row['201308'];
+            $_data[] = (int) $row['201309'];
+            $_data[] = (int) $row['201310'];
+            $_data[] = (int) $row['201311'];
+            $_data[] = (int) $row['201312'];
+            $_name['name'] = $row['state'];
+            $_second['data'] = $_data;
+            $_merge[] = array_merge($_name, $_second);
+        }
+
+        	Yii::app()->cache->set('learninghourspermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        } else
+        	$_merge=Yii::app()->cache->get('learninghourspermonth'.Yii::app()->user->id);
+
+        return $_merge;
+    }
+
+    public function proEmployee($id) {
+
+
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('proemployee' . $id . Yii::app()->user->id)) {
+
+            $models = aOrganization::model()->findAll(array('condition' => 'parent_id = ' . $id, 'order' => 'id'));
+
+            $connection = Yii::app()->db;
+
+            $_items = array();
+            foreach ($models as $model) {
+                //$sql="select count(id) from g_bi_person where company_id = ".$model->id;
+                $sql = "select 
+			count(`a`.`id`) 
+		from
+			`g_person` `a`
+			 where  
+		 
+			(select 
+					`s`.`status_id` AS `status_id`
+				from
+					`g_person_status` `s`
+				where
+					(`s`.`parent_id` = `a`.`id`)
+				order by `s`.`start_date` desc
+				limit 1) NOT IN (8,9,10,13) AND
+			(select 
+					`o`.`id` AS `id`
+				from
+					(`g_person_career` `c`
+					left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+				where
+					((`a`.`id` = `c`.`parent_id`)
+						and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+				order by `c`.`start_date` desc
+				limit 1) = " . $model->id;
+
+                $command = $connection->createCommand($sql);
+                $row = $command->queryScalar();
+                $item[] = (int) $row;
+            }
+
+            Yii::app()->cache->set('proemployee' . $id . Yii::app()->user->id, $item, 3600, $dependency);
+        }
+        else
+            $item = Yii::app()->cache->get('proemployee' . $id . Yii::app()->user->id);
+
+        return $item;
+    }
+
     public function holdingTotal() {
 
 
@@ -3606,301 +3891,5 @@ class gPerson2 extends BaseModel {
         return $item;
     }
 
-    public function proEmployee($id) {
 
-
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
-
-        if (!Yii::app()->cache->get('proemployee' . $id . Yii::app()->user->id)) {
-
-            $models = aOrganization::model()->findAll(array('condition' => 'parent_id = ' . $id, 'order' => 'id'));
-
-            $connection = Yii::app()->db;
-
-            $_items = array();
-            foreach ($models as $model) {
-                //$sql="select count(id) from g_bi_person where company_id = ".$model->id;
-                $sql = "select 
-			count(`a`.`id`) 
-		from
-			`g_person` `a`
-			 where  
-		 
-			(select 
-					`s`.`status_id` AS `status_id`
-				from
-					`g_person_status` `s`
-				where
-					(`s`.`parent_id` = `a`.`id`)
-				order by `s`.`start_date` desc
-				limit 1) NOT IN (8,9,10,13) AND
-			(select 
-					`o`.`id` AS `id`
-				from
-					(`g_person_career` `c`
-					left join `a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
-				where
-					((`a`.`id` = `c`.`parent_id`)
-						and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
-				order by `c`.`start_date` desc
-				limit 1) = " . $model->id;
-
-                $command = $connection->createCommand($sql);
-                $row = $command->queryScalar();
-                $item[] = (int) $row;
-            }
-
-            Yii::app()->cache->set('proemployee' . $id . Yii::app()->user->id, $item, 3600, $dependency);
-        }
-        else
-            $item = Yii::app()->cache->get('proemployee' . $id . Yii::app()->user->id);
-
-        return $item;
-    }
-
-    public function compSexAll() {
-
-        $_item = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
-
-        if (!Yii::app()->cache->get('sexall' . Yii::app()->user->id)) {
-            $connection = Yii::app()->db;
-            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
-			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 1,1,0)) as l1,
-			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 2,1,0)) as l2
-		
-			from g_person a";
-
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $row = $command->queryAll();
-
-            $_item[] = (int) $row[0]['l1'];
-            $_item[] = (int) $row[0]['l2'];
-
-            Yii::app()->cache->set('sexall' . Yii::app()->user->id, $_item, 3600, $dependency);
-        }
-        else
-            $_item = Yii::app()->cache->get('sexall' . Yii::app()->user->id);
-
-        return $_item;
-    }
-
-    public function compAgeAll() {
-
-        $_item = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
-
-        if (!Yii::app()->cache->get('ageall' . Yii::app()->user->id)) {
-            $_age = "DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '00-%m-%d'))";
-            $connection = Yii::app()->db;
-            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
-			SUM(IF(" . $_age . " <= 25,1,0)) as l1,
-			SUM(IF(" . $_age . " > 25 AND " . $_age . " <=30,1,0)) as l2,
-			SUM(IF(" . $_age . " > 30 AND " . $_age . " <=35,1,0)) as l3,
-			SUM(IF(" . $_age . " > 35 AND " . $_age . " <=40,1,0)) as l4,
-			SUM(IF(" . $_age . " > 40 AND " . $_age . " <=45,1,0)) as l5,
-			SUM(IF(" . $_age . " > 45 AND " . $_age . " <=50,1,0)) as l6,
-			SUM(IF(" . $_age . " > 50 AND " . $_age . " <=55,1,0)) as l7,
-			SUM(IF(" . $_age . " > 55,1,0)) as l8
-		
-			from g_person a";
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $row = $command->queryAll();
-
-            $_item[] = (int) $row[0]['l1'];
-            $_item[] = (int) $row[0]['l2'];
-            $_item[] = (int) $row[0]['l3'];
-            $_item[] = (int) $row[0]['l4'];
-            $_item[] = (int) $row[0]['l5'];
-            $_item[] = (int) $row[0]['l6'];
-            $_item[] = (int) $row[0]['l7'];
-            $_item[] = (int) $row[0]['l8'];
-
-            Yii::app()->cache->set('ageall' . Yii::app()->user->id, $_item, 3600, $dependency);
-        }
-        else
-            $_item = Yii::app()->cache->get('ageall' . Yii::app()->user->id);
-
-        return $_item;
-    }
-
-    public function compEducationAll() {
-
-        $_item = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(id) FROM g_person_education');
-
-        if (!Yii::app()->cache->get('educationall' . Yii::app()->user->id)) {
-            $connection = Yii::app()->db;
-            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
-			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 1,1,0)) as l1,
-			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 2,1,0)) as l2,
-			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 3,1,0)) as l3,
-			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 4 OR (select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1) = 5 OR (select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1) = 6 OR (select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1) = 7,1,0)) as l4,
-			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 8,1,0)) as l5,
-			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 9,1,0)) as l6,
-			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 10,1,0)) as l7
-		
-			from g_person a";
-
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $row = $command->queryAll();
-
-            $_item[] = (int) $row[0]['l1'];
-            $_item[] = (int) $row[0]['l2'];
-            $_item[] = (int) $row[0]['l3'];
-            $_item[] = (int) $row[0]['l4'];
-            $_item[] = (int) $row[0]['l5'];
-            $_item[] = (int) $row[0]['l6'];
-            $_item[] = (int) $row[0]['l7'];
-
-            Yii::app()->cache->set('educationall' . Yii::app()->user->id, $_item, 3600, $dependency);
-        }
-        else
-            $_item = Yii::app()->cache->get('educationall' . Yii::app()->user->id);
-
-        return $_item;
-    }
-
-    public function compReligionAll() {
-
-        $_item = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
-
-        if (!Yii::app()->cache->get('religionall' . Yii::app()->user->id)) {
-            $connection = Yii::app()->db;
-            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
-			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 1,1,0)) as l1,
-			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 2,1,0)) as l2,
-			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 3,1,0)) as l3,
-			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 4,1,0)) as l4,
-			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 5,1,0)) as l5,
-			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 6,1,0)) as l6
-		
-			from g_person a";
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $row = $command->queryAll();
-
-            $_item[] = (int) $row[0]['l1'];
-            $_item[] = (int) $row[0]['l2'];
-            $_item[] = (int) $row[0]['l3'];
-            $_item[] = (int) $row[0]['l4'];
-            $_item[] = (int) $row[0]['l5'];
-            $_item[] = (int) $row[0]['l6'];
-
-            Yii::app()->cache->set('religionall' . Yii::app()->user->id, $_item, 3600, $dependency);
-        }
-        else
-            $_item = Yii::app()->cache->get('religionall' . Yii::app()->user->id);
-
-        return $_item;
-    }
-
-    public function compLevelAll() {
-
-        $_item = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
-
-        if (!Yii::app()->cache->get('levelall' . Yii::app()->user->id)) {
-            $connection = Yii::app()->db;
-            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
-			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 21,1,0)) as l1,
-			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 17,1,0)) as l2,
-			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 13,1,0)) as l3,
-			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 9,1,0)) as l4,
-			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 5,1,0)) as l5,
-			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 1,1,0)) as l6
-			from g_person a";
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $row = $command->queryAll();
-
-            $_item[] = (int) $row[0]['l1'];
-            $_item[] = (int) $row[0]['l2'];
-            $_item[] = (int) $row[0]['l3'];
-            $_item[] = (int) $row[0]['l4'];
-            $_item[] = (int) $row[0]['l5'];
-            $_item[] = (int) $row[0]['l6'];
-
-            Yii::app()->cache->set('levelall' . Yii::app()->user->id, $_item, 3600, $dependency);
-        }
-        else
-            $_item = Yii::app()->cache->get('levelall' . Yii::app()->user->id);
-
-        return $_item;
-    }
-
-    public function compWorkingAll() {
-
-        $_item = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
-
-        if (!Yii::app()->cache->get('workingall' . Yii::app()->user->id)) {
-            $connection = Yii::app()->db;
-            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
-			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) < 1,1,0)) as l1,
-			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 1 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 2,1,0)) as l2,
-			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 3 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 4,1,0)) as l3,
-			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 5 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 6,1,0)) as l4,
-			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 7 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 8,1,0)) as l5,
-			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) >8,1,0)) as l6
-		
-			from g_person a";
-
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $row = $command->queryAll();
-
-            $_item[] = (int) $row[0]['l1'];
-            $_item[] = (int) $row[0]['l2'];
-            $_item[] = (int) $row[0]['l3'];
-            $_item[] = (int) $row[0]['l4'];
-            $_item[] = (int) $row[0]['l5'];
-            $_item[] = (int) $row[0]['l6'];
-
-            Yii::app()->cache->set('workingall' . Yii::app()->user->id, $_item, 3600, $dependency);
-        }
-        else
-            $_item = Yii::app()->cache->get('workingall' . Yii::app()->user->id);
-
-        return $_item;
-    }
-
-
-    public function compStatusAll() {
-
-        $_item = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
-
-        if (!Yii::app()->cache->get('statusall' . Yii::app()->user->id)) {
-            $connection = Yii::app()->db;
-            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
-			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 1 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 2 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 3,1,0)) as l1,
-			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 4 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 5,1,0)) as l2,
-			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 6,1,0)) as l3,
-			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 7,1,0)) as l4
-
-			from g_person a";
-
-            $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
-
-            $command = $connection->cache(3600, $dependency)->createCommand($sql);
-            $row = $command->queryAll();
-
-            $_item[] = (int) $row[0]['l1'];
-            $_item[] = (int) $row[0]['l2'];
-            $_item[] = (int) $row[0]['l3'];
-            $_item[] = (int) $row[0]['l4'];
-
-            Yii::app()->cache->set('statusall' . Yii::app()->user->id, $_item, 3600, $dependency);
-        }
-        else
-            $_item = Yii::app()->cache->get('statusall' . Yii::app()->user->id);
-
-        return $_item;
-    }
-        
 }
