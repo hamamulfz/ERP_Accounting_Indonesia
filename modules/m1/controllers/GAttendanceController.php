@@ -328,9 +328,8 @@ class GAttendanceController extends Controller {
 	        //    ));
 		        
         } else {
-            if ($flash == "on") {
+            if ($flash == "on") 
                 Yii::app()->user->setFlash('success', '<strong>Great!</strong> Migration Data from Excel to Schedule Tabel finished..');
-			}
 			
             $this->render('timeblock', array());
         }
@@ -511,10 +510,12 @@ class GAttendanceController extends Controller {
 						//IF NOT NULL or Do Read again
 						$modelN = gAttendance::model()->find($criteria);
 						if ($modelN != null) {
-							if (isset($row[3]))
+							if (peterFunc::checkTime($row[3]))
 								$modelN->in = date("d-m-Y", strtotime($row[2])) . " " . $row[3];
-							if (isset($row[4]))
+
+							if (peterFunc::checkTime($row[4]))
 								$modelN->out = date("d-m-Y", strtotime($row[2])) . " " . $row[4];
+
 							$modelN->save(false);
 						}
 					} 
@@ -652,6 +653,45 @@ class GAttendanceController extends Controller {
         }
         else
             return false;
+    }
+
+    public function actionReportByDept() {
+        $model = new fBeginEndDate;
+
+        if (isset($_POST['fBeginEndDate'])) {
+            $model->attributes = $_POST['fBeginEndDate'];
+            if ($model->validate()) {
+
+                if ($model->report_id == 1) {  //Detail
+                    $pdf = new attendanceSummaryByDept('L', 'mm', 'A4');
+                    $pdf->AliasNbPages();
+                    $pdf->AddPage();
+                    $pdf->SetFont('Arial', '', 12);
+
+                    $connection = Yii::app()->db;
+                    $sql = "SELECT a.employee_name, a.department, a.level, a.join_date, a.job_title,
+							(select count(t.id) from g_attendance t where t.parent_id = a.id AND t.daystatus3_id = 200 and year(cdate) = '2013' and month(cdate) = '9') as cuti,
+							(select count(t.id) from g_attendance t where t.parent_id = a.id AND t.daystatus3_id = 300 and year(cdate) = '2013' and month(cdate) = '9') as alpha,
+							(select count(t.id) from g_attendance t where t.parent_id = a.id AND t.daystatus1_id IS NOT NULL and year(cdate) = '2013' and month(cdate) = '9') as ijin
+
+						FROM g_bi_person a
+						WHERE company_id = " . sUser::model()->myGroup . " AND employee_status NOT IN ('Resign','End of Contract','Black List')
+						ORDER by a.department, a.employee_name";
+
+                    $command = $connection->createCommand($sql);
+                    $rows = $command->queryAll();
+
+                    //if(!isset($rows)
+                    //	throw new CHttpException(404,'Record not found.');
+
+                    $pdf->report($rows);
+                } //elseif {
+
+                $pdf->Output();
+            }
+        }
+
+        $this->render('reportByDept', array('model' => $model));
     }
     
 }

@@ -169,8 +169,9 @@ class attendanceDetail extends fpdf {
             $_actualout = ($model->actualOut == "??:??") ? $_actualout + 1 : $_actualout;
             if (isset($model->permission1)) {
                 $this->Cell($w[13], 6, $model->permission1->name . ". " . $model->remark, 'LR', 0, 'L', $fill);
-            }
-            else
+            } elseif (isset($model->syncPermission)) {
+                $this->Cell($w[13], 6, "#P# " . $model->syncPermission->permission_reason, 'LR', 0, 'L', $fill);
+            } else
                 $this->Cell($w[13], 6, $model->remark, 'LR', 0, 'L', $fill);
 
             $this->Ln();

@@ -136,7 +136,7 @@ class gLeave extends BaseModel {
         $criteria = new CDbCriteria;
 
         $criteria->compare('parent_id', $id);
-        $criteria->order = 't.start_date DESC';
+        $criteria->order = 't.start_date DESC, t.id DESC';
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -156,7 +156,7 @@ class gLeave extends BaseModel {
 
         $criteria->with = array('person');
         $criteria->together = true;
-        $criteria->condition = 'approved_id = 1 OR (approved_id = 8 AND balance is null)';
+        $criteria->condition = 'approved_id = 1 OR (approved_id = 5 AND balance is null) OR (approved_id = 6 AND balance is null)';
         $criteria->group = 'employee_name';
         //$criteria->compare('start_date>',Yii::app()->dateFormatter->format("yyyy-MM-dd",time()));
         $criteria->order = 't.start_date';
@@ -310,7 +310,7 @@ class gLeave extends BaseModel {
             $model->link = 'm1/gLeave/view/id/' . $this->parent_id;
             $model->content = 'Leave. New Leave created for <read>' . $this->person->employee_name . '</read>';
             $model->photo_path = $this->person->photoPath;
-            $model->save();
+            $model->save(false);
 
         }
         return true;

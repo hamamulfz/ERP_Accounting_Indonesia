@@ -15,11 +15,8 @@ $this->breadcrumbs = array(
         </div>
 
         <div class="row">
-            <div class="span5">
+            <div class="span10">
                 <?php $this->renderPartial('_sbBlacklist'); ?>
-            </div>
-            <div class="span6">
-                .
             </div>
         </div>
     </div>

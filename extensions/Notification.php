@@ -49,5 +49,22 @@ Class Notification {
         $msg->save(false);
         return true;
     }
+    	
+    public static function getMessageCount() {
+        $criteria = new CDbCriteria;
+        $criteria->with=array('conversation');
+        //$criteria->together=true;
+        $criteria->compare('conversation.bm_read', 1);
+        $criteria->compare('recipient_id', Yii::app()->user->id);
+
+        $notifiche = Message::model()->count($criteria);
+
+        //return (int) $notifiche;
+
+		return ((int)$notifiche != 0) ? CHtml::tag("span", array('style' => 'font-size:inherit', 'class' => 'badge badge-info'), $notifiche) : "";
+
+    }
+
+	
 }
 ?>

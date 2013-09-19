@@ -33,7 +33,7 @@ $this->widget('bootstrap.widgets.TbMenu', array(
     'items' => array(
         array('label' => 'Waiting for Approval', 'url' => Yii::app()->createUrl('/m1/gPermission'), 'active' => true),
         array('label' => 'Approved Permission', 'url' => Yii::app()->createUrl('/m1/gPermission/onApproved')),
-        array('label' => 'Pending State', 'url' => Yii::app()->createUrl('/m1/gPermission/onPending')),
+        //array('label' => 'Pending State', 'url' => Yii::app()->createUrl('/m1/gPermission/onPending')),
         array('label' => 'Employee On Permission', 'url' => Yii::app()->createUrl('/m1/gPermission/onPermission')),
         array('label' => 'Recent Permission', 'url' => Yii::app()->createUrl('/m1/gPermission/onRecent')),
     ),

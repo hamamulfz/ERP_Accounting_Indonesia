@@ -49,7 +49,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                     (
                     'label' => 'Print',
                     'url' => 'Yii::app()->createUrl("/m1/gLeave/printLeave",array("id"=>$data->id))',
-                    'visible' => '$data->approved_id ==1 || $data->approved_id ==8',
+                    'visible' => '$data->approved_id ==1 || $data->approved_id ==6',
                     'options' => array(
                         'class' => 'btn btn-mini',
                     ),
@@ -65,7 +65,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                     (
                     'label' => 'Approved',
                     'url' => 'Yii::app()->createUrl("/m1/gLeave/approved",array("id"=>$data->id,"pid"=>$data->person->id))',
-                    'visible' => '$data->approved_id ==1 || $data->approved_id ==8',
+                    'visible' => '$data->approved_id ==1 || $data->approved_id ==5 || $data->approved_id ==6',
                     'options' => array(
                         'ajax' => array(
                             'type' => 'GET',

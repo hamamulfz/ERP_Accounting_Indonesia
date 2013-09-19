@@ -155,7 +155,7 @@ class GEssController extends Controller {
         if (isset($_POST['gLeave'])) {
             $model->attributes = $_POST['gLeave'];
             $model->parent_id = gPerson::model()->find('userid = ' . Yii::app()->user->id)->id;  //default PETER
-            $model->approved_id = 8; ///Cancellation Leave
+            $model->approved_id = 6; ///Cancellation Leave Request
             if ($model->save())
                 $this->redirect(array('leave'));
         }
@@ -179,7 +179,7 @@ class GEssController extends Controller {
         if (isset($_POST['gLeave'])) {
             $model->attributes = $_POST['gLeave'];
             $model->parent_id = gPerson::model()->find('userid = ' . Yii::app()->user->id)->id;  //default PETER
-            $model->approved_id = 7; ///Extended Leave
+            $model->approved_id = 5; ///Extended Leave Request
             if ($model->save())
                 $this->redirect(array('leave'));
         }
@@ -391,7 +391,7 @@ class GEssController extends Controller {
         $criteria = new CDbCriteria;
         $criteria->compare('id', $id);
         $criteria->compare('parent_id', gPerson::model()->find('userid =' . Yii::app()->user->id)->id);
-        $criteria->compare('approved_id', 8);
+        $criteria->compare('approved_id', 6);
 
         $model = gLeave::model()->find($criteria);
         if ($model === null)

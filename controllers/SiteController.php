@@ -83,7 +83,10 @@ class SiteController extends Controller {
         if (Yii::app()->user->isGuest) {
             $this->render('login', array('model' => $model));
         } else {
-            $this->redirect(array('/menu'));
+	        if (Yii::app()->user->name == "admin" || sUser::model()->rightCountM > 2 || !Yii::app()->user->checkAccess('HR ESS Staff')) {
+	            $this->redirect(array('/menu'));
+	        } else
+	            $this->redirect(array('/m1/gEss'));
         }
     }
     public function actionLogin2() {
@@ -192,6 +195,8 @@ class SiteController extends Controller {
 				('Authenticated', " . $model->id . ", NULL, 'N;'),
 				('HR ESS Staff', " . $model->id . ", NULL, 'N;');";
                 $sql2 = "INSERT INTO `s_user_module` (`s_user_id`, `s_module_id`, `s_matrix_id`, `favourite_id`) VALUES
+				(" . $model->id . ", 194, 5, 1),
+				(" . $model->id . ", 248, 5, 1),
 				(" . $model->id . ", 23, 5, 1),
 				(" . $model->id . ", 24, 5, 1),
 				(" . $model->id . ", 25, 5, 1),
@@ -202,8 +207,11 @@ class SiteController extends Controller {
                 $command1->execute();
                 $command2 = $connection->createCommand($sql2);
                 $command2->execute();
+
                 $cekValidationCode->userid = $model->id;
                 $cekValidationCode->activation_expire = time(); //set now and expire automatically
+                $cekValidationCode->updated_by = $model->id;
+                $cekValidationCode->updated_date = time();
                 $cekValidationCode->save(false);
                 Yii::app()->user->setFlash('success', '<strong>Your Registration process is succesfull. Please, login with your given username and password');
                 $this->redirect(array('site/login2'));

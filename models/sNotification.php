@@ -266,4 +266,11 @@ class sNotification extends BaseModel {
 		return $output;     
      }
      
+	public function getNotifCount() {     
+		$unread = "";
+     	if (Yii::app()->user->name == "admin" || sUser::model()->rightCountM > 2 || !Yii::app()->user->checkAccess('HR ESS Staff')) 
+			$unread = (self::model()->unreadCount != 0) ? CHtml::tag("span", array('style' => 'font-size:inherit', 'class' => 'badge badge-info'), self::model()->unreadCount) : "";
+		
+		return $unread;
+	}
 }

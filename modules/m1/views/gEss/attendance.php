@@ -71,11 +71,13 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'value' => function($data) {
                 return
                         CHtml::tag('div', array(), $data->OkName)
-                        . CHtml::tag('div', array(), isset($data->permission1) ? $data->permission1->name : "")
+                        . CHtml::tag('div', array(), isset($data->permission1) ? $data->permission1->name . ". " . $data->remark : "")
                         . CHtml::tag('div', array(), isset($data->permission2) ? $data->permission2->name : "")
-                        . CHtml::tag('div', array(), isset($data->permission3) ? $data->permission3->name : "");
+                        . CHtml::tag('div', array(), isset($data->permission3) ? $data->permission3->name : "")
+                        . CHtml::tag('div', array(), isset($data->syncPermission) ? "#P# " . $data->syncPermission->permission_reason : "");
             }
         ),
+
     ),
 ));
 ?>

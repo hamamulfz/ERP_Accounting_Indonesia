@@ -390,11 +390,11 @@ class GLeaveController extends Controller {
             $newpribadi = $modelBalance->leaveBalance->person_leave - $model->number_of_day;
             $newbalance = $modelBalance->leaveBalance->balance - $model->number_of_day;
             $approved_value = 2;
-        } elseif ($model->approved_id == 7) {
+        } elseif ($model->approved_id == 5) {
             $newpribadi = $modelBalance->leaveBalance->person_leave + $model->number_of_day;
             $newbalance = $modelBalance->leaveBalance->balance + $model->number_of_day;
             $approved_value = 7;
-        } elseif ($model->approved_id == 8) {
+        } elseif ($model->approved_id == 6) {
             $newpribadi = $modelBalance->leaveBalance->person_leave + $model->number_of_day;
             $newbalance = $modelBalance->leaveBalance->balance + $model->number_of_day;
             $approved_value = 8;
@@ -507,7 +507,7 @@ class GLeaveController extends Controller {
         $criteria = new CDbCriteria;
         $criteria->compare('id', $id);
         //$criteria->compare('parent_id',gPerson::model()->find('userid ='.Yii::app()->user->id)->id);
-        $criteria->compare('approved_id', 8);
+        $criteria->compare('approved_id', 6);
 
         $model = gLeave::model()->find($criteria);
         if ($model === null)

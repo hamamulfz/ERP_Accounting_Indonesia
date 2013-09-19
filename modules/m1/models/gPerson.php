@@ -127,7 +127,7 @@ class gPerson extends BaseModel {
             'companyfirst' => array(self::HAS_ONE, 'gPersonCareer', 'parent_id', 'order' => 'companyfirst.start_date ASC', 'condition' => 'companyfirst.status_id =1'),
             'status' => array(self::HAS_ONE, 'gPersonStatus', 'parent_id', 'order' => 'status.start_date DESC'),
             'leave' => array(self::HAS_MANY, 'gLeave', 'parent_id', 'order' => 'leave.start_date DESC'),
-            'leaveBalance' => array(self::HAS_ONE, 'gLeave', 'parent_id', 'order' => 'leaveBalance.end_date DESC', 'condition' => 'leaveBalance.approved_id NOT IN (1,8)'),
+            'leaveBalance' => array(self::HAS_ONE, 'gLeave', 'parent_id', 'order' => 'leaveBalance.end_date DESC,leaveBalance.id DESC', 'condition' => 'leaveBalance.approved_id NOT IN (1,5,6)'),
             'leaveGenerated' => array(self::HAS_ONE, 'gLeave', 'parent_id', 'order' => 'leaveGenerated.end_date DESC', 'condition' => 'leaveGenerated.approved_id = 9 OR leaveGenerated.approved_id = 7'),
             'lastLeave' => array(self::HAS_ONE, 'gLeave', 'parent_id', 'order' => 'lastLeave.end_date DESC', 'condition' => 'lastLeave.approved_id = 2'),
             'user' => array(self::BELONGS_TO, 'sUser', 'userid'),

@@ -8,11 +8,16 @@
         <?php
         echo CHtml::link(CHtml::encode($data->applicant_name), Yii::app()->createUrl(
                         '/m1/hApplicant/view', array('id' => $data->id)));
+                        
+    	
         if ($data->vacancyLocked != 0)
             echo " [LOCKED]";
         echo ($data->company_id != 0) ? " [Not Shared]" : "";
+
+
         ?>	
     </h4>
+    <?php echo isset($data->company) ? $data->company->name :  "" ; ?>
 </div>
 
 
@@ -44,6 +49,7 @@
             <b><?php echo CHtml::encode($data->getAttributeLabel('freshgrad_id')); ?>:</b>
             <?php echo CHtml::encode($data->freshgrad); ?>
 			<br/>
+
             <?php
             $expC = ($data->many_experienceC != 0) ? " (" . $data->many_experienceC . ")" : "";
             $appliedC = ($data->vacancyC != 0) ? " (" . $data->vacancyC . ")" : "";
@@ -56,7 +62,7 @@
                     array('id' => 'tab1' . $data->id, 'label' => 'Experience' . $expC, 'content' => $this->renderPartial("_viewTabExperience", array("data" => $data), true), 'active' => true),
                     array('id' => 'tab2' . $data->id, 'label' => 'Applied On' . $appliedC, 'content' => $this->renderPartial("_viewTabApplied", array("data" => $data), true)),
                     array('id' => 'tab3' . $data->id, 'label' => 'Comment' . $commentC, 'content' => $this->renderPartial("_viewTabComment", array("data" => $data), true)),
-                    array('id' => 'tab4' . $data->id, 'label' => 'Selection Schedule' . $selC, 'content' => $this->renderPartial("_viewTabSelectionSchedule", array("data" => $data), true)),
+                    array('id' => 'tab4' . $data->id, 'label' => 'Selection Schedule', 'content' => $this->renderPartial("_viewTabSelectionSchedule", array("data" => $data), true)),
                     array('id' => 'tab5' . $data->id, 'label' => 'Selection Result' . $selC, 'content' => $this->renderPartial("_viewTabSelectionResult", array("data" => $data), true)),
                 ),
             ));

@@ -46,7 +46,7 @@ if (Yii::app()->user->name == "admin" || sUser::model()->rightCountM > 2 || !Yii
 				'type' =>'raw',
 				'value'=>'$data->photo_path',
 				'htmlOptions'=>array(
-					'style'=>'width:20px',
+					'style'=>'width:40px',
 				)
 			),
 			array(

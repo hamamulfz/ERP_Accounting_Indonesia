@@ -255,7 +255,7 @@ class gPermission extends BaseModel {
             $model->link = 'm1/gPermission/view/id/' . $this->parent_id;
             $model->content = 'Permission. New Permission created for <read>' . $this->person->employee_name . '</read>';
             $model->photo_path = $this->person->photoPath;
-            $model->save();
+            $model->save(false);
 
         }
         return true;
