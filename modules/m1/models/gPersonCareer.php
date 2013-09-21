@@ -176,5 +176,19 @@ class gPersonCareer extends BaseModel {
         else
             return true;
     }
+    
+    public function afterSave() {
+        if ($this->isNewRecord) {
+            $model= new sNotification;
+            $model->group_id = 1;
+            $model->link = 'm1/gPerson/view/id/' . $this->parent_id;
+            $model->content = 'Person Career. New Employee Career: '.$this->status->name.' created for <read>' . $this->parent->employee_name .'</read>';
+            $model->photo_path = $this->parent->photoPath;
+            $model->save();
+
+        }
+        return true;
+    }
+    
 
 }

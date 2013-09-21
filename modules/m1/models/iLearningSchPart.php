@@ -182,6 +182,7 @@ class iLearningSchPart extends BaseModel {
             $model->content = '<link3>'.$this->employee->employee_name . '</link3> from ' . $this->employee->mCompany() . ' has been added to <link2>'
                     . $this->getparent->getparent->learning_title . '</link2> on <read>'
                     . $this->getparent->schedule_date .'</read>';
+            $model->photo_path = $this->employee->photoPath;
             $model->save();
 
         }

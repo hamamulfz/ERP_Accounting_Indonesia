@@ -110,6 +110,7 @@ class gPersonStatus extends BaseModel {
             $model->group_id = 1;
             $model->link = 'm1/gPerson/view/id/' . $this->parent_id;
             $model->content = 'Person Status. New Employee Status: '.$this->status->name.' created for <read>' . $this->parent->employee_name .'</read>';
+            $model->photo_path = $this->parent->photoPath;
             $model->save();
 
         }

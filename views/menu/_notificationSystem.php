@@ -15,10 +15,7 @@
     foreach ($notifiche as $notifica) {
         echo CHtml::openTag('div', array('class'=>'media','style'=>'margin-top:0;'));
 			echo CHtml::openTag('p', array('class'=>'pull-left','style'=>'width:30px'));
-				if (!isset($notifica->photo_path))
-					echo CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/logoAlt4.jpg", 'logo', array("class" => "media-object")); 
-				else
-					echo $notifica->photo_path; 
+			echo $notifica->photoPath; 
 			echo CHtml::closeTag('p');
 
 			echo CHtml::openTag('div', array('class'=>'media-body'));

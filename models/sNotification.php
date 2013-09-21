@@ -273,4 +273,12 @@ class sNotification extends BaseModel {
 		
 		return $unread;
 	}
+	
+	public function getPhotoPath() {
+		if (!isset($this->photo_path))
+			echo CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/logoAlt4.jpg", 'logo', array("class" => "media-object")); 
+		else
+			echo $this->photo_path; 
+	
+	}
 }

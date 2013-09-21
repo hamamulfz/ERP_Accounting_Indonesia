@@ -10,14 +10,14 @@ class EmailComponent {
             $mailer->Host = "smtp.gmail.com";
             $mailer->Port = 465;
             $mailer->Username = "recruitment.agungpodomoroland@gmail.com";
-            $mailer->Password = '1234qwe1234qwe';
+            $mailer->Password = Yii::app()->params['broadcastPassword'];
             $mailer->From = "recruitment.agungpodomoroland@gmail.com";
         } else {
             $mailer->Host = "mail.agungpodomoro.com";
             $mailer->Port = 25;
             $mailer->SMTPSecure = "tls";
             $mailer->Username = "peter";
-            $mailer->Password = '1234qwe';
+            $mailer->Password = Yii::app()->params['peterPassword'];
             $mailer->From = "peter@agungpodomoro.com";
         }
         $mailer->CharSet = 'UTF-8';

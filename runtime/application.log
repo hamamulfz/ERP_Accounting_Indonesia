@@ -5176,3 +5176,66 @@ Stack trace:
 REQUEST_URI=/aphris/assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png
 HTTP_REFERER=http://localhost/aphris/m1/gPerson
 ---
+2013/09/19 19:33:13 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png".' in /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php(141): CWebApplication->runController('assets/a2505bc/...')
+#1 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/local/zend/apache2/htdocs/aphris/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/aphris/assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png
+HTTP_REFERER=http://localhost/aphris/sModule
+---
+2013/09/20 13:23:58 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png".' in /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php(141): CWebApplication->runController('assets/a2505bc/...')
+#1 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/local/zend/apache2/htdocs/aphris/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/aphris/assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png
+HTTP_REFERER=http://localhost/aphris/m1/gPerson
+---
+2013/09/20 13:24:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png".' in /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php(141): CWebApplication->runController('assets/a2505bc/...')
+#1 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/local/zend/apache2/htdocs/aphris/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/aphris/assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png
+HTTP_REFERER=http://localhost/aphris/m1/gTalent
+---
+2013/09/20 13:24:34 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png".' in /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php(141): CWebApplication->runController('assets/a2505bc/...')
+#1 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/local/zend/apache2/htdocs/aphris/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/aphris/assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png
+HTTP_REFERER=http://localhost/aphris/m1/gTalent/view/id/8741
+---
+2013/09/20 13:26:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png".' in /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php(141): CWebApplication->runController('assets/a2505bc/...')
+#1 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/local/zend/apache2/htdocs/aphris/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/aphris/assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png
+HTTP_REFERER=http://localhost/aphris/m1/gPersonCostcenter
+---
+2013/09/20 13:27:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png".' in /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php(141): CWebApplication->runController('assets/a2505bc/...')
+#1 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/local/zend/apache2/htdocs/aphris/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/aphris/assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png
+HTTP_REFERER=http://localhost/aphris/m1/gAttendance
+---
+2013/09/20 13:27:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png".' in /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/local/zend/apache2/htdocs/framework/web/CWebApplication.php(141): CWebApplication->runController('assets/a2505bc/...')
+#1 /usr/local/zend/apache2/htdocs/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/local/zend/apache2/htdocs/aphris/index.php(9): CApplication->run()
+#3 {main}
+REQUEST_URI=/aphris/assets/a2505bc/css/images/ui-bg_glass_75_ffffff_1x400.png
+HTTP_REFERER=http://localhost/aphris/m1/gAttendance
+---

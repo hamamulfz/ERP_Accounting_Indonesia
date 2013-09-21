@@ -38,9 +38,9 @@ $('.search-form form').submit(function(){
 </div>
 
 <?php
-	Yii::app()->user->setFlash('info', '<strong>Good News!</strong> Saat ini, Pendaftaran Registrasi peserta Assessment, tidak perlu lagi diinput ke database Applicant.
-	 Anda bisa langsung ke Selection Registration, pilih tanggal assessment dan masukan daftar karyawan di business unit masing-masing yang akan di assessment. 
-	 Mekanisme pendaftaran peserta psikotes tidak berubah... ');
+//	Yii::app()->user->setFlash('info', '<strong>Good News!</strong> Saat ini, Pendaftaran Registrasi peserta Assessment, tidak perlu lagi diinput ke database Applicant.
+//	 Anda bisa langsung ke Selection Registration, pilih tanggal assessment dan masukan daftar karyawan di business unit masing-masing yang akan di assessment. 
+//	 Mekanisme pendaftaran peserta psikotes tidak berubah... ');
 ?>
 
 
