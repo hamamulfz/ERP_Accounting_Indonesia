@@ -24,6 +24,6 @@ return array(
     'currentYearChristmasEnd' => '2013-12-31',
     'webcareer' => 'http://www.agungpodomoro-career.com',
     'selfregistration'=>true,
-    'broadcastPassword'=>'1234qwe1234qwe',
-    'peterPassword'=>'1234qwe',
+    'broadcastPassword'=>'',
+    'peterPassword'=>'',
 );
