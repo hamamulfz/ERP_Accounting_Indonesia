@@ -10,6 +10,9 @@ $this->menu = array(
 );
 
 $this->menu5 = array('Selection Holding');
+
+//$this->renderPartial('_notificationSystem',array());
+
 ?>
 
 <div class="page-header">

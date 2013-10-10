@@ -43,3 +43,456 @@
 			SELECT * FROM h_applicant WHERE email IS NOT null AND t_status IS NULL AND id <= 14346
 			ORDER BY `h_applicant`.`id` LIMIT 10
         
+2013/09/24 18:20:52 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:21:27 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:21:27 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:21:59 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:21:59 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:22:15 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:22:15 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:23:27 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:23:27 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:24:32 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:24:32 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:24:47 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:24:47 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:25:17 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:25:17 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:26:07 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:26:07 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:26:31 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:26:31 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:28:07 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:28:07 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:29:22 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:29:22 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:29:40 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:29:40 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:30:53 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:30:53 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:31:40 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:31:40 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:31:58 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:31:58 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 18:32:55 [trace] [system.CModule] Loading "log" application component
+2013/09/24 18:32:55 [trace] [system.db.ar.CActiveRecord] gPerson.findByPk()
+2013/09/24 18:32:55 [trace] [system.CModule] Loading "db" application component
+2013/09/24 18:32:55 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 18:32:55 [trace] [system.db.CDbCommand] Querying SQL: SHOW FULL COLUMNS FROM `g_person`
+2013/09/24 18:32:55 [trace] [system.db.CDbCommand] Querying SQL: SHOW CREATE TABLE `g_person`
+2013/09/24 18:32:55 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 19:01:39 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:02:18 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:02:18 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:02:18 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:02:18 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 19:02:32 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:02:32 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:02:32 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:02:32 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 3492
+2013/09/24 19:02:43 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:02:43 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:02:43 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:02:43 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 3492
+2013/09/24 19:03:02 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:03:02 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:03:02 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:03:02 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 3492
+2013/09/24 19:03:18 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:03:18 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:03:18 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:03:18 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 3492
+2013/09/24 19:10:17 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:10:17 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:10:17 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:10:17 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 3492
+2013/09/24 19:10:17 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 19:10:46 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:10:46 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:10:46 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:10:46 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 3492
+2013/09/24 19:12:22 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:12:22 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:12:22 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:12:22 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 3492
+2013/09/24 19:12:39 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:13:43 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:14:09 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:14:09 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:14:09 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:14:09 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 3492
+2013/09/24 19:14:25 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:14:25 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:14:25 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:14:25 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 3492
+2013/09/24 19:14:25 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+		(3492  ,'2013-05-02' ,12,12,'2013-05-02'  ,'2013-05-02' ,'Auto Generated Leave',9,3,
+		12,'Auto Generated Leave',9)
+2013/09/24 19:16:48 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:16:48 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:16:48 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:16:48 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 2479
+2013/09/24 19:16:48 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+		(2479  ,'2013-02-01' ,12,12,'2013-02-01'  ,'2013-02-01' ,'Auto Generated Leave',9,2,
+		12,'Auto Generated Leave',9)
+2013/09/24 19:17:34 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:17:34 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:17:34 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:17:34 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 2474
+2013/09/24 19:17:34 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+		(2474  ,'2013-10-01' ,12,12,'2013-10-01'  ,'2013-10-01' ,'Auto Generated Leave',1,-4,
+		-3,'Auto Generated Leave',9)
+2013/09/24 19:17:53 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:17:53 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:17:53 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:17:53 [trace] [system.db.CDbCommand] Querying SQL: 
+			SELECT g.id,g.employee_name, 
+			(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+			(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+			(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+			(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+			FROM g_person g 
+			WHERE g.id = 2474
+2013/09/24 19:17:53 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+		(2474  ,'2013-10-01' ,12,12,'2013-10-01'  ,'2013-10-01' ,'Auto Generated Leave',1,-5,
+		-4,'Auto Generated Leave',9)
+2013/09/24 19:41:19 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:41:32 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:41:32 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:41:32 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:41:32 [trace] [system.db.CDbCommand] Querying SQL: select `a`.`id` AS `id`,
+	    from `g_person` `a`
+		where 
+        (select	`s`.`status_id` AS `status_id` from `g_person_status` `s` where `s`.`parent_id` = `a`.`id`
+            order by `s`.`start_date` desc limit 1) NOT IN (8, 9, 10, 13) AND 
+
+		(select MONTH(`c`.`start_date`) AS `start_date` from `g_person_career` `c`
+        where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1 order by `c`.`start_date` desc limit 1) = 9 AND
+
+		(select DAY(`c`.`start_date`) AS `start_date` from `g_person_career` `c`
+        where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1 order by `c`.`start_date` desc limit 1) = 24 
+2013/09/24 19:41:32 [trace] [system.CModule] Loading "coreMessages" application component
+2013/09/24 19:41:32 [trace] [system.CModule] Loading "errorHandler" application component
+2013/09/24 19:41:56 [trace] [system.CModule] Loading "log" application component
+2013/09/24 19:41:56 [trace] [system.CModule] Loading "db" application component
+2013/09/24 19:41:56 [trace] [system.db.CDbConnection] Opening DB connection
+2013/09/24 19:41:56 [trace] [system.db.CDbCommand] Querying SQL: select `a`.`id` AS `id`
+	    from `g_person` `a`
+		where 
+        (select	`s`.`status_id` AS `status_id` from `g_person_status` `s` where `s`.`parent_id` = `a`.`id`
+            order by `s`.`start_date` desc limit 1) NOT IN (8, 9, 10, 13) AND 
+
+		(select MONTH(`c`.`start_date`) AS `start_date` from `g_person_career` `c`
+        where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1 order by `c`.`start_date` desc limit 1) = 9 AND
+
+		(select DAY(`c`.`start_date`) AS `start_date` from `g_person_career` `c`
+        where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1 order by `c`.`start_date` desc limit 1) = 24 
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 3198
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(3198  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 3199
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(3199  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 3200
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(3200  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 3201
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(3201  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 3202
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(3202  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 4588
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(4588  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 5750
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(5750  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 5876
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(5876  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 5881
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(5881  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 6231
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(6231  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 6522
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(6522  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 6541
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(6541  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 6749
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(6749  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 6756
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(6756  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 7074
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(7074  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 7416
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(7416  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 8160
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(8160  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 8798
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(8798  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,3,
+			12,'Auto Generated Leave',9)
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Querying SQL: 
+				SELECT g.id,g.employee_name, 
+				(select l.mass_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as mass_leave,  
+				(select l.person_leave from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as person_leave,  
+				(select l.balance from g_leave l WHERE g.id = l.parent_id AND l.approved_id NOT IN (1,5,6) ORDER BY l.end_date DESC,l.id DESC LIMIT 1) as balance,  
+				(select c.start_date from g_person_career c WHERE g.id = c.parent_id AND c.status_id IN (1) ORDER BY c.start_date ASC LIMIT 1) as start_date  
+				FROM g_person g 
+				WHERE g.id = 6369
+2013/09/24 19:41:57 [trace] [system.db.CDbCommand] Executing SQL: insert into g_leave 
+			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
+			(6369  ,'2013-09-24' ,12,12,'2013-09-24'  ,'2013-09-24' ,'Auto Generated Leave',9,1,
+			10,'Auto Generated Leave',9)

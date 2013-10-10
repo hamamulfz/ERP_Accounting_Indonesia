@@ -1196,5 +1196,15 @@ class GPersonController extends Controller {
 
         return false;
     }
+    
+    public function actionResetSso($id,$userid) {
+    	$passrandom=peterFunc::rand_string(4);
+    	$this->loadModel($id);
+		$_mysalt = sUser::blowfishSalt();
+		$_password = crypt($passrandom, $_mysalt);
+		sUser::model()->updateByPk((int) $userid, array('password' => $_password, 'salt' => $_mysalt, 'hash_type' => 'crypt'));
+		Yii::app()->user->setFlash('success', '<strong>Great!</strong> New Password has been set for this employee. The new password is: '.$passrandom);
+		$this->redirect(array('view', 'id' => $id));
+    }
 
 }

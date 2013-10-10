@@ -89,4 +89,8 @@ class SNotificationController extends Controller {
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
+    
+    public function actionUserHistory() {
+    	$this->render('userHistory');
+    }
 }

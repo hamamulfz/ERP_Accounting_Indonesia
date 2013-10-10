@@ -47,7 +47,7 @@ class sUser extends CActiveRecord {
             'groupCount' => array(self::STAT, 'sUserGroup', 'parent_id'),
             'moduleCount' => array(self::STAT, 'sUserModule', 's_user_id'),
             'rightCount' => array(self::STAT, 'sAuthassignment', 'userid'),
-            'moduleList' => array(self::MANY_MANY, 'sModule', 's_user_module(s_user_id,s_module_id)'),
+            'moduleList' => array(self::MANY_MANY, 'sModule', 's_user_module(s_user_id,s_module_id)','order'=>'moduleList.sort'),
             'groupList' => array(self::MANY_MANY, 'aOrganization', 's_user_group(parent_id,organization_root_id)'),
         );
     }
@@ -427,6 +427,19 @@ class sUser extends CActiveRecord {
         return "";
     }
 
+    public function ssoId() {
+
+        $isExist = is_file(Yii::app()->basePath . "/modules/m1/models/gPerson.php");
+
+        if ($isExist) {
+            $model = gPerson::model()->find('userid =' . $this->id);
+
+            if ($model != null)
+                return $model->id;
+        }
+        return "";
+    }
+
     public function getFullName() {
         $findself = self::model()->findByPk(Yii::app()->user->id);
 
@@ -491,7 +504,7 @@ class sUser extends CActiveRecord {
     public function afterSave() {
         if ($this->isNewRecord) {
             Notification::create(
-                    5, 'sUser/view/id/' . $this->id, 'User. New User created: <read>' . $this->username .'</read>'
+                    5, 'sUser/view/id/' . $this->id, 'User. New User created: <read>' . $this->username .'</read>' 
             );
         }
         return true;

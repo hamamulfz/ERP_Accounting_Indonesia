@@ -53,17 +53,30 @@ Class peterFunc {
             $_val = "";
         return $_val;
     }
-    public static function isTimeMore($from, $to) {
+    public static function isTimeMore($from, $to) {  //in => actual vs schedule
         //Time1 must be convert to same date with time2
-        $thisdatetime = Yii::app()->dateFormatter->format("dd-MM-yyyy", strtotime($to)) . " " . Yii::app()->dateFormatter->format("kk:mm", strtotime($from));
-        //$thisdatetime=date("d-m-Y",strtotime($to)) ." ".date("H:i",strtotime($from)); //PHP Format
-        if (isset($to) && strtotime($thisdatetime) > strtotime($to)) {
+        //$thisdatetime = Yii::app()->dateFormatter->format("dd-MM-yyyy", strtotime($to)) . " " . Yii::app()->dateFormatter->format("kk:mm", strtotime($from));
+        $thisdatetime=date("d-m-Y",strtotime($from)) ." ".date("H:i",strtotime($to)); //PHP Format
+        if (isset($to) && strtotime($from) > strtotime($thisdatetime)) {
             $_val = true;
         }
         else
             $_val = false;
         return $_val;
     }
+
+    public static function isTimeMore2($from, $to) {  //out=schedule vs actual
+        //Time2 must be convert to same date with time1
+        //$thisdatetime = Yii::app()->dateFormatter->format("dd-MM-yyyy", strtotime($from)) . " " . Yii::app()->dateFormatter->format("kk:mm", strtotime($to));
+        $thisdatetime=date("d-m-Y",strtotime($to)) ." ".date("H:i",strtotime($from)); //PHP Format
+        if (isset($from) && strtotime($thisdatetime) > strtotime($to)) {
+            $_val = true;
+        }
+        else
+            $_val = false;
+        return $_val;
+    }
+
     public static function countTimeDiff($from, $to) {
         if (isset($from) && isset($to)) {
             //Time1 must be convert to same date with time2

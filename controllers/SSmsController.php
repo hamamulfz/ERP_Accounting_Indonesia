@@ -39,11 +39,22 @@ class SSmsController extends Controller {
             $model->sender_id = sUser::model()->myGroup;
             if ($model->save()) {
 				$receivers=explode(",",$model->receivergroup_tag);
+				
+				//Message Split
+				$jmlSMS = ceil(strlen($model->message)/153);
+
+				// memecah pesan asli
+				$pecah  = str_split($model->message, 153);
+				
+				if (count($pecah) == 1) {
+					$multi = 'false';
+				} else
+					$multi = 'true';
 
 				foreach ($receivers as $receiver) {
 					$connection = Yii::app()->db;
 					$sql = "SELECT DISTINCT handphone FROM `s_addressbook` 
-						WHERE member_of regexp '^".$receiver."(,|$)' 
+						WHERE member_of LIKE '%".$receiver."%' 
 					";
 
 					$command = $connection->createCommand($sql);
@@ -53,11 +64,35 @@ class SSmsController extends Controller {
 						$firstnumber=explode(",",$row['handphone']);
 					
 						$connection2 = Yii::app()->db;
-						$sql = "INSERT INTO outbox (DestinationNumber, SenderID, TextDecoded, CreatorID) 
-								VALUES (CONCAT('+62','".$firstnumber[0]."'), 'modem1', '".$model->message."', '".Yii::app()->name."') 
-						";
-						$connection2->createCommand($sql)->execute();
-				
+						
+						$newID = $connection2->createCommand('select ID FROM outbox ORDER BY ID DESC LIMIT 1')->queryScalar();
+						($newID ==null) ? $newID = 1 : $newID++;
+						
+						// proses penyimpanan ke tabel mysql untuk setiap pecahan
+						for ($i=1; $i<=$jmlSMS; $i++)
+						{
+						   // membuat UDH untuk setiap pecahan, sesuai urutannya
+						   $udh = "050003A7".sprintf("%02s", $jmlSMS).sprintf("%02s", $i);
+
+						   // membaca text setiap pecahan
+						   $msg = $pecah[$i-1];
+
+						   if ($i == 1)
+						   {
+							  // jika merupakan pecahan pertama, maka masukkan ke tabel OUTBOX
+								$sql = "INSERT INTO outbox (DestinationNumber, SenderID, UDH, TextDecoded, ID, MultiPart, CreatorID) 
+										VALUES (CONCAT('+62','".$firstnumber[0]."'), 'modem1', '".$udh."', '".$msg."',".$newID.", '".$multi."', '".Yii::app()->name."') 
+								";
+						   }
+						   else
+						   {
+							  // jika bukan merupakan pecahan pertama, simpan ke tabel OUTBOX_MULTIPART
+							  $sql = "INSERT INTO outbox_multipart(UDH, TextDecoded, ID, SequencePosition)
+										VALUES ('".$udh."', '".$msg."',".$newID.",'$i')";
+						   }
+							$connection2->createCommand($sql)->execute();
+
+						}
 					}
 				}
 				

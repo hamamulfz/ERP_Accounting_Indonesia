@@ -63,8 +63,9 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
                 'dateFormat' => 'dd-mm-yy',
                 'timeFormat' => 'hh:mm', //'hh:mm tt' default
                 'defaultValue' => (isset($model->cdate)) ? date('d-m-Y', strtotime($model->cdate)) : date('d-m-Y h:i'),
-            //'minDate' => ($model->cdate !=null) ? date('d-m-Y',strtotime($model->cdate)) : date('d-m-Y',time()"-1 month"),
-            //'maxDate' => ($model->cdate !=null) ? date('d-m-Y',strtotime($model->cdate."1 day")) : date('d-m-Y',time()"+1 month"),
+                'minDate' => ($model->cdate != null) ? date('d-m-Y', strtotime($model->cdate)) : date('d-m-Y', strtotime('01-' . date("m-Y"))),
+                'maxDate' => ($model->cdate != null) ? date('d-m-Y', strtotime($model->cdate . "1 day")) :
+                        date('d-m-Y', strtotime('01-' . date("m-Y", strtotime(date("d-m-Y") . "1 month")) . "-1 day")),
             ),
                 )
         );

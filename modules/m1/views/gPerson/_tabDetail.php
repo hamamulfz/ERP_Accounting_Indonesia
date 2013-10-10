@@ -24,8 +24,8 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
         'blood_id',
         'address1',
         /* 'address2',
-          'address3',
-          'pos_code', */
+          'address3', */
+        'pos_code', 
         'identity_number',
         'identity_valid',
         'identity_address1',

@@ -47,30 +47,30 @@ class GTalentController extends Controller {
      */
     public function actionView($id) {
         $model = $this->loadModel($id);
-        $modelTarget = $this->newTarget($id);
-        $modelPerformance = $this->newPerformance($id);
+        $modelPerformanceP = $this->newPerformanceP($id);
+        $modelPerformanceR = $this->newPerformanceR($id);
         $modelPotential = $this->newPotential($id);
 
         $this->render('view', array(
             'model' => $model,
-            'modelTarget' => $modelTarget,
-            'modelPerformance' => $modelPerformance,
+            'modelPerformanceP' => $modelPerformanceP,
+            'modelPerformanceR' => $modelPerformanceR,
             'modelPotential' => $modelPotential,
         ));
     }
 
-    /**
+/**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function newTarget($id) {
+    public function newPerformanceP($id) {
         $model = new fPerformance;
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['gPerformance'])) {
-            $model->attributes = $_POST['gPerformance'];
+        if (isset($_POST['fPerformance'])) {
+            $model->attributes = $_POST['fPerformance'];
             $model->parent_id = $id;
             if ($model->save())
                 $this->redirect(array('view', 'id' => $id));
@@ -83,7 +83,7 @@ class GTalentController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function newPerformance($id) {
+    public function newPerformanceR($id) {
         $model = new gTalentPerformance;
 
         // Uncomment the following line if AJAX validation is needed

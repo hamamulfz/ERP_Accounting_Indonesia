@@ -41,7 +41,7 @@ $this->widget('TbDetailView', array(
 
 
 
-<?php if ($model->partCount() == 15 || $model->status_id != 1 || strtotime($model->schedule_date) < time()) { ?>
+<?php if ($model->partCount() >= 15 || $model->status_id != 1 || strtotime($model->schedule_date) < time()) { ?>
     <div class="alert">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>Full or Closed or Passed Date!</strong> The Registration is full or has been closed by Selection Holding Administrator

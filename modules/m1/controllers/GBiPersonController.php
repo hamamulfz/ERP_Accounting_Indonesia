@@ -189,5 +189,88 @@ class GBiPersonController extends Controller {
             'sql' => $sql,
         ));
     }
+    
+	public function actionAmbiltrigger($withnull=null)
+	{
+        if (isset($withnull))
+            $_listField['null'] = null;
+
+        $label = gBiPerson::model()->attributeLabels();
+        foreach (gBiPerson::model()->tableSchema->columns as $val) {
+            $_name['strkey'] = $val->name;
+            $_second['strvalue'] = $val->name;
+            $_listField[] = array_merge($_name, $_second);
+        }
+        echo CJSON::encode($_listField);	
+	}
+	
+	public function actionAmbiltipe()
+	{
+		$Datanya = $_POST['data'];
+		
+		$sql = "SELECT * FROM tbl_trigger WHERE strkey='".$Datanya."'";
+		$connection=Yii::app()->db;
+		$command=$connection->createCommand($sql);
+		$dataReader=$command->queryRow();
+		echo CJSON::encode($dataReader['id_tipe']);
+	}
+	
+	public function actionAmbiltipe2()
+	{
+		$Datanya = $_POST['data'];
+		
+		$sql = "SELECT * FROM tbl_tipe WHERE id='".$Datanya."'";
+		$connection=Yii::app()->db;
+		$command=$connection->createCommand($sql);
+		$dataReader=$command->queryRow();
+		echo CJSON::encode($dataReader['tipe']);
+	}
+	
+	public function actionAmbilID()
+	{
+		$Datanya = $_POST['data'];
+		$sql = "SELECT id_parrent FROM tbl_trigger WHERE strkey='".$Datanya."'";
+		$connection=Yii::app()->db;
+		$command=$connection->createCommand($sql);
+		$dataReader=$command->queryRow();
+		echo CJSON::encode($dataReader['id_parrent']);
+	}
+	
+	public function actionAmbilDetail()
+	{
+		//$Datanya = $_POST['data'];
+		$sql = "SELECT data FROM tbl_detail WHERE id_parrent='1'";
+		$connection=Yii::app()->db;
+		$command=$connection->createCommand($sql);
+		$dataReader=$command->queryAll();
+		echo CJSON::encode($dataReader);
+	}
+	
+	
+	
+	
+	
+	
+	public function actionProses()
+	{
+		$Query = "SELECT * from nama_tabel";
+		
+		$strWhere = "";
+		foreach ($_POST['rows'] as $key => $count ){
+				$Data1	= $_POST['data1_'.$count];
+				$Data2	= $_POST['data2_'.$count];
+				$Data3	= $_POST['data3_'.$count];
+				/*echo $Data1." >> ".$Data2;
+				echo "<br>";*/
+				if(trim($strWhere) == ""){
+					$strWhere = $Data1 . "".$Data3."'" . $Data2 . "'";
+				}else{
+					$strWhere .= " AND " . $Data1 . "".$Data3."'" . $Data2 . "'";
+				}
+		}
+		
+		echo $Query." WHERE " . $strWhere;
+	}
+    
 
 }

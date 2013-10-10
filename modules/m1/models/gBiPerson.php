@@ -74,6 +74,7 @@ class gBiPerson extends BaseModel {
             'home_phone' => 'Home Phone',
             'company_id' => 'Company ID',
             'company' => 'Company Name',
+            'company_type' => 'Company Type',
             'department' => 'Department Name',
             'level' => 'Level',
             'job_title' => 'Job Title',

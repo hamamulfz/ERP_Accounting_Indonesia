@@ -120,7 +120,7 @@ class attendanceDetail extends fpdf {
             $this->Cell($w[0], 6, $model->cdate, 'LR', 0, 'C', $fill);
             $this->Cell($w[1], 6, $model->realpattern->code, 'LR', 0, 'L', $fill);
 
-            if ($model->lateIn == "Late In") {
+            if ($model->lateInStatus == "Late In") {
                 $this->SetFont('Arial', 'U', 8);
                 $this->Cell($w[2], 6, $model->actualIn, 'LR', 0, 0, $fill);
                 $this->SetFont('Arial', '', 8);
@@ -128,7 +128,7 @@ class attendanceDetail extends fpdf {
                 $this->Cell($w[2], 6, $model->actualIn, 'LR', 0, 0, $fill);
             }
 
-            if ($model->earlyOut == "Early Out") {
+            if ($model->earlyOutStatus == "Early Out") {
                 $this->SetFont('Arial', 'U', 8);
                 $this->Cell($w[3], 6, $model->actualOut, 'LR', 0, 0, $fill);
                 $this->SetFont('Arial', '', 8);

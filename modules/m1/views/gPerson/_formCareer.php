@@ -66,7 +66,7 @@ Yii::app()->clientScript->registerScript('datepicker1', "
             </div>
         </div>
 
-        <?php echo $form->dropDownListRow($model, 'department_id', array()); ?>
+        <?php echo $form->dropDownListRow($model, 'department_id', (!$model->isNewRecord) ? $model->deptUpdate() : array()); ?>
 
         <?php echo $form->dropDownListRow($model, 'level_id', gParamLevel::model()->levelDropDown()); ?>
 

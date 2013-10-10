@@ -2,13 +2,13 @@
 
 $mEss = gPerson::model()->find('userid = ' . Yii::app()->user->id);
 
-
 if (isset($mEss->employee_name)) {
 
     //echo $model->photoPath;
 
     $this->menu4 = array(
-        array('label' => 'Home ESS', 'icon' => 'home', 'url' => array('/m1/gEss')),
+        array('label' => 'General Dashboard', 'icon' => 'home', 'url' => array('/menu')),
+        array('label' => 'Home ESS', 'icon' => 'home', 'url' => array('/m1/gEss'),'visible'=>$this->route != 'm1/gEss/index'),
         array('label' => 'Profile', 'icon' => 'user', 'url' => array('/m1/gEss/person')),
         array('label' => 'Leave', 'icon' => 'plane', 'url' => array('/m1/gEss/leave')),
         array('label' => 'Permission', 'icon' => 'cog', 'url' => array('/m1/gEss/permission')),
@@ -32,4 +32,5 @@ if (isset($mEss->employee_name)) {
         array('label' => 'Home ESS', 'icon' => 'home', 'url' => array('/m1/gEss')),
     );
 }
+
 ?>

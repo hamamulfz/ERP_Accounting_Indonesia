@@ -38,6 +38,7 @@
                         'level' => $data->mLevel(),
                         'status' => ($data->countContract() != "") ? $data->mStatus() . " ( " . $data->countContract() . " )" : $data->mStatus(),
                         'join_date' => (isset($data->companyfirst)) ? $data->companyfirst->start_date . " ( " . $data->countJoinDate() . " )" : "",
+                        'join_dateG' => (isset($data->companyfirstG)) ? $data->companyfirstG->start_date . " ( " . $data->countJoinDateG() . " )" : "",
 				        'superior' => ($this->id == "gEss") ? $data->mSuperior() : $data->mSuperiorLink(),
                     ),
                     'attributes' => array(
@@ -48,6 +49,7 @@
                         array('name' => 'level', 'label' => 'Level'),
                         array('name' => 'status', 'label' => 'Status'),
                         array('name' => 'join_date', 'label' => 'Join Date'),
+                        array('name' => 'join_dateG', 'label' => 'Join Date APG','visible'=>(isset($data->companyfirstG))),
 				        array('name' => 'superior', 'type' => 'raw', 'label' => 'Superior'),
                     ),
                 ));
@@ -58,6 +60,8 @@
 			<div style="font-size:11px;color:grey;" class="pull-right">
 			<p>
 			<?php echo isset($data->updated) ? "Last Updated by: ". $data->updated->username : ""    ?>
+			<br/>
+			<?php echo isset($data->user) ? "ESS Last Login: ". waktu::nicetime($data->user->last_login) : "Never Login"    ?>
 			</p>
 			</div>
 

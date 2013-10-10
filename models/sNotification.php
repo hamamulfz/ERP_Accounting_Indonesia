@@ -281,4 +281,5 @@ class sNotification extends BaseModel {
 			echo $this->photo_path; 
 	
 	}
+	
 }

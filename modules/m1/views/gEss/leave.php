@@ -35,8 +35,6 @@ $this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
     <div class="span9">
         <?php
         $this->widget('bootstrap.widgets.TbGridView', array(
-            //$this->widget('ext.groupgridview.GroupGridView', array(
-            //'extraRowColumns' => array('d_cuti'),
             'id' => 'g-person-grid',
             'dataProvider' => gLeave::model()->search($model->id),
             //'filter'=>$model,

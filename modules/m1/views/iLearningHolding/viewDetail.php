@@ -95,7 +95,7 @@ $this->widget('bootstrap.widgets.TbTabs', array(
     'tabs' => array(
         array('id' => 'tab1', 'label' => 'Detail', 'content' => $this->renderPartial("_tabViewDetail", array("model" => $model), true), 'active' => true),
         array('id' => 'tab2', 'label' => 'Feed Back', 'content' => $this->renderPartial("_tabViewFeedback", array("model" => $model), true)),
-        array('id' => 'tab3', 'label' => 'Photo', 'content' => $this->renderPartial("_tabPhoto", array("model" => $modelPhoto), true)),
+        array('id' => 'tab3', 'label' => 'Photo', 'content' => $this->renderPartial("_tabPhoto", array("model" => $model), true)),
     ),
 ));
 

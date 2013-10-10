@@ -195,7 +195,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'type' => 'raw',
             'value' => function($data2) {
                 return
-                        (peterFunc::isTimeMore($data2->realpattern->out, $data2->out)) ?
+                        (peterFunc::isTimeMore2($data2->realpattern->out, $data2->out)) ?
                         CHtml::tag('div', array('style' => 'color: red;'), $data2->actualOut)
                         . CHtml::tag('div', array('style' => 'color: red;font-size: 11px;'), $data2->earlyOutStatus) : $data2->actualOut;
             }
@@ -209,7 +209,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                         . CHtml::tag('div', array(), isset($data->permission1) ? $data->permission1->name . ". " . $data->remark : "")
                         . CHtml::tag('div', array(), isset($data->permission2) ? $data->permission2->name : "")
                         . CHtml::tag('div', array(), isset($data->permission3) ? $data->permission3->name : "")
-                        . CHtml::tag('div', array(), isset($data->syncPermission) ? "#P# " . $data->syncPermission->permission_reason : "");
+                        . CHtml::tag('div', array(), isset($data->syncPermission) ? "#P# " . $data->syncPermission->permission_reason ." ( ".$data->syncPermission->approved->name." )" : "");
             }
         ),
         //'remark',

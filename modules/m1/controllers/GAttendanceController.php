@@ -393,9 +393,22 @@ class GAttendanceController extends Controller {
                                 else
                                     $model->$header = $row[$i + 1];
                             }
+                            
                             $modelG=gAttendanceTimeblock::model()->find(array('condition'=>'parent_id = '.$model->parent_id.' AND begin_date = '.$model->begin_date));
-                            if ($modelG == null)
+
+                            if ($modelG == null) {
 	                            $model->save(false);
+								$i = 1;
+								while ($i <= 31) {
+									$modelAttendanceNew = new gAttendance;
+									$modelAttendanceNew->parent_id = $model->parent_id;
+									$modelAttendanceNew->cdate = str_pad($i, 2, "0", STR_PAD_LEFT) .'-'. substr($model->begin_date,4,2).'-'. substr($model->begin_date,0,4);
+									$r = "c" . $i;
+									$modelAttendanceNew->realpattern_id = $model->$r;
+									$modelAttendanceNew->save();
+									$i++;
+								}
+	                        }
                         }
                     }
                 }
@@ -693,5 +706,5 @@ class GAttendanceController extends Controller {
 
         $this->render('reportByDept', array('model' => $model));
     }
-    
+        
 }

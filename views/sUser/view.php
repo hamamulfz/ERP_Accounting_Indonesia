@@ -66,7 +66,8 @@ $this->menu4 = sUser::getTopLastOneHour();
                 ),
                 array(
                     'label' => 'SSO',
-                    'value' => $model->sso(),
+                    'type'=>'raw',
+                    'value' => CHtml::link($model->sso(),Yii::app()->createUrl('m1/gPerson/view',array('id'=>$model->ssoId()))),
                 ),
             ),
         ));

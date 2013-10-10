@@ -24,6 +24,7 @@ $this->breadcrumbs = array(
                         'series' => array(
                             array('type' => 'pie', 'name' => 'Project', 'data' => gPerson2::holdingTotal())
                         ),
+                        'theme' => 'dark-blue',
                         'plotOptions' => array(
                             'pie' => array(
                                 'dataLabels' => array(
@@ -56,6 +57,7 @@ $this->breadcrumbs = array(
                         'series' => array(
                             array('name' => 'Total', 'data' => gPerson2::grandTotal())
                         ),
+                        'theme' => 'dark-blue',
                         'plotOptions' => array(
                             'column' => array(
                                 'dataLabels' => array(
@@ -70,6 +72,39 @@ $this->breadcrumbs = array(
                     ),
                 ));
                 ?>
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="row">
+            <div class="span6">
+                <?php
+                $this->Widget('ext.highcharts.HighchartsWidget', array(
+                    'options' => array(
+                        'title' => array('text' => 'Total Employee by Holding Type'),
+                        'series' => array(
+                            array('type' => 'pie', 'name' => 'Project', 'data' => gPerson2::holdingPerShareTotal())
+                        ),
+                        'theme' => 'dark-blue',
+                        'plotOptions' => array(
+                            'pie' => array(
+                                'dataLabels' => array(
+                                    'enabled' => true,
+                                    'color' => '#000000',
+                                    'connectorColor' => '#000000',
+                                    'formatter' => "js:function() {
+										return '<b>'+ this.point.name +'</b>: '+ parseFloat(this.percentage).toFixed(1) +' %';
+									}"
+                                )
+                            )
+                        ),
+                    ),
+                ));
+                ?>
+            </div>
+            <div class="span4">
+			.
             </div>
         </div>
     </div>

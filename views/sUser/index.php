@@ -47,15 +47,15 @@ $this->menu4 = sUser::getTopLastOneHour();
     </div>
     <div class="span5">
 
-        <?php
-        if (isset($_GET['pid'])) {
-            if ((int) $_GET['pid'] != 0) {
-                echo "<b><p style='display: block;margin: 5px 0;padding: 2px;background-color: yellow;'>";
+		<?php
+		if (isset($_GET['pid'])) {
+			if ((int) $_GET['pid'] != 0) {
+				echo "<b><p style='display: block;margin: 5px 0;padding: 10px;background-color: #EAEFFF;'>";
                 echo "Filter By Company: " . aOrganization::model()->findByPk((int) $_GET['pid'])->name;
-                echo "</p></b>";
-            }
-        }
-        ?>
+				echo "</p></b>";
+			}
+		}
+		?>
 
         <?php
         $this->renderPartial('_search', array(

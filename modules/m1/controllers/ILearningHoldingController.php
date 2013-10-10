@@ -66,8 +66,19 @@ class ILearningHoldingController extends Controller {
             $model->attributes = $_POST['iLearningSchPart'];
             $model->parent_id = $id;
             $model->flow_id = 1; //Applied, New Entry
-            if ($model->save())
+            if ($model->save()) {
+				Notification::newInbox(
+						$model->employee->userid, "Learning schedule has been set for you", "Dear " . $model->employee->employee_name . ",<br/><br/> 
+					Your name has been added to following training: ".$model->getparent->getparent->learning_title." that will be held on: 
+					".
+					CHtml::link($model->getparent->schedule_date,Yii::app()->createUrl('m1/gEss/viewDetailEss',array('id'=>$model->parent_id)))
+					.".<br/><br/>
+					Dont forget! and see you there. Thank You very much... <br/><br/><br/>
+					APHRIS"
+				);
+
                 $this->redirect(array('viewDetail', 'id' => $id));
+            }
         }
 
         return $model;
@@ -89,8 +100,8 @@ class ILearningHoldingController extends Controller {
                     mkdir(Yii::getPathOfAlias('webroot') . '/shareimages/hr/learning/' . $id);
 
                 $images = CUploadedFile::getInstancesByName($model->images);
-
-                if (isset($images) && count($images) > 0) {
+				
+                //if (isset($images) && count($images) > 0) {
 
                     foreach ($images as $image => $pic) {
                         //$pic->saveAs(Yii::getPathOfAlias('webroot') . '/shareimages/hr/learning/' . $id . "/" . $pic->name);
@@ -100,12 +111,44 @@ class ILearningHoldingController extends Controller {
                     //change permission
                     //chmod(Yii::getPathOfAlias('webroot').'/shareimages/photo/'.date("Ymd")."-".$model->title.".jpg","0777");
                     //$model= new fPhoto;
-                }
+                //}
             }
         }
 
         return $model;
     }
+
+
+    public function actionUpload($id) {
+        Yii::import("ext.EAjaxUpload.qqFileUploader");
+
+        //$folder='shareimages/hr/employee/temp/';  // folder for uploaded files
+        $folder = 'shareimages/hr/learning/'.$id.'/';  // folder for uploaded files
+        $allowedExtensions = array("jpg");  //array("jpg","jpeg","gif","exe","mov" and etc...
+        //$sizeLimit = 5 * 1024 * 1024;// maximum file size in bytes
+        $sizeLimit = 500 * 1024; // maximum file size in bytes
+        $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+        $result = $uploader->handleUpload($folder);
+        $return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+
+        $fileSize = filesize($folder . $result['filename']); //GETTING FILE SIZE
+        $fileName = $result['filename']; //GETTING FILE NAME
+        //Make Thumb
+        //copy(Yii::getPathOfAlias('webroot').'shareimages/hr/employee/'.$fileName, 
+        //Yii::getPathOfAlias('webroot').'shareimages/hr/employee/thumb/'.$fileName);
+        //Yii::import('ext.iwi.Iwi');
+        //$picture = new Iwi(Yii::app()->basePath . "/../shareimages/hr/employee/".$fileName);
+        //$picture->resize(150,250, Iwi::AUTO);
+        //$picture->save(Yii::app()->basePath . "/../shareimages/hr/employee/thumb/".$fileName, TRUE);
+        //change permission
+        //chmod(Yii::getPathOfAlias('webroot').'shareimages/hr/employee/thumb/'.$fileName,"0777");
+        //gPerson::model()->updateByPk($id,array('c_pathfoto'=>$id."-".$fileName,'updated_date'=>time(),'updated_by'=>Yii::app()->user->id));
+        //gPerson::model()->updateByPk($id, array('c_pathfoto' => $fileName, 'updated_date' => time(), 'updated_by' => Yii::app()->user->id));
+
+        echo $return; // it's array
+    }
+
+
 
     /**
      * Displays a particular model.

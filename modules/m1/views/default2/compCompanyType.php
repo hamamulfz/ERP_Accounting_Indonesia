@@ -20,7 +20,7 @@ $this->breadcrumbs = array(
                 'chart' => array('defaultSeriesType' => 'column'),
                 'title' => array('text' => 'Employee Composition (Holding)'),
                 'xAxis' => array(
-                    'categories' => aOrganization::compByParent(971),
+                    'categories' => gPerson2::compByParent(971),
                     'labels' => array(
                         'rotation' => -90,
                         'align' => 'right',
@@ -32,6 +32,7 @@ $this->breadcrumbs = array(
                 'series' => array(
                     array('name' => 'Project', 'data' => gPerson2::proEmployee(971))
                 ),
+                'theme' => 'dark-blue',
                 'plotOptions' => array(
                     'column' => array(
                         'dataLabels' => array(
@@ -50,13 +51,15 @@ $this->breadcrumbs = array(
         ));
         ?>
 
+		<br/>
+		
         <?php
         $this->Widget('ext.highcharts.HighchartsWidget', array(
             'options' => array(
                 'chart' => array('defaultSeriesType' => 'column'),
                 'title' => array('text' => 'Employee Composition (Developer)'),
                 'xAxis' => array(
-                    'categories' => aOrganization::compByParent(669),
+                    'categories' => gPerson2::compByParent(669),
                     'labels' => array(
                         'rotation' => -90,
                         'align' => 'right',
@@ -68,6 +71,7 @@ $this->breadcrumbs = array(
                 'series' => array(
                     array('name' => 'Project', 'data' => gPerson2::proEmployee(669))
                 ),
+                'theme' => 'dark-blue',
                 'plotOptions' => array(
                     'column' => array(
                         'dataLabels' => array(
@@ -86,13 +90,15 @@ $this->breadcrumbs = array(
         ));
         ?>
 
+		<br/>
+		
         <?php
         $this->Widget('ext.highcharts.HighchartsWidget', array(
             'options' => array(
                 'chart' => array('defaultSeriesType' => 'column'),
                 'title' => array('text' => 'Employee Composition (POM)'),
                 'xAxis' => array(
-                    'categories' => aOrganization::compByParent(670),
+                    'categories' => gPerson2::compByParent(670),
                     'labels' => array(
                         'rotation' => -90,
                         'align' => 'right',
@@ -104,6 +110,7 @@ $this->breadcrumbs = array(
                 'series' => array(
                     array('name' => 'Project', 'data' => gPerson2::proEmployee(670))
                 ),
+                'theme' => 'dark-blue',
                 'plotOptions' => array(
                     'column' => array(
                         'dataLabels' => array(

@@ -74,7 +74,7 @@ class gPerson extends BaseModel {
             array('employee_code, employee_code_global', 'length', 'max' => 50),
             array('activation_code', 'length', 'max' => 16),
             array('employee_name', 'length', 'max' => 100),
-            array('email, email2', 'email'),
+            array('email', 'email'),
             //array('handphone', 'ext.BPhoneNumberValidator'),
             array('birth_place', 'length', 'max' => 20),
             array('address1, identity_address1, c_pathfoto', 'length', 'max' => 255),
@@ -125,6 +125,7 @@ class gPerson extends BaseModel {
                 'condition' => 'company.status_id IN (' . implode(',', Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ')',
             ),
             'companyfirst' => array(self::HAS_ONE, 'gPersonCareer', 'parent_id', 'order' => 'companyfirst.start_date ASC', 'condition' => 'companyfirst.status_id =1'),
+            'companyfirstG' => array(self::HAS_ONE, 'gPersonCareer', 'parent_id', 'order' => 'companyfirstG.start_date ASC', 'condition' => 'companyfirstG.status_id =9'),
             'status' => array(self::HAS_ONE, 'gPersonStatus', 'parent_id', 'order' => 'status.start_date DESC'),
             'leave' => array(self::HAS_MANY, 'gLeave', 'parent_id', 'order' => 'leave.start_date DESC'),
             'leaveBalance' => array(self::HAS_ONE, 'gLeave', 'parent_id', 'order' => 'leaveBalance.end_date DESC,leaveBalance.id DESC', 'condition' => 'leaveBalance.approved_id NOT IN (1,5,6)'),
@@ -439,6 +440,24 @@ class gPerson extends BaseModel {
     public function countJoinDate() {
         if (isset($this->companyfirst) && !in_array((int) $this->mStatusId(), Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY)) {
             $diff = abs(strtotime($this->companyfirst->start_date) - time());
+            $years = floor($diff / (365 * 60 * 60 * 24));
+            $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+            $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+
+			if ($years == 0 && $months == 0 ) 
+	            return $days . " days";
+  			elseif (!$years != 0 ) 
+	            return $months . " months, " . $days . " days";
+  			else 
+	            return $years . " years, " . $months . " months, " . $days . " days";
+      }
+        else
+            return null;
+    }
+
+    public function countJoinDateG() {
+        if (isset($this->companyfirstG) && !in_array((int) $this->mStatusId(), Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY)) {
+            $diff = abs(strtotime($this->companyfirstG->start_date) - time());
             $years = floor($diff / (365 * 60 * 60 * 24));
             $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
             $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
@@ -1273,5 +1292,6 @@ class gPerson extends BaseModel {
             )
         ));
     }
+    
 
 }

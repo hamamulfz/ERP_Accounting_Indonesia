@@ -140,7 +140,7 @@ class gAttendance extends BaseModel {
     }
 
     public function getEarlyOutStatus() {
-        if (isset($this->out) && peterFunc::isTimeMore($this->realpattern->out, $this->out)) {
+        if (isset($this->out) && peterFunc::isTimeMore2($this->realpattern->out, $this->out)) {
             $_val = "Early Out";
         }
         else
@@ -184,7 +184,7 @@ class gAttendance extends BaseModel {
     }
 
     public function getDiffOut() {
-        if (peterFunc::isTimeMore($this->realpattern->out, $this->out)) {
+        if (peterFunc::isTimeMore2($this->realpattern->out, $this->out)) {
             $_val = peterFunc::countTimeDiff($this->realpattern->out, $this->out);
         }
         else

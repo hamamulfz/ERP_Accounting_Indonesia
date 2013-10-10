@@ -17,6 +17,7 @@ return array(
 					array('label' => 'Company News', 'icon' => 'share', 'url' => Yii::app()->createUrl('/sCompanyNews')),
 					array('label' => 'MailBox'." ".Notification::getMessageCount(), 'icon' => 'envelope', 'url' => Yii::app()->createUrl('/mailbox')),
 					'---',
+					array('label' => 'User Login History', 'icon' => 'user', 'url' => Yii::app()->createUrl("sNotification/userHistory")),
 					array('label' => 'Log Out', 'icon' => 'off', 'url' => Yii::app()->createUrl("site/logout")),
 				)),
 		),

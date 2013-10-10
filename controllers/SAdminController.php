@@ -271,8 +271,13 @@ class SAdminController extends Controller {
         ));
         $this->render('yiiLog', array('dataProvider' => $dataProvider));
     }
+
     public function actionProgress() {
         $this->render('progress', array());
+    }
+
+    public function actionUserHistory() {
+        $this->render('userHistory', array());
     }
         
 }

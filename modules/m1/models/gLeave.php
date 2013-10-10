@@ -115,7 +115,7 @@ class gLeave extends BaseModel {
             'mass_leave' => 'Mass Leave',
             'person_leave' => 'Private Leave',
             'balance' => 'Balance',
-            'replacement' => 'Replacement',
+            'replacement' => 'Substitute',
             'remark' => 'Remark',
             'approved_id' => 'Approved',
             'created_date' => 'Created Date',

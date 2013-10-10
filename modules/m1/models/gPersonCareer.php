@@ -176,6 +176,20 @@ class gPersonCareer extends BaseModel {
         else
             return true;
     }
+
+    public function DeptUpdate() {
+        $models = aOrganization::model()->findAll(array('condition' => 'parent_id = ' . $this->company_id, 'order' => 'id'));
+
+        foreach ($models as $model) {
+            foreach ($model->childs as $mod)
+                foreach ($mod->childs as $m)
+                //$_items[$m->getparent->getparent->name ." - ". $m->getparent->name][$m->id]=$m->name;
+                    $_items[$m->id] = $m->name;
+        }
+
+		return $_items;
+    }
+
     
     public function afterSave() {
         if ($this->isNewRecord) {
@@ -189,6 +203,7 @@ class gPersonCareer extends BaseModel {
         }
         return true;
     }
+
     
 
 }

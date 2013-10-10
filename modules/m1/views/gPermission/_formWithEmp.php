@@ -103,7 +103,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
             'options' => array(
                 'dateFormat' => 'dd-mm-yy',
                 'timeFormat' => 'hh:mm', //'hh:mm tt' default
-                'stepMinute' => 15,
             ),
                 )
         );
@@ -122,7 +121,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
             'options' => array(
                 'dateFormat' => 'dd-mm-yy',
                 'timeFormat' => 'hh:mm', //'hh:mm tt' default
-                'stepMinute' => 15,
             ),
                 )
         );

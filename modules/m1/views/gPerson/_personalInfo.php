@@ -20,6 +20,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
         'level' => $model->mLevel(),
         'status' => ($model->countContract() != "") ? $model->mStatus() . " ( " . $model->countContract() . " )" : $model->mStatus(),
         'join_date' => (isset($model->companyfirst)) ? $model->companyfirst->start_date . " ( " . $model->countJoinDate() . " )" : "",
+        'join_dateG' => (isset($model->companyfirstG)) ? $model->companyfirstG->start_date . " ( " . $model->countJoinDateG() . " )" : "",
         'superior' => ($this->id == "gEss") ? $model->mSuperior() : $model->mSuperiorLink(),
     ),
     'attributes' => array(
@@ -30,6 +31,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
         array('name' => 'level', 'label' => 'Level'),
         array('name' => 'status', 'label' => 'Status'),
         array('name' => 'join_date', 'label' => 'Join Date'),
+        array('name' => 'join_dateG', 'label' => 'Join Date APG','visible'=>(isset($model->companyfirstG))),
         array('name' => 'superior', 'type' => 'raw', 'label' => 'Superior'),
     ),
 ));

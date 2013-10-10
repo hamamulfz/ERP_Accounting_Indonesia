@@ -6,7 +6,7 @@ class emailCommand extends CConsoleCommand {
         $sqlRaw = "
 			SELECT r.id,r.email FROM s_user_registration r LEFT JOIN h_applicant h ON r.id = h.id WHERE r.email IS NOT null AND h.t_status IS NULL AND r.id <= 14346 ORDER BY r.id LIMIT 50
         ";
-        $rawData = Yii::app()->db->createCommand($sqlRaw)->queryAll();
+        $rawData = $connection->createCommand($sqlRaw)->queryAll();
         foreach ($rawData as $row) {
 	
 			$subject="Agung Podomoro Land - Career. Disain Baru, Navigasi mudah dan Terintegrasi";

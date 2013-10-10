@@ -65,6 +65,15 @@ Class Notification {
 
     }
 
+	public static function getUserHistory() {
+		$model= new sUserHistory;
+		$model->user_id = Yii::app()->user->id;
+		$model->log_time = time();
+		$model->ip_address = $_SERVER['REMOTE_ADDR'];
+		$model->browser_name = $_SERVER['HTTP_USER_AGENT'];
+		$model->save(false);
+		
+	}
 	
 }
 ?>

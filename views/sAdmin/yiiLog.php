@@ -1,3 +1,14 @@
+<?php
+$this->widget('bootstrap.widgets.TbMenu', array(
+    'type' => 'pills', // '', 'tabs', 'pills' (or 'list')
+    'stacked' => false, // whether this is a stacked menu
+    'items' => array(
+        array('label' => 'Yii Log', 'url' => Yii::app()->createUrl('/sAdmin/yiiLog'), 'active' => true),
+        array('label' => 'All User History', 'url' => Yii::app()->createUrl('/sAdmin/userHistory')),
+    ),
+));
+?>
+
 <div class="page-header">
     <h1><i class="icon-fa-table"></i>
         Yii Log</h1>
@@ -27,7 +38,7 @@
                 array(
                 	'type' =>'raw',
 					'value' => function($data) {
-						return CHtml::tag('div', array(), substr($data["request_URL"],0,50))
+						return CHtml::tag('div', array(), substr($data["request_URL"],0,100))
 								. CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), 
 								peterFunc::shorten_string($data["message"],20));
 					}

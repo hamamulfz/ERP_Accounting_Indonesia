@@ -53,6 +53,9 @@ class sCompanyNewsAdminController extends Controller {
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }
+        if (!isset($model->content))
+        	$model->content="::<i>write or paste your article here::</i>";
+        	
         $this->render('create', array(
             'model' => $model,
         ));

@@ -47,8 +47,20 @@ class ILearningController extends Controller {
             $model->attributes = $_POST['iLearningSchPart'];
             $model->parent_id = $id;
             $model->flow_id = 1; //Applied, New Entry
-            if ($model->save())
+            if ($model->save()) {
+
+				Notification::newInbox(
+						$model->employee->userid, "Learning schedule has been set for you", "Dear " . $model->employee->employee_name . ",<br/><br/> 
+					Your name has been added to following training: ".$model->getparent->getparent->learning_title." that will be held on: 
+					".
+					CHtml::link($model->getparent->schedule_date,Yii::app()->createUrl('m1/gEss/viewDetailEss',array('id'=>$model->parent_id)))
+					.".<br/><br/>
+					Dont forget! and see you there. Thank You very much... <br/><br/><br/>
+					APHRIS"
+				);
+
                 $this->redirect(array('viewDetail', 'id' => $id));
+            }
         }
 
         return $model;

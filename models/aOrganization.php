@@ -25,6 +25,7 @@ class aOrganization extends BaseModel {
     public function relations() {
         return array(
             'getparent' => array(self::BELONGS_TO, 'aOrganization', 'parent_id'),
+            'totalUser' => array(self::STAT, 'sUser', 'default_group'),
             'childs' => array(self::HAS_MANY, 'aOrganization', 'parent_id', 'order' => 'name ASC'),
             'entityAccount' => array(self::HAS_MANY, 'aAccountEntity', 'entity_id', 'order' => 'id ASC'),
             'status' => array(self::BELONGS_TO, 'sParameter', array('status_id' => 'code'), 'condition' => 'type = "cOrganizationStatus"'),
@@ -108,12 +109,14 @@ class aOrganization extends BaseModel {
                 $subitems[] = $child->getTreeUser();
             }
 
-        $returnarray = array(
-            'text' => CHtml::link($this->name, Yii::app()->createUrl('/sUser/index', array('pid' => $this->id))));
+		if ($this->status_id == 1 ) {
+			$returnarray = array(
+				'text' => CHtml::link(peterFunc::shorten_string($this->name,6) ." ".$this->totalUserC, Yii::app()->createUrl('/sUser/index', array('pid' => $this->id))));
 
-        if ($subitems != array())
-            $returnarray = array_merge($returnarray, array('children' => $subitems));
-        return $returnarray;
+			if ($subitems != array())
+				$returnarray = array_merge($returnarray, array('children' => $subitems));
+			return $returnarray;
+		}
     }
 
     public static function getTopCreated() {
@@ -469,20 +472,6 @@ class aOrganization extends BaseModel {
         return $_items;
     }
 
-    public function compByParent($id) {
-        $_items = array();
-
-        $criteria = new CDbCriteria;
-        $criteria->order = 'id';
-        $criteria->compare('parent_id', $id);
-        $models = self::model()->findAll($criteria);
-        foreach ($models as $model)
-            $_items[] = $model->name;
-
-
-        return $_items;
-    }
-
     public static function compDeptGroupRedirect() {
         $_items = array();
 
@@ -583,5 +572,12 @@ class aOrganization extends BaseModel {
         }
         return $path;
     }
+
+	public function getTotalUserC() {     
+		$unread = "";
+			$unread = ($this->totalUser != 0) ? CHtml::tag("span", array('style' => 'font-size:inherit', 'class' => 'badge badge-success'), $this->totalUser) : "";
+		
+		return $unread;
+	}
 
 }

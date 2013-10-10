@@ -2,49 +2,26 @@
 <div class="row">
     <div class="span9">
 
-        <?php
-        $form = $this->beginWidget('TbActiveForm', array(
-            'id' => 'module-matrix-form',
-            'type' => 'horizontal',
-            'enableAjaxValidation' => false,
-            'htmlOptions' => array('enctype' => 'multipart/form-data'),
-        ));
-        ?>
-
-        <?php echo $form->errorSummary($model); ?>
-
-        <?php echo $form->textFieldRow($model, 'title', array('class' => 'span5')); ?>
-
-<?php $this->widget('bootstrap.widgets.TbFileUpload', array(
-    //'url' => $this->createUrl("my/upload"),
-    'model' => $model,
-    'attribute' =>'images', // see the attribute?
-    'multiple' => true,
-    'options' => array(
-    'maxFileSize' => 2000000,
-    'acceptFileTypes' => 'js:/(\.|\/)(gif|jpe?g|png)$/i',
-))); ?>
-<?php /*
-        <div class="control-group">
-            <label class="control-label required">Upload Files</label>
-            <div class="controls">
-                <?php
-                $this->widget('CMultiFileUpload', array(
-                    'model' => $model,
-                    'attribute' => 'images',
-                    'accept' => 'jpg',
-                    'options' => array(
+            <?php
+            $this->widget('ext.EAjaxUpload.EAjaxUpload', array(
+                'id' => 'uploadFile',
+                'config' => array(
+                    'action' => Yii::app()->createUrl('/m1/iLearningHolding/upload', array('id' => $model->id)),
+                    'allowedExtensions' => array("jpg"), //array("jpg","jpeg","gif","exe","mov" and etc...
+                    'sizeLimit' => 500 * 1024, // maximum file size in bytes
+                    //'minSizeLimit'=>1*1024*1024,// minimum file size in bytes
+                    'onComplete' => "js:function(id, fileName, responseJSON){ location.reload(true); }",
+                    'messages' => array(
+                        'typeError' => "{file} has invalid extension. Only {extensions} are allowed.",
+                        'sizeError' => "{file} is too large, maximum file size is {sizeLimit}.",
+                        'minSizeError' => "{file} is too small, minimum file size is {minSizeLimit}.",
+                        'emptyError' => "{file} is empty, please select files again without it.",
+                        'onLeave' => "The files are being uploaded, if you leave now the upload will be cancelled."
                     ),
-                ));
-                ?>
-            </div>
-        </div>
-*/ ?>
-        <div class="form-actions">
-            <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Upload', array('class' => 'btn', 'type' => 'submit')); ?>
-        </div>
-
-        <?php $this->endWidget(); ?>
+                //'showMessage'=>"js:function(message){ alert(message); }"
+                ),
+            ));
+            ?>
 
     </div>
 </div>

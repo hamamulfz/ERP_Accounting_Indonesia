@@ -11,7 +11,7 @@ $this->breadcrumbs = array(
 
     <div class="span10">
         <div class="page-header">
-            <h1>Employee In / Out</h1>
+            <h1>Employee In / Out <small>Last Updated: <?php echo date('d-m-Y') ?></small></h1>
         </div>
 
 

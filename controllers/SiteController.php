@@ -77,6 +77,7 @@ class SiteController extends Controller {
             $model->attributes = $_POST['fLogin'];
             if ($model->validate() && $model->login()) {
                 sUser::model()->updateByPk((int) Yii::app()->user->id, array('last_login' => time()));
+                Notification::getUserHistory();
                 $this->redirect(Yii::app()->user->returnUrl);
             }
         }
@@ -213,6 +214,23 @@ class SiteController extends Controller {
                 $cekValidationCode->updated_by = $model->id;
                 $cekValidationCode->updated_date = time();
                 $cekValidationCode->save(false);
+
+				Notification::newInbox(
+						$cekValidationCode->userid, "Welcome To APHRIS", "Dear " . $cekValidationCode->employee_name . ",<br/><br/> 
+					Welcome to Agung Podomoro Human Resources Information System or simply we called it: APHRIS.  You can use this application to
+					maintain your personal profile info and watch over your education background, work experience, etc. <br/><br/>
+					Here, you can also apply your leave, permission and watch your attendance information. APHRIS also have Training Schedule Information, 
+					so you can consult with your HR Manager if you want to attend some training event.<br/><br/> 
+					Thank You for joining... <br/><br/><br/>
+					APHRIS"
+				);
+
+				$modelS= new sNotification;
+				$modelS->group_id = 1;
+				$modelS->link = 'sUser/view/id/' . $model->id;
+				$modelS->content = 'Employee Self Service. New ESS created for <read>' . $model->username .'</read>'.' from '.$model->organization->name;
+				$modelS->save();
+
                 Yii::app()->user->setFlash('success', '<strong>Your Registration process is succesfull. Please, login with your given username and password');
                 $this->redirect(array('site/login2'));
             }

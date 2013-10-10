@@ -96,7 +96,7 @@ class SUserController extends Controller {
         $model = $this->loadModelSelf($id);
         $model->setScenario('passwordupdate');
         // $this->performAjaxValidation($model);
-        if (isset($_POST['sUser']) && (Yii::app()->user->name != "user")) {
+        if (isset($_POST['sUser'])) {
             $model->attributes = $_POST['sUser'];
             if ($model->validate()) {
                 //$_mysalt=sUser::model()->generateSalt();
