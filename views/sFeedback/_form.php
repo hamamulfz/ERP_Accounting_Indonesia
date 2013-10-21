@@ -37,7 +37,13 @@ if (Yii::app()->user->name == 'admin')
 ?>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Send', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'submit',
+        'type' => 'primary',
+        'label' => 'Send',
+    ));
+    ?>
 </div>
 
 <?php $this->endWidget(); ?>

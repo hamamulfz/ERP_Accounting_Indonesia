@@ -11,10 +11,10 @@
     zoom: 1;
     overflow: visible;
 } /* the overflow property removes extra width in IE */
-.ui-button-icon-only {
+.ui-button-icon-fa-only {
     width: 2.2em;
 } /* to make room for the icon, a width needs to be set here */
-button.ui-button-icon-only {
+button.ui-button-icon-fa-only {
     width: 2.4em;
 } /* button elements seem to need a little more width */
 .ui-button-icons-only {
@@ -35,7 +35,7 @@ button.ui-button-icons-only {
     padding: .4em 1em;
 }
 
-.ui-button-icon-only .ui-button-text,.ui-button-icons-only .ui-button-text
+.ui-button-icon-fa-only .ui-button-text,.ui-button-icons-only .ui-button-text
 {
     padding: .4em;
     text-indent: -9999999px;
@@ -56,24 +56,24 @@ input.ui-button {
 }
 
 /*button icon element(s) */
-.ui-button-icon-only .ui-icon,.ui-button-text-icon .ui-icon,.ui-button-text-icons .ui-icon,.ui-button-icons-only .ui-icon
+.ui-button-icon-fa-only .ui-icon,.ui-button-text-icon .ui-icon,.ui-button-text-icons .ui-icon,.ui-button-icons-only .ui-icon
 {
     position: absolute;
     top: 50%;
     margin-top: -8px;
 }
 
-.ui-button-icon-only .ui-icon {
+.ui-button-icon-fa-only .ui-icon {
     left: 50%;
     margin-left: -8px;
 }
 
-.ui-button-text-icon .ui-button-icon-primary,.ui-button-text-icons .ui-button-icon-primary,.ui-button-icons-only .ui-button-icon-primary
+.ui-button-text-icon .ui-button-icon-fa-primary,.ui-button-text-icons .ui-button-icon-fa-primary,.ui-button-icons-only .ui-button-icon-fa-primary
 {
     left: .5em;
 }
 
-.ui-button-text-icons .ui-button-icon-secondary,.ui-button-icons-only .ui-button-icon-secondary
+.ui-button-text-icons .ui-button-icon-fa-secondary,.ui-button-icons-only .ui-button-icon-fa-secondary
 {
     right: .5em;
 }

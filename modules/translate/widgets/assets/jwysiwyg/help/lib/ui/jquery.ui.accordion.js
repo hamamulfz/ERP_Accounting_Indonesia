@@ -24,8 +24,8 @@
             fillSpace: false,
             header: "> li > :first-child,> :not(li):even",
             icons: {
-                header: "ui-icon-triangle-1-e",
-                headerSelected: "ui-icon-triangle-1-s"
+                header: "ui-icon-fa-triangle-1-e",
+                headerSelected: "ui-icon-fa-triangle-1-s"
             },
             navigation: false,
             navigationFilter: function() {

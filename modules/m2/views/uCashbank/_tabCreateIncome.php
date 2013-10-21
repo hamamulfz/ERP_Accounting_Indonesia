@@ -53,7 +53,7 @@ $this->widget('ext.appendo.JAppendo', array(
 ?>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Save Income', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i> Save Income', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 

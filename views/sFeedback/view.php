@@ -32,7 +32,7 @@ $this->menu2 = sFeedback::getTopCreated();
 
         <?php echo $form->dropDownList($model, 'status_id', sParameter::items('cRead')); ?>
 
-        <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Process', array('class' => 'btn', 'type' => 'submit')); ?>
+        <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i> Process', array('class' => 'btn', 'type' => 'submit')); ?>
 
         <?php $this->endWidget(); ?>
     </div>

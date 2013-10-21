@@ -126,7 +126,7 @@ $this->menu4 = sModule::getTopOther();
         <?php echo $form->dropDownListRow($modelUserModule, 's_matrix_id', array("5" => "admin"), array('class' => 'span3')); ?>
 
         <div class="form-actions">
-            <?php echo CHtml::htmlButton($modelUserModule->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton($modelUserModule->isNewRecord ? '<i class="icon-fa-ok"></i> Create' : '<i class="icon-fa-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
         </div>
 
 

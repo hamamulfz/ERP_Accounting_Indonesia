@@ -112,7 +112,7 @@ class sAddressbookGroup extends BaseModel {
     public function getListMembers() {
 		
         $criteria = new CDbCriteria;
-        $criteria->condition = 'member_of LIKE "%'.$this->group_name.'"';
+        $criteria->condition = 'member_of LIKE "%'.$this->group_name.'%"';
 
         return new CActiveDataProvider('sAddressbook', array(
             'criteria' => $criteria,

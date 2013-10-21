@@ -683,12 +683,22 @@ class GAttendanceController extends Controller {
 
                     $connection = Yii::app()->db;
                     $sql = "SELECT a.employee_name, a.department, a.level, a.join_date, a.job_title,
-							(select count(t.id) from g_attendance t where t.parent_id = a.id AND t.daystatus3_id = 200 and year(cdate) = '2013' and month(cdate) = '9') as cuti,
-							(select count(t.id) from g_attendance t where t.parent_id = a.id AND t.daystatus3_id = 300 and year(cdate) = '2013' and month(cdate) = '9') as alpha,
-							(select count(t.id) from g_attendance t where t.parent_id = a.id AND t.daystatus1_id IS NOT NULL and year(cdate) = '2013' and month(cdate) = '9') as ijin
+							(select sum(number_of_day) from g_leave where parent_id = a.id and year(start_date) = ".date('Y')." and month(start_date) = ".date('m')." and start_date <= '".date('Y-m-d')."' and approved_id = 1) as cuti,
+							(select count(id) from g_attendance where parent_id = a.id and year(cdate) = ".date('Y')." and month(cdate) = ".date('m')." and cdate <= '".date('Y-m-d')."' and realpattern_id NOT IN (90) and `out` is null and `in` is null) as alpha,
+							(select count(g.id) from g_attendance g 
+								inner join g_param_timeblock t on t.id = g.realpattern_id
+								where g.parent_id = a.id and year(g.cdate) = ".date('Y')." and month(g.cdate) = ".date('m')." and g.cdate <= '".date('Y-m-d')."' and g.realpattern_id NOT IN (90)
+								and TIMEDIFF(CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.in,'%H:%i')),g.`in`) < 0) as lateIn,
+							(select count(g.id) from g_attendance g 
+								inner join g_param_timeblock t on t.id = g.realpattern_id
+								where g.parent_id = a.id and year(g.cdate) = ".date('Y')." and month(g.cdate) = ".date('m')." and g.cdate <= '".date('Y-m-d')."' and g.realpattern_id NOT IN (90)
+								and TIMEDIFF(g.out, CONCAT(date_format(g.out,'%Y-%m-%d'),' ', date_format(t.out,'%H:%i'))) < 0) as earlyOut,
+
+							(select count(id) from g_attendance where parent_id = a.id and year(cdate) = ".date('Y')." and month(cdate) = ".date('m')." and cdate <= '".date('Y-m-d')."' and realpattern_id NOT IN (90) and `out` is not null and `in` is null) as tad,
+							(select count(id) from g_attendance where parent_id = a.id and year(cdate) = ".date('Y')." and month(cdate) = ".date('m')." and cdate <= '".date('Y-m-d')."' and realpattern_id NOT IN (90) and `out` is null and `in` is not null) as tap
 
 						FROM g_bi_person a
-						WHERE company_id = " . sUser::model()->myGroup . " AND employee_status NOT IN ('Resign','End of Contract','Black List')
+						WHERE company_id = " . sUser::model()->myGroup . " AND employee_status NOT IN ('Resign','End of Contract','Black List','Termination')
 						ORDER by a.department, a.employee_name";
 
                     $command = $connection->createCommand($sql);

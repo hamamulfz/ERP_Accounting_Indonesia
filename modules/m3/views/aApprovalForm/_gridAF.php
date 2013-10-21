@@ -121,7 +121,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 (
                 'myView' => array
                     (
-                    'label' => '<i class="icon-zoom-in"></i>',
+                    'label' => '<i class="icon-fa-zoom-in"></i>',
                     //'imageUrl'=>Yii::app()->request->baseUrl.'/images/icon/detail.png',
                     'url' => '$this->grid->controller->createUrl("/m3/aApprovalForm/view", array("id"=>$data->id,"asDialog"=>1,"gridId"=>$this->grid->id))',
                     'click' => 'function(){$("#cru-frame").attr("src",$(this).attr("href")); $("#cru-dialog").dialog("open"); return false;}',),

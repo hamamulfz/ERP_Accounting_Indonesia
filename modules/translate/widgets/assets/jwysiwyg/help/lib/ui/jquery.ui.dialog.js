@@ -164,7 +164,7 @@
                     uiDialogTitlebarCloseText = (self.uiDialogTitlebarCloseText = $('<span></span>'))
                     .addClass(
                     'ui-icon ' +
-                    'ui-icon-closethick'
+                    'ui-icon-fa-closethick'
                     )
                     .text(options.closeText)
                     .appendTo(uiDialogTitlebarClose),
@@ -476,7 +476,7 @@
                 }
             })
                     .css('position', position)
-                    .find('.ui-resizable-se').addClass('ui-icon ui-icon-grip-diagonal-se');
+                    .find('.ui-resizable-se').addClass('ui-icon ui-icon-fa-grip-diagonal-se');
         },
         _minHeight: function() {
             var options = this.options;

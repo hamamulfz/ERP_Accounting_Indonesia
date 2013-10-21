@@ -15,7 +15,13 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->textAreaRow($model, 'category_description', array('class' => 'span5','rows'=>3)); ?>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'submit',
+        'type' => 'primary',
+        'label' => $model->isNewRecord ? 'Create' : 'Save',
+    ));
+    ?>
 </div>
 
 

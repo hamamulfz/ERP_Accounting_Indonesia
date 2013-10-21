@@ -60,7 +60,7 @@ $this->widget('TbDetailView', array(
         <?php echo $form->textFieldRow($modelMember, 'complete_name', array('class' => 'span4')); ?>
 
 		<div class="form-actions">
-			<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Create', array('class' => 'btn', 'type' => 'submit')); ?>
+			<?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i> Create', array('class' => 'btn', 'type' => 'submit')); ?>
 		</div>
 
 <?php $this->endWidget(); ?>

@@ -46,7 +46,7 @@ $form = $this->beginWidget('TbActiveForm', array(
  */ ?>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Submit', array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i> Submit', array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

@@ -115,7 +115,7 @@ $this->menu1 = tAccount::getTopUpdated();
                     ?>
 
                     <?php /*
-                      <?php echo CHtml::link('<i class="icon-chevron-right"></i>','#',array('class'=>'hide-info'.$data->id)); ?>
+                      <?php echo CHtml::link('<i class="icon-fa-chevron-right"></i>','#',array('class'=>'hide-info'.$data->id)); ?>
 
                       <div class="list<?php echo $data->id ?>" style="display:none">
 

@@ -16,7 +16,7 @@
     var lastActive,
             baseClasses = "ui-button ui-widget ui-state-default ui-corner-all",
             otherClasses = "ui-state-hover ui-state-active " +
-            "ui-button-icons-only ui-button-icon-only ui-button-text-icons ui-button-text-icon ui-button-text-only",
+            "ui-button-icons-only ui-button-icon-fa-only ui-button-text-icons ui-button-text-icon ui-button-text-only",
             formResetHandler = function(event) {
         $(":ui-button", event.target.form).each(function() {
             var inst = $(this).data("button");
@@ -284,14 +284,14 @@
                 buttonElement.addClass("ui-button-text-icon" +
                         (multipleIcons ? "s" : ""));
                 if (icons.primary) {
-                    buttonElement.prepend("<span class='ui-button-icon-primary ui-icon " + icons.primary + "'></span>");
+                    buttonElement.prepend("<span class='ui-button-icon-fa-primary ui-icon " + icons.primary + "'></span>");
                 }
                 if (icons.secondary) {
-                    buttonElement.append("<span class='ui-button-icon-secondary ui-icon " + icons.secondary + "'></span>");
+                    buttonElement.append("<span class='ui-button-icon-fa-secondary ui-icon " + icons.secondary + "'></span>");
                 }
                 if (!this.options.text) {
                     buttonElement
-                            .addClass(multipleIcons ? "ui-button-icons-only" : "ui-button-icon-only")
+                            .addClass(multipleIcons ? "ui-button-icons-only" : "ui-button-icon-fa-only")
                             .removeClass("ui-button-text-icons ui-button-text-icon");
                     if (!this.hasTitle) {
                         buttonElement.attr("title", buttonText);

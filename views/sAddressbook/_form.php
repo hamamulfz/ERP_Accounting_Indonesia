@@ -48,7 +48,7 @@ Yii::app()->clientScript->registerScript('sel2', "
         <br/>
 
 		<div class="form-actions">
-			<?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
+			<?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-fa-ok"></i> Create' : '<i class="icon-fa-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
 		</div>
 
     <?php $this->endWidget(); ?>

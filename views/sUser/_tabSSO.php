@@ -32,6 +32,6 @@ $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
 
 <?php echo $form->hiddenField($model, 'sso_id', array()); ?>
 
-<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Assign', array('class' => 'btn', 'type' => 'submit')); ?>
+<?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i> Assign', array('class' => 'btn', 'type' => 'submit')); ?>
 
 <?php $this->endWidget(); ?>

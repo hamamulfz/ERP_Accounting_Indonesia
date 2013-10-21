@@ -44,9 +44,15 @@ Yii::app()->clientScript->registerScript('sel2', "
         <?php echo $form->textFieldRow($model, 'member_of', array('class' => 'span9')); ?>
         <br/>
 
-		<div class="form-actions">
-			<?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
-		</div>
+<div class="form-actions">
+    <?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'submit',
+        'type' => 'primary',
+        'label' => $model->isNewRecord ? 'Create' : 'Save',
+    ));
+    ?>
+</div>
 
     <?php $this->endWidget(); ?>
 

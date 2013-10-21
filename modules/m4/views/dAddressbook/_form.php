@@ -14,6 +14,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array('id' => 'my-f
 <?php echo $form->textFieldRow($model, 'email', array('class' => 'span3')); ?>
 <?php echo $form->dropDownListRow($model, 'defaultgroup', DAddressbookGroup::items()); ?>
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-ok"></i>' . $model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i>' . $model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 <?php $this->endWidget(); ?>

@@ -51,7 +51,7 @@ $this->menu8 = hApplicant::model()->topRecentApplicant;
                 'buttonType' => 'submit',
                 'name' => 'btnShare-' . $data->id,
                 'caption' => 'Comment',
-                'options' => array('icons' => 'js:{secondary:"ui-icon-extlink"}'),
+                'options' => array('icons' => 'js:{secondary:"ui-icon-fa-extlink"}'),
             ));
             ?>
 

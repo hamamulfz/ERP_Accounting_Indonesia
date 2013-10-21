@@ -8,7 +8,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 ?>
 
 <?php echo $form->textFieldRow($model, 'name', array('class' => 'input-medium')); ?>
-<?php echo CHtml::htmlButton('<i class="icon-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
+<?php echo CHtml::htmlButton('<i class="icon-fa-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
 
 <?php $this->endWidget(); ?>
 

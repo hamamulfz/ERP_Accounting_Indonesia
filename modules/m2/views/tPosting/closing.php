@@ -143,7 +143,7 @@ $this->widget('ext.groupgridview.GroupGridView', array(
           (
           'process' => array
           (
-          //'label'=>'<i class="icon-zoom-in"></i>',
+          //'label'=>'<i class="icon-fa-zoom-in"></i>',
           //'imageUrl'=>Yii::app()->request->baseUrl.'/css/process.png',
           'url'=>'Yii::app()->createUrl("sUser/updatep", array("id"=>$data->id))',
           ),

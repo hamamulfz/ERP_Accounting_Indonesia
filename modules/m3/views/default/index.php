@@ -6,7 +6,7 @@ $this->breadcrumbs = array(
 
 <div class="page-header">
     <h1>
-		<i class="icon-iconic-tag"></i>
+		<i class="icon-fa-iconic-tag"></i>
         Welcome!! 
     </h1>
 </div>

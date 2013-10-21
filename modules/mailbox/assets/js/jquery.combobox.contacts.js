@@ -131,7 +131,7 @@
                     .appendTo(wrapper)
                     .button({
                 icons: {
-                    primary: "ui-icon-triangle-1-s"
+                    primary: "ui-icon-fa-triangle-1-s"
                 },
                 text: false
             })
@@ -268,7 +268,7 @@
  .appendTo( wrapper )
  .button({
  icons: {
- primary: "ui-icon-triangle-1-s"
+ primary: "ui-icon-fa-triangle-1-s"
  },
  text: false
  })

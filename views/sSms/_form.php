@@ -49,7 +49,13 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->textAreaRow($model, 'message', array('maxlength' => 767, 'class' => 'span9', 'rows' => 10)); ?>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Send', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'submit',
+        'type' => 'primary',
+        'label' => 'Send',
+    ));
+    ?>
 </div>
 
 <?php $this->endWidget(); ?>

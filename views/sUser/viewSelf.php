@@ -24,7 +24,7 @@ $this->widget('bootstrap.widgets.TbMenu', array(
 <?php echo $this->renderPartial('_userDetail', array('model' => $model)); ?>
 
 <ul class="nav nav-list">
-    <li class="nav-header"><span class="h-icon-folder_database">Personal Folder</span>
+    <li class="nav-header"><span class="h-icon-fa-folder_database">Personal Folder</span>
     </li>
 </ul>
 <?php

@@ -1380,8 +1380,8 @@
             var prev = (this._canAdjustMonth(inst, -1, drawYear, drawMonth) ?
                     '<a class="ui-datepicker-prev ui-corner-all" onclick="DP_jQuery_' + dpuuid +
                     '.datepicker._adjustDate(\'#' + inst.id + '\', -' + stepMonths + ', \'M\');"' +
-                    ' title="' + prevText + '"><span class="ui-icon ui-icon-circle-triangle-' + (isRTL ? 'e' : 'w') + '">' + prevText + '</span></a>' :
-                    (hideIfNoPrevNext ? '' : '<a class="ui-datepicker-prev ui-corner-all ui-state-disabled" title="' + prevText + '"><span class="ui-icon ui-icon-circle-triangle-' + (isRTL ? 'e' : 'w') + '">' + prevText + '</span></a>'));
+                    ' title="' + prevText + '"><span class="ui-icon ui-icon-fa-circle-triangle-' + (isRTL ? 'e' : 'w') + '">' + prevText + '</span></a>' :
+                    (hideIfNoPrevNext ? '' : '<a class="ui-datepicker-prev ui-corner-all ui-state-disabled" title="' + prevText + '"><span class="ui-icon ui-icon-fa-circle-triangle-' + (isRTL ? 'e' : 'w') + '">' + prevText + '</span></a>'));
             var nextText = this._get(inst, 'nextText');
             nextText = (!navigationAsDateFormat ? nextText : this.formatDate(nextText,
                     this._daylightSavingAdjust(new Date(drawYear, drawMonth + stepMonths, 1)),
@@ -1389,8 +1389,8 @@
             var next = (this._canAdjustMonth(inst, +1, drawYear, drawMonth) ?
                     '<a class="ui-datepicker-next ui-corner-all" onclick="DP_jQuery_' + dpuuid +
                     '.datepicker._adjustDate(\'#' + inst.id + '\', +' + stepMonths + ', \'M\');"' +
-                    ' title="' + nextText + '"><span class="ui-icon ui-icon-circle-triangle-' + (isRTL ? 'w' : 'e') + '">' + nextText + '</span></a>' :
-                    (hideIfNoPrevNext ? '' : '<a class="ui-datepicker-next ui-corner-all ui-state-disabled" title="' + nextText + '"><span class="ui-icon ui-icon-circle-triangle-' + (isRTL ? 'w' : 'e') + '">' + nextText + '</span></a>'));
+                    ' title="' + nextText + '"><span class="ui-icon ui-icon-fa-circle-triangle-' + (isRTL ? 'w' : 'e') + '">' + nextText + '</span></a>' :
+                    (hideIfNoPrevNext ? '' : '<a class="ui-datepicker-next ui-corner-all ui-state-disabled" title="' + nextText + '"><span class="ui-icon ui-icon-fa-circle-triangle-' + (isRTL ? 'w' : 'e') + '">' + nextText + '</span></a>'));
             var currentText = this._get(inst, 'currentText');
             var gotoDate = (this._get(inst, 'gotoCurrent') && inst.currentDay ? currentDate : today);
             currentText = (!navigationAsDateFormat ? currentText :

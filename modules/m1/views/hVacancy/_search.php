@@ -10,6 +10,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->textField($model, 'vacancy_title', array('class' => 'span5', 'maxlength' => 100)); ?>
 
-<?php echo CHtml::htmlButton('<i class="icon-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
+<?php echo CHtml::htmlButton('<i class="icon-fa-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
 
 <?php $this->endWidget(); ?>

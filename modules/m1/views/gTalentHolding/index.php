@@ -34,10 +34,10 @@ $this->widget('bootstrap.widgets.TbMenu', array(
     'stacked' => false, // whether this is a stacked menu
     'encodeLabel'=>false,
     'items' => array(
-        array('label' => '<i class="icon-chevron-left"></i> Previous Month', 'url' => Yii::app()->createUrl("/m1/gTalentHolding/index", array("periode" => peterFunc::cBeginDateBefore($periode)))),
+        array('label' => '<i class="icon-fa-chevron-left"></i> Previous Month', 'url' => Yii::app()->createUrl("/m1/gTalentHolding/index", array("periode" => peterFunc::cBeginDateBefore($periode)))),
         array('label' => $periode,
             'url' => Yii::app()->createUrl("/m1/gTalentHolding/index", array("periode" => $periode))),
-        array('label' => 'Next Month <i class="icon-chevron-right"></i>', 'url' => Yii::app()->createUrl("/m1/gTalentHolding/index", array("month" => peterFunc::cBeginDateAfter($periode)))),
+        array('label' => 'Next Month <i class="icon-fa-chevron-right"></i>', 'url' => Yii::app()->createUrl("/m1/gTalentHolding/index", array("month" => peterFunc::cBeginDateAfter($periode)))),
     ),
 ));
 ?>

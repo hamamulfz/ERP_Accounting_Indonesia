@@ -26,7 +26,7 @@ Yii::app()->clientScript->registerScript('datepicker2', "
 
 
 <ul class="nav nav-list">
-    <li class="nav-header"><span class="h-icon-folder_database">Photo News Management</span>
+    <li class="nav-header"><span class="h-icon-fa-folder_database">Photo News Management</span>
     </li>
 </ul>
 
@@ -94,7 +94,7 @@ $this->widget('ext.elFinder.ElFinderWidget', array(
 
 
         <div class="form-actions">
-            <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Upload', array('class' => 'btn', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i> Upload', array('class' => 'btn', 'type' => 'submit')); ?>
         </div>
 
         <?php $this->endWidget(); ?>

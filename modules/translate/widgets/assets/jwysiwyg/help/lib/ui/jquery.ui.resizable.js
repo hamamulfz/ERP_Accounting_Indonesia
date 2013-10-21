@@ -111,7 +111,7 @@
 
                     //TODO : What's going on here?
                     if ('se' == handle) {
-                        axis.addClass('ui-icon ui-icon-gripsmall-diagonal-se');
+                        axis.addClass('ui-icon ui-icon-fa-gripsmall-diagonal-se');
                     }
                     ;
 

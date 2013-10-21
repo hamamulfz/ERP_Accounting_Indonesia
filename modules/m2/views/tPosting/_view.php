@@ -35,7 +35,7 @@ Yii::app()->clientScript->registerScript('myCap' . $data->id, "
     <?php
     $this->beginWidget('bootstrap.widgets.TbBox', array(
         'title' => false,
-        'headerIcon' => 'icon-globe',
+        'headerIcon' => 'icon-fa-globe',
         'htmlHeaderOptions' => array('style' => 'background:white'),
             //'htmlContentOptions'=>array('style'=>'background:#FFA573'),
     ));
@@ -75,7 +75,7 @@ Yii::app()->clientScript->registerScript('myCap' . $data->id, "
                         'url' => Yii::app()->createUrl("/m2/tPosting/posting", array("id" => $data->id)),
                         'caption' => ($data->state_id == 1) ? 'Post' : 'Re-Post',
                         'options' => array(
-                        //'icons'=>'js:{secondary:"ui-icon-extlink"}',
+                        //'icons'=>'js:{secondary:"ui-icon-fa-extlink"}',
                         ),
                         'htmlOptions' => array(
                             'class' => 'ui-button-primary',
@@ -89,7 +89,7 @@ Yii::app()->clientScript->registerScript('myCap' . $data->id, "
                         'url' => Yii::app()->createUrl("/m2/tPosting/unposting", array("id" => $data->id)),
                         'caption' => 'Un-Post',
                         'options' => array(
-                        //'icons'=>'js:{secondary:"ui-icon-extlink"}',
+                        //'icons'=>'js:{secondary:"ui-icon-fa-extlink"}',
                         ),
                         'htmlOptions' => array(
                             'class' => 'ui-button-primary',
@@ -103,7 +103,7 @@ Yii::app()->clientScript->registerScript('myCap' . $data->id, "
                         'url' => Yii::app()->createUrl("/m2/tPosting/unlock", array("id" => $data->id)),
                         'caption' => 'Un-Lock',
                         'options' => array(
-                        //'icons'=>'js:{secondary:"ui-icon-extlink"}',
+                        //'icons'=>'js:{secondary:"ui-icon-fa-extlink"}',
                         ),
                     ));
                 }

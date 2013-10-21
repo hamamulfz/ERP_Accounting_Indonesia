@@ -47,7 +47,7 @@ echo $form->dropDownListRow($model, 'report_id', array(
 ?>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-print"></i> Report', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-print"></i> Report', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 

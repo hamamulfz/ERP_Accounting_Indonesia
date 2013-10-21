@@ -252,6 +252,25 @@ class gAttendance extends BaseModel {
             return null;
     }
 
+    public function getSyncLeave() {
+        $criteria = new CDbCriteria;
+        $criteria->compare('parent_id', $this->parent_id);
+
+        $criteria1 = new CDbCriteria;
+        $criteria1->compare('DATE_FORMAT(start_date,"%Y-%m-%d")', date("Y-m-d", strtotime($this->cdate)), false, 'OR');
+        $criteria1->compare('DATE_FORMAT(end_date,"%Y-%m-%d")', date("Y-m-d", strtotime($this->cdate)), false, 'OR');
+
+        $criteria->mergeWith($criteria1);
+
+        $model = gLeave::model()->find($criteria);
+
+        if (isset($model)) {
+            return $model;
+        }
+        else
+            return null;
+    }
+
     /* public function afterSave() {
       if($this->isNewRecord) {
       Notification::create(

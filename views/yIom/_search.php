@@ -9,7 +9,14 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->textField($model, 'subject', array('class' => 'span7', 'maxlength' => 100)); ?>
 
-<?php echo CHtml::htmlButton('<i class="icon-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
+<?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'submit',
+        'type' => 'primary',
+        'label' => 'Search',
+        'icon' => 'search'
+    ));
+?>
 
 <?php $this->endWidget(); ?>
 

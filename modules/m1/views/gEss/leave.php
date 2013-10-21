@@ -81,7 +81,7 @@ $this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
                         'mydelete' => array
                             (
                             'label' => 'Delete',
-                            //'icon'=>'icon-delete',
+                            //'icon'=>'icon-fa-delete',
                             'url' => 'Yii::app()->createUrl("/m1/gEss/deleteLeave",array("id"=>$data->id))',
                             'visible' => '$data->balance == null && strtotime($data->start_date) > time()',
                             'options' => array(
@@ -117,7 +117,7 @@ $this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
                 ),
                 array(
                     'class' => 'TbButtonColumn',
-                    'template' => '{print}{printcancel}',
+                    'template' => '{print}{printcancel}{printextended}',
                     'buttons' => array
                         (
                         'print' => array
@@ -135,6 +135,16 @@ $this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
                             'label' => 'Print',
                             'url' => 'Yii::app()->createUrl("/m1/gEss/printCancellationLeave",array("id"=>$data->id))',
                             'visible' => '$data->approved_id ==8 AND $data->balance ==null',
+                            'options' => array(
+                                'class' => 'btn btn-mini',
+                                'target' => '_blank',
+                            ),
+                        ),
+                        'printextended' => array
+                            (
+                            'label' => 'Print',
+                            'url' => 'Yii::app()->createUrl("/m1/gEss/printExtendedLeave",array("id"=>$data->id))',
+                            'visible' => '$data->approved_id ==5',
                             'options' => array(
                                 'class' => 'btn btn-mini',
                                 'target' => '_blank',

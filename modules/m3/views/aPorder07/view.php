@@ -71,7 +71,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'buttons' => array(
                 'my_delete' => array
                     (
-                    'label' => '<i class="icon-trash"></i',
+                    'label' => '<i class="icon-fa-trash"></i',
                     'url' => 'Yii::app()->createUrl("/m3/aPorder/deleteDetail", array("id"=>$data->id))',
                     'visible' => '$data->po->approved_date == null',
                 ),

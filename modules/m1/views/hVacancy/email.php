@@ -62,7 +62,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->textFieldRow($model, 'pic', array('class' => 'span3')); ?>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Send Email', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i> Send Email', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 <?php

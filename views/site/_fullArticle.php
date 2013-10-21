@@ -7,7 +7,7 @@ if ($model) {
     <?php
     $this->beginWidget('bootstrap.widgets.TbBox', array(
         'title' => false,
-        'headerIcon' => 'icon-globe',
+        'headerIcon' => 'icon-fa-globe',
     ));
     ?>
 

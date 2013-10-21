@@ -713,7 +713,7 @@ class gPerson2 extends BaseModel {
 			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31',1,0)) AS l12
 
 			FROM g_person_status s 
-			WHERE s.status_id IN (8,9,10) AND (SELECT p.company_id FROM g_person_career p WHERE p.parent_id = s.parent_id AND p.status_id NOT IN(8,9,10)  ORDER BY p.start_date DESC LIMIT 1) = " . sUser::model()->myGroup . "
+			WHERE s.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY) . ") AND (SELECT p.company_id FROM g_person_career p WHERE p.parent_id = s.parent_id AND p.status_id NOT IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY) . ")  ORDER BY p.start_date DESC LIMIT 1) = " . sUser::model()->myGroup . "
 
 			";
 
@@ -1638,7 +1638,7 @@ class gPerson2 extends BaseModel {
 			SUM(IF(s.start_date BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31',1,0)) AS l12
 
 			FROM g_person_status s 
-			WHERE s.status_id IN (8,9,10) 
+			WHERE s.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY) . ") 
 
 			";
 
@@ -1988,64 +1988,64 @@ class gPerson2 extends BaseModel {
     public function compLearningHoursPerMonth() {
 
         $_data = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(created_date) FROM i_learning_sch_part');
+        $dependency = new CDbCacheDependency('SELECT MAX(created_date) FROM i_learning_sch');
 
         if (!Yii::app()->cache->get('learninghourspermonth'.Yii::app()->user->id)) {
-        $connection = Yii::app()->db;
-        $sql = "
-				select `o`.`id`, 'Mandays' as `state`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "01') as `201301`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "02') as `201302`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "03') as `201303`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "04') as `201304`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "05') as `201305`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "06') as `201306`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "07') as `201307`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "08') as `201308`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "09') as `201309`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "10') as `201310`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "10') as `201311`,
-				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "10') as `201312`
+			$connection = Yii::app()->db;
+			$sql = "
+					select `o`.`id`, 'Mandays' as `state`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "01') as `201301`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "02') as `201302`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "03') as `201303`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "04') as `201304`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "05') as `201305`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "06') as `201306`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "07') as `201307`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "08') as `201308`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "09') as `201309`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "10') as `201310`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "10') as `201311`,
+					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+						<= '" . date("Y") . "10') as `201312`
 
-				FROM `a_organization` `o`
-				where `id` = 1  
+					FROM `a_organization` `o`
+					where `id` = 1  
 
 
-			";
+				";
 
-        $command = $connection->cache(3600, $dependency)->createCommand($sql);
-        $rows = $command->queryAll();
-        foreach ($rows as $row) {
-            $_data = array();
-            $_second = array();
-            $_data[] = (int) $row['201301'];
-            $_data[] = (int) $row['201302'];
-            $_data[] = (int) $row['201303'];
-            $_data[] = (int) $row['201304'];
-            $_data[] = (int) $row['201305'];
-            $_data[] = (int) $row['201306'];
-            $_data[] = (int) $row['201307'];
-            $_data[] = (int) $row['201308'];
-            $_data[] = (int) $row['201309'];
-            $_data[] = (int) $row['201310'];
-            $_data[] = (int) $row['201311'];
-            $_data[] = (int) $row['201312'];
-            $_name['name'] = $row['state'];
-            $_second['data'] = $_data;
-            $_merge[] = array_merge($_name, $_second);
-        }
+			$command = $connection->cache(3600, $dependency)->createCommand($sql);
+			$rows = $command->queryAll();
+			foreach ($rows as $row) {
+				$_data = array();
+				$_second = array();
+				$_data[] = (int) $row['201301'];
+				$_data[] = (int) $row['201302'];
+				$_data[] = (int) $row['201303'];
+				$_data[] = (int) $row['201304'];
+				$_data[] = (int) $row['201305'];
+				$_data[] = (int) $row['201306'];
+				$_data[] = (int) $row['201307'];
+				$_data[] = (int) $row['201308'];
+				$_data[] = (int) $row['201309'];
+				$_data[] = (int) $row['201310'];
+				$_data[] = (int) $row['201311'];
+				$_data[] = (int) $row['201312'];
+				$_name['name'] = $row['state'];
+				$_second['data'] = $_data;
+				$_merge[] = array_merge($_name, $_second);
+        	}
 
         	Yii::app()->cache->set('learninghourspermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
         } else
@@ -3839,7 +3839,7 @@ class gPerson2 extends BaseModel {
 				where
 					(`s`.`parent_id` = `a`.`id`)
 				order by `s`.`start_date` desc
-				limit 1) NOT IN (8,9,10,13) AND
+				limit 1) NOT IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY) . ") AND
 			(select 
 					`o`.`parent_id` AS `id`
 				from
@@ -3903,7 +3903,7 @@ class gPerson2 extends BaseModel {
 				where
 					(`s`.`parent_id` = `a`.`id`)
 				order by `s`.`start_date` desc
-				limit 1) NOT IN (8,9,10,13) AND
+				limit 1) NOT IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY) . ") AND
 			(select 
 					`o`.`custom2` AS `id`
 				from
@@ -3954,7 +3954,7 @@ class gPerson2 extends BaseModel {
 				where
 					(`s`.`parent_id` = `a`.`id`)
 				order by `s`.`start_date` desc
-				limit 1) NOT IN (8,9,10,13)";
+				limit 1) NOT IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY) . ")";
 
             $command = $connection->createCommand($sql);
             $row = $command->queryScalar();
@@ -3995,7 +3995,7 @@ class gPerson2 extends BaseModel {
 				where
 					(`s`.`parent_id` = `a`.`id`)
 				order by `s`.`start_date` desc
-				limit 1) NOT IN (8,9,10,13) AND
+				limit 1) NOT IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY) . ") AND
 			(select 
 					`o`.`id` AS `id`
 				from

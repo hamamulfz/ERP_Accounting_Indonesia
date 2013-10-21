@@ -22,9 +22,15 @@
 
     <?php echo $form->dropDownListRow($model, 'status_id', sParameter::items('cStatus')); ?>
 
-    <div class="form-actions">
-        <?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Added' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
-    </div>
+<div class="form-actions">
+    <?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'submit',
+        'type' => 'primary',
+        'label' => $model->isNewRecord ? 'Create' : 'Save',
+    ));
+    ?>
+</div>
 
     <?php $this->endWidget(); ?>
 

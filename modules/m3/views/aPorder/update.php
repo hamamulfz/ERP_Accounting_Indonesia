@@ -106,7 +106,7 @@ $this->widget('zii.widgets.jui.CJuiButton', array(
     'buttonType' => 'submit',
     'name' => 'btnGo7',
     'caption' => $model->isNewRecord ? 'Create' : 'Save',
-    'options' => array('icons' => 'js:{secondary:"ui-icon-extlink"}'),
+    'options' => array('icons' => 'js:{secondary:"ui-icon-fa-extlink"}'),
 ));
 ?>
 <?php $this->endWidget(); ?>

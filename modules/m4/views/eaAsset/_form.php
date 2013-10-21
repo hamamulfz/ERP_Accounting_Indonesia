@@ -34,6 +34,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array('id' => 'my-f
 <?php echo $form->textFieldRow($model, 'photo_path', array('size' => 60, 'maxlength' => 500)); ?>
 <?php echo $form->textFieldRow($model, 'accesslevel_id'); ?>
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-ok"></i>' . $model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i>' . $model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 <?php $this->endWidget(); ?>

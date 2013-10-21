@@ -14,7 +14,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span3', 'rows' => 3)); ?>
 <?php echo $form->dropDownListRow($model, 'state_id', sParameter::items("cStatusAcc")); ?>
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-ok"></i>' . $model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i>' . $model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

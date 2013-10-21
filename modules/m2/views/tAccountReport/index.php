@@ -58,7 +58,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->dropDownListRow($model, 'report_id', tAccountReport::accountReportList()); ?>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-print"></i> Report', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-print"></i> Report', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

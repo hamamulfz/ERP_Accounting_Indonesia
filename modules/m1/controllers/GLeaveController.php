@@ -537,7 +537,7 @@ class GLeaveController extends Controller {
 						(SELECT l.balance from g_leave l WHERE l.parent_id = a.id AND approved_id NOT IN (1) ORDER BY l.start_date DESC LIMIT 1) as balance,
 						(SELECT l.start_date from g_leave l WHERE l.parent_id = a.id AND approved_id NOT IN (1) ORDER BY l.start_date DESC LIMIT 1) as last_leave
 						FROM g_bi_person a
-						WHERE company_id = " . sUser::model()->myGroup . " AND employee_status NOT IN ('Resign','End of Contract','Black List')
+						WHERE company_id = " . sUser::model()->myGroup . " AND employee_status NOT IN ('Resign','End of Contract','Black List','Termination')
 						ORDER by a.department, a.employee_name";
 
                     $command = $connection->createCommand($sql);

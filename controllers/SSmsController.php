@@ -46,10 +46,10 @@ class SSmsController extends Controller {
 				// memecah pesan asli
 				$pecah  = str_split($model->message, 153);
 				
-				if (count($pecah) == 1) {
+				//if (count($pecah) == 1) {
 					$multi = 'false';
-				} else
-					$multi = 'true';
+				//} else
+				//	$multi = 'true';
 
 				foreach ($receivers as $receiver) {
 					$connection = Yii::app()->db;
@@ -87,8 +87,12 @@ class SSmsController extends Controller {
 						   else
 						   {
 							  // jika bukan merupakan pecahan pertama, simpan ke tabel OUTBOX_MULTIPART
-							  $sql = "INSERT INTO outbox_multipart(UDH, TextDecoded, ID, SequencePosition)
-										VALUES ('".$udh."', '".$msg."',".$newID.",'$i')";
+							  //$sql = "INSERT INTO outbox_multipart(UDH, TextDecoded, ID, SequencePosition)
+							  //		VALUES ('".$udh."', '".$msg."',".$newID.",'$i')";
+
+								$sql = "INSERT INTO outbox (DestinationNumber, SenderID, UDH, TextDecoded, MultiPart, CreatorID) 
+										VALUES (CONCAT('+62','".$firstnumber[0]."'), 'modem1', '".$udh."', '".$msg."', '".$multi."', '".Yii::app()->name."') 
+								";
 						   }
 							$connection2->createCommand($sql)->execute();
 

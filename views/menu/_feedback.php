@@ -1,7 +1,7 @@
 <?php
 $this->beginWidget('bootstrap.widgets.TbBox', array(
     'title' => false,
-    'headerIcon' => 'icon-globe',
+    'headerIcon' => 'icon-fa-globe',
     'htmlHeaderOptions' => array('style' => 'background:white'),
         //'htmlContentOptions'=>array('style'=>'background:#FFA573'),
 ));

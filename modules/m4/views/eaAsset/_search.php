@@ -19,6 +19,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array('action' => Y
 
 <?php echo $form->textFieldRow($model, 'supplier_id'); ?>
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-ok"></i>' . $model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i>' . $model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 <?php $this->endWidget(); ?>

@@ -7,7 +7,7 @@ class waktu {
         return new $classname;
     }
 
-    public function nicetime($date) {
+    public static function nicetime($date) {
         if (empty($date)) {
             return "No date provided";
         }

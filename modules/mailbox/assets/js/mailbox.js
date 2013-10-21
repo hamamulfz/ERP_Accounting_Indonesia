@@ -122,13 +122,13 @@
                 if ($('.mailbox-sortby').length && ($('.mailbox-sortby').attr('value') == '' || $('.mailbox-sortby').attr('value').match(/.*\.desc$/i))) {
                     $('.mailbox-sorter li a').button({
                         icons: {
-                            secondary: "ui-icon-triangle-1-s"
+                            secondary: "ui-icon-fa-triangle-1-s"
                         }});
                 }
                 else {
                     $('.mailbox-sorter li a').button({
                         icons: {
-                            secondary: "ui-icon-triangle-1-n"
+                            secondary: "ui-icon-fa-triangle-1-n"
                         }});
                 }
                 $('.mailbox-sorter ul').addClass('ui-helper-reset');
@@ -219,7 +219,7 @@
                             .css({'float': 'left'})
                             .button({
                         icons: {
-                            primary: "ui-icon-circle-arrow-w"
+                            primary: "ui-icon-fa-circle-arrow-w"
                         }
                     })
                             .show()
@@ -234,7 +234,7 @@
                             .css({'float': 'left'})
                             .button({
                         icons: {
-                            secondary: "ui-icon-circle-arrow-e"
+                            secondary: "ui-icon-fa-circle-arrow-e"
                         }
                     })
                             .show()
@@ -467,7 +467,7 @@
                         $(this).dialog("close");
                     }
                 }
-                html = '<div id="dialog-confirm" title="Delete items permanently?"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>These items will be permanently deleted. Are you sure?</p></div>';
+                html = '<div id="dialog-confirm" title="Delete items permanently?"><p><span class="ui-icon ui-icon-fa-alert" style="float:left; margin:0 7px 20px 0;"></span>These items will be permanently deleted. Are you sure?</p></div>';
             }
             else {
                 buttons = {
@@ -479,7 +479,7 @@
                         $(this).dialog("close");
                     }
                 }
-                html = '<div id="dialog-confirm" title="Send items to trash?"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you sure you want to mark these items as deleted?</p></div>';
+                html = '<div id="dialog-confirm" title="Send items to trash?"><p><span class="ui-icon ui-icon-fa-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you sure you want to mark these items as deleted?</p></div>';
             }
             $(html).dialog({
                 resizable: false,

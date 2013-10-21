@@ -1,7 +1,7 @@
 <?php
 $this->beginWidget('bootstrap.widgets.TbBox', array(
     'title' => false,
-    'headerIcon' => 'icon-globe',
+    'headerIcon' => 'icon-fa-globe',
 ));
 ?>
 
@@ -40,7 +40,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 </p>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Submit', array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i> Submit', array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

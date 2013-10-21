@@ -16,6 +16,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?php echo $form->textFieldRow($model, 'email', array('class' => 'span3')); ?>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton('<i class="icon-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-fa-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 <?php $this->endWidget(); ?>

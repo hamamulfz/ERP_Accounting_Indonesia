@@ -11,12 +11,12 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'class' => 'TbButtonColumn',
             //'template'=>'{cuti}{sakit}{alpha}{tad}{tap}{ok}',
-            'template' => '{cuti}{alpha}{lembur}',
+            'template' => '{alpha}{lembur}',
             'htmlOptions' => array(
-                'width' => '150px',
+                'width' => '75px',
             ),
             'buttons' => array(
-                'cuti' => array(
+                /*'cuti' => array(
                     'label' => 'C',
                     'url' => 'Yii::app()->createUrl("/m1/gAttendance/setCuti", array("id"=>$data->id))',
                     'options' => array(
@@ -34,7 +34,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                     ),
                     'visible' => '$data->daystatus3_id !=200 && $data->realpattern_id !=90',
                 ),
-                /* 'sakit' => array (
+                 'sakit' => array (
                   'label'=>'S',
                   'url'=>'Yii::app()->createUrl("/m1/gAttendance/setSakit", array("id"=>$data->id))',
                   'options'=>array(
@@ -209,7 +209,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                         . CHtml::tag('div', array(), isset($data->permission1) ? $data->permission1->name . ". " . $data->remark : "")
                         . CHtml::tag('div', array(), isset($data->permission2) ? $data->permission2->name : "")
                         . CHtml::tag('div', array(), isset($data->permission3) ? $data->permission3->name : "")
-                        . CHtml::tag('div', array(), isset($data->syncPermission) ? "#P# " . $data->syncPermission->permission_reason ." ( ".$data->syncPermission->approved->name." )" : "");
+                        . CHtml::tag('div', array(), isset($data->syncPermission) ? "#P# " . $data->syncPermission->permission_reason ." ( ".$data->syncPermission->approved->name." )" : "")
+                        . CHtml::tag('div', array(), isset($data->syncLeave) ? "#L# " . $data->syncLeave->leave_reason ." ( ".$data->syncLeave->approved->name." )" : "");
             }
         ),
         //'remark',

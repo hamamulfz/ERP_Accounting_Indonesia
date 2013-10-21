@@ -160,7 +160,7 @@ class leaveForm extends fpdf {
 
         $this->Cell(0, 1, '', 'B');
         $this->Ln();
-        $this->SetFont('Arial', '', 9);
+        $this->SetFont('Arial', '', 10);
         $this->Cell($w[0], 5, 'Diajukan oleh:', 'LTR', 0, 'C', true);
         $this->Cell($w[1], 5, 'Disetujui oleh:', 'LTR', 0, 'C', true);
         $this->Cell($w[2], 5, 'Diketahui oleh:', 'LTR', 0, 'C', true);
@@ -170,11 +170,11 @@ class leaveForm extends fpdf {
         $this->Cell($w[2], 25, '', 'LR');
         $this->Ln();
         $this->SetFont('Arial', '', 8);
-        $this->Cell($w[0], 8, 'Nama:  ' . $model->person->employee_name, 1);
+        $this->Cell($w[0], 8, $model->person->employee_name, 1,0,'C');
         $this->Cell($w[1], 8, 'Nama:', 1);
         $this->Cell($w[2], 8, 'Nama:', 1);
         $this->Ln();
-        $this->Cell($w[0], 6, 'Tanggal:  ' . $model->input_date, 'LTR');
+        $this->Cell($w[0], 6, $model->input_date, 'LTR',0,'C');
         $this->Cell($w[1], 6, 'Tanggal:', 'LTR');
         $this->Cell($w[2], 6, 'Tanggal:', 'LTR');
         $this->Ln();

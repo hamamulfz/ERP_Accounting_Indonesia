@@ -56,7 +56,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?php echo $form->errorSummary($model); ?>
 
 <?php echo $form->textFieldRow($model, 'item', array('class' => 'span3')); ?>
-<?php echo CHtml::htmlButton('<i class="icon-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
+<?php echo CHtml::htmlButton('<i class="icon-fa-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
 <?php $this->endWidget(); ?>
 <?php
 $this->widget('zii.widgets.CListView', array(

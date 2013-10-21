@@ -12,7 +12,15 @@
 
         <?php echo $form->textAreaRow($model, 'long_desc', array('class' => 'span8', 'rows' => 3, 'hint' => 'Input your Comment here...')); ?>
 
-        <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Reply', array('class' => 'btn', 'type' => 'submit')); ?>
+<div class="form-actions">
+    <?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'submit',
+        'type' => 'primary',
+        'label' => 'Send',
+    ));
+    ?>
+</div>
 
         <?php $this->endWidget(); ?>
     </div>

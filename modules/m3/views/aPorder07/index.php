@@ -102,14 +102,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 (
                 'myView' => array
                     (
-                    'label' => '<i class="icon-zoom-in"></i>',
+                    'label' => '<i class="icon-fa-zoom-in"></i>',
                     //'imageUrl'=>Yii::app()->request->baseUrl.'/images/icon/detail.png',
                     'url' => '$this->grid->controller->createUrl("/m3/aPorder07/view", array("id"=>$data->id,"asDialog"=>1,"gridId"=>$this->grid->id))',
                     'click' => 'function(){$("#cru-frame").attr("src",$(this).attr("href")); $("#cru-dialog").dialog("open"); return false;}',
                 ),
                 'myUpdate' => array
                     (
-                    'label' => '<i class="icon-pencil"></i>',
+                    'label' => '<i class="icon-fa-pencil"></i>',
                     //'imageUrl'=>Yii::app()->request->baseUrl.'/images/icon/edit.png',
                     'url' => 'Yii::app()->createUrl("/m3/aPorder/update", array("id"=>$data->id))',
                 ),
@@ -118,7 +118,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'class' => 'TbButtonColumn',
             'template' => '{delete}',
-            'deleteButtonLabel' => '<i class="icon-trash"></i>',
+            'deleteButtonLabel' => '<i class="icon-fa-trash"></i>',
             'deleteButtonImageUrl' => false,
             'visible' => ($id == 1),
         ),

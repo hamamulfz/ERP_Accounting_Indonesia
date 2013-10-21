@@ -28,12 +28,10 @@ class attendanceSummaryByDept extends fpdf {
         $this->Cell(0, 5, '', 'LBR');
         $this->Ln(1);
 
-        $this->SetFont('Arial', '', 10);
+        $this->SetFont('Arial', 'B', 10);
         $this->Cell(0, 6, '', 'B', 0, 'C');
         $this->Ln();
-        $this->Cell(35, 6, '', 'L');
-        $this->Cell(80, 6, '');
-        $this->Cell(0, 6, '', 'R');
+        $this->Cell(0, 6, 'PERIODE:  01-'.date('m-Y').'  s/d  '. date('d-m-Y'), 1,0,'C');
         $this->Ln(6);
         $this->Cell(0, 6, '', 'T');
         $this->Ln(1);
@@ -89,19 +87,20 @@ class attendanceSummaryByDept extends fpdf {
                 $dept = $row['department'];
             }
             $this->SetFont('Arial', '', 9);
-            $this->Cell($w[0], 5, $counter, 'L', 0, 'R');
-            $this->Cell($w[1], 5, $row['employee_name'], 'L');
-            $this->Cell($w[2], 5, substr($row['job_title'], 0, 37), 'LR');
-            $this->Cell($w[3], 5, $row['cuti'], 'LR', 0, 'C');
-            $this->Cell($w[4], 5, $row['alpha'], 'LR', 0, 'C');
-            $this->Cell($w[5], 5, $row['ijin'], 'LR', 0, 'C');
-            $this->Cell($w[6], 5, '', 'LR', 0, 'C');
+            $this->Cell($w[0], 7, $counter, 'L', 0, 'R');
+            $this->Cell($w[1], 7, $row['employee_name'], 'L');
+            $this->Cell($w[2], 7, substr($row['job_title'], 0, 37), 'LR');
+            $this->Cell($w[3], 7, $row['cuti'], 'LR', 0, 'C');
+            $this->Cell($w[4], 7, ($row['alpha'] == 0) ? '' : $row['alpha'], 'LR', 0, 'C');
 
-            $this->Cell($w[7], 5, '', 'LR', 0, 'C');
-            $this->Cell($w[8], 5, '', 'LR');
-            $this->Cell($w[9], 5, '', 'LR');
-            $this->Cell($w[10], 5, '', 'LR');
-            $this->Cell($w[11], 5, '', 'LR');
+            $this->Cell($w[5], 7, ($row['lateIn'] == 0) ? '' : $row['lateIn'], 'LR', 0, 'C');
+            $this->Cell($w[6], 7,'' , 'LR', 0, 'C');
+            $this->Cell($w[7], 7, ($row['earlyOut'] == 0) ? '' : $row['earlyOut'], 'LR', 0, 'C');
+            $this->Cell($w[8], 7, '', 'LR');
+
+            $this->Cell($w[9], 7, ($row['tad'] == 0) ? '' : $row['tad'], 'LR', 0, 'C');
+            $this->Cell($w[10], 7, ($row['tap'] == 0) ? '' : $row['tap'], 'LR', 0, 'C');
+            $this->Cell($w[11], 7, '', 'LR');
             $this->Ln();
             $counter++;
 

@@ -12,7 +12,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
         ));
 ?>
 
-<?php //echo $form->textField($model,'employee_name',array('width'=>'100%','maxlength'=>100,'placeholder'=>'Search Name','prepend'=>'<i class="icon-search"></i>')); ?>
+<?php //echo $form->textField($model,'employee_name',array('width'=>'100%','maxlength'=>100,'placeholder'=>'Search Name','prepend'=>'<i class="icon-fa-search"></i>')); ?>
 <?php
 
 $model->employee_name = null;
@@ -34,12 +34,19 @@ $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
     'htmlOptions' => array(
         'width' => '100%',
         'placeholder' => 'Search Name',
-        'prepend' => '<i class="icon-search"></i>',
+        'prepend' => '<i class="icon-fa-search"></i>',
     ),
 ));
 ?>
 
 
-<?php echo CHtml::htmlButton('<i class="icon-search"></i>', array('class' => 'btn', 'type' => 'submit')); ?>
+<?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'submit',
+        'type' => 'primary',
+        'label' => 'Search',
+        'icon' => 'search'
+    ));
+?>
 
 <?php $this->endWidget(); ?>

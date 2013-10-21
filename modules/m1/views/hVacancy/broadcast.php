@@ -60,7 +60,7 @@ $this->menu8 = hApplicant::model()->topRecentApplicant;
         </div>
 
         <div class="form-actions">
-            <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Submit', array('class' => 'btn', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i> Submit', array('class' => 'btn', 'type' => 'submit')); ?>
         </div>
         <?php //echo CHtml::submitButton('Submit');  ?>
 

@@ -251,7 +251,7 @@ class GEssController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdatePermission($id) {
+    public function actionUpdatePermission($id,$month=0) {
         $model = $this->loadModel();
         $modelPermission = $this->loadModelPermission($id);
 
@@ -267,10 +267,11 @@ class GEssController extends Controller {
         $this->render('updatePermission', array(
             'model' => $model,
             'modelPermission' => $modelPermission,
+            'month'=>$month,
         ));
     }
 
-    public function actionUpdateLeave($id) {
+    public function actionUpdateLeave($id,$month=0) {
         $model = $this->loadModel();
         $modelLeave = $this->loadModelLeave($id);
 
@@ -289,6 +290,7 @@ class GEssController extends Controller {
         $this->render('updateLeave', array(
             'model' => $model,
             'modelLeave' => $modelLeave,
+            'month'=>$month,
         ));
     }
 
@@ -392,6 +394,26 @@ class GEssController extends Controller {
         $criteria->compare('id', $id);
         $criteria->compare('parent_id', gPerson::model()->find('userid =' . Yii::app()->user->id)->id);
         $criteria->compare('approved_id', 6);
+
+        $model = gLeave::model()->find($criteria);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+
+        $pdf->report($model);
+
+        $pdf->Output();
+    }
+
+    public function actionPrintExtendedLeave($id) {
+        $pdf = new leaveExtendedForm('P', 'mm', 'A4');
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', '', 12);
+
+        $criteria = new CDbCriteria;
+        $criteria->compare('id', $id);
+        $criteria->compare('parent_id', gPerson::model()->find('userid =' . Yii::app()->user->id)->id);
+        //$criteria->compare('approved_id', 6);
 
         $model = gLeave::model()->find($criteria);
         if ($model === null)

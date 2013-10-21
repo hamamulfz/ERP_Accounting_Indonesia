@@ -9,22 +9,22 @@ jQuery(document).ready(function() {
         {
             $('#mailbox-inbox').button({
                 icons: {
-                    primary: "ui-icon-mail-closed"
+                    primary: "ui-icon-fa-mail-closed"
                 }
             });
             $('#mailbox-sent').button({
                 icons: {
-                    primary: "ui-icon-mail-open"
+                    primary: "ui-icon-fa-mail-open"
                 }
             });
             $('#mailbox-trash').button({
                 icons: {
-                    primary: "ui-icon-trash"
+                    primary: "ui-icon-fa-trash"
                 }
             });
             $('.mailbox-menu-newmsg span').button({
                 icons: {
-                    primary: "ui-icon-pencil"
+                    primary: "ui-icon-fa-pencil"
                 }
             });
         }
