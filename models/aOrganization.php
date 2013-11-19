@@ -14,7 +14,8 @@ class aOrganization extends BaseModel {
         return array(
             array('name, branch_code, custom1, custom2, custom3', 'required'),
             array('kabupaten_id, propinsi_id, created_date, created_by, updated_date, updated_by, parent_id, status_id', 'numerical', 'integerOnly' => true),
-            array('branch_code, name, pos_code, phone_code_area, telephone, fax, email, website', 'length', 'max' => 50),
+            array('branch_code, pos_code, phone_code_area, telephone, fax, email, website', 'length', 'max' => 50),
+            array('name', 'length', 'max' => 100),
             array('address', 'length', 'max' => 300),
             array('branch_code_number', 'length', 'max' => 10),
             array('photo_path,custom1, custom2, custom3', 'length', 'max' => 100),
@@ -53,7 +54,7 @@ class aOrganization extends BaseModel {
             'custom1' => 'Company Code',
             'custom2' => 'Ownership',
             'custom3' => 'Area',
-            'custom4' => 'Custom4',
+            'custom4' => 'Company Type',
             'custom5' => 'Custom5',
             'created_date' => 'Created Date',
             'created_by' => 'Created',
@@ -173,7 +174,7 @@ class aOrganization extends BaseModel {
         return $returnarray;
     }
 
-    public function getParentFamily($id) {
+    public static function getParentFamily($id) {
 
         $model = self::model()->findByPk($id);
 
@@ -508,6 +509,32 @@ class aOrganization extends BaseModel {
             $_items['label'] = (strlen($model->name) >= 18) ? substr($model->name, 0, 18) . ".." : $model->name;
             $_items['icon'] = 'list';
             $_items['url'] = Yii::app()->createUrl('/m1/gPerson/index', array('pid' => $model->id));
+            $_itemsmain[] = $_items;
+        }
+
+        return $_itemsmain;
+    }
+
+    public static function compDeptAttendanceFilter() {
+        $_itemsmain = array();
+        $_items = array();
+
+        $criteria = new CDbCriteria;
+        $criteria->order = 't.id';
+        $criteria->with = array('getparent');
+        $criteria->compare('getparent.parent_id', self::model()->findByPk(sUser::model()->myGroup)->childs[0]->id);
+
+        $models = self::model()->findAll($criteria);
+
+        $_items['label'] = 'Home';
+        $_items['icon'] = 'list';
+        $_items['url'] = Yii::app()->createUrl('/m1/gAttendance');
+        $_itemsmain[] = $_items;
+
+        foreach ($models as $model) {
+            $_items['label'] = (strlen($model->name) >= 18) ? substr($model->name, 0, 18) . ".." : $model->name;
+            $_items['icon'] = 'list';
+            $_items['url'] = Yii::app()->createUrl('/m1/gAttendance/index', array('pid' => $model->id));
             $_itemsmain[] = $_items;
         }
 

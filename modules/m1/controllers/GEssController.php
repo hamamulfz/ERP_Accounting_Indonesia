@@ -41,6 +41,7 @@ class GEssController extends Controller {
         }
         else
             $this->render('index', array(
+	            'month'=>$month,
             ));
     }
 
@@ -186,10 +187,11 @@ class GEssController extends Controller {
 
         $model->input_date = date('d-m-Y');
         $modG = $this->loadModel();
-        $_md = date('d-m', strtotime($modG->companyfirst->start_date)) . "-" . date('Y');
+        $_md = date('d-m-Y',strtotime(date('d-m', strtotime($modG->companyfirst->start_date)) . "-" . date('Y')." +1 day"));
         $model->start_date = $_md;
-        $_mn = date("d-m-Y", strtotime(date('d-m', strtotime($modG->companyfirst->start_date)) . "-" . date('Y') . "+6 month"));
-        $model->end_date = $_mn;
+        //$_mn = date("d-m-Y", strtotime(date('d-m', strtotime($modG->companyfirst->start_date)) . "-" . date('Y') . "+6 month"));
+        //$model->end_date = $_mn;
+        $model->end_date = $_md;
         $model->number_of_day = $modG->leaveBalance->balance;
         $this->render('createExtendedLeave', array(
             'model' => $model,

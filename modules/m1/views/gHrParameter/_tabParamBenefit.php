@@ -5,7 +5,7 @@ $this->widget('TbGridView', array(
     //'filter'=>$model,
     'columns' => array(
         array(
-            'class' => 'ext.editable.EditableColumn',
+            'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'sort',
             //'headerHtmlOptions' => array('style' => 'width: 110px'),
             'editable' => array(
@@ -15,7 +15,7 @@ $this->widget('TbGridView', array(
             )
         ),
         array(
-            'class' => 'ext.editable.EditableColumn',
+            'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'name',
             //'headerHtmlOptions' => array('style' => 'width: 110px'),
             'editable' => array(
@@ -25,7 +25,7 @@ $this->widget('TbGridView', array(
             )
         ),
         array(
-            'class' => 'ext.editable.EditableColumn',
+            'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'amount',
             //'headerHtmlOptions' => array('style' => 'width: 110px'),
             'editable' => array(

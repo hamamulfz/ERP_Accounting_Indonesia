@@ -179,7 +179,7 @@ class gPerson2 extends BaseModel {
         );
     }
 
-    public function employeeOut() {
+    public static function employeeOut() {
 
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
 
@@ -211,7 +211,7 @@ class gPerson2 extends BaseModel {
         return $dataProvider;
     }
  
-    public function compDepartment() {
+    public static function compDepartment() {
 
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
 
@@ -231,7 +231,7 @@ class gPerson2 extends BaseModel {
             $connection = Yii::app()->db;
             $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company, " . $extend . "
 			from g_person a
-			WHERE " . $this->module->filterUserCompany();
+			WHERE " . Yii::app()->getModule('m1')->filterUserCompany();
 
             $command = $connection->cache(3600, $dependency)->createCommand($sql);
             $command = $connection->createCommand($sql);
@@ -249,7 +249,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compStatus() {
+    public static function compStatus() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
@@ -263,7 +263,7 @@ class gPerson2 extends BaseModel {
 			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 7,1,0)) as l4
 
 			from g_person a
-			WHERE " . $this->module->filterUserCompany();
+			WHERE " . Yii::app()->getModule('m1')->filterUserCompany();
 
             $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
 
@@ -283,7 +283,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compLevel() {
+    public static function compLevel() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -298,7 +298,7 @@ class gPerson2 extends BaseModel {
 			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 5,1,0)) as l5,
 			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 1,1,0)) as l6
 			from g_person a
-			WHERE " . $this->module->filterUserCompany();
+			WHERE " . Yii::app()->getModule('m1')->filterUserCompany();
 
             $command = $connection->cache(3600, $dependency)->createCommand($sql);
             $row = $command->queryAll();
@@ -318,7 +318,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compWorking() {
+    public static function compWorking() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -334,7 +334,7 @@ class gPerson2 extends BaseModel {
 			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) >8,1,0)) as l6
 		
 			from g_person a
-			WHERE " . $this->module->filterUserCompany();
+			WHERE " . Yii::app()->getModule('m1')->filterUserCompany();
 
 
             $command = $connection->cache(3600, $dependency)->createCommand($sql);
@@ -355,7 +355,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compSex() {
+    public static function compSex() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -367,7 +367,7 @@ class gPerson2 extends BaseModel {
 			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 2,1,0)) as l2
 		
 			from g_person a
-			WHERE " . $this->module->filterUserCompany();
+			WHERE " . Yii::app()->getModule('m1')->filterUserCompany();
 
 
             $command = $connection->cache(3600, $dependency)->createCommand($sql);
@@ -384,7 +384,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compAge() {
+    public static function compAge() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -403,7 +403,7 @@ class gPerson2 extends BaseModel {
 			SUM(IF(" . $_age . " > 55,1,0)) as l8
 		
 			from g_person a
-			WHERE " . $this->module->filterUserCompany();
+			WHERE " .Yii::app()->getModule('m1')->filterUserCompany();
 
             $command = $connection->cache(3600, $dependency)->createCommand($sql);
             $row = $command->queryAll();
@@ -425,7 +425,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compEducation() {
+    public static function compEducation() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(id) FROM g_person_education');
@@ -442,7 +442,7 @@ class gPerson2 extends BaseModel {
 			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 10,1,0)) as l7
 		
 			from g_person a
-			WHERE " . $this->module->filterUserCompany();
+			WHERE " . Yii::app()->getModule('m1')->filterUserCompany();
 
 
             $command = $connection->cache(3600, $dependency)->createCommand($sql);
@@ -464,7 +464,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compReligion() {
+    public static function compReligion() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -480,7 +480,7 @@ class gPerson2 extends BaseModel {
 			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 6,1,0)) as l6
 		
 			from g_person a
-			WHERE " . $this->module->filterUserCompany();
+			WHERE " . Yii::app()->getModule('m1')->filterUserCompany();
 
             $command = $connection->cache(3600, $dependency)->createCommand($sql);
             $row = $command->queryAll();
@@ -500,7 +500,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compEmployeePerMonth() {
+    public static function compEmployeePerMonth() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -667,7 +667,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
 
-    public function compEmployeeIn() {
+    public static function compEmployeeIn() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -747,7 +747,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
 
-    public function compEmployeePmd() {
+    public static function compEmployeePmd() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -1467,7 +1467,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
     
-    public function compEmployeePerMonthAll() {
+    public static function compEmployeePerMonthAll() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -1555,7 +1555,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -1580,7 +1588,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201308'];
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
-            //$_data[] = (int) $row['201311'];
+            $_data[] = (int) $row['201311'];
             //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
@@ -1594,7 +1602,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
     
-    public function compEmployeeInAll() {
+    public static function compEmployeeInAll() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -1672,7 +1680,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
 
-    public function compEmployeePmdAll() {
+    public static function compEmployeePmdAll() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -1794,7 +1802,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
     
-    public function compApplicantPerMonth() {
+    public static function compApplicantPerMonth() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(created_date) FROM h_applicant');
@@ -1822,7 +1830,9 @@ class gPerson2 extends BaseModel {
 				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
 					<= '" . date("Y") . "-09-30') as `201309`,
 				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-10-31') as `201310`
+					<= '" . date("Y") . "-10-31') as `201310`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-11-30') as `201311`
 
 
 
@@ -1847,7 +1857,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201308'];
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
-            //$_data[] = (int) $row['201311'];
+            $_data[] = (int) $row['201311'];
             //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
@@ -1861,7 +1871,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
     
-    public function compVacancyPerMonth() {
+    public static function compVacancyPerMonth() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM h_vacancy');
@@ -1985,7 +1995,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
     
-    public function compLearningHoursPerMonth() {
+    public static function compLearningHoursPerMonth() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(created_date) FROM i_learning_sch');
@@ -2015,9 +2025,9 @@ class gPerson2 extends BaseModel {
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
 						<= '" . date("Y") . "10') as `201310`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "10') as `201311`,
+						<= '" . date("Y") . "11') as `201311`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "10') as `201312`
+						<= '" . date("Y") . "11') as `201312`
 
 					FROM `a_organization` `o`
 					where `id` = 1  
@@ -2054,7 +2064,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
         
-    public function compLearningClassPerMonth() {
+    public static function compLearningClassPerMonth() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(created_date) FROM i_learning_sch_part');
@@ -2203,7 +2213,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
 
-    public function compEmployeePerMonthAllAge() {
+    public static function compEmployeePerMonthAllAge() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -2292,7 +2302,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " <=25 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -2379,7 +2397,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 25 AND " . $_age . " <= 30 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -2466,7 +2492,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 30 AND " . $_age . " <= 35 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -2553,7 +2587,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 35 AND " . $_age . " <= 40 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -2640,7 +2682,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 40 AND " . $_age . " <= 45 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -2727,7 +2777,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 45 AND " . $_age . " <= 50 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -2814,7 +2872,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 50 AND " . $_age . " <= 55 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -2901,7 +2967,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 55 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -2926,7 +3000,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201308'];
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
-            //$_data[] = (int) $row['201311'];
+            $_data[] = (int) $row['201311'];
             //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
@@ -2940,7 +3014,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
 
-    public function compEmployeePerMonthAllGender() {
+    public static function compEmployeePerMonthAllGender() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -3028,7 +3102,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`sex_id` = 1 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -3115,7 +3197,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`sex_id` = 2 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -3139,7 +3229,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201308'];
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
-            //$_data[] = (int) $row['201311'];
+            $_data[] = (int) $row['201311'];
             //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
@@ -3153,7 +3243,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
 
-    public function compEmployeePerMonthAllReligion() {
+    public static function compEmployeePerMonthAllReligion() {
 
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -3241,7 +3331,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 1 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -3328,7 +3426,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 2 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -3415,7 +3521,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 3 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -3502,7 +3616,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 4 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -3589,7 +3711,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 5 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -3676,7 +3806,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 6 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -3763,7 +3901,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-10-31' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 1 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201311`
 
 
 
@@ -3787,7 +3933,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201308'];
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
-            //$_data[] = (int) $row['201311'];
+            $_data[] = (int) $row['201311'];
             //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
@@ -3801,7 +3947,7 @@ class gPerson2 extends BaseModel {
         return $_merge;
     }
 
-    public function holdingTotal() {
+    public static function holdingTotal() {
 
 
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -3866,7 +4012,7 @@ class gPerson2 extends BaseModel {
         return $item;
     }
 
-    public function holdingPerShareTotal() {
+    public static function holdingPerShareTotal() {
 
 
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -3918,7 +4064,7 @@ class gPerson2 extends BaseModel {
                 $command = $connection->createCommand($sql);
                 $row = $command->queryAll();
                 
-                ($row[0]['nn'] == 1) ? $_val ="APL" : $_val ="APG";
+                ($row[0]['nn'] == 1) ? $_val ="Full Ownership" : $_val ="Partnership";
                 
                 $_n1['name'] = $_val;
                 $_n1['y'] = (int) $row[0]['total'];
@@ -3934,7 +4080,75 @@ class gPerson2 extends BaseModel {
         return $item;
     }
 
-    public function grandTotal() {
+    public static function holdingPerOwnershipTotal() {
+
+
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('holdingperownershiptotal' . Yii::app()->user->id)) {
+
+
+            $connection = Yii::app()->db;
+
+            $lists=array('1','2');
+            
+            foreach ($lists as $list) {
+                $sql = "select 
+				(select 
+					`o`.`custom4`
+				from
+					`erp_apl`.`g_person_career` `c`
+					left join `erp_apl`.`a_organization` `o` ON `o`.`id` = `c`.`company_id`
+				where
+					((`a`.`id` = `c`.`parent_id`)
+						and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+				order by `c`.`start_date` desc
+				limit 1) as `nn`,
+			
+				count(`a`.`id`) as `total`
+			from
+			`erp_apl`.`g_person` `a`
+			 where  
+		 
+			(select 
+					`s`.`status_id` AS `status_id`
+				from
+					`erp_apl`.`g_person_status` `s`
+				where
+					(`s`.`parent_id` = `a`.`id`)
+				order by `s`.`start_date` desc
+				limit 1) NOT IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY) . ") AND
+			(select 
+					`o`.`custom2` AS `id`
+				from
+					(`erp_apl`.`g_person_career` `c`
+					left join `erp_apl`.`a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+				where
+					((`a`.`id` = `c`.`parent_id`)
+						and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+				order by `c`.`start_date` desc
+				limit 1) = '".$list ."'" ;
+
+                $command = $connection->createCommand($sql);
+                $row = $command->queryAll();
+                
+                ($row[0]['nn'] == 1) ? $_val ="APL" : $_val ="APG";
+                
+                $_n1['name'] = $_val;
+                $_n1['y'] = (int) $row[0]['total'];
+                $item[] = $_n1;
+                
+            }
+
+            Yii::app()->cache->set('holdingperownershiptotal' . Yii::app()->user->id, $item, 3600, $dependency);
+        }
+        else
+            $item = Yii::app()->cache->get('holdingperownershiptotal' . Yii::app()->user->id);
+
+        return $item;
+    }
+
+    public static function grandTotal() {
 
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
 
@@ -3968,7 +4182,7 @@ class gPerson2 extends BaseModel {
         return $item;
     }
 
-    public function proEmployee($id) {
+    public static function proEmployee($id) {
 
 
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -4020,7 +4234,7 @@ class gPerson2 extends BaseModel {
         return $item;
     }
 
-    public function compSexAll() {
+    public static function compSexAll() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -4048,7 +4262,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compAgeAll() {
+    public static function compAgeAll() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -4088,7 +4302,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compEducationAll() {
+    public static function compEducationAll() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(id) FROM g_person_education');
@@ -4126,7 +4340,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compReligionAll() {
+    public static function compReligionAll() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
@@ -4161,7 +4375,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compLevelAll() {
+    public static function compLevelAll() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -4195,7 +4409,7 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
 
-    public function compWorkingAll() {
+    public static function compWorkingAll() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
@@ -4232,7 +4446,7 @@ class gPerson2 extends BaseModel {
     }
 
 
-    public function compStatusAll() {
+    public static function compStatusAll() {
 
         $_item = array();
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
@@ -4265,11 +4479,11 @@ class gPerson2 extends BaseModel {
         return $_item;
     }
     
-    public function compByParent($id) {
+    public static function compByParent($id) {
         $_items = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM a_organization');
+        //$dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM a_organization');
 
-        if (!Yii::app()->cache->get('compbyparent' . Yii::app()->user->id)) {
+       // if (!Yii::app()->cache->get('compbyparent' . Yii::app()->user->id)) {
 
 			$criteria = new CDbCriteria;
 			$criteria->order = 'id';
@@ -4278,10 +4492,10 @@ class gPerson2 extends BaseModel {
 			foreach ($models as $model)
 				$_items[] = $model->name;
 
-            Yii::app()->cache->set('compbyparent' . Yii::app()->user->id, $_items, 3600, $dependency);
-        }
-        else
-            $_items = Yii::app()->cache->get('compbyparent' . Yii::app()->user->id);
+        //    Yii::app()->cache->set('compbyparent' . Yii::app()->user->id, $_items, 3600, $dependency);
+        //}
+        //else
+        //    $_items = Yii::app()->cache->get('compbyparent' . Yii::app()->user->id);
 
 
         return $_items;

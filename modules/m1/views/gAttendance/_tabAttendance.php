@@ -8,14 +8,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'template' => '{summary}{items}{pager}',
     //'filter'=>$model,
     'columns' => array(
-        array(
-            'class' => 'TbButtonColumn',
+        //array(
+        //    'class' => 'TbButtonColumn',
             //'template'=>'{cuti}{sakit}{alpha}{tad}{tap}{ok}',
-            'template' => '{alpha}{lembur}',
-            'htmlOptions' => array(
-                'width' => '75px',
-            ),
-            'buttons' => array(
+            //'template' => '{alpha}',
+       //     'htmlOptions' => array(
+                //'width' => '20px',
+       //     ),
+       //     'buttons' => array(
                 /*'cuti' => array(
                     'label' => 'C',
                     'url' => 'Yii::app()->createUrl("/m1/gAttendance/setCuti", array("id"=>$data->id))',
@@ -50,7 +50,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                   'style'=>'margin-left:3px;',
                   ),
                   'visible'=>'$data->daystatus1_id !=10 && $data->realpattern_id !=90',
-                  ), */
+                  ), 
                 'alpha' => array(
                     'label' => 'A',
                     //'imageUrl'=>Yii::app()->request->baseUrl.'/images/icon/alpha.png',
@@ -90,7 +90,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                         'style' => 'margin-left:10px;',
                     ),
                     'visible' => '$data->daystatus3_id !=400 && $data->realpattern_id !=90',
-                ),
+                ), */
             /* 'tad' => array (
               'label'=>'TAD',
               //'imageUrl'=>Yii::app()->request->baseUrl.'/images/icon/alpha.png',
@@ -151,8 +151,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               ),
               'visible'=>'$data->daystatus1_id ==null',
               ), */
-            ),
-        ),
+        //    ),
+        //),
         array(
             'header' => 'Permission',
             'class' => 'EJuiDlgsColumn',
@@ -195,7 +195,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'type' => 'raw',
             'value' => function($data2) {
                 return
-                        (peterFunc::isTimeMore2($data2->realpattern->out, $data2->out)) ?
+                        (peterFunc::isTimeMore2($data2->realpattern->out, $data2->out, $data2->in)) ?
                         CHtml::tag('div', array('style' => 'color: red;'), $data2->actualOut)
                         . CHtml::tag('div', array('style' => 'color: red;font-size: 11px;'), $data2->earlyOutStatus) : $data2->actualOut;
             }
@@ -209,8 +209,10 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                         . CHtml::tag('div', array(), isset($data->permission1) ? $data->permission1->name . ". " . $data->remark : "")
                         . CHtml::tag('div', array(), isset($data->permission2) ? $data->permission2->name : "")
                         . CHtml::tag('div', array(), isset($data->permission3) ? $data->permission3->name : "")
-                        . CHtml::tag('div', array(), isset($data->syncPermission) ? "#P# " . $data->syncPermission->permission_reason ." ( ".$data->syncPermission->approved->name." )" : "")
-                        . CHtml::tag('div', array(), isset($data->syncLeave) ? "#L# " . $data->syncLeave->leave_reason ." ( ".$data->syncLeave->approved->name." )" : "");
+                        . CHtml::tag('div', array(), isset($data->syncPermission) ? "#P# " . $data->syncPermission->permission_reason ." "
+                        . CHtml::tag("span", array('class' => 'badge badge-info'), $data->syncPermission->approved->name) : "")
+                        . CHtml::tag('div', array(), isset($data->syncLeave) ? "#L# " . $data->syncLeave->leave_reason." " 
+                        . CHtml::tag("span", array('class' => 'badge badge-info'), $data->syncLeave->approved->name) : "");
             }
         ),
         //'remark',

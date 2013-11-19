@@ -140,7 +140,7 @@ class gAttendance extends BaseModel {
     }
 
     public function getEarlyOutStatus() {
-        if (isset($this->out) && peterFunc::isTimeMore2($this->realpattern->out, $this->out)) {
+        if (isset($this->out) && peterFunc::isTimeMore2($this->realpattern->out, $this->out, $this->in)) {
             $_val = "Early Out";
         }
         else
@@ -184,7 +184,7 @@ class gAttendance extends BaseModel {
     }
 
     public function getDiffOut() {
-        if (peterFunc::isTimeMore2($this->realpattern->out, $this->out)) {
+        if (peterFunc::isTimeMore2($this->realpattern->out, $this->out,$this->in)) {
             $_val = peterFunc::countTimeDiff($this->realpattern->out, $this->out);
         }
         else
@@ -238,14 +238,16 @@ class gAttendance extends BaseModel {
         $criteria->compare('parent_id', $this->parent_id);
 
         $criteria1 = new CDbCriteria;
-        $criteria1->compare('DATE_FORMAT(start_date,"%Y-%m-%d")', date("Y-m-d", strtotime($this->cdate)), false, 'OR');
-        $criteria1->compare('DATE_FORMAT(end_date,"%Y-%m-%d")', date("Y-m-d", strtotime($this->cdate)), false, 'OR');
+        //$criteria1->compare('DATE_FORMAT(start_date,"%Y-%m-%d")', date("Y-m-d", strtotime($this->cdate)), false, 'OR');
+        //$criteria1->compare('DATE_FORMAT(end_date,"%Y-%m-%d")', date("Y-m-d", strtotime($this->cdate)), false, 'OR');
+        $criteria1->condition= 'DATE_FORMAT(start_date,"%Y-%m-%d") <= "' .date("Y-m-d", strtotime($this->cdate)). '" AND 
+        					 DATE_FORMAT(end_date,"%Y-%m-%d") >= "'.date("Y-m-d", strtotime($this->cdate)) .'"';
 
         $criteria->mergeWith($criteria1);
 
         $model = gPermission::model()->find($criteria);
 
-        if (isset($model)) {
+        if (isset($model) && $this->realpattern_id <> 90) {
             return $model;
         }
         else
@@ -255,16 +257,17 @@ class gAttendance extends BaseModel {
     public function getSyncLeave() {
         $criteria = new CDbCriteria;
         $criteria->compare('parent_id', $this->parent_id);
+        $criteria->addInCondition('approved_id', array(1,2));
 
         $criteria1 = new CDbCriteria;
-        $criteria1->compare('DATE_FORMAT(start_date,"%Y-%m-%d")', date("Y-m-d", strtotime($this->cdate)), false, 'OR');
-        $criteria1->compare('DATE_FORMAT(end_date,"%Y-%m-%d")', date("Y-m-d", strtotime($this->cdate)), false, 'OR');
+        $criteria1->condition= 'DATE_FORMAT(start_date,"%Y-%m-%d") <= "' .date("Y-m-d", strtotime($this->cdate)). '" AND 
+        					 DATE_FORMAT(end_date,"%Y-%m-%d") >= "'.date("Y-m-d", strtotime($this->cdate)) .'"';
 
         $criteria->mergeWith($criteria1);
 
         $model = gLeave::model()->find($criteria);
 
-        if (isset($model)) {
+        if (isset($model) && $this->realpattern_id <> 90) {
             return $model;
         }
         else

@@ -74,8 +74,10 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                         . CHtml::tag('div', array(), isset($data->permission1) ? $data->permission1->name . ". " . $data->remark : "")
                         . CHtml::tag('div', array(), isset($data->permission2) ? $data->permission2->name : "")
                         . CHtml::tag('div', array(), isset($data->permission3) ? $data->permission3->name : "")
-                        . CHtml::tag('div', array(), isset($data->syncPermission) ? "#P# " . $data->syncPermission->permission_reason ." ( ".$data->syncPermission->approved->name." )" : "")
-                        . CHtml::tag('div', array(), isset($data->syncLeave) ? "#L# " . $data->syncLeave->leave_reason ." ( ".$data->syncLeave->approved->name." )" : "");
+                        . CHtml::tag('div', array(), isset($data->syncPermission) ? "#P# " . $data->syncPermission->permission_reason ." "
+                        . CHtml::tag("span", array('class' => 'badge badge-info'), $data->syncPermission->approved->name) : "")
+                        . CHtml::tag('div', array(), isset($data->syncLeave) ? "#L# " . $data->syncLeave->leave_reason." " 
+                        . CHtml::tag("span", array('class' => 'badge badge-info'), $data->syncLeave->approved->name) : "");
             }
         ),
 

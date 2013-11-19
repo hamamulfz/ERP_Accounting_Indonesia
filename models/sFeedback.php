@@ -119,7 +119,7 @@ class sFeedback extends BaseModel {
         }
     }
 
-    public function getTopCreated() {
+    public static function getTopCreated() {
 
         $criteria = new CDbCriteria;
         $criteria->limit = 10;
@@ -135,7 +135,7 @@ class sFeedback extends BaseModel {
         return $returnarray;
     }
 
-    public function getTopUpdated() {
+    public static function getTopUpdated() {
 
         $criteria = new CDbCriteria;
         $criteria->together = true;
@@ -155,7 +155,7 @@ class sFeedback extends BaseModel {
         return $returnarray;
     }
 
-    public function getTopRelated($name) {
+    public static function getTopRelated($name) {
 
         //$_related = self::model()->find((int)$id)->account_name;
         $_exp = explode(" ", $name);
@@ -184,14 +184,14 @@ class sFeedback extends BaseModel {
         return $returnarray;
     }
 
-    public function nicetime($time) {
+    public static function nicetime($time) {
         $_mywaktu = new waktu;
         $_nicetime = $_mywaktu->nicetime($time);
 
         return $_nicetime;
     }
 
-    public function getUnreadNotification() {
+    public static function getUnreadNotification() {
         return self::count('status_id =1 and receiver_id = ' . Yii::app()->user->id);
     }
 

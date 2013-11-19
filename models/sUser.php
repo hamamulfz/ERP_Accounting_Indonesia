@@ -119,7 +119,7 @@ class sUser extends CActiveRecord {
         return parent::beforeSave();
     }
 
-    public function blowfishSalt($cost = 13) {
+    public static function blowfishSalt($cost = 13) {
         if (!is_numeric($cost) || $cost < 4 || $cost > 31) {
             throw new Exception("cost parameter must be between 4 and 31");
         }
@@ -226,7 +226,7 @@ class sUser extends CActiveRecord {
         return self::$_items1[$type];
     }
 
-    public function getMyGroup() {
+    public static function getMyGroup() {
         $model = self::model()->findByPk(Yii::app()->user->id);
         $_group = $model->default_group;
         return (int) $_group;
@@ -360,7 +360,7 @@ class sUser extends CActiveRecord {
         return $_items;
     }
 
-    public function getTopCreated() {
+    public static function getTopCreated() {
 
         $models = self::model()->findAll(array('limit' => 10, 'order' => 'created_date DESC'));
 
@@ -401,7 +401,7 @@ class sUser extends CActiveRecord {
         return $returnarray;
     }
 
-    public function getTopLastOneHour() {
+    public static function getTopLastOneHour() {
 
         $models = self::model()->findAll(array('limit' => 10, 'order' => 'last_login DESC', 'condition' => 'last_login > ' . strtotime('-1 hour')));
 
@@ -461,6 +461,16 @@ class sUser extends CActiveRecord {
             $_name = $this->full_name;
 
         return $_name;
+    }
+
+    public function currentPersonId() {
+
+        $model = gPerson::model()->find('userid =' . Yii::app()->user->id);
+
+		if ($model != null)
+			return $model->id;
+
+        return "";
     }
 
     public function getPhotoExist() {

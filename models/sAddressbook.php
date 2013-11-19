@@ -115,8 +115,19 @@ class sAddressbook extends BaseModel {
 		}
 	} 
 	
-	
-	
+    public static function getList() {
+        $_items = array();
+        $models = self::model()->findAll(array(
+        ));
+
+        foreach ($models as $model) {
+            $_items[] = $model->complete_name;
+        }
+
+        return CJSON::encode($_items);
+    }
+    
+		
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!

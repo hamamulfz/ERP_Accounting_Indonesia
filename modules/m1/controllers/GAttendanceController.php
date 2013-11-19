@@ -395,9 +395,10 @@ class GAttendanceController extends Controller {
                             }
                             
                             $modelG=gAttendanceTimeblock::model()->find(array('condition'=>'parent_id = '.$model->parent_id.' AND begin_date = '.$model->begin_date));
-
-                            if ($modelG == null) {
+                            if ($modelG == null) 
 	                            $model->save(false);
+
+							if ($modelG != null) {
 								$i = 1;
 								while ($i <= 31) {
 									$modelAttendanceNew = new gAttendance;
@@ -405,14 +406,23 @@ class GAttendanceController extends Controller {
 									$modelAttendanceNew->cdate = str_pad($i, 2, "0", STR_PAD_LEFT) .'-'. substr($model->begin_date,4,2).'-'. substr($model->begin_date,0,4);
 									$r = "c" . $i;
 									$modelAttendanceNew->realpattern_id = $model->$r;
-									$modelAttendanceNew->save();
+				
+									$cr=new CDbCriteria;
+									$cr->compare('parent_id',$modelAttendanceNew->parent_id);
+									$cr->compare('cdate',date('Y-m-d',strtotime($modelAttendanceNew->cdate)));
+									$checkAttendance=gAttendance::model()->find($cr);
+									if ($checkAttendance == null)
+										$modelAttendanceNew->save();
+
 									$i++;
 								}
-	                        }
+							}
+
                         }
                     }
                 }
             }
+
 
         $this->deleteFile();
         $this->redirect(array('timeBlock', 'flash' => 'on'));
@@ -669,7 +679,7 @@ class GAttendanceController extends Controller {
     }
 
     public function actionReportByDept() {
-        $model = new fBeginEndDate;
+        $model = new fBeginEndDate('attendance');
 
         if (isset($_POST['fBeginEndDate'])) {
             $model->attributes = $_POST['fBeginEndDate'];
@@ -683,19 +693,37 @@ class GAttendanceController extends Controller {
 
                     $connection = Yii::app()->db;
                     $sql = "SELECT a.employee_name, a.department, a.level, a.join_date, a.job_title,
-							(select sum(number_of_day) from g_leave where parent_id = a.id and year(start_date) = ".date('Y')." and month(start_date) = ".date('m')." and start_date <= '".date('Y-m-d')."' and approved_id = 1) as cuti,
-							(select count(id) from g_attendance where parent_id = a.id and year(cdate) = ".date('Y')." and month(cdate) = ".date('m')." and cdate <= '".date('Y-m-d')."' and realpattern_id NOT IN (90) and `out` is null and `in` is null) as alpha,
-							(select count(g.id) from g_attendance g 
-								inner join g_param_timeblock t on t.id = g.realpattern_id
-								where g.parent_id = a.id and year(g.cdate) = ".date('Y')." and month(g.cdate) = ".date('m')." and g.cdate <= '".date('Y-m-d')."' and g.realpattern_id NOT IN (90)
-								and TIMEDIFF(CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.in,'%H:%i')),g.`in`) < 0) as lateIn,
-							(select count(g.id) from g_attendance g 
-								inner join g_param_timeblock t on t.id = g.realpattern_id
-								where g.parent_id = a.id and year(g.cdate) = ".date('Y')." and month(g.cdate) = ".date('m')." and g.cdate <= '".date('Y-m-d')."' and g.realpattern_id NOT IN (90)
-								and TIMEDIFF(g.out, CONCAT(date_format(g.out,'%Y-%m-%d'),' ', date_format(t.out,'%H:%i'))) < 0) as earlyOut,
+							(select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),month(start_date)) = ".$model->period." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2) as cuti,
 
-							(select count(id) from g_attendance where parent_id = a.id and year(cdate) = ".date('Y')." and month(cdate) = ".date('m')." and cdate <= '".date('Y-m-d')."' and realpattern_id NOT IN (90) and `out` is not null and `in` is null) as tad,
-							(select count(id) from g_attendance where parent_id = a.id and year(cdate) = ".date('Y')." and month(cdate) = ".date('m')." and cdate <= '".date('Y-m-d')."' and realpattern_id NOT IN (90) and `out` is null and `in` is not null) as tap
+							((select count(id) from g_attendance 
+							where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = ".$model->period." 
+								and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' 
+								and realpattern_id NOT IN (90)  and `out` is null and `in` is null) 
+								-
+							(ifnull((select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),month(start_date)) = ".$model->period." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2),0)) 
+							-
+							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), month(start_date)) = ".$model->period." 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0))
+								) 
+
+								  as alpha,
+
+							(select count(g.id) from g_attendance g 
+								inner join g_param_timeblock t on t.id = g.realpattern_id
+								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = ".$model->period." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								and TIMEDIFF(CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.in,'%H:%i:%s')),g.`in`) < 0) as lateIn,
+							(select count(g.id) from g_attendance g 
+								inner join g_param_timeblock t on t.id = g.realpattern_id
+								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = ".$model->period." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								and TIMEDIFF(g.out, CONCAT(date_format(g.out,'%Y-%m-%d'),' ', date_format(t.out,'%H:%i:%s'))) < 0) as earlyOut,
+
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = ".$model->period." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is not null and `in` is null) as tad,
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = ".$model->period." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is null and `in` is not null) as tap,
+
+							(select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), month(start_date)) = ".$model->period." 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') as sakit
 
 						FROM g_bi_person a
 						WHERE company_id = " . sUser::model()->myGroup . " AND employee_status NOT IN ('Resign','End of Contract','Black List','Termination')
@@ -707,7 +735,7 @@ class GAttendanceController extends Controller {
                     //if(!isset($rows)
                     //	throw new CHttpException(404,'Record not found.');
 
-                    $pdf->report($rows);
+                    $pdf->report($rows,$model);
                 } //elseif {
 
                 $pdf->Output();

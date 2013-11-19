@@ -5,7 +5,7 @@ $this->widget('TbGridView', array(
     //'filter'=>$model,
     'columns' => array(
         array(
-            'class' => 'ext.editable.EditableColumn',
+            'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'sort',
             //'headerHtmlOptions' => array('style' => 'width: 110px'),
             'editable' => array(
@@ -16,7 +16,7 @@ $this->widget('TbGridView', array(
             )
         ),
         array(
-            'class' => 'ext.editable.EditableColumn',
+            'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'name',
             'value' => '($data->parent_id ==0) ? $data->name : "-- ".$data->name',
             //'headerHtmlOptions' => array('style' => 'width: 110px'),
@@ -27,7 +27,7 @@ $this->widget('TbGridView', array(
             )
         ),
         array(
-            'class' => 'ext.editable.EditableColumn',
+            'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'golongan',
             //'headerHtmlOptions' => array('style' => 'width: 110px'),
             'editable' => array(

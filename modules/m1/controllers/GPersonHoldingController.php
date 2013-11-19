@@ -128,7 +128,7 @@ class GPersonHoldingController extends Controller {
     public function actionPersonAutoComplete() {
         $res = array();
         if (isset($_GET['term'])) {
-            if (Yii::app()->user->name != "admin") {
+            /*if (Yii::app()->user->name != "admin") {
                 $qtxt = 'SELECT DISTINCT a.employee_name FROM g_person a
 			WHERE a.employee_name LIKE :name AND ' .
                         '((select c.company_id from g_person_career c WHERE a.id=c.parent_id AND c.status_id IN (' .
@@ -139,11 +139,11 @@ class GPersonHoldingController extends Controller {
                         implode(",", sUser::model()->myGroupArray) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
                         implode(",", sUser::model()->myGroupArray) . ')) ' .
                         'ORDER BY a.employee_name LIMIT 20';
-            } else {
+            } else { */
                 $qtxt = "SELECT DISTINCT a.employee_name FROM g_person a
 			WHERE a.employee_name LIKE :name
 			ORDER BY a.employee_name LIMIT 20";
-            }
+            //}
             $command = Yii::app()->db->createCommand($qtxt);
             $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
             $res = $command->queryColumn();

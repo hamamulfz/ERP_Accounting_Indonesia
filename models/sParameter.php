@@ -32,7 +32,7 @@ class sParameter extends BaseModel {
         );
     }
 
-    public function lastItem($type) {
+    public static function lastItem($type) {
         $_item = self::model()->find(array(
             'order' => 'code DESC',
             'condition' => 'type = :type ',
@@ -77,7 +77,7 @@ class sParameter extends BaseModel {
 
     private static $_items = array();
 
-    public function itemsWithName($type) {
+    public static function itemsWithName($type) {
 
         $_items[$type] = array();
         $models = self::model()->findAll(array(
@@ -91,7 +91,7 @@ class sParameter extends BaseModel {
         return $_items;
     }
 
-    public function itemsWithAll($type) {
+    public static function itemsWithAll($type) {
 
         $_items[$type] = array();
         $_items[$type][''] = 'ALL';

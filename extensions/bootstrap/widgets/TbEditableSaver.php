@@ -72,7 +72,7 @@ class TbEditableSaver extends CComponent {
         if (empty($modelClass)) {
             throw new CException(Yii::t('editable', 'You should provide modelClass in constructor of EditableSaver.'));
         }
-        $this->modelClass = ucfirst($modelClass);
+        $this->modelClass = $modelClass;
     }
     /**
      * ### .update()

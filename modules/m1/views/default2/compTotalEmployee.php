@@ -78,7 +78,7 @@ $this->breadcrumbs = array(
         <br/>
 
         <div class="row">
-            <div class="span6">
+            <div class="span5">
                 <?php
                 $this->Widget('ext.highcharts.HighchartsWidget', array(
                     'options' => array(
@@ -103,8 +103,30 @@ $this->breadcrumbs = array(
                 ));
                 ?>
             </div>
-            <div class="span4">
-			.
+            <div class="span5">
+                <?php
+                $this->Widget('ext.highcharts.HighchartsWidget', array(
+                    'options' => array(
+                        'title' => array('text' => 'Total Employee by Holding Type'),
+                        'series' => array(
+                            array('type' => 'pie', 'name' => 'Project', 'data' => gPerson2::holdingPerOwnershipTotal())
+                        ),
+                        'theme' => 'dark-blue',
+                        'plotOptions' => array(
+                            'pie' => array(
+                                'dataLabels' => array(
+                                    'enabled' => true,
+                                    'color' => '#000000',
+                                    'connectorColor' => '#000000',
+                                    'formatter' => "js:function() {
+										return '<b>'+ this.point.name +'</b>: '+ parseFloat(this.percentage).toFixed(1) +' %';
+									}"
+                                )
+                            )
+                        ),
+                    ),
+                ));
+                ?>
             </div>
         </div>
     </div>

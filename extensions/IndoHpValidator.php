@@ -38,10 +38,10 @@ class IndoHpValidator extends CValidator
 	    }
 
 		//should start from 8
-		if (!preg_match('/^8[0-9]{8,11}$/',$value)) {
-	        $message=Yii::t('yii','{attribute} should start with 8');
-			$this->addError($object,$attribute,$message);
-	    }
+		//if (!preg_match('/^8[0-9]{8,11}$/',$value)) {
+	    //    $message=Yii::t('yii','{attribute} should start with 8');
+		//	$this->addError($object,$attribute,$message);
+	    //}
 	    	    
 	    //Check Prefix
 	    //$tnexp[1] =  '/^02079460[0-9]{3}$/';
@@ -83,6 +83,7 @@ class IndoHpValidator extends CValidator
 		$tnexp[34] =  '/^897[0-9]{6,9}$/';	//	3	Hutchison Charoen Pokphand Telecom
 		$tnexp[35] =  '/^898[0-9]{6,9}$/';	//	3	Hutchison Charoen Pokphand Telecom
 		$tnexp[36] =  '/^899[0-9]{6,9}$/';	//	3	Hutchison Charoen Pokphand Telecom
+		$tnexp[36] =  '/^21[0-9]{6,9}$/';	//	3	Hutchison Charoen Pokphand Telecom
 
 		$valid=false;
 		foreach ($tnexp as $regexp) {

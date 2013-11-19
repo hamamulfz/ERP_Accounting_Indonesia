@@ -13,9 +13,9 @@ class EmailComponent {
             $mailer->Password = Yii::app()->params['broadcastPassword'];
             $mailer->From = "recruitment.agungpodomoroland@gmail.com";
         } else {
-            $mailer->Host = "mail.agungpodomoro.com";
+            $mailer->Host = "mail.agungpodomoro-aphris.com";
             $mailer->Port = 25;
-            $mailer->SMTPSecure = "tls";
+            //$mailer->SMTPSecure = "tls";
             $mailer->Username = "peter";
             $mailer->Password = Yii::app()->params['peterPassword'];
             $mailer->From = "peter@agungpodomoro.com";

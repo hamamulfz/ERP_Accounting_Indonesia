@@ -107,6 +107,84 @@ class SSmsController extends Controller {
             'model' => $model,
         ));
     }
+
+    public function actionCreateSingle() {
+        $model = new sSmsout;
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+        if (isset($_POST['sSmsout'])) {
+            $model->attributes = $_POST['sSmsout'];
+            $model->sender_id = sUser::model()->myGroup;
+            if ($model->save()) {
+				$receivers=explode(",",$model->receivergroup_tag);
+				
+				//Message Split
+				$jmlSMS = ceil(strlen($model->message)/153);
+
+				// memecah pesan asli
+				$pecah  = str_split($model->message, 153);
+				
+				//if (count($pecah) == 1) {
+					$multi = 'false';
+				//} else
+				//	$multi = 'true';
+
+				foreach ($receivers as $receiver) {
+					$connection = Yii::app()->db;
+					$sql = "SELECT handphone FROM `s_addressbook` 
+						WHERE complete_name = '".$receiver."' 
+					";
+
+					$command = $connection->createCommand($sql);
+					$rows = $command->queryAll();
+				
+					foreach ($rows as $row) {
+						$firstnumber=explode(",",$row['handphone']);
+					
+						$connection2 = Yii::app()->db;
+						
+						$newID = $connection2->createCommand('select ID FROM outbox ORDER BY ID DESC LIMIT 1')->queryScalar();
+						($newID ==null) ? $newID = 1 : $newID++;
+						
+						// proses penyimpanan ke tabel mysql untuk setiap pecahan
+						for ($i=1; $i<=$jmlSMS; $i++)
+						{
+						   // membuat UDH untuk setiap pecahan, sesuai urutannya
+						   $udh = "050003A7".sprintf("%02s", $jmlSMS).sprintf("%02s", $i);
+
+						   // membaca text setiap pecahan
+						   $msg = $pecah[$i-1];
+
+						   if ($i == 1)
+						   {
+							  // jika merupakan pecahan pertama, maka masukkan ke tabel OUTBOX
+								$sql = "INSERT INTO outbox (DestinationNumber, SenderID, UDH, TextDecoded, ID, MultiPart, CreatorID) 
+										VALUES (CONCAT('+62','".$firstnumber[0]."'), 'modem1', '".$udh."', '".$msg."',".$newID.", '".$multi."', '".Yii::app()->name."') 
+								";
+						   }
+						   else
+						   {
+							  // jika bukan merupakan pecahan pertama, simpan ke tabel OUTBOX_MULTIPART
+							  //$sql = "INSERT INTO outbox_multipart(UDH, TextDecoded, ID, SequencePosition)
+							  //		VALUES ('".$udh."', '".$msg."',".$newID.",'$i')";
+
+								$sql = "INSERT INTO outbox (DestinationNumber, SenderID, UDH, TextDecoded, MultiPart, CreatorID) 
+										VALUES (CONCAT('+62','".$firstnumber[0]."'), 'modem1', '".$udh."', '".$msg."', '".$multi."', '".Yii::app()->name."') 
+								";
+						   }
+							$connection2->createCommand($sql)->execute();
+
+						}
+					}
+				}
+				
+                $this->redirect(array('view', 'id' => $model->id));
+            }
+        }
+        $this->render('createSingle', array(
+            'model' => $model,
+        ));
+    }
     
     /**
      * Updates a particular model.
@@ -141,6 +219,20 @@ class SSmsController extends Controller {
 
     public function actionSent() {
         $this->render('sent', array(
+        ));
+    }
+
+    public function actionQueue() {
+		$rawData=Yii::app()->db->createCommand('SELECT *,ID as id FROM outbox')->queryAll();
+		$dataProvider=new CArrayDataProvider($rawData, array(
+			'id'=>'user',
+			'pagination'=>array(
+				'pageSize'=>50,
+			),
+		));
+
+        $this->render('queue', array(
+        	'dataProvider'=>$dataProvider,
         ));
     }
 

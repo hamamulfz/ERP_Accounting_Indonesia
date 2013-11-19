@@ -30,12 +30,12 @@ $this->breadcrumbs = array(
         <?php echo $form->textFieldRow($model, 'subject', array('class' => 'span5')); ?>
         <?php echo $form->textAreaRow($model, 'body', array('class' => 'span5', 'rows' => 4)); ?>
 
-        <?php
+        <?php /*
         if (extension_loaded('gd')):
             echo $form->labelEx($model, 'verifyCode');
             $this->widget('CCaptcha');
             echo $form->textField($model, 'verifyCode');
-        endif;
+        endif; */
         ?>
 
         <div class="form-actions">

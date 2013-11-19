@@ -1,7 +1,7 @@
 <?php
 
 $this->widget('TbGridView', array(
-    'id' => 'j-selection-grid',
+    'id' => 'j-selection-grid2',
     'dataProvider' => jSelectionPart::model()->search($model->id),
     //'filter'=>$model,
     'columns' => array(

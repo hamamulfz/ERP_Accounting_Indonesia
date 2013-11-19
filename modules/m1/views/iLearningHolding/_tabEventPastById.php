@@ -14,7 +14,7 @@ $this->widget('ext.bootstrap.widgets.TbGridView', array(
         'location',
         'additional_info',
         array(
-            'class' => 'ext.editable.EditableColumn',
+            'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'status_id',
             //we need not to set value, it will be auto-taken from source
             // 'headerHtmlOptions' => array('style' => 'width: 60px'),

@@ -33,6 +33,27 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->errorSummary($model); ?>
 
+<div class="control-group">
+    <?php echo $form->labelEx($model, 'period', array('class' => 'control-label')); ?>
+
+    <div class="controls">
+
+        <?php
+        $this->widget('ext.EJuiMonthPicker.EJuiMonthPicker', array(
+            'model' => $model,
+            'attribute' => 'period',
+            'options' => array(
+                'yearRange' => '-5:+0',
+                'dateFormat' => 'yymm',
+            ),
+                //'htmlOptions'=>array(
+                //    'onChange'=>'js:doSomething()',
+                //),
+        ));
+        ?>
+    </div>
+</div>
+
 <?php
 echo $form->dropDownListRow($model, 'report_id', array(
     '1' => '1. Attendance Report by Dept',

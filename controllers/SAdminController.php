@@ -126,7 +126,7 @@ class SAdminController extends Controller {
         if (isset($_POST['fEmail'])) {
             $model->attributes = $_POST['fEmail'];
             if ($model->validate()) {
-                EmailComponent::sendEmail('peterjkambey@gmail.com', $model->subject, $model->body, 'non-ssl');
+                EmailComponent::sendEmail('peter@agungpodomoro.com', $model->subject, $model->body, 'non-ssl');
                 Yii::app()->user->setFlash('success', '<strong>Great!</strong> Your Message has been sent...');
                 $this->redirect(array('/menu'));
             }

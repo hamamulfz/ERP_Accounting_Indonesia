@@ -1,4 +1,4 @@
-<?php if (CHttpRequest::getParam("tab") != null): ?>
+<?php if (Yii::app()->request->getParam("tab") != null): ?>
 
     <script>
 

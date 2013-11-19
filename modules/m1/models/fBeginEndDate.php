@@ -5,11 +5,13 @@ class fBeginEndDate extends CFormModel {
     public $begindate;
     public $enddate;
     public $report_id;
+    public $period;
 
     public function rules() {
         return array(
             array('begindate, enddate', 'required', 'on' => 'recruitment'),
-            array('report_id', 'numerical', 'integerOnly' => true),
+            array('period', 'required', 'on' => 'attendance'),
+            array('report_id,period', 'numerical', 'integerOnly' => true),
             array('begindate, enddate', 'type', 'type' => 'date', 'dateFormat' => 'dd-MM-yyyy'),
         );
     }
@@ -22,6 +24,7 @@ class fBeginEndDate extends CFormModel {
             'begindate' => 'Start Date',
             'enddate' => 'Finish Date',
             'report_id' => 'Report',
+            'period' => 'Period',
         );
     }
 

@@ -14,7 +14,7 @@ class attendanceSummaryByDept extends fpdf {
                 'Issued By: APHRIS - Agung Podomoro Land, Tbk', 0, 0, 'C');
     }
 
-    function myheader($rows, $w) {
+    function myheader($rows, $w,$model) {
         $this->y0 = $this->GetY();
         $this->Cell(0, 5, '', 'T', 0, 'C');
         $this->Image('shareimages/company/logoAlt1.jpg', 15, 12, 30);
@@ -31,7 +31,14 @@ class attendanceSummaryByDept extends fpdf {
         $this->SetFont('Arial', 'B', 10);
         $this->Cell(0, 6, '', 'B', 0, 'C');
         $this->Ln();
-        $this->Cell(0, 6, 'PERIODE:  01-'.date('m-Y').'  s/d  '. date('d-m-Y'), 1,0,'C');
+        if ($model->period == date('Ym')) {
+	        $this->Cell(0, 6, 'PERIODE:  01-'.date('m-Y').'  s/d  '. date('d-m-Y',strtotime('yesterday')), 1,0,'C');
+	    } else {
+	    	$start='01-'.substr($model->period,4,2).'-'.substr($model->period,0,4);
+	    	$end = date('d-m-Y',strtotime('last day',strtotime($start.' +1 month')));
+	        $this->Cell(0, 6, 'PERIODE:  '.$start.'  s/d  '. $end, 1,0,'C');
+	    }
+	    
         $this->Ln(6);
         $this->Cell(0, 6, '', 'T');
         $this->Ln(1);
@@ -50,7 +57,8 @@ class attendanceSummaryByDept extends fpdf {
         $this->Cell($w[7] + $w[8], 4, 'PULANG CEPAT', 1, 0, 'C');
         $this->Cell($w[9], 4, 'TAD', 'LTR', 0, 'C');
         $this->Cell($w[10], 4, 'TAP', 'LTR', 0, 'C');
-        $this->Cell($w[11], 4, 'KETERANGAN', 'LTR', 0, 'C');
+        $this->Cell($w[11], 4, 'IJIN', 'LTR', 0, 'C');
+        $this->Cell($w[12], 4, 'KETERANGAN', 'LTR', 0, 'C');
         $this->Ln();
         $this->Cell($w[0], 4, '', 'BLR', 0, 'C');
         $this->Cell($w[1], 4, '', 'BLR', 0, 'C');
@@ -63,13 +71,14 @@ class attendanceSummaryByDept extends fpdf {
         $this->Cell($w[8], 4, 'menit', 'BLR', 0, 'C');
         $this->Cell($w[9], 4, '', 'BLR', 0, 'C');
         $this->Cell($w[10], 4, '', 'BLR', 0, 'C');
-        $this->Cell($w[11], 4, '', 'BLR', 0, 'C');
+        $this->Cell($w[11], 4, '(sakit)', 'BLR', 0, 'C');
+        $this->Cell($w[12], 4, '', 'BLR', 0, 'C');
         $this->Ln();
     }
 
-    function report($rows) {
-        $w = array(8, 49, 58, 10, 10, 15, 15, 15, 15,10,10,62);
-        $this->myheader($rows, $w);
+    function report($rows,$model) {
+        $w = array(8, 49, 58, 10, 10, 15, 15, 15, 15,10,10,10, 52);
+        $this->myheader($rows, $w, $model);
         $dept = null;
         $counter = 1;
 
@@ -78,7 +87,7 @@ class attendanceSummaryByDept extends fpdf {
                 if ($dept != null) {
                     $this->Cell(0, 5, '', 'T');
                     $this->AddPage();
-                    $this->myheader($rows, $w);
+                    $this->myheader($rows, $w,$model);
                     $counter = 1;
                 }
                 $this->SetFont('Arial', 'B', 9);
@@ -100,7 +109,9 @@ class attendanceSummaryByDept extends fpdf {
 
             $this->Cell($w[9], 7, ($row['tad'] == 0) ? '' : $row['tad'], 'LR', 0, 'C');
             $this->Cell($w[10], 7, ($row['tap'] == 0) ? '' : $row['tap'], 'LR', 0, 'C');
-            $this->Cell($w[11], 7, '', 'LR');
+            //$this->Cell($w[11], 7, '', 'LR');
+            $this->Cell($w[11], 7, ($row['sakit'] == 0) ? '' : $row['sakit'], 'LR', 0, 'C');
+            $this->Cell($w[12], 7, '', 'LR');
             $this->Ln();
             $counter++;
 
@@ -108,7 +119,7 @@ class attendanceSummaryByDept extends fpdf {
                 $this->Cell(0, 5, '', 'T');
                 $this->AddPage();
                 $dept = null;
-                $this->myheader($rows, $w);
+                $this->myheader($rows, $w,$model);
             }
         }
         $this->Cell(0, 5, '', 'T');

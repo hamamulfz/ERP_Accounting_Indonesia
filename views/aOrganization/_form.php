@@ -15,6 +15,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->textFieldRow($model, 'custom1', array('class' => 'span1')); ?>
 <?php echo $form->textFieldRow($model, 'custom2', array('class' => 'span1')); ?>
 <?php echo $form->textFieldRow($model, 'custom3', array('class' => 'span1')); ?>
+<?php echo $form->dropDownListRow($model, 'custom4', sParameter::items('cCompanyCat')); ?>
 <?php echo $form->textAreaRow($model, 'address', array('rows' => 3, 'class' => 'span4')); ?>
 
 <?php /*

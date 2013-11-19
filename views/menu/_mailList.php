@@ -1,5 +1,5 @@
 <?php
-$userid = & Yii::app()->getModule('mailbox')->getUserId();
+$userid =  Yii::app()->getModule('mailbox')->getUserId();
 
 if ($this->getAction()->getId() == 'sent') {
     $counterUserId = $data->recipient_id;

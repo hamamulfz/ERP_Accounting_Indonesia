@@ -50,12 +50,14 @@ class GTalentController extends Controller {
         $modelPerformanceP = $this->newPerformanceP($id);
         $modelPerformanceR = $this->newPerformanceR($id);
         $modelPotential = $this->newPotential($id);
+        $modelTargetSetting = $this->newTargetSetting($id);
 
         $this->render('view', array(
             'model' => $model,
             'modelPerformanceP' => $modelPerformanceP,
             'modelPerformanceR' => $modelPerformanceR,
             'modelPotential' => $modelPotential,
+            'modelTargetSetting' => $modelTargetSetting,
         ));
     }
 
@@ -120,6 +122,22 @@ class GTalentController extends Controller {
         return $model;
     }
 
+    public function newTargetSetting($id) {
+        $model = new gTalentTargetSetting;
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if (isset($_POST['gTalentTargetSetting'])) {
+            $model->attributes = $_POST['gTalentTargetSetting'];
+            $model->parent_id = $id;
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $id));
+        }
+
+        return $model;
+    }
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -173,6 +191,21 @@ class GTalentController extends Controller {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
 
+    public function actionUpdateTargetSetting($id) {
+        $model = $this->loadModelTargetSetting($id);
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if (isset($_POST['gTalentTargetSetting'])) {
+            $model->attributes = $_POST['gTalentTargetSetting'];
+            if ($model->save())
+                EQuickDlgs::checkDialogJsScript();
+        }
+
+        EQuickDlgs::render('_formTargetSetting', array('model' => $model));
+    }
+
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -184,6 +217,22 @@ class GTalentController extends Controller {
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+    }
+
+
+    public function actionDeleteTargetSetting($id) {
+        $this->loadModelTargetSetting($id)->delete();
+
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+    }
+
+
+    public function actionUpdateTargetAjax() {
+		Yii::import('ext.bootstrap.widgets.TbEditableSaver'); //or you can add import 'ext.editable.*' to config
+		$es = new TbEditableSaver('gTalentTargetSetting');  // 'User' is classname of model to be updated
+		$es->update();
     }
 
     /**
@@ -270,6 +319,14 @@ class GTalentController extends Controller {
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
+
+	public function loadModelTargetSetting($id)
+	{
+		$model=gTalentTargetSetting::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
 
     /**
      * Performs the AJAX validation.

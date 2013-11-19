@@ -95,11 +95,12 @@ class gBiPerson extends BaseModel {
             'bank_name' => 'Bank Name',
             'education' => 'Education',
             'experience' => 'Experience',
+            'family' => 'Family',
             'c_pathfoto' => 'PhotoPath',
         );
     }
 
-    public function getListField($withnull = null) {
+    public static function getListField($withnull = null) {
         if (isset($withnull))
             $_listField['null'] = null;
 

@@ -65,10 +65,10 @@ Class peterFunc {
         return $_val;
     }
 
-    public static function isTimeMore2($from, $to) {  //out=schedule vs actual
+    public static function isTimeMore2($from, $to, $to2) {  //out=schedule vs actual
         //Time2 must be convert to same date with time1
         //$thisdatetime = Yii::app()->dateFormatter->format("dd-MM-yyyy", strtotime($from)) . " " . Yii::app()->dateFormatter->format("kk:mm", strtotime($to));
-        $thisdatetime=date("d-m-Y",strtotime($to)) ." ".date("H:i",strtotime($from)); //PHP Format
+        $thisdatetime=date("d-m-Y",strtotime($to2)) ." ".date("H:i",strtotime($from)); //PHP Format
         if (isset($from) && strtotime($thisdatetime) > strtotime($to)) {
             $_val = true;
         }
@@ -374,19 +374,19 @@ Class peterFunc {
     }
     
     
-    public function stringSplit($word) {
+    public static function stringSplit($word) {
 		$variable = preg_replace('/(,+)/',"'$1'","'$word'");
 		return $variable;    
     }
     
-	public function checkDateTime($data) {
+	public static function checkDateTime($data) {
     	if (date('Y-m-d H:i:s', strtotime($data)) == $data) {
         	return true;
 	    } else 
     	    return false;
 	}    
 
-	public function checkTime($data) {
+	public static function checkTime($data) {
     	if (date('H:i', strtotime($data)) == $data) {
         	return true;
 	    } else 

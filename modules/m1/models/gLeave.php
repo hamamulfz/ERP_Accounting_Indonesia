@@ -304,7 +304,7 @@ class gLeave extends BaseModel {
     }
 
     public function afterSave() {
-        if ($this->isNewRecord) {
+        if ($this->isNewRecord && strtotime($this->start_date) > time()) {
             $model= new sNotification;
             $model->group_id = 1;
             $model->link = 'm1/gLeave/view/id/' . $this->parent_id;

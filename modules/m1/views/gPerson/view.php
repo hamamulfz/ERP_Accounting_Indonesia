@@ -1,9 +1,9 @@
-<?php if (CHttpRequest::getParam("tab") != null): ?>
+<?php if (Yii::app()->request->getParam("tab") != null): ?>
 
     <script>
 
         $(document).ready(function() {
-            $('#tabs a:contains("<?php echo CHttpRequest::getParam("tab"); ?>")').tab('show');
+            $('#tabs a:contains("<?php echo Yii::app()->request->getParam("tab"); ?>")').tab('show');
         });
 
     </script>
@@ -117,14 +117,4 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gP
     </div>
 </div>
 
-<div class="row">
-    <div class="span4">
-        <?php $this->renderPartial('_subOrdinate', array('model' => $model)); ?>
-    </div>
-    <div class="span4">
         <?php $this->renderPartial('_sameDepartment', array('model' => $model)); ?>
-    </div>
-    <div class="span3">
-        <?php //$this->renderPartial('_sameLevel',array('model'=>$model));   ?>
-    </div>
-</div>

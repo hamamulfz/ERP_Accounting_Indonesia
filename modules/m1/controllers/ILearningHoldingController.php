@@ -268,25 +268,15 @@ class ILearningHoldingController extends Controller {
     }
 
     public function actionUpdateParticipantAjax() {
-        $model->attributes = $_POST;
-        $model = $this->loadModelSchedulePart($_POST['pk']);
-        $model->$_POST['name'] = $_POST['value'];
-        if ($model->save()) {
-            return true;
-        }
-        else
-            return false;
+		Yii::import('ext.bootstrap.widgets.TbEditableSaver'); //or you can add import 'ext.editable.*' to config
+		$es = new TbEditableSaver('iLearningSchPart');  // 'User' is classname of model to be updated
+		$es->update();
     }
 
     public function actionUpdateMandaysAjax() {
-        $model->attributes = $_POST;
-        $model = $this->loadModelSchedule($_POST['pk']);
-        $model->$_POST['name'] = $_POST['value'];
-        if ($model->save()) {
-            return true;
-        }
-        else
-            return false;
+		Yii::import('ext.bootstrap.widgets.TbEditableSaver'); //or you can add import 'ext.editable.*' to config
+		$es = new TbEditableSaver('iLearningSch');  // 'User' is classname of model to be updated
+		$es->update();
     }
 
     /**

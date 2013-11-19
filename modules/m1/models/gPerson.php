@@ -1182,7 +1182,7 @@ class gPerson extends BaseModel {
         return $dataProvider;
     }
 
-    public function getUncompleteHolding($name) {
+    public static function getUncompleteHolding($name) {
         if ($name == "basic") {
             $sql = '
 				select company_id, company,
@@ -1239,7 +1239,7 @@ class gPerson extends BaseModel {
         return $_item;
     }
 
-    public function getUncompleteHoldingCompany() {
+    public static function getUncompleteHoldingCompany() {
         $sql = '
 			select company_id, company_code, company,
 			count(id) as t_count,

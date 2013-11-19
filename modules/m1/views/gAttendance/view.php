@@ -8,11 +8,11 @@ $this->menu = array(
     array('label' => 'Home', 'icon' => 'home', 'url' => array('/m1/gAttendance')),
     array('label' => 'Schedule Upload', 'icon' => 'calendar', 'url' => array('timeBlock')),
     array('label' => 'Attendant Upload', 'icon' => 'user', 'url' => array('attendBlock')),
-//    array('label' => 'Schedule Applied', 'icon' => 'download-alt', 'url' => array('transferAttendance', 'id' => $model->id, 'month' => $month)),
     array('label' => 'Print', 'icon' => 'print', 'url' => array('/m1/gAttendance/printDetail', 'id' => $model->id, 'month' => $month)),
     array('label' => 'Link to Person', 'icon' => 'user', 'url' => array('/m1/gPerson/view', 'id' => $model->id)),
     array('label' => 'Link to Leave', 'icon' => 'plane', 'url' => array('/m1/gLeave/view', 'id' => $model->id)),
     array('label' => 'Link to Permission', 'icon' => 'hand-up', 'url' => array('/m1/gPermission/view', 'id' => $model->id)),
+    array('label' => 'Rekap by Dept', 'icon' => 'print', 'url' => array('/m1/gAttendance/reportByDept')),
 );
 
 

@@ -43,6 +43,22 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 ),
             ),
         ),
+		array(
+			'class' => 'TbButtonColumn',
+			'template' => '{print}',
+			'buttons' => array
+				(
+				'print' => array
+					(
+					'label' => 'Print',
+					'url' => 'Yii::app()->createUrl("/m1/gPermission/printPermission",array("id"=>$data->id))',
+					'visible' => '$data->approved_id ==1',
+					'options' => array(
+						'class' => 'btn btn-mini',
+					),
+				),
+			),
+		),
         array(
             'class' => 'EJuiDlgsColumn',
             'template' => '{update}{delete}',

@@ -36,7 +36,7 @@ $this->widget('ext.bootstrap.widgets.TbGridView', array(
             },
         ),
         array(
-            'class' => 'ext.editable.EditableColumn',
+            'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'flow_id',
             //we need not to set value, it will be auto-taken from source
             // 'headerHtmlOptions' => array('style' => 'width: 60px'),
@@ -47,7 +47,7 @@ $this->widget('ext.bootstrap.widgets.TbGridView', array(
             )
         ),
         array(
-            'class' => 'ext.editable.EditableColumn',
+            'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'day1',
             //'headerHtmlOptions' => array('style' => 'width: 110px'),
             'editable' => array(
@@ -57,7 +57,7 @@ $this->widget('ext.bootstrap.widgets.TbGridView', array(
             )
         ),
         array(
-            'class' => 'ext.editable.EditableColumn',
+            'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'day2',
             //'headerHtmlOptions' => array('style' => 'width: 110px'),
             'editable' => array(

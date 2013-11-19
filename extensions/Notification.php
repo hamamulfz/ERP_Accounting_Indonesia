@@ -14,7 +14,7 @@
  * 
  */
 Class Notification {
-    public function create($group, $url, $message, $company = null, $photopath = "") {
+    public static function create($group, $url, $message, $company = null, $photopath = "") {
         $model = new sNotification();
         $model->group_id = $group;
         $model->link = $url;
@@ -31,7 +31,7 @@ Class Notification {
         else
             return false;
     }
-    public function newInbox($recipient, $subject, $message) {
+    public static function newInbox($recipient, $subject, $message) {
         $conv = new Mailbox(); //s_mailbox_conversation
         $conv->subject = $subject;
         $conv->initiator_id = 1;
