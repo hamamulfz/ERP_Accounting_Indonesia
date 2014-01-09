@@ -60,9 +60,7 @@ return array(
     'sourceLanguage' => 'id_id',
     'language' => 'en',
     'theme' => 'bootstrap',
-    'controllerMap' => array(
-        'YiiFeedWidget' => 'ext.yii-feed-widget.YiiFeedWidgetController'
-    ),
+
     // application components
     'components' => array(
         //'widgetFactory'=>array(  
@@ -89,6 +87,16 @@ return array(
         //		'class'=>'ext.EScriptBoost.EClientScriptBoost',
         // 		'cacheDuration'=>30,
         //),
+        /*
+		'clientScript'=>array(
+      		'packages'=>array(
+        		'jquery'=>array(
+          			'baseUrl'=>'//ajax.googleapis.com/ajax/libs/jquery/1.8.3/',
+          			'js'=>array('jquery.min.js'),
+        		)
+			),
+		),        
+		*/
         'browser' => array(
             'class' => 'ext.EWebBrowser',
         ),

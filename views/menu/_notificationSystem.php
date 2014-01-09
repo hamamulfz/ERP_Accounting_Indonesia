@@ -8,7 +8,7 @@
     </ul>
 </div>
 
-<ul>
+<ul style="margin:0">
     <?php
     $notifiche = sNotification::getUnreadNotifications();
 
@@ -22,7 +22,7 @@
 			echo CHtml::openTag('p', array('class'=>'media-heading'));
 				//echo CHtml::link($notifica->content, Yii::app()->createUrl('/sNotification/read', array('id' => $notifica->id)));
 				echo $notifica->linkReplace;
-				echo CHtml::tag('i', array('style' => 'color:grey;font-size:11px; margin-bottom:10px;'), '  (' . waktu::nicetime($notifica->expire) . ' by ' . $notifica->author_name . ')');
+				echo CHtml::tag('i', array('style' => 'color:grey;font-size:11px; margin-bottom:10px;'), '  ' . waktu::nicetime($notifica->expire) . ' by ' . $notifica->author_name );
 			echo CHtml::closeTag('p');
 			echo CHtml::closeTag('div');
         echo CHtml::closeTag('div');

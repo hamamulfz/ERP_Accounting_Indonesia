@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "g_param_level".
+ * This is the model class for table "g_param_selection".
  *
- * The followings are the available columns in table 'g_param_level':
+ * The followings are the available columns in table 'g_param_selection':
  * @property integer $id
  * @property integer $parent_id
  * @property integer $sort

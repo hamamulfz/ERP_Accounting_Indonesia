@@ -8,7 +8,12 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
             'label' => 'Birth Place',
             'value' => $model->birth_place,
         ),
-        'birth_date',
+        array(
+            'label' => 'Birth Date',
+            'value' => $model->birth_date . " " . CHtml::tag('span',array('class'=>'badge badge-info'),$model->countAgeRoundDown().' years') ,
+            'type' =>'raw',
+        ),
+        //'birth_date',
         array(
             'label' => 'Gender',
             'value' => isset($model->sex) ? $model->sex->name : "",

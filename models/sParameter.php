@@ -13,7 +13,7 @@ class sParameter extends BaseModel {
     public function rules() {
         return array(
             array('name, code, type', 'required'),
-            array('code', 'numerical', 'integerOnly' => true),
+            array('code,status_id', 'numerical', 'integerOnly' => true),
             array('name, type', 'length', 'max' => 128),
             array('name, code, type', 'safe', 'on' => 'search'),
         );
@@ -21,6 +21,7 @@ class sParameter extends BaseModel {
 
     public function relations() {
         return array(
+            'status' => array(self::HAS_ONE, 'sParameter', array('code' => 'status_id'), 'condition' => 'type = "cStatus"'),
         );
     }
 
@@ -29,13 +30,14 @@ class sParameter extends BaseModel {
             'name' => 'Name',
             'code' => 'Code',
             'type' => 'Type',
+            'status_id' => 'Status',
         );
     }
 
     public static function lastItem($type) {
         $_item = self::model()->find(array(
             'order' => 'code DESC',
-            'condition' => 'type = :type ',
+            'condition' => 'type = :type and status_id = 1',
             'params' => array(':type' => $type),
         ));
         if (isset($_item)) {
@@ -81,7 +83,7 @@ class sParameter extends BaseModel {
 
         $_items[$type] = array();
         $models = self::model()->findAll(array(
-            'condition' => 'type=:type',
+            'condition' => 'type=:type and status_id = 1',
             'params' => array(':type' => $type),
         ));
 
@@ -96,7 +98,7 @@ class sParameter extends BaseModel {
         $_items[$type] = array();
         $_items[$type][''] = 'ALL';
         $models = self::model()->findAll(array(
-            'condition' => 'type=:type',
+            'condition' => 'type=:type and status_id = 1',
             'params' => array(':type' => $type),
         ));
 
@@ -122,6 +124,7 @@ class sParameter extends BaseModel {
         self::$_items[$type] = array();
         $criteria = new CDbCriteria;
         $criteria->compare('type', $type);
+        $criteria->compare('status_id', 1); //active only
         $criteria->addNotInCondition('code', $exception);
         $models = self::model()->findAll($criteria);
 
@@ -135,7 +138,7 @@ class sParameter extends BaseModel {
     public function ItemsOther($type) {
         $_items = array();
         $models = self::model()->findAll(array(
-            'condition' => 'type=:type',
+            'condition' => 'type=:type and status_id = 1',
             'params' => array(':type' => $type),
         ));
 

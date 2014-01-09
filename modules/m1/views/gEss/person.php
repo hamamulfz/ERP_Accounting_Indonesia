@@ -14,6 +14,23 @@ $this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
         <?php
         echo $model->photoPath;
         ?>
+        
+        <p>
+        <ul class="unstyled">
+            <li style="font-size:11px">Data Completeness <span class="pull-right strong"><?php echo number_format($model->completion, 0) ?>%</span>
+                <?php
+                $this->widget('bootstrap.widgets.TbProgress', array(
+                    'type' => 'success', // 'info', 'success' or 'danger'
+                    'percent' => $model->completion,
+                    'htmlOptions' => array(
+                        'style' => 'height:7px',
+                    )
+                ));
+                ?>
+            </li>
+        </ul>		
+        </p>
+        
     </div>
     <div class="span7">
         <?php echo $this->renderPartial('/gPerson/_personalInfo', array('model' => $model)); ?>
@@ -51,6 +68,8 @@ $this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
             ),
         ));
         ?>
+
+        <?php $this->renderPartial('_sameDepartmentE', array('model' => $model)); ?>
 
     </div>
 </div>

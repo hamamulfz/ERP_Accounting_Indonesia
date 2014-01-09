@@ -21,7 +21,7 @@
             'data' => array(
                 'id' => 1,
                 'full_name' => $data->full_name,
-                'sso' => $data->sso(),
+                'sso' => CHtml::link($data->sso(),Yii::app()->createUrl('m1/gPerson/view',array('id'=>$data->ssoId()))),
                 'module' => implode(" | ", $data->moduleMember),
                 'right' => implode(" | ", $data->rightMember),
                 'groupmember' => implode(" | ", $data->myGroupMember),
@@ -29,7 +29,7 @@
             ),
             'attributes' => array(
                 array('name' => 'full_name', 'label' => 'Full Name'),
-                array('name' => 'sso', 'label' => 'SSO'),
+                array('name' => 'sso', 'type'=>'raw', 'label' => 'SSO'),
                 array('name' => 'module', 'label' => 'Module List ' . CHtml::tag("span", array('class' => 'badge badge-info'), $data->moduleCount)),
                 array('name' => 'right', 'label' => 'Right List ' . CHtml::tag("span", array('class' => 'badge badge-info'), $data->rightCount)),
                 array('name' => 'groupmember', 'label' => 'Group Member ' . CHtml::tag("span", array('class' => 'badge badge-info'), $data->groupCount + 1)),

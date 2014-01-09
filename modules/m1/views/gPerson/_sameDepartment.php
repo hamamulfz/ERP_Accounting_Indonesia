@@ -1,53 +1,47 @@
-<?php if (isset($model->company->department_id)): ?>
+<?php if (isset($model->company->department_id) && in_array($model->mCompanyId(),sUser::model()->getMyGroupArray())): ?>
 
     <h4>Same Department </h4>
     <?php
-    $this->widget('bootstrap.widgets.TbGridView', array(
-        'id' => 'g-personsamedepartment-grid',
-        'dataProvider' => gPerson::model()->sameDepartment($model->mDepartmentId()),
-        'enableSorting' => false,
-        'template' => '{items}{pager}',
-        'columns' => array(
-            array(
-                'type' => 'raw',
-                'value' => 'CHtml::link($data->PhotoPath,Yii::app()->createUrl("' . $this->route . '/../view",array("id"=>$data->id,)))',
-                'htmlOptions' => array("width" => "60px"),
-            ),
-            array(
-                'header' => 'Name',
-                'type' => 'raw',
-                'value' => function($data) {
-                    return CHtml::tag('div', array('style' => 'font-weight: bold'), $data->GPersonLink)
-                            //. CHtml::tag('div', array('style'=>'color: #999; font-size: 11px'), $data->employee_code)
-                            . CHtml::tag('div', array(), $data->mJobTitle())
-                            . CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), $data->mLevel());
-                },
-                'visible' => $this->id == "gPerson",
-            ),
-            array(
-                'header' => 'Name',
-                'type' => 'raw',
-                'value' => function($data) {
-                    return CHtml::tag('div', array('style' => 'font-weight: bold'), $data->GTalentLink)
-                            //. CHtml::tag('div', array('style'=>'color: #999; font-size: 11px'), $data->employee_code)
-                            . CHtml::tag('div', array(), $data->mJobTitle())
-                            . CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), $data->mLevel());
-                },
-                'visible' => $this->id == "gTalent",
-            ),
-        ),
-    ));
-    ?>
+	$dataProvider = gPerson::model()->sameDepartment($model->mDepartmentId()); ?>
 
-    <?php
+	<?php
+	
+			foreach ($dataProvider->getData() as $key=>$data): ?>
+			<?php if (($key + 3) % 3 == 0) {
+				echo "<div class='row' style='margin-bottom:10px;'>";
+			}
+			?>
+	
+			<div class="span3">
+				<div class="row">
+					<div class="span1">
+						<?php echo CHtml::link($data->PhotoPath,Yii::app()->createUrl("$this->route",array("id"=>$data->id,))); ?>
+					</div>
+					<div class="span2">
+						<?php echo CHtml::tag('div', array('style' => 'font-weight: bold'), $data->GPersonLink) ?>
+						<?php echo CHtml::tag('div', array(), $data->mJobTitle()) ?>
+						<?php echo CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), $data->mLevel()); ?>
+					</div>
+				</div>
+			</div>
 
+			<?php
+			if (($key+4) % 3 == 0) { 
+				echo "</div>";
+				//echo ($key);
+			}
+			$endkey = $key;
 
+			endforeach; 
+	
+			if (isset($endkey) && ($endkey == 0 || ($endkey+4) % 3 != 0 )) {
+					echo "</div>";
+					//echo $key;
+			}
+
+	?>
 
 
 
-
-
-
-
- endif;
+<?php endif;
 

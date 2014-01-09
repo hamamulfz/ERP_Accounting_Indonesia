@@ -38,6 +38,9 @@ $this->widget('bootstrap.widgets.TbMenu', array(
         array('label' => 'Employee On Permission', 'url' => Yii::app()->createUrl('/m1/gPermission/onPermission'), 'active' => true),
         array('label' => 'Recent Permission', 'url' => Yii::app()->createUrl('/m1/gPermission/onRecent')),
     ),
+            'htmlOptions'=>array(
+                'style'=>'padding:0',
+            )
 ));
 ?>
 

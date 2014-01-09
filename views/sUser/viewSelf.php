@@ -18,6 +18,9 @@ $this->widget('bootstrap.widgets.TbMenu', array(
     'items' => array(
         array('label' => 'Update Password', 'url' => Yii::app()->createUrl('/sUser/updatePasswordAuthenticated', array("id" => $model->id))),
     ),
+    'htmlOptions'=>array(
+        'style'=>'padding:0',
+    )
 ));
 ?>
 

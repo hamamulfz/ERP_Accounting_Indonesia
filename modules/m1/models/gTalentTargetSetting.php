@@ -36,9 +36,9 @@ class gTalentTargetSetting extends CActiveRecord
 			array('strategic_objective', 'length', 'max'=>50),
 			array('strategic_desc', 'length', 'max'=>80),
 			array('weight', 'length', 'max'=>5),
-			array('kpi_desc', 'length', 'max'=>113),
+			array('kpi_desc', 'length', 'max'=>500),
 			array('target,realization', 'numerical'),
-			array('value_type_id,superior_value', 'numerical','integerOnly'=>true),
+			array('value_type_id,superior_score, company_id', 'numerical','integerOnly'=>true),
 			array('remark', 'length', 'max'=>58),
 			array('strategic_initiative', 'length', 'max'=>154),
 			// The following rule is used by search().
@@ -67,8 +67,9 @@ class gTalentTargetSetting extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'parent_id' => 'Parent',
-			'strategic_objective' => 'Strategic Objective',
-			'strategic_desc' => 'Description',
+			'company_id' => 'Company',
+			'strategic_objective' => 'Perspective',
+			'strategic_desc' => 'Strategic Objective',
 			'weight' => 'Weight',
 			'kpi_desc' => 'KPI Desc',
 			'target' => 'Target',
@@ -77,7 +78,7 @@ class gTalentTargetSetting extends CActiveRecord
 			'strategic_initiative' => 'Strategic Initiative',
 			'realization' => 'Realization',
 			'value_type_id' => 'Value Type',
-			'superior_value' => 'Superior Score',
+			'superior_score' => 'Superior Score',
 		);
 	}
 
@@ -108,6 +109,57 @@ class gTalentTargetSetting extends CActiveRecord
 			)
 		));
 	}
+	
+	public function getRealizationVsTargetFormula() {
+		$value='';
+		if (isset($this->realization) && $this->target != 0 && $this->realization != 0 ) {
+			if ($this->value_type_id == 2) {
+				$value = ($this->realization / $this->target) * 100;
+			} else {
+				if ($this->realization == 0) {
+					$value = (($this->target + 1) / 1) * 100;
+				} else
+				$value=($this->target / $this->realization) * 100;
+			}
+			return $value;
+		}
+		return $value;
+	}
+
+	public function getRealizationVsTarget() {
+		if ($this->realizationVsTargetFormula == '') {
+			return '';
+		} else
+			return number_format($this->realizationVsTargetFormula,2,'.',',') .'%';
+	}
+
+	public function getIndividualScore() {
+		$value = '';
+		if ($this->realizationVsTargetFormula == '') {
+			$value = '';
+		} elseif ($this->realizationVsTargetFormula <= 70) {
+			$value = 1;
+		} elseif ($this->realizationVsTargetFormula > 70 && $this->realizationVsTargetFormula <= 90) {
+			$value = 2;
+		} elseif ($this->realizationVsTargetFormula > 90 && $this->realizationVsTargetFormula <= 110) {
+			$value = 3;
+		} elseif ($this->realizationVsTargetFormula > 110 && $this->realizationVsTargetFormula <= 130) {
+			$value = 4;
+		} elseif ($this->realizationVsTargetFormula > 130) {
+			$value = 5;
+		} else
+			$value = "N.A.";
+		
+		
+		return $value;
+	}
+
+	public function getSuperiorVsWeight() {
+		if (isset($this->superior_score)) 
+			return $this->weight * $this->superior_score;
+		return ''; 
+	}
+
 
 	/**
 	 * Returns the static model of the specified AR class.

@@ -159,7 +159,7 @@ class sUser extends CActiveRecord {
         return md5($salt . $password);
     }
 
-    public function getAllUsers($all = '') {
+    public static function getAllUsers($all = '') {
         $_items = array();
         $models = self::model()->findAll(array('order' => 'username'));
         if ($all == 'all') {

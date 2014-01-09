@@ -84,7 +84,7 @@ class GLeaveController extends Controller {
 
         if (isset($_POST['gLeave'])) {
             $model->attributes = $_POST['gLeave'];
-            $model->approved_id = 7; ///Automatic Updated
+            $model->approved_id = 5; //Request Extended and will turn to 7 on actionApproved
             if ($model->save()) {
                 $this->actionApproved($model->id, $model->parent_id);
 
@@ -557,102 +557,6 @@ class GLeaveController extends Controller {
     }
 
     ///TEMPORARY ACTION
-    public function actionLeave2004($id) {
-        $model = gPerson::model()->findByPk($id);
-        $_md = "2004-" . substr($model->companyfirst->start_date, 4, 2) . "-" . substr($model->companyfirst->start_date, 0, 2);
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
-		(" . $id . "  ,'" . $_md . "' ,12,12,'" . $_md . "'  ,'" . $_md . "' ,'Auto Generated Leave',0,0,0,'Auto Generated Leave',9)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLeave2005($id) {
-        $model = gPerson::model()->findByPk($id);
-        $_md = "2005-" . substr($model->companyfirst->start_date, 4, 2) . "-" . substr($model->companyfirst->start_date, 0, 2);
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
-		(" . $id . "  ,'" . $_md . "' ,12,12,'" . $_md . "'  ,'" . $_md . "' ,'Auto Generated Leave',0,0,0,'Auto Generated Leave',9)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLeave2006($id) {
-        $model = gPerson::model()->findByPk($id);
-        $_md = "2006-" . substr($model->companyfirst->start_date, 4, 2) . "-" . substr($model->companyfirst->start_date, 0, 2);
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
-		(" . $id . "  ,'" . $_md . "' ,12,12,'" . $_md . "'  ,'" . $_md . "' ,'Auto Generated Leave',0,0,0,'Auto Generated Leave',9)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLeave2007($id) {
-        $model = gPerson::model()->findByPk($id);
-        $_md = "2007-" . substr($model->companyfirst->start_date, 4, 2) . "-" . substr($model->companyfirst->start_date, 0, 2);
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
-		(" . $id . "  ,'" . $_md . "' ,12,12,'" . $_md . "'  ,'" . $_md . "' ,'Auto Generated Leave',0,0,0,'Auto Generated Leave',9)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLeave2008($id) {
-        $model = gPerson::model()->findByPk($id);
-        $_md = "2008-" . substr($model->companyfirst->start_date, 4, 2) . "-" . substr($model->companyfirst->start_date, 0, 2);
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
-		(" . $id . "  ,'" . $_md . "' ,12,12,'" . $_md . "'  ,'" . $_md . "' ,'Auto Generated Leave',0,0,0,'Auto Generated Leave',9)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLeave2009($id) {
-        $model = gPerson::model()->findByPk($id);
-        $_md = "2009-" . substr($model->companyfirst->start_date, 4, 2) . "-" . substr($model->companyfirst->start_date, 0, 2);
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
-		(" . $id . "  ,'" . $_md . "' ,12,12,'" . $_md . "'  ,'" . $_md . "' ,'Auto Generated Leave',0,0,0,'Auto Generated Leave',9)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLeave2010($id) {
-        $model = gPerson::model()->findByPk($id);
-        $_md = "2010-" . substr($model->companyfirst->start_date, 4, 2) . "-" . substr($model->companyfirst->start_date, 0, 2);
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
-		(" . $id . "  ,'" . $_md . "' ,12,12,'" . $_md . "'  ,'" . $_md . "' ,'Auto Generated Leave',0,0,0,'Auto Generated Leave',9)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLeave2011($id) {
-        $model = gPerson::model()->findByPk($id);
-        $_md = "2011-" . substr($model->companyfirst->start_date, 4, 2) . "-" . substr($model->companyfirst->start_date, 0, 2);
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 
-		(" . $id . "  ,'" . $_md . "' ,12,12,'" . $_md . "'  ,'" . $_md . "' ,'Auto Generated Leave',0,0,0,'Auto Generated Leave',9)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
     public function actionLeave2012($id) {
         $model = gPerson::model()->findByPk($id);
         $_md = "2012-" . date("m", strtotime($model->companyfirst->start_date)) . "-" . date("d", strtotime($model->companyfirst->start_date));
@@ -665,151 +569,11 @@ class GLeaveController extends Controller {
         $this->redirect(array('/m1/gLeave/view', 'id' => $id));
     }
 
-    public function actionLebaran2005($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2005-11-02','2005-11-02','2005-11-08',3,'Cuti Masal Lebaran 2005',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLebaran2006($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2006-10-23','2006-10-23','2006-10-27',3,'Cuti Masal Lebaran 2006',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLebaran2007($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2007-10-12','2007-10-12','2007-10-17',4,'Cuti Masal Lebaran 2007',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLebaran2008($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2008-09-29','2008-09-29','2008-10-03',3,'Cuti Masal Lebaran 2008',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLebaran2009($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2009-09-18','2009-09-18','2009-09-25',4,'Cuti Masal Lebaran 2009',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLebaran2010($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2010-09-08','2010-09-08','2010-09-14',4,'Cuti Masal Lebaran 2010',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionLebaran2011($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2011-08-29','2011-08-29','2011-09-02',3,'Cuti Masal Lebaran 2011',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
     public function actionLebaran2012($id) {
         $connection = Yii::app()->db;
         $sql = "insert into g_leave 
 		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
 		(" . $id . ",'2012-08-29','2012-08-21','2012-08-24',4,'Cuti Masal Lebaran 2012',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionNatal2005($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2005-12-26','2005-12-24','2005-12-30',5,'Cuti Masal Natal 2005',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionNatal2006($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2006-12-26','2006-12-26','2006-12-29',4,'Cuti Masal Natal 2006',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionNatal2007($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2007-12-24','2007-12-24','2007-12-31',5,'Cuti Masal Natal 2007',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionNatal2008($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2008-12-24','2008-12-24','2008-12-31',4,'Cuti Masal Natal 2008',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionNatal2009($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2009-12-24','2009-12-24','2009-12-31',5,'Cuti Masal Natal 2009',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionNatal2010($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2010-12-27','2010-12-27','2010-12-31',5,'Cuti Masal Natal 2010',0,0,0,2)";
-        $command = $connection->createCommand($sql)->execute();
-
-        $this->redirect(array('/m1/gLeave/view', 'id' => $id));
-    }
-
-    public function actionNatal2011($id) {
-        $connection = Yii::app()->db;
-        $sql = "insert into g_leave 
-		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2011-12-26','2011-12-26','2011-12-30',5,'Cuti Masal Natal 2011',0,0,0,2)";
         $command = $connection->createCommand($sql)->execute();
 
         $this->redirect(array('/m1/gLeave/view', 'id' => $id));
@@ -842,7 +606,7 @@ class GLeaveController extends Controller {
         $connection = Yii::app()->db;
         $sql = "insert into g_leave 
 		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2012-12-24','2012-12-24','2012-12-31',5,'Cuti Masal Natal 2012',0,0,0,2)";
+		(" . $id . ",'2013-12-26','2013-12-26','2013-12-31',4,'Cuti Masal Natal 2013',0,0,0,2)";
         $command = $connection->createCommand($sql)->execute();
 
         $this->redirect(array('/m1/gLeave/view', 'id' => $id));
@@ -852,7 +616,7 @@ class GLeaveController extends Controller {
         $connection = Yii::app()->db;
         $sql = "insert into g_leave 
 		(parent_id, input_date, start_date, end_date, number_of_day, leave_reason, mass_leave, person_leave, balance, approved_id) VALUES 
-		(" . $id . ",'2012-08-29','2012-08-21','2012-08-24',4,'Cuti Masal Lebaran 2012',0,0,0,2)";
+		(" . $id . ",'2013-08-05','2013-08-05','2013-08-07',3,'Cuti Masal Lebaran 2013',0,0,0,2)";
         $command = $connection->createCommand($sql)->execute();
 
         $this->redirect(array('/m1/gLeave/view', 'id' => $id));

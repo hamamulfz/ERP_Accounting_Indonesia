@@ -77,6 +77,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 'approved' => array
                     (
                     'label' => 'Approved',
+                    //'icon' => 'icon-ok-circle',
                     'url' => 'Yii::app()->createUrl("/m1/gLeave/approved",array("id"=>$data->id,"pid"=>$data->parent_id))',
                     'visible' => '$data->approved_id ==1 || $data->approved_id ==5 || $data->approved_id ==6 ',
                     'options' => array(

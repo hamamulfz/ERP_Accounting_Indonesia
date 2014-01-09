@@ -41,6 +41,7 @@ $this->widget('ext.groupgridview.GroupGridView', array(
         ),
         'code',
         'name',
+        'status.name',
     ),
 ));
 ?>

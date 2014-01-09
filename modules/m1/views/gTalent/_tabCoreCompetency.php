@@ -1,0 +1,27 @@
+<?php $this->widget('bootstrap.widgets.TbGridView',array(
+	'id'=>'g-target-setting-grid4',
+	//'dataProvider'=>$model->search(),
+    'dataProvider' => gTalentCoreCompetency::model()->search($model->id),
+	'type'=>'condensed',
+	//'filter'=>$model,
+	'template'=>'{items}',
+	'columns'=>array(
+		array(
+			'header'=>'Period',
+			'value' => '$data->getConvertTalentPeriod($data->period)',
+		),
+		//'company_id',
+		'talent_template.aspect',
+		'remark',
+        array(
+            'class' => 'bootstrap.widgets.TbButtonColumn',
+            'template' => '{delete}',
+            'deleteButtonUrl' => 'Yii::app()->createUrl("m1/gTalent/deleteCoreCompetency",array("id"=>$data->id))',
+        ),
+
+	),
+
+)); ?>
+
+<?php
+	echo $this->renderPartial('_formCoreCompetency', array('model' => $modelCoreCompetency));

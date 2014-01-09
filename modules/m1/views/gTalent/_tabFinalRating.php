@@ -1,7 +1,7 @@
 <?php
 //echo $this->renderPartial("_summaryPerformance", array("model" => $model), true);
 ?>
-<br/>
+
 
 <?php
 $this->widget('TbGridView', array(
@@ -12,6 +12,7 @@ $this->widget('TbGridView', array(
     'columns' => array(
         'input_date',
         'year',
+        'period.name',
         //'amount',
         'pa_value',
         'potential',

@@ -1,6 +1,20 @@
+<?php if (Yii::app()->request->getParam("tab") != null): ?>
+
+    <script>
+
+        $(document).ready(function() {
+            $('#tabs a:contains("<?php echo Yii::app()->request->getParam("tab"); ?>")').tab('show');
+        });
+
+    </script>
+
+<?php endif; ?>
+</php>
+
+
 <?php
 $this->breadcrumbs = array(
-    'G people' => array('index'),
+    'Home Performance' => array('/m1/gTalent'),
     $model->id,
 );
 
@@ -49,22 +63,85 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gT
             ?>
         </div>
     </div>
-    <div class="span7">
+    <div class="span10">
         <?php echo $this->renderPartial('/gPerson/_personalInfo',array('model'=>$model));  ?>	
     </div>
 </div>
 
 <div class="row">
-    <div class="span9">
+    <div class="span3">
+        <table width="100%">
+            <tr bgcolor="EAEFFF">
+                <td  align="center"><h3> <?php echo $model->targetSettingC ?></h3>
+                    <h6 align="center" ><font COLOR="#999">Work Result</font></h6></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="span3">
+        <table width="100%">
+            <tr bgcolor="EAEFFF">
+                <td  align="center"><h3> <?php echo $model->coreCompetencyC ?> </h3>
+                    <h6 align="center" ><font COLOR="#999">Core Competency</font></h6></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="span3">
+        <table width="100%">
+            <tr bgcolor="EAEFFF">
+                <td  align="center"><h3> <?php echo $model->leadershipCompetencyC ?> </h3>
+                    <h6 align="center" ><font COLOR="#999">Leadership Competency</font></h6></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="span3">
+        <table width="100%">
+            <tr bgcolor="EAEFFF">
+                <td  align="center"><h3> <?php echo $model->targetSettingC + $model->coreCompetencyC + $model->leadershipCompetencyC ?> </h3>
+                    <h6 align="center" ><font COLOR="#999">Final Rating</font></h6></td>
+            </tr>
+        </table>
+    </div>
+
+    <?php /*
+      <div class="span2">
+      <table width="100%">
+      <tr bgcolor="EAEFFF">
+      <td  align="center"><h3>.</h3>
+      <h6 align="center" ><font COLOR="#999">Reserved</font></h6></td>
+      </tr>
+      </table>
+      </div>
+     */ ?>
+
+</div>
+
+<br/>
+
+
+<div class="row">
+    <div class="span12">
         <?php
         $this->widget('bootstrap.widgets.TbTabs', array(
             'type' => 'tabs', // 'tabs' or 'pills'
             'tabs' => array(
-                array('id' => 'tab1', 'label' => 'Target Setting', 'content' => $this->renderPartial("_tabTargetSetting", array("model" => $model, "modelTargetSetting" => $modelTargetSetting), true), 'active' => true),
-				array('id' => 'tab20', 'label' => 'Performance Appraisal', 'content' => $this->renderPartial("_tabPerformanceA", array("model" => $model, "modelPerformanceP" => $modelPerformanceP), true)),
-                //array('id' => 'tab7', 'label' => 'Performance Appraisal', 'items' => array(
-					//array('id' => 'tab3', 'label' => 'Potential', 'content' => $this->renderPartial("_tabPotential", array("model" => $model, "modelPotential" => $modelPotential), true)),
-                //)),
+                array('id' => 'tab70', 'label' => 'Target Setting', 'active' => true, 'items' => array(
+	                array('id' => 'tab73', 'label' => 'KPI', 'content' => $this->renderPartial("_tabTargetSetting", array("model" => $model, "modelTargetSetting" => $modelTargetSetting), true), 'visible'=> $model->mGolonganId() >=10, 'active' => true ),
+	                array('id' => 'tab74', 'label' => 'Work Result', 'content' => $this->renderPartial("_tabWorkResult", array("model" => $model, "modelWorkResult" => $modelWorkResult), true), 'visible'=> $model->mGolonganId() < 10, 'active' => true ),
+	                array('id' => 'tab71', 'label' => 'Core Competency', 'content' => $this->renderPartial("_tabCoreCompetency", array("model" => $model, "modelCoreCompetency" => $modelCoreCompetency), true)),
+	                array('id' => 'tab72', 'label' => 'Leadership Competency', 'content' => $this->renderPartial("_tabLeadershipCompetency", array("model" => $model, "modelLeadershipCompetency" => $modelLeadershipCompetency), true)),
+                )),
+                array('id' => 'tab40', 'label' => 'Performance Appraisal', 'items' => array(
+					array('id' => 'tab41', 'label' => 'KPI', 'content' => $this->renderPartial("_tabPerformanceA", array("model" => $model, "modelPerformanceP" => $modelPerformanceP), true), 'visible'=> $model->mGolonganId() >=10 ),
+	                array('id' => 'tab44', 'label' => 'Work Result', 'content' => $this->renderPartial("_tabWorkResult2", array("model" => $model, "modelWorkResult" => $modelWorkResult), true), 'visible'=> $model->mGolonganId() < 10 ),
+	                array('id' => 'tab42', 'label' => 'Core Competency', 'content' => $this->renderPartial("_tabCoreCompetency2", array("model" => $model, "modelCoreCompetency" => $modelCoreCompetency), true)),
+	                array('id' => 'tab43', 'label' => 'Leadership Competency', 'content' => $this->renderPartial("_tabLeadershipCompetency2", array("model" => $model, "modelLeadershipCompetency" => $modelLeadershipCompetency), true)),
+					//array('id' => 'tab7', 'label' => 'Performance Appraisal', 'items' => array(
+						//array('id' => 'tab3', 'label' => 'Potential', 'content' => $this->renderPartial("_tabPotential", array("model" => $model, "modelPotential" => $modelPotential), true)),
+					//)),
+                )),
 				array('id' => 'tab30', 'label' => 'Final Rating', 'content' => $this->renderPartial("_tabFinalRating", array("model" => $model, "modelPerformanceR" => $modelPerformanceR), true)),
                 array('id' => 'tab7', 'label' => 'Personal Info', 'items' => array(
 					array('id' => 'tab4', 'label' => 'Career-Experience-Status', 'content' => $this->renderPartial("_mainCareerExperienceStatus", array("model" => $model), true)),

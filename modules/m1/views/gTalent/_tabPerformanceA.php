@@ -6,10 +6,14 @@
 	'type'=>'condensed',
 	//'filter'=>$model,
 	'template'=>'{items}',
-	'extraRowColumns'=> array('strategic_objective'),
+	'extraRowColumns'=> array('strategic.name'),
 	//'extraRowExpression' =>  '"<b style=\"padding:20px 0;\">".$data->strategic_objective."</b>"',
 	'columns'=>array(
-		//'strategic_objective',
+		//'company_id',
+		array(
+			'header'=>'Perspective',
+			'name'=>'strategic.name',
+		),
 		'strategic_desc',
 		'kpi_desc',
 		//'strategic_initiative',
@@ -36,8 +40,14 @@
                 'source' => array('1'=>'Min','2'=>'Max'),
             )
         ),
-		'realization_vs_target',
-		'individual_score',
+        array(
+        	'header'=>'Realisation vs Target',
+        	'value'=>'$data->realizationVsTarget',
+        ),
+        array(
+        	'header'=>'Individual Score',
+        	'value'=>'$data->individualScore',
+        ),
         array(
             'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'superior_score',
@@ -47,8 +57,10 @@
                 //'placement' => 'right',
                 'inputclass' => 'span1'
         )),
-		'superior_score_x_weight',
-
+        array(
+        	'header'=>'Superior Score vs Weight',
+        	'value'=>'$data->superiorVsWeight',
+        ),
 	),
 
 )); ?>

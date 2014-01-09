@@ -10,6 +10,7 @@ $this->menu = array(
     array('label' => 'Probation / Contract', 'icon' => 'th-list', 'url' => array('/m1/default/probationcontract')),
     array('label' => 'Employee In / Out', 'icon' => 'th-list', 'url' => array('/m1/default/employeeinout')),
     array('label' => 'Black List', 'icon' => 'th-list', 'url' => array('/m1/default/blacklist')),
+    array('label' => 'Help', 'icon' => 'th-list', 'url' => array('/m1help/','view'=>'person_default'), 'linkOptions' => array('target' => '_blank')),
 );
 
 $this->menu1 = gPerson::getTopUpdatedCareer();

@@ -15,6 +15,8 @@
 //		'message'=>'I am really a very simple notification')
 //	);
 ?>
+
+
 <?php
 $isExist = is_file(Yii::app()->basePath . "/views/site/theme.php");
 if ($isExist) {

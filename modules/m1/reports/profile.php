@@ -138,6 +138,54 @@ class profile extends fpdf {
         }
         $this->Ln(8);
 
+		if ($model->many_career2 != null) {
+			$this->SetFont('Arial', 'B', 10);
+			$this->Cell(0, 5, 'ASSIGNMENT', 'B', 0, 'R');
+			$this->Ln(6);
+
+			$_counter = 1;
+			$_countert = 1;
+			$w = array(7, 22, 22, 70, 33, 36);
+
+			$this->SetFont('Arial', 'B', 9);
+			$this->Cell($w[0], 6, 'No', 0, 0, 'L', true);
+			$this->Cell($w[1], 6, 'Start Date', 0, 0, 'L', true);
+			$this->Cell($w[2], 6, 'End Date', 0, 0, 'L', true);
+			$this->Cell($w[3], 6, 'Tempat Penugasan', 0, 0, 'L', true);
+			$this->Cell($w[4], 6, 'Level', 0, 0, 'L', true);
+			$this->Cell($w[5], 6, 'Job Title', 0, 0, 'L', true);
+			$this->Ln(8);
+
+			foreach ($model->many_career2 as $mod_career2) {
+				$this->SetFont('Arial', '', 9);
+				$this->Cell($w[0], 5, number_format($_countert, 0, ',', '.'), 0, 0, 'R');
+				$this->Cell($w[1], 5, $mod_career2->start_date);
+				$this->Cell($w[2], 5, $mod_career2->start_date);
+				$this->Cell($w[3], 5, $mod_career2->company->name);
+				$this->Cell($w[4], 5, $mod_career2->level->name);
+				$y1 = $this->GetY();
+				$this->MultiCell($w[5], 5, $mod_career2->job_title);
+				$y2 = $this->GetY();
+				$yH = $y2 - $y1;
+				$yC = $this->GetY();
+				$this->SetXY($w[0] + $w[1] + $w[2] + $w[3] + $w[4], $yC - $yH);
+
+				$this->Ln();
+				$this->Cell($w[0], 5, '');
+				$this->Cell($w[1], 5, '');
+				$this->Cell($w[2], 5, '');
+				$this->Cell($w[3], 5, $mod_career2->department->name);
+				$this->Cell($w[4], 5, '');
+				$this->Cell($w[5], 5, '');
+				$this->Ln();
+
+
+				$_counter++;
+				$_countert++;
+			}
+			$this->Ln(8);
+		}
+
         $this->SetFont('Arial', 'B', 10);
         $this->Cell(0, 5, 'EMPLOYMENT STATUS', 'B', 0, 'R');
         $this->Ln(6);

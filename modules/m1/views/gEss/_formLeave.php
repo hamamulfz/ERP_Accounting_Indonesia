@@ -12,9 +12,11 @@ Yii::app()->clientScript->registerScript('datepicker', "
 });
 		$( \"#" . CHtml::activeId($model, 'start_date') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
+		'minDate'	: +1,
 });
 		$( \"#" . CHtml::activeId($model, 'end_date') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
+		'minDate'	: +1,
 });
 		$( \"#" . CHtml::activeId($model, 'work_date') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',

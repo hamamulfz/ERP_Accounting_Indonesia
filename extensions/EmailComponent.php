@@ -11,6 +11,7 @@ class EmailComponent {
             $mailer->Port = 465;
             $mailer->Username = "recruitment.agungpodomoroland@gmail.com";
             $mailer->Password = Yii::app()->params['broadcastPassword'];
+			$mailer->AddReplyTo('hr.recruitment@agungpodomoro.com ', 'Recruitment APL');
             $mailer->From = "recruitment.agungpodomoroland@gmail.com";
         } else {
             $mailer->Host = "mail.agungpodomoro-aphris.com";

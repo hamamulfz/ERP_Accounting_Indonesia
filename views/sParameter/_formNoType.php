@@ -10,6 +10,10 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->textFieldRow($model, 'name', array('class' => 'span3')); ?>
 
+<?php echo $form->dropDownListRow($model, 'status_id', sParameter::items("cStatus")); ?>
+
+
+
 <div class="form-actions">
     <?php
     $this->widget('bootstrap.widgets.TbButton', array(

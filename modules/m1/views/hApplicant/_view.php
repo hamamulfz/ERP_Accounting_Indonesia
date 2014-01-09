@@ -15,6 +15,7 @@
         echo ($data->company_id != 0) ? " [Not Shared]" : "";
 
 
+
         ?>	
     </h4>
     <?php echo isset($data->company) ? $data->company->name :  "" ; ?>
@@ -24,7 +25,27 @@
 <div class="row">
     <div class="span2">
         <?php echo $data->photoPath; ?>
+
+		<br/>
+		<?php /*        
+		$this->widget('ext.DzRaty.DzRaty', array(
+			'name'=>'star'.$data->id,
+			'id'=>'star'.$data->id,
+			'value' => (isset($data->systemrating)) ? $data->systemrating->rating : 0,
+			//'data' => array(1,2,3,4,5,6,7,8,9,10,11,12),
+	
+			'options' => array(
+				'readOnly' => TRUE,
+			),
+			//'htmlOptions' => array(
+			//	'class' => 'pull-right'
+			//),
+		)); */
+		?>
+
         <?php echo CHtml::tag('div', array('class' => 'pull-right', 'style' => 'color:#cbcbcb;text-size:10px'), waktu::nicetime($data->created_date)); ?>
+
+        
 
     </div>
     <div class="span7">
@@ -46,8 +67,17 @@
             <b><?php echo CHtml::encode($data->getAttributeLabel('handphone')); ?>:</b>
             <?php echo CHtml::encode($data->handphone); ?> |
 
+            <b><?php echo CHtml::encode($data->getAttributeLabel('email')); ?>:</b>
+            <?php echo CHtml::encode($data->email); ?> |
+
             <b><?php echo CHtml::encode($data->getAttributeLabel('freshgrad_id')); ?>:</b>
-            <?php echo CHtml::encode($data->freshgrad); ?>
+            <?php echo CHtml::encode($data->freshgrad); ?> |
+
+            <b><?php echo CHtml::encode($data->getAttributeLabel('expected_sallary')); ?>:</b>
+            <?php echo number_format($data->expected_sallary,0,",","."); ?> |
+
+            <b><?php echo CHtml::encode($data->getAttributeLabel('expected_position')); ?>:</b>
+            <?php echo CHtml::encode($data->expected_position); ?>
 			<br/>
 
             <?php

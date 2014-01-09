@@ -13,6 +13,14 @@ $this->menu = array(
 );
 $this->menu4 = hVacancyApplicant::model()->topRecentInterview;
 $this->menu8 = hApplicant::model()->topRecentApplicant;
+
+$this->menu10 = array(
+    array('label' => 'Vacancy', 'icon' => 'home', 'url' => array('/m1/hVacancy')),
+    array('label' => 'Applicant', 'icon' => 'user', 'url' => array('/m1/hApplicant')),
+    array('label' => 'Selection Registration', 'icon' => 'tint', 'url' => array('/m1/jSelection')),
+    array('label' => 'Interview', 'icon' => 'volume-up', 'url' => array('/m1/hVacancy/interview')),
+);
+
 ?>
 
 <?php $this->beginContent('/layouts/column1N'); ?>
@@ -30,8 +38,8 @@ $this->menu8 = hApplicant::model()->topRecentApplicant;
         <div class="span6">
             <h4 style="padding-bottom:4px;border-bottom-style:solid;border-color:grey;border-width:1px;">
                 <?php
-                echo CHtml::link($data->applicant->applicant_name . " -> " .
-                        $data->vacancy->vacancy_title . " -> " . $data->vacancy->company->name, Yii::app()->createUrl('/m1/hVacancy/interviewDetail', array('id' => $data->id)));
+                echo CHtml::link($data->applicant->applicant_name,Yii::app()->createUrl('/m1/hApplicant/view',array('id'=>$data->applicant_id))) . " -> " .
+                        CHtml::link($data->vacancy->vacancy_title . " | " . $data->vacancy->company->name, Yii::app()->createUrl('/m1/hVacancy/interviewDetail', array('id' => $data->id)));
                 ?>
 
             </h4>

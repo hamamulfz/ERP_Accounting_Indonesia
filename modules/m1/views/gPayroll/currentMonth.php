@@ -27,6 +27,9 @@ $this->widget('bootstrap.widgets.TbMenu', array(
         array('label' => 'All Employee', 'url' => Yii::app()->createUrl('/m1/gPayroll/currentMonth'), 'active' => true),
     //array('label'=>'Comparison','url'=>Yii::app()->createUrl('/m1/gPayroll/previousMonth')),
     ),
+            'htmlOptions'=>array(
+                'style'=>'padding:0',
+            )
 ));
 ?>
 

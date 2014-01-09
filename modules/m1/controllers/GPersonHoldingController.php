@@ -152,4 +152,30 @@ class GPersonHoldingController extends Controller {
         echo CJSON::encode($res);
     }
 
+    public function actionMove($id) {
+            $model=$this->loadModelCareer($id);
+
+            $modelExp = new gPersonExperience;
+			$modelExp->parent_id = $model->parent_id;
+			$modelExp->company_name = $model->company->name;
+			$modelExp->start_date = $model->start_date;
+			$modelExp->job_title = $model->job_title;
+			$modelExp->save();
+
+			$model->delete();
+			
+			return true;
+    }
+
+    public function loadModelCareer($id) {
+
+        $model = gPersonCareer::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
+
+
+
+
 }

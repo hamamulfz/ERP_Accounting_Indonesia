@@ -40,6 +40,9 @@ $this->widget('bootstrap.widgets.TbMenu', array(
             'url' => Yii::app()->createUrl("/m1/gAttendance/view", array("id" => $model->id, "month" => $month))),
         array('label' => 'Next Month >>', 'url' => Yii::app()->createUrl("/m1/gAttendance/view", array("id" => $model->id, "month" => $month + 1))),
     ),
+            'htmlOptions'=>array(
+                'style'=>'padding:0',
+            )
 ));
 ?>
 

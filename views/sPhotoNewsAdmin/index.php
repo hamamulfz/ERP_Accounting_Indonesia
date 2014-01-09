@@ -57,10 +57,10 @@ $this->widget('ext.elFinder.ElFinderWidget', array(
 
         <?php echo $form->textFieldRow($model, 'title', array('class' => 'span5')); ?>
 
-        <?php //echo $form->textAreaRow($model,'description',array('class'=>'span7','rows'=>3,'hint'=>'Maximum 5000 characters'));  ?>
+        <?php echo $form->textAreaRow($model,'description',array('class'=>'span7','rows'=>3,'hint'=>'Maximum 5000 characters'));  ?>
         <?php
-        echo $form->html5EditorRow($model, 'description', array(
-            'class' => 'span7', 'rows' => 5, 'height' => '200', 'options' => array('color' => true)));
+        	//echo $form->html5EditorRow($model, 'description', array(
+            //	'class' => 'span7', 'rows' => 5, 'height' => '200', 'options' => array('color' => true)));
         ?>
 
         <div class="control-group">

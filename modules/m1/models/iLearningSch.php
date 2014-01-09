@@ -43,7 +43,7 @@ class iLearningSch extends BaseModel {
             array('trainer_name, schedule_date, location', 'required'),
             array('parent_id, created_date, updated_date, status_id, cost, total_participant', 'numerical', 'integerOnly' => true),
             array('trainer_name', 'length', 'max' => 100),
-            array('actual_mandays', 'length', 'max' => 4),
+            array('actual_mandays', 'numerical'),
             array('location', 'length', 'max' => 45),
             array('additional_info', 'length', 'max' => 500),
             array('created_by, updated_by', 'length', 'max' => 50),

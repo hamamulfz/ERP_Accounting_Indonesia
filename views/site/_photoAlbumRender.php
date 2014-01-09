@@ -1,16 +1,4 @@
-<?php
-Yii::app()->getClientScript()
-        ->registerScriptFile(Yii::app()->baseUrl . "/css/image-gallery/js/load-image.js")
-        ->registerScriptFile(Yii::app()->baseUrl . "/css/image-gallery/js/bootstrap-image-gallery.js")
-        ->registerScriptFile(Yii::app()->baseUrl . "/css/image-gallery/js/main.js")
-;
-
-//Yii::app()->clientScript->registerScript('modal-gallery', "
-//		$('#modal-gallery').addClass('modal-fullscreen-stretch');		
-//		");
-?>
-
-<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+<ul class="gallery">
 
     <?php
     foreach ($contents as $content) {
@@ -66,7 +54,7 @@ Yii::app()->getClientScript()
 
                                     //echo CHtml::link(CHtml::image($photo, 'image'),
                                     //Yii::app()->createUrl("/shareimages/photo/".$id."/".$content),array("target"=>"_blank")); 
-                                    echo "<a target='_blank' data-gallery='gallery' href='" . Yii::app()->baseUrl . "/shareimages/photo/" . $id . "/" . $content . "'>" . CHtml::image($photo, 'image') . "</a>";
+                                    echo "<a rel='prettyPhoto[gallery1]' href='" . Yii::app()->baseUrl . "/shareimages/photo/" . $id . "/" . $content . "'>" . CHtml::image($photo, 'image') . "</a>";
                                     //echo $id."/".$content;
                                     //echo CHtml::image($photo, 'image'); 
                                     ?>
@@ -99,7 +87,7 @@ Yii::app()->getClientScript()
     </div>
 <?php } ?>
 
-</div>
+</ul>
 
 <!-- modal-gallery is the modal dialog used for the image gallery -->
 <div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">

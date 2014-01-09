@@ -114,7 +114,7 @@ class hVacancyApplicant extends BaseModel {
         $criteria = new CDbCriteria;
         $criteria->limit = 10;
         $criteria->together = true;
-        //$criteria->order="vacancy.created_date DESC";
+        $criteria->order="t.created_date DESC";
         $criteria->compare('t.status_id', 4);
         $criteria->with = array('comment');
 

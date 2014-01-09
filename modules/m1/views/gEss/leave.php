@@ -23,7 +23,7 @@ $this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
 </div>
 
 <div class="row">
-    <div class="span8">
+    <div class="span9">
 
         <?php
         echo $this->renderPartial("/gLeave/_LeaveBalance", array("model" => $model), true);

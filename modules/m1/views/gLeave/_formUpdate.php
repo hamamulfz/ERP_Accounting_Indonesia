@@ -15,20 +15,11 @@ Yii::app()->clientScript->registerScript('datepicker', "
 		$( \"#" . CHtml::activeId($model, 'work_date') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
 });
-		$( \"#" . CHtml::activeId($model, 'input_date') . "\" ).mask('99-99-9999');
-		$( \"#" . CHtml::activeId($model, 'start_date') . "\" ).mask('99-99-9999');
-		$( \"#" . CHtml::activeId($model, 'end_date') . "\" ).mask('99-99-9999');
-		$( \"#" . CHtml::activeId($model, 'work_date') . "\" ).mask('99-99-9999');
-		$( \"#" . CHtml::activeId($model, 'parent_id') . "\" ).autocomplete({
-			
-		'minLength':'2'
-),
+
 
 });
-});
 
-		");
-?>
+		");?>
 
 <?php
 $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
@@ -48,7 +39,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->textFieldRow($model, 'number_of_day', array('class' => 'span1', 'hint' => 'Total days of leaving')); ?>
 
-<?php //echo $form->textFieldRow($model,'work_date'); ?>
+<?php echo $form->textFieldRow($model,'work_date'); ?>
 
 <?php echo $form->textAreaRow($model, 'leave_reason', array('class' => 'span5', 'rows' => 4)); ?>
 

@@ -46,11 +46,17 @@ class GTalentController extends Controller {
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id) {
+
+	    $this->layout = '//layouts/column1';
+
         $model = $this->loadModel($id);
         $modelPerformanceP = $this->newPerformanceP($id);
         $modelPerformanceR = $this->newPerformanceR($id);
         $modelPotential = $this->newPotential($id);
         $modelTargetSetting = $this->newTargetSetting($id);
+        $modelCoreCompetency = $this->newCoreCompetency($id);
+        $modelLeadershipCompetency = $this->newLeadershipCompetency($id);
+        $modelWorkResult = $this->newWorkResult($id);
 
         $this->render('view', array(
             'model' => $model,
@@ -58,6 +64,9 @@ class GTalentController extends Controller {
             'modelPerformanceR' => $modelPerformanceR,
             'modelPotential' => $modelPotential,
             'modelTargetSetting' => $modelTargetSetting,
+            'modelCoreCompetency' => $modelCoreCompetency,
+            'modelLeadershipCompetency' => $modelLeadershipCompetency,
+            'modelWorkResult' => $modelWorkResult,
         ));
     }
 
@@ -130,6 +139,54 @@ class GTalentController extends Controller {
 
         if (isset($_POST['gTalentTargetSetting'])) {
             $model->attributes = $_POST['gTalentTargetSetting'];
+            $model->parent_id = $id;
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $id, 'tab' => 'Work Result'));
+        }
+
+        return $model;
+    }
+
+    public function newCoreCompetency($id) {
+        $model = new gTalentCoreCompetency;
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if (isset($_POST['gTalentCoreCompetency'])) {
+            $model->attributes = $_POST['gTalentCoreCompetency'];
+            $model->parent_id = $id;
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $id, 'tab' => 'Core Competency'));
+        }
+
+        return $model;
+    }
+
+    public function newLeadershipCompetency($id) {
+        $model = new gTalentLeadershipCompetency;
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if (isset($_POST['gTalentLeadershipCompetency'])) {
+            $model->attributes = $_POST['gTalentLeadershipCompetency'];
+            $model->parent_id = $id;
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $id));
+        }
+
+        return $model;
+    }
+
+    public function newWorkResult($id) {
+        $model = new gTalentWorkResult;
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if (isset($_POST['gTalentWorkResult'])) {
+            $model->attributes = $_POST['gTalentWorkResult'];
             $model->parent_id = $id;
             if ($model->save())
                 $this->redirect(array('view', 'id' => $id));
@@ -235,6 +292,42 @@ class GTalentController extends Controller {
 		$es->update();
     }
 
+    public function actionUpdateCoreCompetencyAjax() {
+		Yii::import('ext.bootstrap.widgets.TbEditableSaver'); //or you can add import 'ext.editable.*' to config
+		$es = new TbEditableSaver('gTalentCoreCompetency');  // 'User' is classname of model to be updated
+		$es->update();
+    }
+
+    public function actionUpdateLeadershipCompetencyAjax() {
+		Yii::import('ext.bootstrap.widgets.TbEditableSaver'); //or you can add import 'ext.editable.*' to config
+		$es = new TbEditableSaver('gTalentLeadershipCompetency');  // 'User' is classname of model to be updated
+		$es->update();
+    }
+
+    public function actionUpdateWorkResultAjax() {
+		Yii::import('ext.bootstrap.widgets.TbEditableSaver'); //or you can add import 'ext.editable.*' to config
+		$es = new TbEditableSaver('gTalentWorkResult');  // 'User' is classname of model to be updated
+		$es->update();
+    }
+
+    public function actionDeleteCoreCompetency($id) {
+        $this->loadModelCoreCompetency($id)->delete();
+        
+        return true;
+    }
+
+    public function actionDeleteLeadershipCompetency($id) {
+        $this->loadModelLeadershipCompetency($id)->delete();
+        return true;
+    }
+
+    public function actionDeleteWorkResult($id) {
+        $this->loadModelWorkResult($id)->delete();
+        
+        return true;
+    }
+
+
     /**
      * Lists all models.
      */
@@ -323,6 +416,30 @@ class GTalentController extends Controller {
 	public function loadModelTargetSetting($id)
 	{
 		$model=gTalentTargetSetting::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	public function loadModelCoreCompetency($id)
+	{
+		$model=gTalentCoreCompetency::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	public function loadModelLeadershipCompetency($id)
+	{
+		$model=gTalentLeadershipCompetency::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	public function loadModelWorkResult($id)
+	{
+		$model=gTalentWorkResult::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

@@ -26,7 +26,7 @@ Yii::app()->clientScript->registerScript('sel2', "
 		$(function() {
 		$( \"#" . CHtml::activeId($model, 'year') . "\" ).spinedit({
 	    minimum: ".date('Y',strtotime('3 year ago')).",
-    	maximum: ".date('Y',strtotime('1 year ago')).",
+    	maximum: ".date('Y').",
 	    step: 1,
     	numberOfDecimals: 0,
 		});
@@ -58,6 +58,9 @@ Yii::app()->clientScript->registerScript('sel2', "
     <?php echo $form->textFieldRow($model, 'input_date'); ?>
 
     <?php echo $form->textFieldRow($model, 'year', array('class' => 'span2')); ?>
+
+    <?php echo $form->dropDownListRow($model, 'period_id', sParameter::items('cSemester')); ?>
+
 
     <?php //echo $form->textFieldRow($model, 'amount', array('class' => 'span2')); ?>
 

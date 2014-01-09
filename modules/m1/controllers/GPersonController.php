@@ -38,7 +38,7 @@ class GPersonController extends Controller {
         return array(
             'rights',
             'ajaxOnly + PersonAutoComplete,PersonAutoCompleteId,PersonAutoCompleteIdAdmin,
-				CreateStatusAjax',
+				CreateStatusAjax, PersonAutoCompletePhoto, PersonAutoCompleteCreate',
         );
     }
 
@@ -290,6 +290,8 @@ class GPersonController extends Controller {
             }
         }
 
+
+		Yii::app()->user->setFlash('info', '<strong>Aware!</strong> Please, check for posibility re-entry the existing or resigned employee. Contact Holding for more information...');
 
         $this->render('create', array(
             'model' => $model,
@@ -913,6 +915,20 @@ class GPersonController extends Controller {
 				ORDER BY `employee_name` LIMIT 20";
 
 
+            $command = Yii::app()->db->createCommand($qtxt);
+            $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
+            $res = $command->queryAll();
+        }
+        echo CJSON::encode($res);
+    }
+
+    public function actionPersonAutoCompletePhotoCreate() {
+        $res = array();
+        if (isset($_GET['term']) && strlen($_GET['term']) >= 7) {
+                $qtxt = "SELECT CONCAT(employee_name,' | ', birth_date) as label, employee_name, c_pathfoto as photo, id FROM g_person 
+			WHERE employee_name LIKE :name 
+			ORDER BY employee_name LIMIT 20";
+			
             $command = Yii::app()->db->createCommand($qtxt);
             $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
             $res = $command->queryAll();

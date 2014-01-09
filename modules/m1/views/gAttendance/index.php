@@ -8,6 +8,7 @@ $this->menu = array(
     array('label' => 'Schedule Upload', 'icon' => 'calendar', 'url' => array('timeBlock')),
     array('label' => 'Attendant Upload', 'icon' => 'user', 'url' => array('attendBlock')),
     array('label' => 'Parameter Time Block', 'icon' => 'wrench', 'url' => array('paramTimeblock')),
+    array('label' => 'Rekap by Dept', 'icon' => 'print', 'url' => array('/m1/gAttendance/reportByDept')),
 );
 
 $this->menu1 = gPerson::getTopUpdated();

@@ -65,7 +65,7 @@ class hApplicantSelection extends BaseModel {
             'id' => 'ID',
             'parent_id' => 'Parent',
             'workflow_id' => 'Work Flow',
-            'workflow_by' => 'Assest By',
+            'workflow_by' => 'Assessed By',
             'workflow_result_id' => 'Work Flow Result',
             'assessment_date' => 'Assessment Date',
             'assessment_summary' => 'Assessment Summary',

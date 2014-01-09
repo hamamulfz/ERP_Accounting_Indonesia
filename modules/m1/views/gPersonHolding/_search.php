@@ -28,7 +28,7 @@ $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
 }',
     ),
     'htmlOptions' => array(
-        'class' => 'span3',
+        'class' => 'span5',
         'placeholder' => 'Search Name',
     ),
 ));

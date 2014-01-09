@@ -218,7 +218,13 @@ class hVacancy extends BaseModel {
 
         foreach ($models as $model) {
             $_title = (strlen($model->vacancy_title) > 28) ? substr($model->vacancy_title, 0, 28) . "... (" . $model->applicantCount . ")" : $model->vacancy_title . " (" . $model->applicantCount . ")";
-            $returnarray[] = array('id' => $model->id, 'label' => $_title, 'icon' => 'list-alt', 'url' => array('/m1/hVacancy/view', 'id' => $model->id));
+            $returnarray[] = array(
+            	'id' => $model->id, 
+            	'label' => $_title, 
+            	'icon' => 'list-alt',
+            	'linkOptions'=>array('title'=>$model->vacancy_title), 
+            	'url' => array('/m1/hVacancy/view', 'id' => $model->id)
+            );
         }
 
         return $returnarray;

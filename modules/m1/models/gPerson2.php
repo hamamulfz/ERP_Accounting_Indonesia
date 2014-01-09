@@ -628,7 +628,31 @@ class gPerson2 extends BaseModel {
 							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
 						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
 							AND `c`.`start_date` <= '" . date("Y") . "-10-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201310`
+				) as `201310`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-11-30' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-10-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-10-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201312`
 
 
 
@@ -653,8 +677,8 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201308'];
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
-            //$_data[] = (int) $row['201311'];
-            //$_data[] = (int) $row['201312'];
+            $_data[] = (int) $row['201311'];
+            $_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);
@@ -760,7 +784,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-01-01' AND '" . date("Y") . "-01-31'
 						order by `c`.`start_date` desc limit 1)) as 'l01' 
 				from `g_person` `a`
 				where
@@ -768,7 +792,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-01-01' AND '" . date("Y") . "-01-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -788,7 +812,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-02-01' AND '" . date("Y") . "-02-28'
 						order by `c`.`start_date` desc limit 1)) as 'l02' 
 				from `g_person` `a`
 				where
@@ -796,7 +820,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-02-01' AND '" . date("Y") . "-02-28'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -816,7 +840,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-03-01' AND '" . date("Y") . "-03-31'
 						order by `c`.`start_date` desc limit 1)) as 'l03' 
 				from `g_person` `a`
 				where
@@ -824,7 +848,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-03-01' AND '" . date("Y") . "-03-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -844,7 +868,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-04-01' AND '" . date("Y") . "-04-30'
 						order by `c`.`start_date` desc limit 1)) as 'l04' 
 				from `g_person` `a`
 				where
@@ -852,7 +876,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-04-01' AND '" . date("Y") . "-04-30'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -872,7 +896,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-05-01' AND '" . date("Y") . "-05-31'
 						order by `c`.`start_date` desc limit 1)) as 'l05' 
 				from `g_person` `a`
 				where
@@ -880,7 +904,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-05-01' AND '" . date("Y") . "-05-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -900,7 +924,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-06-01' AND '" . date("Y") . "-06-30'
 						order by `c`.`start_date` desc limit 1)) as 'l06' 
 				from `g_person` `a`
 				where
@@ -908,7 +932,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-06-01' AND '" . date("Y") . "-06-30'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -928,7 +952,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-07-01' AND '" . date("Y") . "-07-31'
 						order by `c`.`start_date` desc limit 1)) as 'l07' 
 				from `g_person` `a`
 				where
@@ -936,7 +960,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-07-01' AND '" . date("Y") . "-07-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -956,7 +980,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-08-01' AND '" . date("Y") . "-08-31'
 						order by `c`.`start_date` desc limit 1)) as 'l08' 
 				from `g_person` `a`
 				where
@@ -964,7 +988,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-08-01' AND '" . date("Y") . "-08-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -984,7 +1008,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-09-01' AND '" . date("Y") . "-09-30'
 						order by `c`.`start_date` desc limit 1)) as 'l09' 
 				from `g_person` `a`
 				where
@@ -992,7 +1016,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-09-01' AND '" . date("Y") . "-09-30'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -1012,7 +1036,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-10-01' AND '" . date("Y") . "-10-31'
 						order by `c`.`start_date` desc limit 1)) as 'l10' 
 				from `g_person` `a`
 				where
@@ -1020,7 +1044,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-10-01' AND '" . date("Y") . "-10-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -1040,7 +1064,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-11-01' AND '" . date("Y") . "-11-30'
 						order by `c`.`start_date` desc limit 1)) as 'l08' 
 				from `g_person` `a`
 				where
@@ -1048,7 +1072,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-11-01' AND '" . date("Y") . "-11-30'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -1068,7 +1092,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31'
 						order by `c`.`start_date` desc limit 1)) as 'l12' 
 				from `g_person` `a`
 				where
@@ -1076,7 +1100,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` in (3, 5)
-							and `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (3,5) AND
 
@@ -1101,7 +1125,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-01-01' AND '" . date("Y") . "-01-31'
 						order by `c`.`start_date` desc limit 1)) as 'l01' 
 				from `g_person` `a`
 				where
@@ -1109,7 +1133,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-01-01' AND '" . date("Y") . "-01-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1129,7 +1153,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-02-01' AND '" . date("Y") . "-02-28'
 						order by `c`.`start_date` desc limit 1)) as 'l02' 
 				from `g_person` `a`
 				where
@@ -1137,7 +1161,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-02-01' AND '" . date("Y") . "-02-28'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1157,7 +1181,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-03-01' AND '" . date("Y") . "-03-31'
 						order by `c`.`start_date` desc limit 1)) as 'l03' 
 				from `g_person` `a`
 				where
@@ -1165,7 +1189,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-03-01' AND '" . date("Y") . "-03-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1185,7 +1209,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-04-01' AND '" . date("Y") . "-04-30'
 						order by `c`.`start_date` desc limit 1)) as 'l04' 
 				from `g_person` `a`
 				where
@@ -1193,7 +1217,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-04-01' AND '" . date("Y") . "-04-30'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1213,7 +1237,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-05-01' AND '" . date("Y") . "-05-31'
 						order by `c`.`start_date` desc limit 1)) as 'l05' 
 				from `g_person` `a`
 				where
@@ -1221,7 +1245,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-05-01' AND '" . date("Y") . "-05-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1241,7 +1265,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-06-01' AND '" . date("Y") . "-06-30'
 						order by `c`.`start_date` desc limit 1)) as 'l06' 
 				from `g_person` `a`
 				where
@@ -1249,7 +1273,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-06-01' AND '" . date("Y") . "-06-30'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1269,7 +1293,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-07-01' AND '" . date("Y") . "-07-31'
 						order by `c`.`start_date` desc limit 1)) as 'l07' 
 				from `g_person` `a`
 				where
@@ -1277,7 +1301,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-07-01' AND '" . date("Y") . "-07-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1297,7 +1321,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-08-01' AND '" . date("Y") . "-08-31'
 						order by `c`.`start_date` desc limit 1)) as 'l08' 
 				from `g_person` `a`
 				where
@@ -1305,7 +1329,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-08-01' AND '" . date("Y") . "-08-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1325,7 +1349,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-09-01' AND '" . date("Y") . "-09-30'
 						order by `c`.`start_date` desc limit 1)) as 'l09' 
 				from `g_person` `a`
 				where
@@ -1333,7 +1357,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-09-01' AND '" . date("Y") . "-09-30'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1353,7 +1377,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-10-01' AND '" . date("Y") . "-10-31'
 						order by `c`.`start_date` desc limit 1)) as 'l10' 
 				from `g_person` `a`
 				where
@@ -1361,7 +1385,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-10-01' AND '" . date("Y") . "-10-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1381,7 +1405,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-11-01' AND '" . date("Y") . "-11-30'
 						order by `c`.`start_date` desc limit 1)) as 'l11' 
 				from `g_person` `a`
 				where
@@ -1389,7 +1413,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-11-01' AND '" . date("Y") . "-11-30'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1409,7 +1433,7 @@ class gPerson2 extends BaseModel {
 					COUNT((select `c`.`status_id` AS `status_id`
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31'
 						order by `c`.`start_date` desc limit 1)) as 'l12' 
 				from `g_person` `a`
 				where
@@ -1417,7 +1441,7 @@ class gPerson2 extends BaseModel {
 						from `g_person_career` `c`
 						where `a`.`id` = `c`.`parent_id`
 							and `c`.`status_id` = 2
-							and `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31'
+							and `c`.`start_date` BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31'
 						order by `c`.`start_date` desc
 					limit 1) IN (2) AND
 
@@ -1563,7 +1587,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -1589,7 +1621,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
             $_data[] = (int) $row['201311'];
-            //$_data[] = (int) $row['201312'];
+            $_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);
@@ -1691,40 +1723,40 @@ class gPerson2 extends BaseModel {
             	SELECT 'Promotion' AS 'state',
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31') as 'l01', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-01-01' AND '" . date("Y") . "-01-31') as 'l01', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28') as 'l02', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-02-01' AND '" . date("Y") . "-02-28') as 'l02', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31') as 'l03', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-03-01' AND '" . date("Y") . "-03-31') as 'l03', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30') as 'l04', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-04-01' AND '" . date("Y") . "-04-30') as 'l04', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31') as 'l05', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-05-01' AND '" . date("Y") . "-05-31') as 'l05', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30') as 'l06', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-06-01' AND '" . date("Y") . "-06-30') as 'l06', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31') as 'l07', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-07-01' AND '" . date("Y") . "-07-31') as 'l07', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08',
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-08-01' AND '" . date("Y") . "-08-31') as 'l08',
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30') as 'l09',
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-09-01' AND '" . date("Y") . "-09-30') as 'l09',
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31') as 'l10',
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-10-01' AND '" . date("Y") . "-10-31') as 'l10',
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30') as 'l11',
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-11-01' AND '" . date("Y") . "-11-30') as 'l11',
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (3, 5)
-						AND `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31') as 'l12'
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31') as 'l12'
 					
 				FROM `a_organization` `g` where `g`.`id` = 1
 				
@@ -1733,40 +1765,40 @@ class gPerson2 extends BaseModel {
             	SELECT 'Mutation' AS 'state',
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-01-01' AND '2013-01-31') as 'l01', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-01-01' AND '" . date("Y") . "-01-31') as 'l01', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-02-01' AND '2013-02-28') as 'l02', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-02-01' AND '" . date("Y") . "-02-28') as 'l02', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-03-01' AND '2013-03-31') as 'l03', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-03-01' AND '" . date("Y") . "-03-31') as 'l03', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-04-01' AND '2013-04-30') as 'l04', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-04-01' AND '" . date("Y") . "-04-30') as 'l04', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-05-01' AND '2013-05-31') as 'l05', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-05-01' AND '" . date("Y") . "-05-31') as 'l05', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-06-01' AND '2013-06-30') as 'l06', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-06-01' AND '" . date("Y") . "-06-30') as 'l06', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-07-01' AND '2013-07-31') as 'l07', 
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-07-01' AND '" . date("Y") . "-07-31') as 'l07', 
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-08-01' AND '2013-08-31') as 'l08',
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-08-01' AND '" . date("Y") . "-08-31') as 'l08',
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-09-01' AND '2013-09-30') as 'l09',
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-09-01' AND '" . date("Y") . "-09-30') as 'l09',
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-10-01' AND '2013-10-31') as 'l10',
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-10-01' AND '" . date("Y") . "-10-31') as 'l10',
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-11-01' AND '2013-11-30') as 'l11',
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-11-01' AND '" . date("Y") . "-11-30') as 'l11',
 				(SELECT COUNT(`c`.`status_id`) FROM `g_person_career` `c`
 					WHERE `c`.`status_id` in (2)
-						AND `c`.`start_date` BETWEEN '2013-12-01' AND '2013-12-31') as 'l12'
+						AND `c`.`start_date` BETWEEN '" . date("Y") . "-12-01' AND '" . date("Y") . "-12-31') as 'l12'
 					
 				FROM `a_organization` `g` where `g`.`id` = 1
 				
@@ -1832,7 +1864,9 @@ class gPerson2 extends BaseModel {
 				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
 					<= '" . date("Y") . "-10-31') as `201310`,
 				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-11-30') as `201311`
+					<= '" . date("Y") . "-11-30') as `201311`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-12-31') as `201312`
 
 
 
@@ -1858,7 +1892,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
             $_data[] = (int) $row['201311'];
-            //$_data[] = (int) $row['201312'];
+            $_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);
@@ -2000,34 +2034,34 @@ class gPerson2 extends BaseModel {
         $_data = array();
         $dependency = new CDbCacheDependency('SELECT MAX(created_date) FROM i_learning_sch');
 
-        if (!Yii::app()->cache->get('learninghourspermonth'.Yii::app()->user->id)) {
+        if (!Yii::app()->cache->get('complearninghourspermonth'.Yii::app()->user->id)) {
 			$connection = Yii::app()->db;
 			$sql = "
 					select `o`.`id`, 'Mandays' as `state`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "01') as `201301`,
+						<= '" . date("Y") . "01' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201301`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "02') as `201302`,
+						<= '" . date("Y") . "02' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201302`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "03') as `201303`,
+						<= '" . date("Y") . "03' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201303`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "04') as `201304`,
+						<= '" . date("Y") . "04' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201304`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "05') as `201305`,
+						<= '" . date("Y") . "05' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201305`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "06') as `201306`,
+						<= '" . date("Y") . "06' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201306`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "07') as `201307`,
+						<= '" . date("Y") . "07' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201307`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "08') as `201308`,
+						<= '" . date("Y") . "08' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201308`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "09') as `201309`,
+						<= '" . date("Y") . "09' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201309`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "10') as `201310`,
+						<= '" . date("Y") . "10' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201310`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "11') as `201311`,
+						<= '" . date("Y") . "11' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201311`,
 					(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-						<= '" . date("Y") . "11') as `201312`
+						<= '" . date("Y") . "12' AND date_format(schedule_date,'%Y') = '" . date("Y") . "') as `201312`
 
 					FROM `a_organization` `o`
 					where `id` = 1  
@@ -2057,9 +2091,9 @@ class gPerson2 extends BaseModel {
 				$_merge[] = array_merge($_name, $_second);
         	}
 
-        	Yii::app()->cache->set('learninghourspermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
+        	Yii::app()->cache->set('complearninghourspermonth'.Yii::app()->user->id,$_merge,3600,$dependency);
         } else
-        	$_merge=Yii::app()->cache->get('learninghourspermonth'.Yii::app()->user->id);
+        	$_merge=Yii::app()->cache->get('complearninghourspermonth'.Yii::app()->user->id);
 
         return $_merge;
     }
@@ -2310,7 +2344,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " <=25 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -2405,7 +2447,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 25 AND " . $_age . " <= 30 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -2500,7 +2550,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 30 AND " . $_age . " <= 35 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -2595,7 +2653,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 35 AND " . $_age . " <= 40 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-3' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -2690,7 +2756,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 40 AND " . $_age . " <= 45 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -2785,7 +2859,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 45 AND " . $_age . " <= 50 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -2880,7 +2962,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 50 AND " . $_age . " <= 55 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -2975,7 +3065,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where " . $_age . " > 55 AND
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -3001,7 +3099,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
             $_data[] = (int) $row['201311'];
-            //$_data[] = (int) $row['201312'];
+            $_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);
@@ -3110,7 +3208,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`sex_id` = 1 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -3205,7 +3311,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`sex_id` = 2 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -3230,7 +3344,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
             $_data[] = (int) $row['201311'];
-            //$_data[] = (int) $row['201312'];
+            $_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);
@@ -3339,7 +3453,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 1 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -3434,7 +3556,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 2 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -3529,7 +3659,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 3 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -3624,7 +3762,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 4 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -3719,7 +3865,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 5 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -3814,7 +3968,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 6 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -3909,7 +4071,15 @@ class gPerson2 extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-11-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201311`
+				) as `201311`,
+				(select count(`a`.`id`) from `g_person` `a` where `a`.`religion_id` = 1 AND  
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-12-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-12-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201312`
 
 
 
@@ -3934,7 +4104,7 @@ class gPerson2 extends BaseModel {
             $_data[] = (int) $row['201309'];
             $_data[] = (int) $row['201310'];
             $_data[] = (int) $row['201311'];
-            //$_data[] = (int) $row['201312'];
+            $_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);

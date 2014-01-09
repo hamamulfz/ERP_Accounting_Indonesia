@@ -6,6 +6,9 @@ $this->widget('bootstrap.widgets.TbMenu', array(
         array('label' => 'Yii Log', 'url' => Yii::app()->createUrl('/sAdmin/yiiLog')),
         array('label' => 'All User History', 'url' => Yii::app()->createUrl('/sAdmin/userHistory'), 'active' => true),
     ),
+    'htmlOptions'=>array(
+        'style'=>'padding:0',
+    )
 ));
 ?>
 

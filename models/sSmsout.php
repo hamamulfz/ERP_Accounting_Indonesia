@@ -125,7 +125,7 @@ class sSmsout extends BaseModel {
     }
     
     
-    public function getPending() {
+    public static function getPending() {
 		$rawData=Yii::app()->db->createCommand('SELECT count(*) FROM outbox')->queryScalar();
 		
 		return $rawData; 

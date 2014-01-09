@@ -97,6 +97,7 @@ class gBiPerson extends BaseModel {
             'experience' => 'Experience',
             'family' => 'Family',
             'c_pathfoto' => 'PhotoPath',
+            'superior_name' => 'Superior Name',
         );
     }
 

@@ -46,7 +46,7 @@ class gPermission extends BaseModel {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('parent_id, input_date, start_date, permission_type_id, approved_id', 'required'),
+            array('parent_id, input_date, start_date, permission_type_id, approved_id,permission_reason', 'required'),
             array('parent_id, number_of_day, permission_type_id, approved_id, created_date, created_by, updated_date, updated_by', 'numerical', 'integerOnly' => true),
             array('permission_reason', 'length', 'max' => 300),
             array('start_date, end_date', 'date', 'format' => 'dd-MM-yyyy hh:mm'),
@@ -253,12 +253,25 @@ class gPermission extends BaseModel {
             $model= new sNotification;
             $model->group_id = 1;
             $model->link = 'm1/gPermission/view/id/' . $this->parent_id;
-            $model->content = 'Permission. New Permission created for <read>' . $this->person->employee_name . '</read>';
+            $model->content = 'Permission. New Permission created for <read>' . $this->person->employee_name . '</read> on '
+            					.$this->start_date.' for: '.$this->permission_reason;
             $model->photo_path = $this->person->photoPath;
             $model->save(false);
 
         }
         return true;
     }
+
+    public function afterDelete() {
+		$model= new sNotification;
+		$model->group_id = 1;
+		$model->link = 'm1/gPermission/view/id/' . $this->parent_id;
+		$model->content = 'Permission. Permission deleted for <read>' . $this->person->employee_name . '</read>'. ' that should be on ' .$this->start_date;
+		$model->photo_path = $this->person->photoPath;
+		$model->save(false);
+
+        return true;
+    }
+
 
 }

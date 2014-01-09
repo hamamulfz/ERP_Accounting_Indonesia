@@ -52,6 +52,7 @@ class sNotification extends BaseModel {
     public function relations() {
         return array(
             'reads' => array(self::HAS_MANY, 'sNotificationRead', 'notification_id'),
+            'company' => array(self::BELONGS_TO, 'aOrganization', 'company_id'),
         );
     }
 

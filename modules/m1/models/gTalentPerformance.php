@@ -41,7 +41,7 @@ class gTalentPerformance extends BaseModel {
         return array(
             array('parent_id, input_date, year, pa_value', 'required'),
             array('input_date', 'date', 'format' => 'dd-MM-yyyy'),
-            array('parent_id, year', 'numerical', 'integerOnly' => true),
+            array('parent_id, year,period_id', 'numerical', 'integerOnly' => true),
             array('pa_value, potential', 'length', 'max' => 5),
             array('parent_id', 'UniqueAttributesValidator', 'with'=>'year','message'=>'Double Year Input'),
             array('remark, future_dev', 'length', 'max' => 300),
@@ -59,6 +59,7 @@ class gTalentPerformance extends BaseModel {
         // class name for the relations automatically generated below.
         return array(
             'parent' => array(self::BELONGS_TO, 'gPerson', 'parent_id'),
+            'period' => array(self::BELONGS_TO, 'sParameter', array('period_id' => 'code'), 'condition' => 'type = \'cSemester\''),
         );
     }
 
@@ -71,6 +72,7 @@ class gTalentPerformance extends BaseModel {
             'parent_id' => 'Parent',
             'input_date' => 'Input Date',
             'year' => 'Year',
+            'period_id' => 'Period',
             'amount' => 'Amount',
             'pa_value' => 'PA Value',
             'potential' => 'Category',
@@ -113,5 +115,13 @@ class gTalentPerformance extends BaseModel {
 
         return $_val;
     }
+    
+    public static function getTalentPeriod() {
+    	$period['2013']="2013";
+    	$period['2014']="2014";
+  
+  		return $period; 	
+    }
+
 
 }

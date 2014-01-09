@@ -47,6 +47,9 @@ $this->menu5 = array('Organization');
         $this->widget('bootstrap.widgets.TbMenu', array(
             'type' => 'list',
             'items' => $menu,
+            'htmlOptions'=>array(
+                'style'=>'padding:0',
+            )
         ));
         ?>
 

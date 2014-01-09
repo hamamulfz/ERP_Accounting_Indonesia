@@ -41,4 +41,9 @@ class Default2Controller extends Controller {
         $this->render('compByCareer');
     }
 
+    public function actionRequestMutation() {
+        $this->render('requestMutation');
+    }
+
+
 }

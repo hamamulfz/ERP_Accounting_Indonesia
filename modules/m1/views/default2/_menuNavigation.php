@@ -13,6 +13,11 @@ $this->widget('bootstrap.widgets.TbMenu', array(
         array('label' => 'Employee (Career)', 'icon' => 'th-large', 'url' => Yii::app()->createUrl("/m1/default2/compByCareer")),
         array('label' => 'DATA COMPLETION'),
         array('label' => 'Uncomplete Data', 'icon' => 'list', 'url' => Yii::app()->createUrl("/m1/default2/uncomplete")),
+        array('label' => 'OPERATION'),
+        array('label' => 'Request to Mutation', 'icon' => 'list', 'url' => Yii::app()->createUrl("/m1/default2/requestMutation")),
     ),
+            'htmlOptions'=>array(
+                'style'=>'padding:0',
+            )
 ));
 ?>

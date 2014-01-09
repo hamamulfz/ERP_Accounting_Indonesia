@@ -9,13 +9,14 @@
 	'extraRowColumns'=> array('strategic.name'),
 	//'extraRowExpression' =>  '"<b style=\"padding:20px 0;\">".$data->strategic_objective."</b>"',
 	'columns'=>array(
-		//'strategic.name',
+		//'company_id',
 		array(
-			'header'=>'Strategic Objective',
+			'header'=>'Perspective',
 			'name'=>'strategic.name',
 		),
-		'weight',
+		'strategic_desc',
 		'kpi_desc',
+		'weight',
 		'target',
 		'unit',
 		'remark',

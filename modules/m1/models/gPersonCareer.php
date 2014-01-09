@@ -68,6 +68,8 @@ class gPersonCareer extends BaseModel {
             'department' => array(self::BELONGS_TO, 'aOrganization', 'department_id'),
             'level' => array(self::BELONGS_TO, 'gParamLevel', 'level_id'),
             'status' => array(self::BELONGS_TO, 'sParameter', array('status_id' => 'code'), 'condition' => 'type = \'cPromotion\''),
+            'created' => array(self::BELONGS_TO, 'sUser', 'created_by'),
+            'updated' => array(self::BELONGS_TO, 'sUser', 'updated_by'),
         );
     }
 

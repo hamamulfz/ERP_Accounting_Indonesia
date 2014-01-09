@@ -109,6 +109,7 @@ class hApplicant extends BaseModel {
             'schedule_many' => array(self::HAS_MANY, 'jSelectionPart', 'applicant_id', 'order' => 'created_date DESC'),
             'scheduleC' => array(self::STAT, 'jSelectionPart', 'parent_id'),
             'company' => array(self::BELONGS_TO, 'aOrganization', 'company_id'),
+            'systemrating' => array(self::HAS_ONE, 'hApplicantRating', 'parent_id', 'condition' => 'user_id = 1'),
         );
     }
 

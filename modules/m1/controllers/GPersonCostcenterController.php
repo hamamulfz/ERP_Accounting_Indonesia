@@ -83,7 +83,7 @@ class GPersonCostcenterController extends Controller {
 
         $criteria = new CDbCriteria;
 
-        if (Yii::app()->user->name != "admin") {
+        /*if (Yii::app()->user->name != "admin") {
             $criteria2 = new CDbCriteria;
             $criteria2->condition = '(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' .
                     implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) .
@@ -93,7 +93,7 @@ class GPersonCostcenterController extends Controller {
                     implode(",", sUser::model()->myGroupArray) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
                     implode(",", sUser::model()->myGroupArray) . ')';
             $criteria->mergeWith($criteria2);
-        }
+        } */
 
         if (isset($_GET['pid']) && ($_GET['pid'] != null)) {
             $criteria->condition = '(select c.department_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) = ' . $_GET['pid'];
@@ -134,7 +134,7 @@ class GPersonCostcenterController extends Controller {
     public function loadModel($id) {
         $criteria = new CDbCriteria;
 
-        if (Yii::app()->user->name != "admin") {
+        /*if (Yii::app()->user->name != "admin") {
             $criteria->condition = '(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' .
                     implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) .
                     ') ORDER BY c.start_date DESC LIMIT 1) IN (' .
@@ -142,7 +142,7 @@ class GPersonCostcenterController extends Controller {
                     '(select c2.company_id from g_person_career2 c2 WHERE t.id=c2.parent_id AND c2.company_id IN (' .
                     implode(",", sUser::model()->myGroupArray) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
                     implode(",", sUser::model()->myGroupArray) . ')';
-        }
+        } */
 
         $model = gPerson::model()->findByPk((int) $id, $criteria);
         if ($model === null)
@@ -166,7 +166,7 @@ class GPersonCostcenterController extends Controller {
 
         $res = array();
         if (isset($_GET['term'])) {
-            if (Yii::app()->user->name != "admin") {
+            /*if (Yii::app()->user->name != "admin") {
                 $qtxt = 'SELECT DISTINCT a.employee_name FROM g_person a
 			WHERE a.employee_name LIKE :name AND ' .
                         '((select c.company_id from g_person_career c WHERE a.id=c.parent_id AND c.status_id IN (' .
@@ -177,11 +177,11 @@ class GPersonCostcenterController extends Controller {
                         implode(",", sUser::model()->myGroupArray) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
                         implode(",", sUser::model()->myGroupArray) . ')) ' .
                         'ORDER BY a.employee_name LIMIT 20';
-            } else {
+            } else { */
                 $qtxt = "SELECT DISTINCT a.employee_name FROM g_person a
 			WHERE a.employee_name LIKE :name
 			ORDER BY a.employee_name LIMIT 20";
-            }
+            //}
             $command = Yii::app()->db->createCommand($qtxt);
             $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
             $res = $command->queryColumn();
@@ -193,7 +193,7 @@ class GPersonCostcenterController extends Controller {
     public function actionPersonAutoCompleteId() {
         $res = array();
         if (isset($_GET['term'])) {
-            if (Yii::app()->user->name != "admin") {
+            /*if (Yii::app()->user->name != "admin") {
                 $qtxt = 'SELECT CONCAT(a.employee_name," (",a.employee_code_global,")") as label, a.id as id FROM g_person a
 			WHERE a.employee_name LIKE :name AND ' .
                         '((select c.company_id from g_person_career c WHERE a.id=c.parent_id AND c.status_id IN (' .
@@ -204,11 +204,11 @@ class GPersonCostcenterController extends Controller {
                         implode(",", sUser::model()->myGroupArray) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
                         implode(",", sUser::model()->myGroupArray) . ')) ' .
                         'ORDER BY a.employee_name LIMIT 20';
-            } else {
+            } else { */
                 $qtxt = "SELECT CONCAT(employee_name,' (',employee_code,')') as label, id FROM g_person 
 			WHERE employee_name LIKE :name 
 			ORDER BY employee_name LIMIT 20";
-            }
+            //}
             $command = Yii::app()->db->createCommand($qtxt);
             $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
             $res = $command->queryAll();
@@ -219,7 +219,7 @@ class GPersonCostcenterController extends Controller {
     public function actionPersonAutoCompletePhoto() {
         $res = array();
         if (isset($_GET['term'])) {
-            if (Yii::app()->user->name != "admin") {
+            /*if (Yii::app()->user->name != "admin") {
                 $qtxt = 'SELECT a.employee_name as label, c_pathfoto as photo, a.id as id FROM g_person a
 			WHERE a.employee_name LIKE :name AND' .
                         '((select c.company_id from g_person_career c WHERE a.id=c.parent_id AND c.status_id IN (' .
@@ -230,11 +230,11 @@ class GPersonCostcenterController extends Controller {
                         implode(",", sUser::model()->myGroupArray) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
                         implode(",", sUser::model()->myGroupArray) . ')) ' .
                         'ORDER BY a.employee_name LIMIT 20';
-            } else {
+            } else { */
                 $qtxt = "SELECT employee_name as label, c_pathfoto as photo, id FROM g_person 
 			WHERE employee_name LIKE :name 
 			ORDER BY employee_name LIMIT 20";
-            }
+            //}
             $command = Yii::app()->db->createCommand($qtxt);
             $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
             $res = $command->queryAll();
@@ -266,6 +266,23 @@ class GPersonCostcenterController extends Controller {
         $pdf->report($id);
 
         $pdf->Output();
+    }
+
+
+    public function actionCreateAssignmentAjax($id) {
+        $model = new gPersonCareer2;
+
+        if (isset($_POST['gPersonCareer2'])) {
+            $model->attributes = $_POST['gPersonCareer2'];
+            $model->parent_id = $id;
+
+            if ($model->save()) {
+                EQuickDlgs::checkDialogJsScript();
+                $this->redirect(array('view', 'id' => $id, 'tab' => 'Assignment'));
+            }
+        }
+
+        EQuickDlgs::render('_formCareer2', array('model' => $model));
     }
 
 }

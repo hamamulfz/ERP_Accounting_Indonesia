@@ -171,6 +171,8 @@ class attendanceDetail extends fpdf {
                 $this->Cell($w[13], 6, $model->permission1->name . ". " . $model->remark, 'LR', 0, 'L', $fill);
             } elseif (isset($model->syncPermission)) {
                 $this->Cell($w[13], 6, "#P# " . $model->syncPermission->permission_reason, 'LR', 0, 'L', $fill);
+            } elseif (isset($model->syncLeave)) {
+                $this->Cell($w[13], 6, "#L# " . $model->syncLeave->leave_reason, 'LR', 0, 'L', $fill);
             } else
                 $this->Cell($w[13], 6, $model->remark, 'LR', 0, 'L', $fill);
 

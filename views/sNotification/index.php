@@ -52,14 +52,18 @@ if (Yii::app()->user->name == "admin" || sUser::model()->rightCountM > 2 || !Yii
 			array(
 				'header' => 'Detail',
 				'type' => 'raw',
-				'value' =>'$data->linkReplace',
+				//'value' =>'$data->linkReplace',
+				'value' => function($data) {
+						return $data->linkReplace             
+						. CHtml::tag("div",array('style' => 'color:grey;font-size:12px; margin-bottom:10px;'), ($data->company_id) == 0 ? "All" : $data->company->name);             
+				}
 			),
 			array(
 				'header' => 'Time',
 				'type' =>'raw',
 				'value' => function($data) {
 						return $data->author_name             
-						. CHtml::tag("div",array('style' => 'color:grey;font-size:12px; margin-bottom:10px;'),waktu::nicetime($data->expire));             
+						. CHtml::tag("div",array('style' => 'color:grey;font-size:12px;'),waktu::nicetime($data->expire));
 				}
 			
 			),

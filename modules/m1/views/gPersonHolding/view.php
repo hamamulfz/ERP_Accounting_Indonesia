@@ -11,29 +11,17 @@ $this->menu = array(
 
 $this->menu1 = gPerson::getTopUpdated();
 $this->menu2 = gPerson::getTopCreated();
+
+//$this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gPerson/index'));
+
 ?>
 
-<?php /*
-  <div class="pull-right">
-  <?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
-  'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-  'buttons'=>array(
-  array('label'=>'Person', 'items'=>array(
-  array('label'=>'Leave', 'url'=>Yii::app()->createUrl("/m1/gLeave/view",array("id"=>$model->id))),
-  array('label'=>'Absence', 'url'=>'#'),
-  array('label'=>'Payroll', 'url'=>'#'),
-  array('label'=>'Other Module', 'url'=>'#'),
-  )),
-  ),
-  )); ?>
-  </div>
- */ ?>
+	<?php
+	$this->renderPartial('_search', array(
+		'model' => $model,
+	));
+	?>
 
-<?php
-$this->renderPartial('_search', array(
-    'model' => $model,
-));
-?>
 
 <div class="page-header">
     <h1>

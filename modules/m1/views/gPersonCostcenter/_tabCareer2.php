@@ -1,5 +1,24 @@
 <?php
 
+EQuickDlgs::iframeButton(
+        array(
+            'controllerRoute' => 'm1/gPersonCostcenter/createAssignmentAjax',
+            'actionParams' => array('id' => $model->id),
+            'dialogTitle' => 'Create New Assignment',
+            'dialogWidth' => 800,
+            'dialogHeight' => 600,
+            'openButtonText' => 'New Assignment',
+            // 'closeButtonText' => 'Close',
+            'closeOnAction' => true, //important to invoke the close action in the actionCreate
+            'refreshGridId' => 'g-karir2-grid', //the grid with this id will be refreshed after closing
+            'openButtonHtmlOptions' => array('class' => 'pull-right btn btn-primary'),
+        )
+);
+?> 
+
+
+<?php
+
 $this->widget('bootstrap.widgets.TbGridView', array(
     'id' => 'g-karir2-grid',
     'dataProvider' => gPersonCareer2::model()->search($model->id),

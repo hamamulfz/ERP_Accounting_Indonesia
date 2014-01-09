@@ -15,7 +15,7 @@
 
         <p><?php //echo $data->vacancy_desc;        ?></p>
 
-        <div style="border-color:#cbcbcb;border-style:solid; border-width:1px; padding:2px 4px; margin:5px 0" id="c<?php echo $data->id ?>" >
+        <div style="border-color:#cbcbcb;border-bottom:solid; border-width:1px; padding:2px; margin:5px 0" id="c<?php echo $data->id ?>" >
             <strong>Latest Applicant:</strong>
             <?php
             $max = 0;

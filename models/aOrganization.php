@@ -379,7 +379,7 @@ class aOrganization extends BaseModel {
 
         //Dev
         $criteria = new CDbCriteria;
-        $criteria->order = 'sort';
+        $criteria->order = 'name';
         $criteria->compare('parent_id', 669);
 
         if (Yii::app()->user->name != "admin") {
@@ -394,7 +394,7 @@ class aOrganization extends BaseModel {
 
         //POM
         $criteriaP = new CDbCriteria;
-        $criteriaP->order = 'sort';
+        $criteriaP->order = 'name';
         $criteriaP->compare('parent_id', 670);
 
         if (Yii::app()->user->name != "admin") {
@@ -409,7 +409,7 @@ class aOrganization extends BaseModel {
 
         //HOLDING
         $criteriaH = new CDbCriteria;
-        $criteriaH->order = 'sort';
+        $criteriaH->order = 'name';
         $criteriaH->compare('parent_id', 971);
 
         if (Yii::app()->user->name != "admin") {
@@ -422,9 +422,24 @@ class aOrganization extends BaseModel {
         foreach ($modelsH as $model)
             $_items[$model->getparent->sort . " " . $model->getparent->name][$model->id] = $model->name;
 
+        //EDUCATION
+        $criteriaE = new CDbCriteria;
+        $criteriaE->order = 'name';
+        $criteriaE->compare('parent_id', 2315);
+
+        if (Yii::app()->user->name != "admin") {
+            $criteria6 = new CDbCriteria;
+            $criteria6->condition = 't.id IN (' . implode(",", sUser::model()->myGroupArray) . ')';
+            $criteriaE->mergeWith($criteria6);
+        }
+
+        $modelsE = self::model()->findAll($criteriaE);
+        foreach ($modelsE as $model)
+            $_items[$model->getparent->sort . " " . $model->getparent->name][$model->id] = $model->name;
+
         //OLD_PROJECT
         $criteriaO = new CDbCriteria;
-        $criteriaO->order = 'sort';
+        $criteriaO->order = 'name';
         $criteriaO->compare('parent_id', 1690);
 
         if (Yii::app()->user->name != "admin") {
@@ -432,6 +447,48 @@ class aOrganization extends BaseModel {
             $criteria5->condition = 't.id IN (' . implode(",", sUser::model()->myGroupArray) . ')';
             $criteriaO->mergeWith($criteria5);
         }
+
+        $modelsO = self::model()->findAll($criteriaO);
+        foreach ($modelsO as $model)
+            $_items[$model->getparent->sort . " " . $model->getparent->name][$model->id] = $model->name;
+
+        return $_items;
+    }
+
+    public static function companyDropDownAll() {
+        $_items = array();
+
+        //Dev
+        $criteria = new CDbCriteria;
+        $criteria->order = 'name';
+        $criteria->compare('parent_id', 669);
+
+        $models = self::model()->findAll($criteria);
+        foreach ($models as $model)
+            $_items[$model->getparent->sort . " " . $model->getparent->name][$model->id] = $model->name;
+
+        //POM
+        $criteriaP = new CDbCriteria;
+        $criteriaP->order = 'name';
+        $criteriaP->compare('parent_id', 670);
+
+        $modelsP = self::model()->findAll($criteriaP);
+        foreach ($modelsP as $model)
+            $_items[$model->getparent->sort . " " . $model->getparent->name][$model->id] = $model->name;
+
+        //HOLDING
+        $criteriaH = new CDbCriteria;
+        $criteriaH->order = 'name';
+        $criteriaH->compare('parent_id', 971);
+
+        $modelsH = self::model()->findAll($criteriaH);
+        foreach ($modelsH as $model)
+            $_items[$model->getparent->sort . " " . $model->getparent->name][$model->id] = $model->name;
+
+        //OLD_PROJECT
+        $criteriaO = new CDbCriteria;
+        $criteriaO->order = 'name';
+        $criteriaO->compare('parent_id', 1690);
 
         $modelsO = self::model()->findAll($criteriaO);
         foreach ($modelsO as $model)
@@ -509,6 +566,7 @@ class aOrganization extends BaseModel {
             $_items['label'] = (strlen($model->name) >= 18) ? substr($model->name, 0, 18) . ".." : $model->name;
             $_items['icon'] = 'list';
             $_items['url'] = Yii::app()->createUrl('/m1/gPerson/index', array('pid' => $model->id));
+	        $_items['linkOptions']= array('title'=>$model->name);
             $_itemsmain[] = $_items;
         }
 

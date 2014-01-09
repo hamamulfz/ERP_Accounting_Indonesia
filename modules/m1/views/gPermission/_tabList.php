@@ -13,7 +13,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         'end_date',
         'number_of_day',
         //'work_date',
-        'permission_reason',
+        array(
+            'header' => 'Permission Type - Reason',
+            'type' => 'raw',
+            'value' => function ($data) {
+				return $data->permission_type->name
+				."<br/>" . CHtml::tag('div', array('style' => 'color: #999; font-size: 12px'), $data->permission_reason);
+			},
+        ),
         array(
             'header' => 'State',
             'value' => '$data->approved->name',

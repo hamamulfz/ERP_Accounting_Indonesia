@@ -25,7 +25,7 @@ $this->widget('TbGridView', array(
                 'dialogWidth' => 512, //override the value from the dialog config
                 'dialogHeight' => 530
             ),
-            'visible' => ($this->id == "gPerson")
+            'visible' => ($this->id == "gPerson" && in_array($model->mCompanyId(),sUser::model()->getMyGroupArray()) || Yii::app()->user->name == "admin")
         ),
     ),
 ));

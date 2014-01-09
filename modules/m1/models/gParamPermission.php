@@ -106,7 +106,10 @@ class gParamPermission extends baseModel {
         $criteria->order = 'parent_id, sort';
         $models = self::model()->findAll($criteria);
         foreach ($models as $model)
-            $_items[$model->category->name][$model->id] = $model->name . ' (' . $model->amount . ' days)';
+        	if ($model->amount == "0" || $model->amount == null) {
+	            $_items[$model->category->name][$model->id] = $model->name;
+			} else
+	            $_items[$model->category->name][$model->id] = $model->name . ' (' . $model->amount . ')';
 
         return $_items;
     }

@@ -17,5 +17,9 @@ $this->widget('bootstrap.widgets.TbMenu', array(
         array('label' => 'Employee In/Out', 'icon' => 'list', 'url' => Yii::app()->createUrl("/m1/default/employeeinout")),
         array('label' => 'Black List', 'icon' => 'list', 'url' => Yii::app()->createUrl("/m1/default/blacklist")),
     ),
+    'htmlOptions'=>array(
+    	'style'=>'padding:0',
+    )
+    
 ));
 ?>

@@ -159,6 +159,7 @@ $this->breadcrumbs = array(
             <br/>
         </div>
 
+		<?php /*
         <div style="width:100%">
             <?php
             $this->Widget('ext.highcharts.HighchartsWidget', array(
@@ -230,6 +231,7 @@ $this->breadcrumbs = array(
             ?>
             <br/>
         </div>
+		*/ ?>
     </div>
 </div>
 

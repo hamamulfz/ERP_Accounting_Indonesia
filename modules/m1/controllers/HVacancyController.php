@@ -385,7 +385,6 @@ class HVacancyController extends Controller {
         if (isset($_POST['hVacancy'])) {
             $model->attributes = $_POST['hVacancy'];
             $model->company_id = sUser::model()->myGroup;
-            $mode->timestamp = time();
 
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));

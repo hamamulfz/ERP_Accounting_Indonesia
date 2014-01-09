@@ -128,7 +128,7 @@ class sModule extends BaseModel {
         ));
     }
 
-    public function getTopOther() {
+    public static function getTopOther() {
 
         $models = self::model()->findAll(array('limit' => 10, 'condition' => 'parent_id = 0'));
 

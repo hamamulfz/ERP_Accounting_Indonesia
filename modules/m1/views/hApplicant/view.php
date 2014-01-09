@@ -30,6 +30,23 @@ $this->menu = array(
 <div class="row">
     <div class="span2">
         <p><?php echo $model->photoPath; ?></p>
+
+		<?php         
+		$this->widget('ext.DzRaty.DzRaty', array(
+			'name' => 'id',
+			//'id'=>'star'.$model->id,
+			'value' => (isset($model->systemrating)) ? $model->systemrating->rating : 0,
+			//'data' => array(1,2,3,4,5,6,7,8,9,10,11,12),
+	
+			'options' => array(
+				'readOnly' => TRUE,
+			),
+			//'htmlOptions' => array(
+			//	'class' => 'pull-right'
+			//),
+		));
+		?>
+        
     </div>
     <div class="span7">
         <?php

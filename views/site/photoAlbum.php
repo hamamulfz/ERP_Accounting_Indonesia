@@ -1,8 +1,4 @@
 <?php
-//Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/css/prettyPhoto/jquery.prettyPhoto.js',CClientScript::POS_END);
-?>
-
-<?php
 $this->breadcrumbs = array(
     'Photo News' => array('/site/photo'),
     $id,
@@ -46,7 +42,7 @@ $counter = 1;
         <p><?php echo (isset($xml2)) ? $xml2->children()->description : "" ?></p>
 
         <?php
-        /* 	$this->beginWidget('ext.prettyPhoto.PrettyPhoto', array (
+         	$this->beginWidget('ext.prettyPhoto.PrettyPhoto', array (
           'id'=>'pretty_photo',
           // prettyPhoto options
           'options'=>array(
@@ -54,7 +50,6 @@ $counter = 1;
           'modal'=>true,
           ),
           ));
-         */
         ?>
 
         <?php
@@ -74,7 +69,7 @@ $counter = 1;
         echo $photoAlbumList;
         ?>
 
-        <?php //$this->endWidget('ext.prettyPhoto.PrettyPhoto'); ?>
+        <?php $this->endWidget('ext.prettyPhoto.PrettyPhoto'); ?>
 
     </div>
 </div>

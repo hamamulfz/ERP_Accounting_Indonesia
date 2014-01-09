@@ -1,35 +1,23 @@
 <hr/>
 
 <div class="row">
-    <div class="span3">
+    <div class="span4">
 
         <h4><i class="icon-fa-twitter-sign"></i> Twitter</h4>
 
-        <?php
-/*		$this->widget('ext.new-tweet.Tweets', array(
-			'id' => 'twitter-feed',
-			'csrfToken' => true, // set this to true if you enabled CSRF validation
-			'proxyController' => $this->createUrl('site/get_tweets'), // You need to specify this!
-			//'username' => array('google', 'facebook', 'twitter'), // as you can see you can add an array of usernames
-			'username' => array('peterjkambey'), // as you can see you can add an array of usernames
-			'cssFile' => false, // if you don't want the default CSS file
-			//'cssFile'=>Yii::app()->theme->baseUrl.'/css/tweet-master.css', // customize your twitter css file
-			'options' => array(
-				'avatar_size' => 32,
-				'template' => '{user} {text} - {time} - {reply_action} - {retweet_action} - {favorite_action}',
-				'count' => 3
-			)
-		));
- */       ?>
+			<a class="twitter-timeline" href="https://twitter.com/aplcareer" data-widget-id="403182329515872256">Tweets by @aplcareer</a>
+
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
 
     </div>
-    <div class="span3">
+    <div class="span4">
         <h4><i class="icon-fa-facebook-sign"></i> Facebook</h4>
+
+		<div class="fb-like-box" data-href="https://www.facebook.com/pages/Recruitment-Center-Agung-Podomoro/1383505278551911" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="true" data-show-border="true"></div>
+
     </div>
-    <div class="span3">
+    <div class="span4">
         <h4><i class="icon-fa-linkedin-sign"></i> LinkedIn</h4>
-    </div>
-    <div class="span3">
-        <h4><i class="icon-fa-rss"></i> RSS</h4>
     </div>
 </div>

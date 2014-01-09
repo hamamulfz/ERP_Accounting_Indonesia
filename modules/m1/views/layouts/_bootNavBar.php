@@ -78,6 +78,9 @@ if (!Yii::app()->user->isGuest) {
                         array('label' => 'Learning', 'url' => Yii::app()->createUrl('/site/learning')),
                         array('label' => 'Career', 'url' => (Yii::app()->params['webcareer']), 'linkOptions' => array('target' => '_blank', 'style' => 'background-color:#ddeeee')),
                     ),
+                    'htmlOptions'=>array(
+                        'style'=>'padding:0',
+                    )
                 ));
                 ?>
             </div>

@@ -46,6 +46,22 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gP
         echo $model->photoPath;
         ?>
 
+        <p>
+        <ul class="unstyled">
+            <li style="font-size:11px">Data Completeness <span class="pull-right strong"><?php echo number_format($model->completion, 0) ?>%</span>
+                <?php
+                $this->widget('bootstrap.widgets.TbProgress', array(
+                    'type' => 'success', // 'info', 'success' or 'danger'
+                    'percent' => $model->completion,
+                    'htmlOptions' => array(
+                        'style' => 'height:7px',
+                    )
+                ));
+                ?>
+            </li>
+        </ul>		
+        </p>
+
         <div style="text-align:center; padding:10px 0">
             <?php
             $this->widget('ext.EAjaxUpload.EAjaxUpload', array(

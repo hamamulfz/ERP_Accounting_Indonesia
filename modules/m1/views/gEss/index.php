@@ -1,3 +1,31 @@
+<?php /*
+	$cs=Yii::app()->clientScript;
+	$cs->registerScriptFile(Yii::app()->baseUrl.'/css/snow-effect/snowfall.jquery.js',CClientScript::POS_END);
+
+	Yii::app()->clientScript->registerScript('snow', "
+			$(function() {
+				$(document).snowfall(
+				{
+					flakeCount : 150,        // number
+					flakeColor : '#fff', // string
+					flakeIndex: 999999,     // number
+					minSize : 2,            // number
+					maxSize : 8,            // number
+					minSpeed : 2,           // number
+					maxSpeed : 6,           // number
+					round : true,          // bool
+					shadow : true          // bool
+				}
+				);
+
+
+			});
+
+			");
+*/			
+?>
+
+
 <?php
 $this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
 ?>

@@ -36,7 +36,7 @@ Yii::app()->clientScript->registerScript('datepicker2', "
             <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
             <div class="controls">
                 <?php
-                echo $form->dropDownList($model, 'company_id', aOrganization::model()->companyDropDown(), array(
+                echo $form->dropDownList($model, 'company_id', aOrganization::model()->companyDropDownAll(), array(
                     'empty' => 'Select Company:',
                     'ajax' => array(
                         'type' => 'POST',

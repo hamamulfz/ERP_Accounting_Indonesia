@@ -25,6 +25,9 @@ $this->widget('bootstrap.widgets.TbMenu', array(
     'items' => array(
         array('label' => 'Dash Board', 'url' => Yii::app()->createUrl('/m1/gTalentHolding'), 'active' => true),
     ),
+            'htmlOptions'=>array(
+                'style'=>'padding:0',
+            )
 ));
 */ ?>
 
@@ -39,6 +42,9 @@ $this->widget('bootstrap.widgets.TbMenu', array(
             'url' => Yii::app()->createUrl("/m1/gTalentHolding/index", array("periode" => $periode))),
         array('label' => 'Next Month <i class="icon-fa-chevron-right"></i>', 'url' => Yii::app()->createUrl("/m1/gTalentHolding/index", array("month" => peterFunc::cBeginDateAfter($periode)))),
     ),
+            'htmlOptions'=>array(
+                'style'=>'padding:0',
+            )
 ));
 ?>
 

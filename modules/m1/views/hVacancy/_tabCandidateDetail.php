@@ -12,6 +12,7 @@
         echo CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), $data->applicant->birth_date);
         echo CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), $data->applicant->sex->name . ' ( ' . $data->applicant->maritalStatus() . ' )');
         echo CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), $data->applicant->religion->name);
+        echo CHtml::tag('div', array('style' => 'color: #999; font-size: 11px'), $data->applicant->handphone);
         ?>
     </div>
 </div>

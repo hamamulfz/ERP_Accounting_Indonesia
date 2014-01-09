@@ -108,7 +108,7 @@ class sNotificationGroup extends BaseModel {
         return $_imList;
     }
 
-    public function getTopCreated() {
+    public static function getTopCreated() {
 
         $models = self::model()->findAll(array('limit' => 10, 'order' => 'created_date DESC'));
 
@@ -121,7 +121,7 @@ class sNotificationGroup extends BaseModel {
         return $returnarray;
     }
 
-    public function getTopUpdated() {
+    public static function getTopUpdated() {
 
         $models = self::model()->findAll(array('limit' => 10, 'order' => 'updated_date DESC'));
 

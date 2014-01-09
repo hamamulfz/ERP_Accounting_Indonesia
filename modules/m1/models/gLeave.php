@@ -308,11 +308,23 @@ class gLeave extends BaseModel {
             $model= new sNotification;
             $model->group_id = 1;
             $model->link = 'm1/gLeave/view/id/' . $this->parent_id;
-            $model->content = 'Leave. New Leave created for <read>' . $this->person->employee_name . '</read>';
+            $model->content = 'Leave. New Leave created for <read>' . $this->person->employee_name . '</read> on ' 
+            					.$this->start_date.' for: '.$this->leave_reason;
             $model->photo_path = $this->person->photoPath;
             $model->save(false);
 
         }
+        return true;
+    }
+
+    public function afterDelete() {
+		$model= new sNotification;
+		$model->group_id = 1;
+		$model->link = 'm1/gLeave/view/id/' . $this->parent_id;
+		$model->content = 'Leave. Leave deleted for <read>' . $this->person->employee_name . '</read>'. ' that should be on ' .$this->start_date;
+		$model->photo_path = $this->person->photoPath;
+		$model->save(false);
+
         return true;
     }
 

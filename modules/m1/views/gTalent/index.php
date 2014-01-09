@@ -19,7 +19,7 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gT
 <div class="page-header">
     <h1>
         <i class="icon-fa-beaker"></i>
-        Talent
+        Performance
     </h1>
 </div>
 

@@ -1,16 +1,16 @@
 <style>
 .ticker {
-	height: 65px;
+	height: 100px;
 	overflow: hidden;
 	list-style-type: none;
 }
 
 #ticker_02 {
-	height: 65px;
+	height: 100px;
 }
 
 .ticker li {
-	height: 65px;
+	height: 100px;
 }
 </style>
 
@@ -21,13 +21,13 @@
     </ul>
 </div>
 
-<ul id="ticker_02" class="ticker";>
+<ul style="margin:0" id="ticker_02" class="ticker";>
     <?php
     $notifiche = sNotification::getReminder();
 
     foreach ($notifiche as $notifica) {
         echo CHtml::openTag('li', array());
-        echo CHtml::tag('div',array('style'=>'width:50px;margin-right:10px;float:left'),$notifica->photoPath);
+        echo CHtml::tag('div',array('style'=>'width:75px;margin-right:10px;float:left'),$notifica->photoPath);
         echo CHtml::link($notifica->mStatus() . ". " . strtoupper($notifica->employee_name) ." ".$notifica->mStatus(). " status is " . $notifica->countContract(), Yii::app()->createUrl('/m1/gPerson/view', array('id' => $notifica->id)));
         echo CHtml::closeTag('li');
     }
@@ -43,3 +43,11 @@
 
 
 </script>
+
+<div class="pull-right">
+    <p>
+        <strong><?php echo CHtml::link('<i class="fam-add"></i> Probation/Contract Index', Yii::app()->createUrl('/m1/default/probationcontract')); ?></strong>				
+    </p>
+</div>
+
+<br/>

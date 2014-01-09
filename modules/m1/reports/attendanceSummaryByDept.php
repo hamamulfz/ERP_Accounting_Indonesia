@@ -47,7 +47,7 @@ class attendanceSummaryByDept extends fpdf {
 
         $this->Cell(0, 1, '', 'B');
         $this->Ln();
-        $this->SetFont('Arial', 'B', 9);
+        $this->SetFont('Arial', 'B', 7);
         $this->Cell($w[0], 4, 'No', 'LTR', 0, 'C');
         $this->Cell($w[1], 4, 'Nama', 'LTR', 0, 'C');
         $this->Cell($w[2], 4, 'Nama Jabatan', 'LTR', 0, 'C');
@@ -57,8 +57,8 @@ class attendanceSummaryByDept extends fpdf {
         $this->Cell($w[7] + $w[8], 4, 'PULANG CEPAT', 1, 0, 'C');
         $this->Cell($w[9], 4, 'TAD', 'LTR', 0, 'C');
         $this->Cell($w[10], 4, 'TAP', 'LTR', 0, 'C');
-        $this->Cell($w[11], 4, 'IJIN', 'LTR', 0, 'C');
-        $this->Cell($w[12], 4, 'KETERANGAN', 'LTR', 0, 'C');
+        $this->Cell($w[11]+$w[12], 4, 'IJIN', 1, 0, 'C');
+        $this->Cell($w[13], 4, 'KETERANGAN', 'LTR', 0, 'C');
         $this->Ln();
         $this->Cell($w[0], 4, '', 'BLR', 0, 'C');
         $this->Cell($w[1], 4, '', 'BLR', 0, 'C');
@@ -71,13 +71,14 @@ class attendanceSummaryByDept extends fpdf {
         $this->Cell($w[8], 4, 'menit', 'BLR', 0, 'C');
         $this->Cell($w[9], 4, '', 'BLR', 0, 'C');
         $this->Cell($w[10], 4, '', 'BLR', 0, 'C');
-        $this->Cell($w[11], 4, '(sakit)', 'BLR', 0, 'C');
-        $this->Cell($w[12], 4, '', 'BLR', 0, 'C');
+        $this->Cell($w[11], 4, 'sakit', 'BLR', 0, 'C');
+        $this->Cell($w[12], 4, 'special', 'BLR', 0, 'C');
+        $this->Cell($w[13], 4, '', 'BLR', 0, 'C');
         $this->Ln();
     }
 
     function report($rows,$model) {
-        $w = array(8, 49, 58, 10, 10, 15, 15, 15, 15,10,10,10, 52);
+        $w = array(8, 49, 58, 8, 8, 13, 13, 13, 13,8,8,9,9, 60);
         $this->myheader($rows, $w, $model);
         $dept = null;
         $counter = 1;
@@ -111,7 +112,8 @@ class attendanceSummaryByDept extends fpdf {
             $this->Cell($w[10], 7, ($row['tap'] == 0) ? '' : $row['tap'], 'LR', 0, 'C');
             //$this->Cell($w[11], 7, '', 'LR');
             $this->Cell($w[11], 7, ($row['sakit'] == 0) ? '' : $row['sakit'], 'LR', 0, 'C');
-            $this->Cell($w[12], 7, '', 'LR');
+            $this->Cell($w[12], 7, ($row['special'] == 0) ? '' : $row['special'], 'LR', 0, 'C');
+            $this->Cell($w[13], 7, '', 'LR');
             $this->Ln();
             $counter++;
 

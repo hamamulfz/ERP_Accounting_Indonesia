@@ -53,6 +53,8 @@ $this->widget('ext.XDetailView', array(
             'name' => 'freshgrad_id',
             'value' => ($model->freshgrad_id == 1) ? "Yes" : "No",
         ),
+        'expected_sallary',
+        'expected_position',
     //'handphone2',
     //array(
     //		'header'=>'Bank Information',

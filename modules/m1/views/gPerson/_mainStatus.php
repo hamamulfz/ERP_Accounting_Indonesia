@@ -16,10 +16,16 @@
 
  */ ?> 
 
-<?php echo $this->renderPartial('_tabStatus', array("model" => $model, "modelStatus" => $modelStatus)); ?>
+<?php echo $this->renderPartial('_tabStatus', array("model" => $model, "modelStatus" => $modelStatus)); 
+
+	if (in_array($model->mCompanyId(),sUser::model()->getMyGroupArray()) || Yii::app()->user->name == "admin") {
+?>
 
 <h4>New Status</h4>
 
 <?php
 //echo $this->renderPartial('_formStatusAjax', array('id' => $model->id, 'model' => $modelStatus));
-echo $this->renderPartial('_formStatus', array('id' => $model->id, 'model' => $modelStatus));
+		echo $this->renderPartial('_formStatus', array('id' => $model->id, 'model' => $modelStatus));
+		
+}
+?>

@@ -3,8 +3,8 @@
 /* @var $model hVacancy */
 /* @var $form CActiveForm */
 
-$cs = Yii::app()->clientScript;
-$cs->registerScriptFile(Yii::app()->baseUrl . '/css/formatCurrency/jquery.formatCurrency-1.4.0.min.js');
+//$cs = Yii::app()->clientScript;
+//$cs->registerScriptFile(Yii::app()->baseUrl . '/css/formatCurrency/jquery.formatCurrency-1.4.0.min.js');
 
 Yii::app()->clientScript->registerScript('optional', "
 	$('.optional-button').click(function(){
@@ -12,7 +12,7 @@ Yii::app()->clientScript->registerScript('optional', "
 		return false;
 	});
 	
-	$( \"#" . CHtml::activeId($model, 'min_salary') . "\" ).formatCurrency();
+	//$( \"#" . CHtml::activeId($model, 'min_salary') . "\" ).formatCurrency();
 	
 	
 ");

@@ -30,6 +30,8 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->textFieldRow($model, 'name', array('class' => 'span3')); ?>
 
+<?php echo $form->dropDownListRow($model, 'status_id', sParameter::items("cStatus")); ?>
+
 <div class="form-actions">
     <?php //echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-fa-ok"></i> Create':'<i class="icon-fa-ok"></i> Save', array('class'=>'btn', 'type'=>'submit'));  ?>
     <?php

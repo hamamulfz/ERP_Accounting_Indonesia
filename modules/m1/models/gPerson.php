@@ -124,6 +124,10 @@ class gPerson extends BaseModel {
                 //'order' => 'company.start_date DESC',
                 'condition' => 'company.status_id IN (' . implode(',', Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ')',
             ),
+            'companycurrent' =>
+            array(self::HAS_ONE, 'gPersonCareer', 'parent_id',
+                'order' => 'companycurrent.start_date DESC',
+            ),
             'companyfirst' => array(self::HAS_ONE, 'gPersonCareer', 'parent_id', 'order' => 'companyfirst.start_date ASC', 'condition' => 'companyfirst.status_id =1'),
             'companyfirstG' => array(self::HAS_ONE, 'gPersonCareer', 'parent_id', 'order' => 'companyfirstG.start_date ASC', 'condition' => 'companyfirstG.status_id =9'),
             'status' => array(self::HAS_ONE, 'gPersonStatus', 'parent_id', 'order' => 'status.start_date DESC'),
@@ -134,6 +138,14 @@ class gPerson extends BaseModel {
             'user' => array(self::BELONGS_TO, 'sUser', 'userid'),
             'payroll' => array(self::HAS_ONE, 'gPayroll', 'parent_id', 'order' => 'payroll.yearmonth_start DESC'),
             'updated' => array(self::BELONGS_TO, 'sUser', 'updated_by'),
+            'targetSetting' => array(self::HAS_MANY, 'gTalentTargetSetting', 'parent_id'),
+            'targetSettingC' => array(self::STAT, 'gTalentTargetSetting', 'parent_id','select'=>'sum(superior_score*weight)'),
+            'coreCompetencyC' => array(self::STAT, 'gTalentCoreCompetency', 'parent_id',
+            					'select'=>'sum(superior_score * g.weight)',
+            					'join'=>'INNER JOIN g_param_competency g ON t.talent_template_id = g.id'),
+            'leadershipCompetencyC' => array(self::STAT, 'gTalentLeadershipCompetency', 'parent_id',
+            					'select'=>'sum(superior_score * g.weight)',
+            					'join'=>'INNER JOIN g_param_competency g ON t.talent_template_id = g.id'),
         );
     }
 
@@ -199,13 +211,16 @@ class gPerson extends BaseModel {
                 implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) .
                 ') ORDER BY c.start_date DESC LIMIT 1) =' . $id;
 
+        $criteria->order =
+                '(select s.level_id from g_person_career s WHERE t.id=s.parent_id ORDER BY s.start_date DESC LIMIT 1)';
+
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
 
         //$dataProvider= new CActiveDataProvider($this, array(
         $dataProvider = new CActiveDataProvider(gPerson::model()->cache(3600, $dependency, 2), array(
             'criteria' => $criteria,
             'pagination' => array(
-                'pageSize' => 20,
+                'pageSize' => 45,
             ),
                 //'pagination'=>false,
         ));
@@ -473,6 +488,24 @@ class gPerson extends BaseModel {
             return null;
     }
 
+    public function countJoinDateB() {
+        if (isset($this->company) && !in_array((int) $this->mStatusId(), Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY)) {
+            $diff = abs(strtotime($this->companycurrent->start_date) - time());
+            $years = floor($diff / (365 * 60 * 60 * 24));
+            $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+            $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+
+			if ($years == 0 && $months == 0 ) 
+	            return $days . " days";
+  			elseif (!$years != 0 ) 
+	            return $months . " months, " . $days . " days";
+  			else 
+	            return $years . " years, " . $months . " months, " . $days . " days";
+      }
+        else
+            return null;
+    }
+
     public function countContract() {
         if (isset($this->companyfirst) && !in_array((int) $this->mStatusId(), Yii::app()->getModule('m1')->PARAM_RESIGN_ARRAY) && $this->mStatusId() != 6) {
             if (isset($this->status->end_date)) {
@@ -652,7 +685,7 @@ class gPerson extends BaseModel {
         $criteria->order = 'start_date DESC';
         $criteria->addInCondition("status_id", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY);
         $_value = gPersonCareer::model()->find($criteria);
-        if ($_value->superior_id != null && isset($_value->superior)) {
+        if ( isset($_value->superior) && $_value->superior_id != null) {
             return CHtml::link($_value->superior->employee_name, 
             Yii::app()->createUrl('m1/gPerson/view', array('id' => $_value->superior_id)));
         }
@@ -712,6 +745,19 @@ class gPerson extends BaseModel {
             return $_value->level_id;
     }
 
+    public function mGolonganId() {
+        $criteria = new CDbCriteria;
+        $criteria->compare('parent_id', $this->id);
+        $criteria->addInCondition("status_id", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY);
+        $criteria->order = 'start_date DESC';
+        $_value = gPersonCareer::model()->find($criteria);
+        if ($_value == null) {
+            return null;
+        }
+        else
+            return $_value->level->golongan;
+    }
+
     public function mDepartment() {
         $criteria = new CDbCriteria;
         $criteria->compare('parent_id', $this->id);
@@ -749,6 +795,19 @@ class gPerson extends BaseModel {
         }
         else
             return $_value->start_date;
+    }
+
+    public function mJoinTypeId() {
+        $criteria = new CDbCriteria;
+        $criteria->compare('parent_id', $this->id);
+        $criteria->addInCondition('status_id', Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY);
+        $criteria->order = 'start_date DESC';
+        $_value = gPersonCareer::model()->find($criteria);
+        if ($_value == null) {
+            return null;
+        }
+        else
+            return $_value->status_id;
     }
 
     public function mStatus() {
@@ -842,6 +901,17 @@ class gPerson extends BaseModel {
         }
         return true;
     }
+
+    public function afterDelete() {
+		$model= new sNotification;
+		$model->group_id = 1;
+		$model->link = 'm1/gPerson/';
+		$model->content = 'Person. Employee deleted for ' . $this->employee_name;
+		$model->save();
+		
+        return true;
+    }
+
 
     public function employeeRandom() {
         $criteria = new CDbCriteria;
@@ -1167,8 +1237,8 @@ class gPerson extends BaseModel {
 
         $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
 
-        $rawData = Yii::app()->db->cache(3600, $dependency)->createCommand($sql)->queryAll();
-        //$rawData=Yii::app()->db->createCommand($sql)->queryAll();
+        //$rawData = Yii::app()->db->cache(3600, $dependency)->createCommand($sql)->queryAll();
+        $rawData=Yii::app()->db->createCommand($sql)->queryAll();
         $dataProvider = new CArrayDataProvider($rawData, array(
             'id' => 'uncomplete',
             'sort' => array(
@@ -1292,6 +1362,26 @@ class gPerson extends BaseModel {
             )
         ));
     }
+    
+    public function employeeMutationRequest() {
+		$criteria = new CDbCriteria;
+
+		$criteria2 = new CDbCriteria;
+		$criteria2->condition = '
+	        (select `s`.`status_id` AS `status_id` from `erp_apl`.`g_person_status` `s`
+            	where `s`.`parent_id` = `t`.`id` order by `s`.`start_date` desc limit 1) = 14
+				
+				';
+		$criteria->mergeWith($criteria2);
+
+        $criteria->order = 'updated_date DESC';
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => false,
+        ));
+    }
+
     
 
 }

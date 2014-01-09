@@ -3,7 +3,7 @@
     <script>
 
         $(document).ready(function() {
-            $('#tabs a:contains("<?php echo CHttpRequest::getParam("tab"); ?>")').tab('show');
+            $('#tabs a:contains("<?php echo Yii::app()->request->getParam("tab"); ?>")').tab('show');
         });
 
     </script>
@@ -58,7 +58,7 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gP
             'tabs' => array(
                 array('id' => 'tab6', 'label' => 'Cost Center', 'content' => $this->renderPartial("_tabCostcenter", array("model" => $model, "modelCostcenter" => $modelCostcenter), true), 'active' => true),
                 array('id' => 'tab1', 'label' => 'Detail', 'content' => $this->renderPartial("/gPerson/_tabDetail", array("model" => $model), true)),
-                array('id' => 'tab12', 'label' => 'Assignment', 'content' => $this->renderPartial("/gPerson/_mainCareer2", array("model" => $model), true)),
+                array('id' => 'tab12', 'label' => 'Assignment', 'content' => $this->renderPartial("_tabCareer2", array("model" => $model), true)),
             ),
         ));
         ?>

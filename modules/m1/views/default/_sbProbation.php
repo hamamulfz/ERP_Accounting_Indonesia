@@ -38,7 +38,8 @@ $models = gPerson::model()->findAll($criteria);
             <div class="span2">
                 <?php echo $data->gPersonLink; ?>
                 <div style="font-size:10px;">
-                    <?php echo (isset($data->company)) ? $data->company->department->name : ''; ?>
+                    <?php echo $data->mDepartment(); ?>
+                    <?php //echo (isset($data->company)) ? $data->company->department->name : ''; ?>
                     <br/>
                     <?php echo $data->mStatus(); ?>
                     <br/>

@@ -1,3 +1,14 @@
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=147658935414729";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+
 <?php
 $isExist = is_file(Yii::app()->basePath . "/views/site/theme.php");
 if ($isExist) {
@@ -17,6 +28,8 @@ $this->pageTitle = Yii::app()->name . ' - Home';
         <?php
         $this->renderPartial("_fullArticle")
         ?>
+
+
 
     </div>
     <div class="row">
@@ -44,6 +57,7 @@ $this->pageTitle = Yii::app()->name . ' - Home';
                         <strong><?php echo CHtml::link('News Index', Yii::app()->createUrl('/sCompanyNews')); ?></strong>				
                     </p>
                 </div>
+
 
             </div>
         </div>

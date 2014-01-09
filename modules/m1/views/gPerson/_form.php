@@ -26,7 +26,28 @@ Yii::app()->clientScript->registerScript('datepicker4', "
 		'yearRange' : '" . date("Y") . ":" . date("Y", strtotime("+20 year")) . "',
 		});
 		
-});
+		$( \"#" . CHtml::activeId($model, 'employee_name') . "\" ).autocomplete({
+			'minLength' : 7,
+			'source': ' " . Yii::app()->createUrl('/m1/gPerson/personAutoCompletePhotoCreate') . "',
+			'focus': function( event, ui ) {
+			$(\"#" . CHtml::activeId($model, 'employee_name') . "\").val(ui.item.employee_name);
+			return false;
+			},
+			'select': function( event, ui ) {
+			$(\"#" . CHtml::activeId($model, 'employee_name') . "\").val(ui.item.employee_name);
+			return false;
+			},
+			
+		})
+		.data( \"autocomplete\" )._renderItem = function( ul, item ) {
+			return $( \"<li></li>\")
+			.data( \"item.autocomplete\", item )
+			.append('<a class=\'userautocompletelink\'><img src=\'" . Yii::app()->baseUrl . "/shareimages/hr/employee/thumb/" . "'+item.photo+'\'/><h5>'+item.label+'</h5></a>')
+			.appendTo( ul );
+		};
+		
+		
+		});
 
 		");
 ?>
@@ -52,9 +73,9 @@ $form = $this->beginWidget('TbActiveForm', array(
 
         <div class="row">
             <div class="span4">
-                <?php echo $form->textFieldRow($model, 'employee_code', array('class' => 'span2')); ?>
-
                 <?php echo $form->textFieldRow($model, 'employee_name', array('class' => 'span3')); ?>
+
+                <?php echo $form->textFieldRow($model, 'employee_code', array('class' => 'span2')); ?>
 
                 <?php echo $form->textFieldRow($model, 'birth_place', array('class' => 'span2')); ?>
 
@@ -143,7 +164,7 @@ $form = $this->beginWidget('TbActiveForm', array(
                 <?php //echo $form->textFieldRow($model, 'handphone', array("class" => "input-medium bfh-phone", "data-format" => "+62 ddd dddddddddd")); ?>
                 <?php echo $form->textFieldRow($model, 'handphone', array("class" => "input-medium")); ?>
 
-                <?php echo $form->textFieldRow($model, 'handphone2', array()); ?>
+                <?php //echo $form->textFieldRow($model, 'handphone2', array()); ?>
             </div>
         </div>
 

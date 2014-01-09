@@ -38,6 +38,9 @@ $this->widget('bootstrap.widgets.TbMenu', array(
         array('label' => 'Employee On Leave', 'url' => Yii::app()->createUrl('/m1/gLeave/onLeave'), 'active' => true),
         array('label' => 'Recent Leave', 'url' => Yii::app()->createUrl('/m1/gLeave/onRecent')),
     ),
+            'htmlOptions'=>array(
+                'style'=>'padding:0',
+            )
 ));
 ?>
 
