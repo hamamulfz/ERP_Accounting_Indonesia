@@ -62,8 +62,8 @@ $this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
                     )
                 ),
                 //'leave_reason',
-                'mass_leave',
-                'person_leave',
+                //'mass_leave',
+                //'person_leave',
                 'balance',
                 //'replacement',
                 array(

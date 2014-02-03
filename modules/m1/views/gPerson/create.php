@@ -11,6 +11,9 @@ $this->menu = array(
 
 $this->menu1 = gPerson::getTopUpdated();
 $this->menu2 = gPerson::getTopCreated();
+
+$this->message='<strong>Aware!</strong> Please, check for posibility re-entry the existing or resigned employee. Contact Holding for more information...';
+
 ?>
 
 <div class="page-header">

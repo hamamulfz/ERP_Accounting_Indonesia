@@ -6,26 +6,30 @@ Yii::app()->getClientScript()
 
 
 Yii::app()->clientScript->registerScript('datepicker', "
-		$(function() {
+	$(function() {
 		$( \"#" . CHtml::activeId($model, 'input_date') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
-});
+		});
+		
 		$( \"#" . CHtml::activeId($model, 'start_date') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
 		'minDate'	: +1,
-});
+		});
+		
 		$( \"#" . CHtml::activeId($model, 'end_date') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
 		'minDate'	: +1,
-});
+		});
+		
 		$( \"#" . CHtml::activeId($model, 'work_date') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
-});
+		});
+		
 		$( \"#" . CHtml::activeId($model, 'input_date') . "\" ).mask('99-99-9999');
 		$( \"#" . CHtml::activeId($model, 'start_date') . "\" ).mask('99-99-9999');
 		$( \"#" . CHtml::activeId($model, 'end_date') . "\" ).mask('99-99-9999');
 		$( \"#" . CHtml::activeId($model, 'work_date') . "\" ).mask('99-99-9999');
-});
+	});
 
 		$( \"textarea#" . CHtml::activeId($model, 'leave_reason') . "\" ).maxlength({
 			alwaysShow: true
@@ -33,6 +37,8 @@ Yii::app()->clientScript->registerScript('datepicker', "
 		
 		
 		");
+		
+        $this->message = "<strong>Info Penting!</strong> Sesuai prosedur, setelah mengisi seluruh kolom inputan, simpan kemudian cetak formulir cuti  ini. Selanjutnya, ditanda tangan atasan dan diserahkan ke bagian HRD";
 ?>
 
 <?php

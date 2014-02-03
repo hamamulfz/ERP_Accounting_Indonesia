@@ -28,7 +28,7 @@ if ($models) {
     ));
     ?>
 
-	<ul id="ticker_02" class="ticker";>
+	<ul id="ticker_02" class="ticker" style="margin:0";>
 
     <?php foreach ($models as $model) { ?>
 		<li>

@@ -27,8 +27,8 @@
 
     foreach ($notifiche as $notifica) {
         echo CHtml::openTag('li', array());
-        echo CHtml::tag('div',array('style'=>'width:75px;margin-right:10px;float:left'),$notifica->photoPath);
-        echo CHtml::link($notifica->mStatus() . ". " . strtoupper($notifica->employee_name) ." ".$notifica->mStatus(). " status is " . $notifica->countContract(), Yii::app()->createUrl('/m1/gPerson/view', array('id' => $notifica->id)));
+        echo CHtml::tag('div',array('style'=>'width:70px;margin-right:10px;float:left'),$notifica->photoPath);
+        echo CHtml::link($notifica->getReminder(), Yii::app()->createUrl('/m1/gPerson/view', array('id' => $notifica->id)));
         echo CHtml::closeTag('li');
     }
     ?>

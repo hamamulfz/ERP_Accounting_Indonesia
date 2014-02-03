@@ -43,8 +43,8 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->textAreaRow($model, 'leave_reason', array('class' => 'span5', 'rows' => 4)); ?>
 
-<?php echo $form->textFieldRow($model, 'mass_leave'); ?>
-<?php echo $form->textFieldRow($model, 'person_leave'); ?>
+<?php //echo $form->textFieldRow($model, 'mass_leave'); ?>
+<?php //echo $form->textFieldRow($model, 'person_leave'); ?>
 <?php echo $form->textFieldRow($model, 'balance'); ?>
 
 <?php //echo $form->textFieldRow($model,'replacement',array('class'=>'span5','maxlength'=>10,'hint'=>'Your office mate as replacement during your leave')); ?>

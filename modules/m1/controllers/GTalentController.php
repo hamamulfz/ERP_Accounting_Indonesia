@@ -45,7 +45,9 @@ class GTalentController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id,$year=0) {
+    
+    	if ($year == 0) $year = date('Y');
 
 	    $this->layout = '//layouts/column1';
 
@@ -67,6 +69,7 @@ class GTalentController extends Controller {
             'modelCoreCompetency' => $modelCoreCompetency,
             'modelLeadershipCompetency' => $modelLeadershipCompetency,
             'modelWorkResult' => $modelWorkResult,
+            'year' => $year,
         ));
     }
 
@@ -139,6 +142,7 @@ class GTalentController extends Controller {
 
         if (isset($_POST['gTalentTargetSetting'])) {
             $model->attributes = $_POST['gTalentTargetSetting'];
+            $model->year = date('Y');
             $model->parent_id = $id;
             if ($model->save())
                 $this->redirect(array('view', 'id' => $id, 'tab' => 'Work Result'));

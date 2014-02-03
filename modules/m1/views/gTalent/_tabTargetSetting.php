@@ -2,7 +2,7 @@
 	$this->widget('bootstrap.widgets.TbGroupGridView', array(
 	'id'=>'g-target-setting-grid1',
 	//'dataProvider'=>$model->search(),
-    'dataProvider' => gTalentTargetSetting::model()->search($model->id),
+    'dataProvider' => gTalentTargetSetting::model()->search($model->id,$year),
 	'type'=>'condensed',
 	//'filter'=>$model,
 	'template'=>'{items}',
@@ -10,6 +10,7 @@
 	//'extraRowExpression' =>  '"<b style=\"padding:20px 0;\">".$data->strategic_objective."</b>"',
 	'columns'=>array(
 		//'company_id',
+		'year',
 		array(
 			'header'=>'Perspective',
 			'name'=>'strategic.name',

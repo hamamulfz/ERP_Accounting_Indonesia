@@ -83,18 +83,20 @@ class leaveForm extends fpdf {
         $this->SetFont('Arial', '', 10);
 
 
-        $this->Cell(140, 6, 'I.   Total Hak Cuti Tahunan periode tahun:  ' . date("Y", strtotime(date("d-m-Y") . "-1 year")) . ' / ' . date("Y"), 'L');
+        $this->Cell(140, 6, 'I.   Total Hak Cuti Tahunan ( + perpanjangan cuti , jika ada) periode tahun:  ' . date("Y", strtotime(date("d-m-Y") . "-1 year")) . ' / ' . date("Y"), 'L');
         $this->Cell(5, 6, ': ');
 
         if (strtotime($model->start_date) >= strtotime($model->person->companyfirst->start_date . "+1 year")) {
-            if ($model->person->leaveBalance->balance >= 12) {
+            //if ($model->person->leaveBalance->balance >= 12) {
                 $cJoinDate = (int) $model->person->leaveGenerated->balance;
-            }
-            else
-                $cJoinDate = 12;
+            //}
+            //else
+            //    $cJoinDate = 12;
         }
         else
             $cJoinDate = 0;
+            
+        
 
         $this->Cell(10, 6, $cJoinDate, '', 0, 'R');
         $this->Cell(0, 6, 'Hari', 'R');
@@ -108,16 +110,19 @@ class leaveForm extends fpdf {
         $this->Cell(110, 4, '            1. Hutang Cuti Periode sebelumnya', 'L');
         $this->Cell(5, 4, ': ');
         $this->Cell(10, 4, (int) $cJoinDate - $model->person->leaveGenerated->balance, '', 0, 'R');
+        //$this->Cell(10, 4, '', '', 0, 'R');
         $this->Cell(0, 4, 'Hari', 'R');
         $this->Ln();
         $this->Cell(110, 4, '            2. Cuti Masal', 'L');
         $this->Cell(5, 4, ': ');
         $this->Cell(10, 4, $model->person->leaveGenerated->mass_leave - $model->person->leaveBalance->mass_leave, '', 0, 'R');
+        //$this->Cell(10, 4, '', '', 0, 'R');
         $this->Cell(0, 4, 'Hari', 'R');
         $this->Ln();
         $this->Cell(110, 4, '            3. Cuti Pribadi', 'L');
         $this->Cell(5, 4, ': ');
         $this->Cell(10, 4, $model->person->leaveGenerated->person_leave - $model->person->leaveBalance->person_leave, '', 0, 'R');
+        //$this->Cell(10, 4, '', '', 0, 'R');
         $this->Cell(0, 4, 'Hari', 'R');
         $this->Ln();
         $this->SetFont('Arial', '', 10);

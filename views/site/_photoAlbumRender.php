@@ -51,12 +51,7 @@
                                     }
                                     else
                                         $photo = Yii::app()->request->baseUrl . "/shareimages/photo/" . $id . "/" . $content;
-
-                                    //echo CHtml::link(CHtml::image($photo, 'image'),
-                                    //Yii::app()->createUrl("/shareimages/photo/".$id."/".$content),array("target"=>"_blank")); 
-                                    echo "<a rel='prettyPhoto[gallery1]' href='" . Yii::app()->baseUrl . "/shareimages/photo/" . $id . "/" . $content . "'>" . CHtml::image($photo, 'image') . "</a>";
-                                    //echo $id."/".$content;
-                                    //echo CHtml::image($photo, 'image'); 
+	                                    echo "<a href='" . Yii::app()->baseUrl . "/shareimages/photo/" . $id . "/" . $content . "' data-lightbox>" . CHtml::image($photo, 'image') . "</a>";
                                     ?>
                                     <h5><? echo peterFunc::shorten_string($_title[$filename[0]], 3) ?></h5>
                                     <p><? echo peterFunc::shorten_string($_desc[$filename[0]], 10) ?></p>
@@ -88,18 +83,3 @@
 <?php } ?>
 
 </ul>
-
-<!-- modal-gallery is the modal dialog used for the image gallery -->
-<div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
-    <div class="modal-header">
-        <a class="close" data-dismiss="modal">&times;</a>
-        <h3 class="modal-title"></h3>
-    </div>
-    <div class="modal-body"><div class="modal-image"></div></div>
-    <div class="modal-footer">
-        <a class="btn btn-primary modal-next">Next <i class="icon-fa-arrow-right icon-fa-white"></i></a>
-        <a class="btn btn-info modal-prev"><i class="icon-fa-arrow-left icon-fa-white"></i> Previous</a>
-        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000"><i class="icon-fa-play icon-fa-white"></i> Slideshow</a>
-        <a class="btn modal-download" target="_blank"><i class="icon-fa-download"></i> Download</a>
-    </div>
-</div>

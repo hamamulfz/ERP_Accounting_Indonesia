@@ -26,7 +26,7 @@ class sUser extends CActiveRecord {
             array('status_id, default_group, created_date, sso_id', 'numerical', 'integerOnly' => true),
             array('username, created_by,hash_type', 'length', 'max' => 25),
             array('salt, sso_name, photo_path', 'length', 'max' => 100),
-            array('password', 'length', 'max' => 200),
+            array('password, password_repeat', 'length', 'min'=>4),
             array('full_name', 'length', 'max' => 50),
             array('last_login,status_id', 'safe'),
             array('username, default_group, status_id,sso_id, photo_path', 'safe', 'on' => 'search'),

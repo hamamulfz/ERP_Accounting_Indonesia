@@ -291,7 +291,7 @@ class GPersonController extends Controller {
         }
 
 
-		Yii::app()->user->setFlash('info', '<strong>Aware!</strong> Please, check for posibility re-entry the existing or resigned employee. Contact Holding for more information...');
+		//Yii::app()->user->setFlash('info', '<strong>Aware!</strong> Please, check for posibility re-entry the existing or resigned employee. Contact Holding for more information...');
 
         $this->render('create', array(
             'model' => $model,
@@ -938,7 +938,7 @@ class GPersonController extends Controller {
 
     public function actionDeptUpdate() {
         $cat_id = $_POST['gPersonCareer']['company_id'];
-        $models = aOrganization::model()->findAll(array('condition' => 'parent_id = ' . $cat_id, 'order' => 'id'));
+        $models = aOrganization::model()->findAll(array('condition' => 'status_id = 1 AND parent_id = ' . $cat_id, 'order' => 'id'));
 
         foreach ($models as $model) {
             foreach ($model->childs as $mod)

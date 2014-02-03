@@ -46,10 +46,14 @@ return array(
         'm3', //Budget Controller
         'm4', //Asset Management
         'm5', //Process Production
+        'm6', //Universitas
         /**/
         'gii' => array(
             'class' => 'system.gii.GiiModule',
             'password' => '1234qwe',
+			'generatorPaths' => array(
+          		'bootstrap.gii',
+       		),
         // If removed, Gii defaults to localhost only. Edit carefully to taste.
         //'ipFilters' => array('127.0.0.1', '::1'),
         ),

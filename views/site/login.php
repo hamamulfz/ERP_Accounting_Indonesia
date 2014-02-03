@@ -64,5 +64,5 @@ $this->pageTitle = Yii::app()->name . ' - Home';
     </div>
 </div>
 
-<?php $this->renderPartial("_tabSocNet", array()) ?>
+<?php //$this->renderPartial("_tabSocNet", array()) ?>
 

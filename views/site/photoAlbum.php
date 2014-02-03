@@ -3,6 +3,17 @@ $this->breadcrumbs = array(
     'Photo News' => array('/site/photo'),
     $id,
 );
+
+Yii::app()->getClientScript()
+        ->registerScriptFile(Yii::app()->baseUrl . "/css/bootstrap-lightbox/jquery.bootstrap.simple.lightbox.js")
+        ->registerCssFile(Yii::app()->baseUrl . '/css/bootstrap-lightbox/jquery.simple.lightbox.css');
+
+Yii::app()->clientScript->registerScript('lightbox', "
+		$('[data-lightbox]').simpleLightbox();		
+		
+		");
+
+
 ?>
 
 <?php
@@ -41,16 +52,6 @@ $counter = 1;
 
         <p><?php echo (isset($xml2)) ? $xml2->children()->description : "" ?></p>
 
-        <?php
-         	$this->beginWidget('ext.prettyPhoto.PrettyPhoto', array (
-          'id'=>'pretty_photo',
-          // prettyPhoto options
-          'options'=>array(
-          'opacity'=>0.60,
-          'modal'=>true,
-          ),
-          ));
-        ?>
 
         <?php
         $counter = 1;
@@ -68,8 +69,6 @@ $counter = 1;
 
         echo $photoAlbumList;
         ?>
-
-        <?php $this->endWidget('ext.prettyPhoto.PrettyPhoto'); ?>
 
     </div>
 </div>

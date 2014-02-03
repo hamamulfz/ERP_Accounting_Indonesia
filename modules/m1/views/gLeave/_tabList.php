@@ -33,8 +33,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         'end_date',
         'number_of_day',
         'leave_reason',
-        'mass_leave',
-        'person_leave',
+        //'mass_leave',
+        //'person_leave',
         'balance',
         array(
             'header' => 'State',

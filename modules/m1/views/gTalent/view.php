@@ -72,7 +72,8 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gT
     <div class="span3">
         <table width="100%">
             <tr bgcolor="EAEFFF">
-                <td  align="center"><h3> <?php echo $model->targetSettingC ?></h3>
+                <td  align="center"><h3> <?php  if ($model->mGolonganId() >= 10) {  echo $model->targetSettingC; } else echo $model->workResultC; ?></h3>
+
                     <h6 align="center" ><font COLOR="#999">Work Result</font></h6></td>
             </tr>
         </table>
@@ -99,7 +100,7 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gT
     <div class="span3">
         <table width="100%">
             <tr bgcolor="EAEFFF">
-                <td  align="center"><h3> <?php echo $model->targetSettingC + $model->coreCompetencyC + $model->leadershipCompetencyC ?> </h3>
+                <td  align="center"><h3> <?php echo $model->workResultC + $model->targetSettingC + $model->coreCompetencyC + $model->leadershipCompetencyC ?> </h3>
                     <h6 align="center" ><font COLOR="#999">Final Rating</font></h6></td>
             </tr>
         </table>
@@ -120,6 +121,22 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gT
 
 <br/>
 
+<?php
+$this->widget('bootstrap.widgets.TbMenu', array(
+    'type' => 'pills', // '', 'tabs', 'pills' (or 'list')
+    'stacked' => false, // whether this is a stacked menu
+    'items' => array(
+        array('label' => '<< Previous Year', 'url' => Yii::app()->createUrl("/m1/gTalent/view", array("id" => $model->id, "year" => $year - 1))),
+        array('label' => date("Y"),
+            'url' => Yii::app()->createUrl("/m1/gTalent/view", array("id" => $model->id, "year" => $year))),
+        array('label' => 'Next Year >>', 'url' => Yii::app()->createUrl("/m1/gTalent/view", array("id" => $model->id, "year" => $year + 1))),
+    ),
+            'htmlOptions'=>array(
+                'style'=>'padding:0',
+            )
+));
+?>
+
 
 <div class="row">
     <div class="span12">
@@ -128,13 +145,13 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gT
             'type' => 'tabs', // 'tabs' or 'pills'
             'tabs' => array(
                 array('id' => 'tab70', 'label' => 'Target Setting', 'active' => true, 'items' => array(
-	                array('id' => 'tab73', 'label' => 'KPI', 'content' => $this->renderPartial("_tabTargetSetting", array("model" => $model, "modelTargetSetting" => $modelTargetSetting), true), 'visible'=> $model->mGolonganId() >=10, 'active' => true ),
+	                array('id' => 'tab73', 'label' => 'KPI', 'content' => $this->renderPartial("_tabTargetSetting", array("model" => $model, "modelTargetSetting" => $modelTargetSetting, "year" => $year), true), 'visible'=> $model->mGolonganId() >=10, 'active' => true ),
 	                array('id' => 'tab74', 'label' => 'Work Result', 'content' => $this->renderPartial("_tabWorkResult", array("model" => $model, "modelWorkResult" => $modelWorkResult), true), 'visible'=> $model->mGolonganId() < 10, 'active' => true ),
 	                array('id' => 'tab71', 'label' => 'Core Competency', 'content' => $this->renderPartial("_tabCoreCompetency", array("model" => $model, "modelCoreCompetency" => $modelCoreCompetency), true)),
 	                array('id' => 'tab72', 'label' => 'Leadership Competency', 'content' => $this->renderPartial("_tabLeadershipCompetency", array("model" => $model, "modelLeadershipCompetency" => $modelLeadershipCompetency), true)),
                 )),
                 array('id' => 'tab40', 'label' => 'Performance Appraisal', 'items' => array(
-					array('id' => 'tab41', 'label' => 'KPI', 'content' => $this->renderPartial("_tabPerformanceA", array("model" => $model, "modelPerformanceP" => $modelPerformanceP), true), 'visible'=> $model->mGolonganId() >=10 ),
+					array('id' => 'tab41', 'label' => 'KPI', 'content' => $this->renderPartial("_tabPerformanceA", array("model" => $model, "modelPerformanceP" => $modelPerformanceP, "year" => $year), true), 'visible'=> $model->mGolonganId() >=10 ),
 	                array('id' => 'tab44', 'label' => 'Work Result', 'content' => $this->renderPartial("_tabWorkResult2", array("model" => $model, "modelWorkResult" => $modelWorkResult), true), 'visible'=> $model->mGolonganId() < 10 ),
 	                array('id' => 'tab42', 'label' => 'Core Competency', 'content' => $this->renderPartial("_tabCoreCompetency2", array("model" => $model, "modelCoreCompetency" => $modelCoreCompetency), true)),
 	                array('id' => 'tab43', 'label' => 'Leadership Competency', 'content' => $this->renderPartial("_tabLeadershipCompetency2", array("model" => $model, "modelLeadershipCompetency" => $modelLeadershipCompetency), true)),

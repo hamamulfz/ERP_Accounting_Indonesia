@@ -34,14 +34,16 @@ Class Notification {
     public static function newInbox($recipient, $subject, $message) {
         $conv = new Mailbox(); //s_mailbox_conversation
         $conv->subject = $subject;
-        $conv->initiator_id = 1;
+        //$conv->initiator_id = 1;
+        $conv->initiator_id = Yii::app()->user->id;
         $conv->interlocutor_id = $recipient;
         $conv->modified = time();
         $conv->bm_read = 0;
         $msg = new Message; //s_mailbox_message
         $msg->text = $message;
         $msg->created = time();
-        $msg->sender_id = 1;
+        //$msg->sender_id = 1;
+        $msg->sender_id = Yii::app()->user->id;
         $msg->recipient_id = $recipient;
         $msg->crc64 = 0;
         $conv->save(false);

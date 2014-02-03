@@ -14,7 +14,7 @@ $counter = 1;
 <div class="row">
     <div class="span9">
 
-        <?php /*
+        <?php /* 
           $dependency = new CDirectoryCacheDependency(Yii::app()->basePath.'/../shareimages/photo/');
 
           if (!Yii::app()->cache->get('photolist')) {

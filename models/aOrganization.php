@@ -552,6 +552,7 @@ class aOrganization extends BaseModel {
 
         $criteria = new CDbCriteria;
         $criteria->order = 't.id';
+        $criteria->compare('t.status_id',1);
         $criteria->with = array('getparent');
         $criteria->compare('getparent.parent_id', self::model()->findByPk(sUser::model()->myGroup)->childs[0]->id);
 

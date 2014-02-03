@@ -133,19 +133,22 @@ class gPerson extends BaseModel {
             'status' => array(self::HAS_ONE, 'gPersonStatus', 'parent_id', 'order' => 'status.start_date DESC'),
             'leave' => array(self::HAS_MANY, 'gLeave', 'parent_id', 'order' => 'leave.start_date DESC'),
             'leaveBalance' => array(self::HAS_ONE, 'gLeave', 'parent_id', 'order' => 'leaveBalance.end_date DESC,leaveBalance.id DESC', 'condition' => 'leaveBalance.approved_id NOT IN (1,5,6)'),
-            'leaveGenerated' => array(self::HAS_ONE, 'gLeave', 'parent_id', 'order' => 'leaveGenerated.end_date DESC', 'condition' => 'leaveGenerated.approved_id = 9 OR leaveGenerated.approved_id = 7'),
+            'leaveGenerated' => array(self::HAS_ONE, 'gLeave', 'parent_id', 'order' => 'leaveGenerated.end_date DESC', 'condition' => 'leaveGenerated.approved_id IN (7,9)'),
             'lastLeave' => array(self::HAS_ONE, 'gLeave', 'parent_id', 'order' => 'lastLeave.end_date DESC', 'condition' => 'lastLeave.approved_id = 2'),
             'user' => array(self::BELONGS_TO, 'sUser', 'userid'),
             'payroll' => array(self::HAS_ONE, 'gPayroll', 'parent_id', 'order' => 'payroll.yearmonth_start DESC'),
             'updated' => array(self::BELONGS_TO, 'sUser', 'updated_by'),
             'targetSetting' => array(self::HAS_MANY, 'gTalentTargetSetting', 'parent_id'),
             'targetSettingC' => array(self::STAT, 'gTalentTargetSetting', 'parent_id','select'=>'sum(superior_score*weight)'),
+            'workResultC' => array(self::STAT, 'gTalentWorkResult', 'parent_id','select'=>'sum(superior_score*gpc.weight)','join'=>'inner join g_param_competency gpc on gpc.id = t.talent_template_id'),
             'coreCompetencyC' => array(self::STAT, 'gTalentCoreCompetency', 'parent_id',
             					'select'=>'sum(superior_score * g.weight)',
             					'join'=>'INNER JOIN g_param_competency g ON t.talent_template_id = g.id'),
             'leadershipCompetencyC' => array(self::STAT, 'gTalentLeadershipCompetency', 'parent_id',
             					'select'=>'sum(superior_score * g.weight)',
             					'join'=>'INNER JOIN g_param_competency g ON t.talent_template_id = g.id'),
+
+            'many_attendance' => array(self::HAS_MANY, 'gAttendance', 'parent_id'),
         );
     }
 
@@ -1382,6 +1385,91 @@ class gPerson extends BaseModel {
         ));
     }
 
+	public function attendanceStat() {
+
+                    $sql = "SELECT a.id, a.employee_name, '201312' as period,
+							(select count(id) from g_attendance 
+							where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = 201312) as xcount, 
+
+
+							(select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),month(start_date)) = 201312 and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2) 
+							as cuti,
+
+							((select count(id) from g_attendance 
+							where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = 201312 
+								and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' 
+								and realpattern_id NOT IN (90)  and `out` is null and `in` is null) 
+								-
+							(ifnull((select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),month(start_date)) = 201312 and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2),0)) 
+							-
+							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), month(start_date)) = 201312 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0))
+								) 
+							-
+							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), month(start_date)) = 201312 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0)) 
+
+								  as alpha,
+
+							(select count(g.id) from g_attendance g 
+								inner join g_param_timeblock t on t.id = g.realpattern_id
+								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = 201312 and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								and TIMEDIFF(CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.in,'%H:%i:59')),g.`in`) < 0) 
+								as lateIn,
+
+							(select count(g.id) from g_attendance g 
+								inner join g_param_timeblock t on t.id = g.realpattern_id
+								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = 201312 and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								and TIMEDIFF(g.out, CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.out,'%H:%i:00'))) < 0) 
+								as earlyOut,
+
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = 201312 and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is not null and `in` is null) 
+							as tad,
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = 201312 and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is null and `in` is not null) 
+							as tap,
+
+							(select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), month(start_date)) = 201312 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') 
+							as sakit,
+							
+							(select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), month(start_date)) = 201312 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') 
+							as special
+
+						FROM g_person a
+						WHERE id = " . $this->id;
+
+						$rawData=Yii::app()->db->createCommand($sql)->queryAll();
+						$dataProvider = new CArrayDataProvider($rawData, array(
+							'id' => 'stat',
+							'pagination' => false,
+						));
+
+						return $dataProvider;
+				
+	
+	}
+	
+	public function getCountAttendance($period) {
+        $criteria = new CDbCriteria;
+        $criteria->with = array('many_attendance');
+        $criteria->condition = 'CONCAT(year(cdate),month(cdate)) = 201312 and parent_id = '.$this->id;
+
+        $count = self::model()->count($criteria);
+        
+        return $count;
+	
+	}
+
+	public function getReminder() {
+		$message=$this->mStatus() . ". " . strtoupper($this->employee_name) ." ".$this->mStatus(). " status is " . $this->countContract();
+        return $message;
+	
+	}
     
 
 }

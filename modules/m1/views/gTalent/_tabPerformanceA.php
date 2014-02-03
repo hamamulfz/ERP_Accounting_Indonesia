@@ -2,7 +2,7 @@
 	$this->widget('bootstrap.widgets.TbGroupGridView', array(
 	'id'=>'g-target-setting-grid2',
 	//'dataProvider'=>$model->search(),
-    'dataProvider' => gTalentTargetSetting::model()->search($model->id),
+    'dataProvider' => gTalentTargetSetting::model()->search($model->id,$year),
 	'type'=>'condensed',
 	//'filter'=>$model,
 	'template'=>'{items}',

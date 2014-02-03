@@ -17,6 +17,8 @@ $this->breadcrumbs = array(
     $model->id,
 );
 
+
+
 $this->menu = array(
     array('label' => 'Home', 'icon' => 'home', 'url' => array('/m1/gPerson')),
     array('label' => 'Update', 'icon' => 'edit', 'url' => array('update', 'id' => $model->id)),
@@ -31,6 +33,9 @@ $this->menu3 = gPerson::getTopRelated($model->employee_name);
 $this->menu5 = array('Person');
 
 $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gPerson/index'), 'field_name' => 'employee_name');
+
+//$this->message="Testing Message";
+
 ?>
 
 <div class="page-header">

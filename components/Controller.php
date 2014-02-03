@@ -4,6 +4,8 @@
  * All controller classes for this application should extend from this base class.
  */
 class Controller extends CController {
+
+
     /**
      * @var string the default layout for the controller view. Defaults to 'column1',
      * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
@@ -23,6 +25,7 @@ class Controller extends CController {
     public $menu8 = array();  //Filter Right SideBar Menu
     public $menu9 = array();  //Search Box
     public $menu10 = array();  //Operation 2
+    public $message = null;  //Operation 2
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
@@ -56,5 +59,8 @@ class Controller extends CController {
         else
             throw new CHttpException(403, $message);
     }
+    
+    
+    
 }
 ?>

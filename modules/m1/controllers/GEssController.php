@@ -142,8 +142,8 @@ class GEssController extends Controller {
             }
         }
 
-        Yii::app()->user->setFlash('info', '<strong>Info Penting!</strong> Sesuai prosedur, setelah mengisi seluruh kolom inputan, 
-		simpan kemudian cetak formulir cuti  ini. Selanjutnya, ditanda tangan atasan dan diserahkan ke bagian HRD');
+        //Yii::app()->user->setFlash('info', '<strong>Info Penting!</strong> Sesuai prosedur, setelah mengisi seluruh kolom inputan, 
+		//simpan kemudian cetak formulir cuti  ini. Selanjutnya, ditanda tangan atasan dan diserahkan ke bagian HRD');
 
         $this->render('createLeave', array(
             'model' => $model,
@@ -156,7 +156,12 @@ class GEssController extends Controller {
         $model = $this->loadModel();
 
         if (!isset($model->leaveBalance)) {
+        
 			$_md = date('Y') . "-" . date("m", strtotime($model->companyfirst->start_date)) . "-" . date("d", strtotime($model->companyfirst->start_date));
+			
+			if (strtotime($_md) > time()) 
+				$_md  = date('Y-m-d',strtotime($_md . ' -1 year'));
+		
 			$connection = Yii::app()->db;
 			$sql = "insert into g_leave 
 			(parent_id, input_date, year_leave , number_of_day, start_date , end_date  , leave_reason  , mass_leave, person_leave, balance, remark, approved_id) VALUES 

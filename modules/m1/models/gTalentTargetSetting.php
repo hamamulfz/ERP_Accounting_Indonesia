@@ -37,7 +37,7 @@ class gTalentTargetSetting extends CActiveRecord
 			array('strategic_desc', 'length', 'max'=>80),
 			array('weight', 'length', 'max'=>5),
 			array('kpi_desc', 'length', 'max'=>500),
-			array('target,realization', 'numerical'),
+			array('target,realization, year', 'numerical'),
 			array('value_type_id,superior_score, company_id', 'numerical','integerOnly'=>true),
 			array('remark', 'length', 'max'=>58),
 			array('strategic_initiative', 'length', 'max'=>154),
@@ -67,6 +67,7 @@ class gTalentTargetSetting extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'parent_id' => 'Parent',
+			'year' => 'Year',
 			'company_id' => 'Company',
 			'strategic_objective' => 'Perspective',
 			'strategic_desc' => 'Strategic Objective',
@@ -94,13 +95,15 @@ class gTalentTargetSetting extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search($id)
+	public function search($id,$year)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('parent_id',$id);
+		$criteria->compare('year',$year);
+		$criteria->order='t.year DESC,t.id';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

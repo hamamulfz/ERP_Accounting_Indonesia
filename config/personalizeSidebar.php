@@ -5,6 +5,8 @@
         if (Yii::app()->user->name == "admin" || sUser::model()->rightCountM > 2 || !Yii::app()->user->checkAccess('HR ESS Staff'))
             $this->renderPartial("_notificationSystem");
 
+        $this->renderPartial("_birthday");
+
         $this->renderPartial("_photoNews");
 
         $this->renderPartial("_feedback");

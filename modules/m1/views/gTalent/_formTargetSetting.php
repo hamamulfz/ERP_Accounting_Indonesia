@@ -15,7 +15,7 @@ Yii::app()->clientScript->registerScript('sel2', "
 ?>
 
 <div class="page-header">
-    <h3>New Target Setting</h3>
+    <h3>New Target Setting (<?php echo date('Y') ?>)</h3>
 </div>
 
 

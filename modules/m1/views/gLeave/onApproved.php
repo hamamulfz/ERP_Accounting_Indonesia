@@ -34,7 +34,7 @@ $this->widget('bootstrap.widgets.TbMenu', array(
     'items' => array(
         array('label' => 'Waiting for Approval', 'url' => Yii::app()->createUrl('/m1/gLeave')),
         array('label' => 'Approved Leave', 'url' => Yii::app()->createUrl('/m1/gLeave/onApproved'), 'active' => true),
-        array('label' => 'Pending State', 'url' => Yii::app()->createUrl('/m1/gLeave/onPending')),
+        //array('label' => 'Pending State', 'url' => Yii::app()->createUrl('/m1/gLeave/onPending')),
         array('label' => 'Employee On Leave', 'url' => Yii::app()->createUrl('/m1/gLeave/onLeave')),
         array('label' => 'Recent Leave', 'url' => Yii::app()->createUrl('/m1/gLeave/onRecent')),
     ),

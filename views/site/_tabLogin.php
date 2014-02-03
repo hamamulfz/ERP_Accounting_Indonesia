@@ -1,3 +1,4 @@
+
 <?php
 $this->beginWidget('bootstrap.widgets.TbBox', array(
     'title' => false,
@@ -16,9 +17,9 @@ $form = $this->beginWidget('TbActiveForm', array(
         ));
 ?>
 
-<?php echo $form->textFieldRow($model, 'username', array('class' => 'span2')); ?>
+<?php echo $form->textFieldRow($model, 'username', array('style' => 'width:95%')); ?>
 
-<?php echo $form->passwordFieldRow($model, 'password', array('class' => 'span2')); ?>
+<?php echo $form->passwordFieldRow($model, 'password', array('style' => 'width:95%')); ?>
 
 <?php if ($model->getIsNeedCaptcha()): ?>
     <?php if (extension_loaded('gd')): ?>
@@ -39,9 +40,7 @@ $form = $this->beginWidget('TbActiveForm', array(
     ?>
 </p>
 
-<div class="form-actions">
     <?php echo CHtml::htmlButton('<i class="icon-fa-ok"></i> Submit', array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
-</div>
 
 <?php $this->endWidget(); ?>
 
