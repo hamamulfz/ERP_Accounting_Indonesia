@@ -336,4 +336,12 @@ class gLeave extends BaseModel {
             return "white";
     }
 
+    public function cssExpire() {
+        if (strtotime($this->start_date) <= time()) {
+            return "highlight";
+        }
+        else
+            return "white";
+    }
+
 }

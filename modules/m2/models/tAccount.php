@@ -103,7 +103,7 @@ class tAccount extends BaseModel {
         ));
     }
 
-    public function getTotalPerAccount($periode_date, $acc_id) {
+    public static function getTotalPerAccount($periode_date, $acc_id) {
         $_total = 0;
         $_subtotal = 0;
         $_grandtotal = 0;
@@ -162,7 +162,7 @@ class tAccount extends BaseModel {
         return $_grandtotal;
     }
 
-    public function getTotalSalesHppExpense($periode_date, $type) {
+    public static function getTotalSalesHppExpense($periode_date, $type) {
         $_total = 0;
         $_subtotal = 0;
         $_grandtotal = 0;

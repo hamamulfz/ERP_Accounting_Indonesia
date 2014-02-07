@@ -1,15 +1,16 @@
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'g-target-setting-grid4',
 	//'dataProvider'=>$model->search(),
-    'dataProvider' => gTalentCoreCompetency::model()->search($model->id),
+    'dataProvider' => gTalentCoreCompetency::model()->search($model->id,$year),
 	'type'=>'condensed',
 	//'filter'=>$model,
 	'template'=>'{items}',
 	'columns'=>array(
-		array(
-			'header'=>'Period',
-			'value' => '$data->getConvertTalentPeriod($data->period)',
-		),
+		'year',
+		//array(
+		//	'header'=>'Period',
+		//	'value' => '$data->getConvertTalentPeriod($data->period)',
+		//),
 		//'company_id',
 		'talent_template.aspect',
 		'remark',
@@ -24,4 +25,4 @@
 )); ?>
 
 <?php
-	echo $this->renderPartial('_formCoreCompetency', array('model' => $modelCoreCompetency));
+	echo $this->renderPartial('_formCoreCompetency', array('model' => $modelCoreCompetency,'id' => $model->id));

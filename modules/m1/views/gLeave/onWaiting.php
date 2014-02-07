@@ -1,3 +1,16 @@
+<style>
+    tr.highlight
+    {
+        background: #FFCACA;
+        //font-weight:bold;
+    }
+    tr.white
+    {
+        background: #FFFFFF;
+    }
+</style>
+
+
 <?php
 
 $this->widget('bootstrap.widgets.TbGridView', array(
@@ -5,6 +18,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'dataProvider' => gLeave::model()->onWaiting(),
     //'filter'=>$model,
     'template' => '{items}',
+    'rowCssClassExpression' => '$data->cssExpire()',
     'columns' => array(
         array(
             'type' => 'raw',

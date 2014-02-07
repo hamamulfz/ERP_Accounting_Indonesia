@@ -1,19 +1,19 @@
-<?php
-Yii::app()->getClientScript()
-        ->registerScriptFile(Yii::app()->baseUrl . "/css/prettyGallery/js/jquery.prettyGallery.js")
-        ->registerCssFile(Yii::app()->baseUrl . '/css/prettyGallery/css/prettyGallery.css');
+<style>
+.ticker {
+	height: 100px;
+	overflow: hidden;
+	list-style-type: none;
+}
 
-Yii::app()->clientScript->registerScript('prettyGallery', "
-			$('ul.gallery').prettyGallery({
-				itemsPerPage : 1,
-				animationSpeed : 'slow',
-				navigation : 'bottom',
-			
-			});
-		");
+#ticker_02 {
+	height: 100px;
+}
 
+.ticker li {
+	height: 100px;
+}
+</style>
 
-?>
 
 <div style="border-bottom:solid;border-width:1px;border-color:#D5D5D5;padding:0;margin:10px 0;">
     <ul class="nav nav-list">
@@ -21,10 +21,7 @@ Yii::app()->clientScript->registerScript('prettyGallery', "
     </ul>
 </div>
 
-<div class="row">
-<div class="span4">
-
-<ul style="margin:0" class="gallery";>
+<ul style="margin:0" id="ticker_02" class="ticker";>
     <?php
     $notifiche = sNotification::getReminder();
 
@@ -36,9 +33,16 @@ Yii::app()->clientScript->registerScript('prettyGallery', "
     }
     ?>
 </ul>
-</div>
-</div>
 
+<script>
+
+	function tick2(){
+		$('#ticker_02 li:first').animate({'opacity':0}, 400, function () { $(this).appendTo($('#ticker_02')).css('opacity', 1); });
+	}
+	setInterval(function(){ tick2 () }, 3000);
+
+
+</script>
 
 <div class="pull-right">
     <p>

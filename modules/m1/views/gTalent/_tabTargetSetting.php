@@ -34,6 +34,37 @@
                 'dialogHeight' => 530
             ),
         ),
+        array(
+            'class' => 'TbButtonColumn',
+            'template' => '{approved}',
+            'buttons' => array
+                (
+                'approved' => array
+                    (
+                    'label' => 'Approved',
+                    //'icon' => 'icon-ok-circle',
+                    'url' => 'Yii::app()->createUrl("/m1/gTalent/approved",array("id"=>$data->id,"pid"=>$data->parent_id))',
+                    'visible' => '$data->validate_id ==1',
+                    'options' => array(
+                        'ajax' => array(
+                            'type' => 'GET',
+                            'url' => "js:$(this).attr('href')",
+                            'success' => 'js:function(data){
+								$.fn.yiiGridView.update("g-target-setting-grid1", {
+									data: $(this).serialize()
+								});
+							}',
+                        ),
+                        'class' => 'btn btn-mini btn-primary',
+                    ),
+                ),
+            ),
+        ),
+        
+		array(
+			'header'=>'Status',
+			'name'=>'validate.name',
+		),
 
 	),
 

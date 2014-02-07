@@ -54,6 +54,10 @@ Yii::app()->clientScript->registerScript('sel2', "
 	<?php echo $form->textFieldRow($model,'strategic_initiative',array('class'=>'span5','maxlength'=>154)); ?>
 
 
+	<?php echo $form->dropDownListRow($model,'validate_id',sParameter::items('cTargetSettingValidate'), 
+		array('class'=>'span5','maxlength'=>50)); ?>
+
+
 	<div class="form-actions">
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'submit',

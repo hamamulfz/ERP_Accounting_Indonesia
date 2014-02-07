@@ -4,14 +4,18 @@
 	$this->widget('bootstrap.widgets.TbGroupGridView', array(
 	'id'=>'g-target-setting-grid4a',
 	//'dataProvider'=>$model->search(),
-    'dataProvider' => gTalentCoreCompetency::model()->search($model->id),
+    'dataProvider' => gTalentCoreCompetency::model()->search($model->id,$year),
 	'type'=>'condensed',
 	//'filter'=>$model,
 	'template'=>'{items}',
 	'extraRowColumns'=> array('level.name'),
 	'columns'=>array(
+		'year',
+		//array(
+		//	'header'=>'Period',
+		//	'value' => '$data->getConvertTalentPeriod($data->period)',
+		//),
 		//'company_id',
-		//'period_id',
 		array(
 			'header'=>'Level',
 			'name'=>'level.name',
@@ -51,14 +55,18 @@
 	$this->widget('bootstrap.widgets.TbGroupGridView', array(
 	'id'=>'g-target-setting-grid4b',
 	//'dataProvider'=>$model->search(),
-    'dataProvider' => gTalentCoreCompetency::model()->search($model->id),
+    'dataProvider' => gTalentCoreCompetency::model()->search($model->id,$year),
 	'type'=>'condensed',
 	//'filter'=>$model,
 	'template'=>'{items}',
 	'extraRowColumns'=> array('level2.name'),
 	'columns'=>array(
+		'year',
+		//array(
+		//	'header'=>'Period',
+		//	'value' => '$data->getConvertTalentPeriod($data->period)',
+		//),
 		//'company_id',
-		//'period_id',
 		array(
 			'header'=>'Level',
 			'name'=>'level2.name',

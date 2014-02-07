@@ -697,51 +697,51 @@ class GAttendanceController extends Controller {
                     $connection = Yii::app()->db;
                     $sql = "SELECT a.employee_name, a.department, a.level, a.join_date, a.job_title,
 
-							(select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),month(start_date)) = ".$model->period." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2) 
+							(select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),lpad(month(start_date),2,'0')) = ".$model->period." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2) 
 							as cuti,
 
 							((select count(id) from g_attendance 
-							where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = ".$model->period." 
+							where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".$model->period." 
 								and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' 
 								and realpattern_id NOT IN (90)  and `out` is null and `in` is null) 
 								-
-							(ifnull((select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),month(start_date)) = ".$model->period." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2),0)) 
+							(ifnull((select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),lpad(month(start_date),2,'0')) = ".$model->period." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2),0)) 
 							-
 							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
-							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), month(start_date)) = ".$model->period." 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), lpad(month(start_date),2,'0')) = ".$model->period." 
 								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0))
 								) 
 							-
 							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
-							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), month(start_date)) = ".$model->period." 
+							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), lpad(month(start_date),2,'0')) = ".$model->period." 
 								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0)) 
 
 								  as alpha,
 
 							(select count(g.id) from g_attendance g 
 								inner join g_param_timeblock t on t.id = g.realpattern_id
-								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = ".$model->period." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								where g.parent_id = a.id and CONCAT(year(g.cdate), lpad(month(g.cdate),2,'0')) = ".$model->period." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
 								and TIMEDIFF(CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.in,'%H:%i:59')),g.`in`) < 0) 
 								as lateIn,
 
 							(select count(g.id) from g_attendance g 
 								inner join g_param_timeblock t on t.id = g.realpattern_id
-								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = ".$model->period." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								where g.parent_id = a.id and CONCAT(year(g.cdate), lpad(month(g.cdate),2,'0')) = ".$model->period." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
 								and TIMEDIFF(g.out, CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.out,'%H:%i:00'))) < 0) 
 								as earlyOut,
 
-							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = ".$model->period." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is not null and `in` is null) 
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".$model->period." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is not null and `in` is null) 
 							as tad,
-							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = ".$model->period." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is null and `in` is not null) 
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".$model->period." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is null and `in` is not null) 
 							as tap,
 
 							(select sum(datediff(end_date,start_date)+1) from g_permission 
-							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), month(start_date)) = ".$model->period." 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), lpad(month(start_date),2,'0')) = ".$model->period." 
 								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') 
 							as sakit,
 							
 							(select sum(datediff(end_date,start_date)+1) from g_permission 
-							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), month(start_date)) = ".$model->period." 
+							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), lpad(month(start_date),2,'0')) = ".$model->period." 
 								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') 
 							as special
 

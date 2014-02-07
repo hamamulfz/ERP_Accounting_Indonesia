@@ -37,8 +37,8 @@ class gTalentTargetSetting extends CActiveRecord
 			array('strategic_desc', 'length', 'max'=>80),
 			array('weight', 'length', 'max'=>5),
 			array('kpi_desc', 'length', 'max'=>500),
-			array('target,realization, year', 'numerical'),
-			array('value_type_id,superior_score, company_id', 'numerical','integerOnly'=>true),
+			array('target,realization', 'numerical'),
+			array('value_type_id,superior_score, company_id, year,validate_id', 'numerical','integerOnly'=>true),
 			array('remark', 'length', 'max'=>58),
 			array('strategic_initiative', 'length', 'max'=>154),
 			// The following rule is used by search().
@@ -56,6 +56,7 @@ class gTalentTargetSetting extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'strategic' => array(self::BELONGS_TO, 'sParameter', array('strategic_objective' => 'code'), 'condition' => 'type = \'cStrategicObjective\''),
+            'validate' => array(self::BELONGS_TO, 'sParameter', array('validate_id' => 'code'), 'condition' => 'type = \'cTargetSettingValidate\''),
 		);
 	}
 
@@ -80,6 +81,7 @@ class gTalentTargetSetting extends CActiveRecord
 			'realization' => 'Realization',
 			'value_type_id' => 'Value Type',
 			'superior_score' => 'Superior Score',
+			'validate_id' => 'Validation',
 		);
 	}
 

@@ -79,7 +79,8 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->hiddenField($model, 'parent_id'); ?>
 
-<?php echo $form->textFieldRow($model, 'input_date', array('value' => date("d-m-Y"))); ?>
+<?php //echo $form->textFieldRow($model, 'input_date', array('value' => date("d-m-Y"))); ?>
+<?php echo $form->textFieldRow($model, 'input_date', array('value' => date("d-m-Y"),'disabled'=>'disabled')); ?>
 
 <?php echo $form->textFieldRow($model, 'start_date'); ?>
 

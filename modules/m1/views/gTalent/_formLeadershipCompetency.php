@@ -9,7 +9,7 @@
 )); ?>
 
 
-	<?php echo $form->dropDownListRow($model,'period',gTalentPerformance::getTalentPeriod()); ?>
+	<?php echo $form->dropDownListRow($model,'period_id',gTalentPerformance::getTalentPeriod()); ?>
 
 
 	<?php //echo $form->dropDownListRow($model,'company_id',array(), 
@@ -29,6 +29,17 @@
 			'type'=>'primary',
 			'label'=>$model->isNewRecord ? 'Create' : 'Save',
 		)); ?>
+	
+
+
+		<?php $this->widget('bootstrap.widgets.TbButton', array(
+			'type'=>'primary',
+			'url'=>Yii::app()->createUrl('/m1/gTalent/generateLeadershipCompetency',array('id'=>$id)),
+			'label'=>'Generate All',
+		)); ?>
+	
+
+
 	</div>
 
 <?php $this->endWidget(); ?>

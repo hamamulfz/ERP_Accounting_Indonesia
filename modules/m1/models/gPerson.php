@@ -518,17 +518,20 @@ class gPerson extends BaseModel {
                 $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
 
                 if (strtotime($this->mStatusEndDate()) > time()) {
-                    if ($months == 0) {
-                        return $days . " days left";
-                    }
-                    else
-                        return $months . " months, " . $days . " days left";
+					if ($years == 0 && $months == 0 ) 
+						return $days . " days left";
+					elseif (!$years != 0 ) 
+						return $months . " months, " . $days . " days left";
+					else 
+						return $years . " years, " . $months . " months, " . $days . " days left";
+
                 } else {
-                    if ($months == 0) {
-                        return $days . " days expired";
-                    }
-                    else
-                        return $months . " months, " . $days . " days expired";
+					if ($years == 0 && $months == 0 ) 
+						return $days . " days expired";
+					elseif (!$years != 0 ) 
+						return $months . " months, " . $days . " days expired";
+					else 
+						return $years . " years, " . $months . " months, " . $days . " days expired";
                 }
             }
         }
@@ -1387,56 +1390,173 @@ class gPerson extends BaseModel {
 
 	public function attendanceStat() {
 
-                    $sql = "SELECT a.id, a.employee_name, '201312' as period,
+                    $sql = "
+                    	SELECT a.id, a.employee_name, '".date('Y').date('m')."' as period, 0 as cmonth,
 							(select count(id) from g_attendance 
-							where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = 201312) as xcount, 
+							where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".date('Y').date('m').") as xcount, 
 
 
-							(select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),month(start_date)) = 201312 and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2) 
+							(select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),lpad(month(start_date),2,'0')) = ".date('Y').date('m')." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2) 
 							as cuti,
 
 							((select count(id) from g_attendance 
-							where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = 201312 
+							where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".date('Y').date('m')." 
 								and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' 
 								and realpattern_id NOT IN (90)  and `out` is null and `in` is null) 
 								-
-							(ifnull((select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),month(start_date)) = 201312 and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2),0)) 
+							(ifnull((select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),lpad(month(start_date),2,'0')) = ".date('Y').date('m')." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2),0)) 
 							-
 							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
-							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), month(start_date)) = 201312 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), lpad(month(start_date),2,'0')) = ".date('Y').date('m')." 
 								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0))
 								) 
 							-
 							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
-							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), month(start_date)) = 201312 
+							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), lpad(month(start_date),2,'0')) = ".date('Y').date('m')." 
 								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0)) 
 
 								  as alpha,
 
 							(select count(g.id) from g_attendance g 
 								inner join g_param_timeblock t on t.id = g.realpattern_id
-								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = 201312 and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = ".date('Y').date('m')." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
 								and TIMEDIFF(CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.in,'%H:%i:59')),g.`in`) < 0) 
 								as lateIn,
 
 							(select count(g.id) from g_attendance g 
 								inner join g_param_timeblock t on t.id = g.realpattern_id
-								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = 201312 and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = ".date('Y').date('m')." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
 								and TIMEDIFF(g.out, CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.out,'%H:%i:00'))) < 0) 
 								as earlyOut,
 
-							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = 201312 and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is not null and `in` is null) 
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".date('Y').date('m')." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is not null and `in` is null) 
 							as tad,
-							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),month(cdate)) = 201312 and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is null and `in` is not null) 
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".date('Y').date('m')." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is null and `in` is not null) 
 							as tap,
 
 							(select sum(datediff(end_date,start_date)+1) from g_permission 
-							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), month(start_date)) = 201312 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), lpad(month(start_date),2,'0')) = ".date('Y').date('m')." 
 								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') 
 							as sakit,
 							
 							(select sum(datediff(end_date,start_date)+1) from g_permission 
-							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), month(start_date)) = 201312 
+							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), lpad(month(start_date),2,'0')) = ".date('Y').date('m')." 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') 
+							as special
+
+						FROM g_person a
+						WHERE id = " . $this->id ."
+	
+						UNION ALL 
+						
+                    	SELECT a.id, a.employee_name, '".peterFunc::cBeginDateBefore(date('Y').date('m'))."' as period, -1 as cmonth,
+							(select count(id) from g_attendance 
+							where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m')).") as xcount, 
+
+
+							(select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2) 
+							as cuti,
+
+							((select count(id) from g_attendance 
+							where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." 
+								and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' 
+								and realpattern_id NOT IN (90)  and `out` is null and `in` is null) 
+								-
+							(ifnull((select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2),0)) 
+							-
+							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0))
+								) 
+							-
+							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0)) 
+
+								  as alpha,
+
+							(select count(g.id) from g_attendance g 
+								inner join g_param_timeblock t on t.id = g.realpattern_id
+								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								and TIMEDIFF(CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.in,'%H:%i:59')),g.`in`) < 0) 
+								as lateIn,
+
+							(select count(g.id) from g_attendance g 
+								inner join g_param_timeblock t on t.id = g.realpattern_id
+								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								and TIMEDIFF(g.out, CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.out,'%H:%i:00'))) < 0) 
+								as earlyOut,
+
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is not null and `in` is null) 
+							as tad,
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is null and `in` is not null) 
+							as tap,
+
+							(select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') 
+							as sakit,
+							
+							(select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m'))." 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') 
+							as special
+
+						FROM g_person a
+						WHERE id = " . $this->id. "
+
+						UNION ALL 
+						
+                    	SELECT a.id, a.employee_name, '".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))."' as period, -2 as cmonth,
+							(select count(id) from g_attendance 
+							where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m'))).") as xcount, 
+
+
+							(select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2) 
+							as cuti,
+
+							((select count(id) from g_attendance 
+							where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." 
+								and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' 
+								and realpattern_id NOT IN (90)  and `out` is null and `in` is null) 
+								-
+							(ifnull((select sum(number_of_day) from g_leave where parent_id = a.id and CONCAT(year(start_date),lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." and start_date <= '".date('Y-m-d',strtotime('yesterday'))."' and approved_id = 2),0)) 
+							-
+							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0))
+								) 
+							-
+							(ifnull((select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."'),0)) 
+
+								  as alpha,
+
+							(select count(g.id) from g_attendance g 
+								inner join g_param_timeblock t on t.id = g.realpattern_id
+								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								and TIMEDIFF(CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.in,'%H:%i:59')),g.`in`) < 0) 
+								as lateIn,
+
+							(select count(g.id) from g_attendance g 
+								inner join g_param_timeblock t on t.id = g.realpattern_id
+								where g.parent_id = a.id and CONCAT(year(g.cdate), month(g.cdate)) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." and g.cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and g.realpattern_id NOT IN (90)
+								and TIMEDIFF(g.out, CONCAT(date_format(g.in,'%Y-%m-%d'),' ', date_format(t.out,'%H:%i:00'))) < 0) 
+								as earlyOut,
+
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is not null and `in` is null) 
+							as tad,
+							(select count(id) from g_attendance where parent_id = a.id and CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." and cdate <= '".date('Y-m-d',strtotime('yesterday'))."' and realpattern_id NOT IN (90) and `out` is null and `in` is not null) 
+							as tap,
+
+							(select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id = 10 and concat(year(start_date), lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." 
+								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') 
+							as sakit,
+							
+							(select sum(datediff(end_date,start_date)+1) from g_permission 
+							where parent_id = a.id and permission_type_id IN (1,2,3,4,5,6,7,8,9,15,19) and concat(year(start_date), lpad(month(start_date),2,'0')) = ".peterFunc::cBeginDateBefore(peterFunc::cBeginDateBefore(date('Y').date('m')))." 
 								and start_date <= '".date('Y-m-d',strtotime('yesterday'))."') 
 							as special
 
@@ -1457,7 +1577,7 @@ class gPerson extends BaseModel {
 	public function getCountAttendance($period) {
         $criteria = new CDbCriteria;
         $criteria->with = array('many_attendance');
-        $criteria->condition = 'CONCAT(year(cdate),month(cdate)) = 201312 and parent_id = '.$this->id;
+        $criteria->condition = "CONCAT(year(cdate),lpad(month(cdate),2,'0')) = ".peterFunc::cBeginDateBefore(date('Y').date('m')). " and parent_id = ".$this->id;
 
         $count = self::model()->count($criteria);
         

@@ -47,7 +47,7 @@ $this->renderPartial('_menuEss', array('model' => $model,'month' => $month));
 
 <?php
 
-if ($model->getCountAttendance(201312) == 1) {
+if ($model->getCountAttendance(peterFunc::cBeginDateBefore(date('Y').date('m'))) == 1) {
 
 $this->widget('bootstrap.widgets.TbGridView', array(
         'dataProvider' => $model->attendanceStat(),
@@ -72,9 +72,10 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 						(
 						'label' => 'Link to Attendance',
 						//'icon' => 'icon-ok-circle',
-						'url' => 'Yii::app()->createUrl("/m1/gEss/attendance",array("id"=>$data["id"],"month"=> -1))',
+						'url' => 'Yii::app()->createUrl("/m1/gEss/attendance",array("id"=>$data["id"],"month"=> $data["cmonth"]))',
 						'options' => array(
 							'class' => 'btn btn-mini btn-primary',
+							'style' => 'width:100px'
 						),
 					),
 				),

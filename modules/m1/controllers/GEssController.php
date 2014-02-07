@@ -128,6 +128,7 @@ class GEssController extends Controller {
         if (isset($_POST['gLeave'])) {
             $model->attributes = $_POST['gLeave'];
             $model->parent_id = gPerson::model()->find('userid = ' . Yii::app()->user->id)->id;  //default PETER
+            $model->input_date=date('d-m-Y');
             $model->approved_id = 1; ///request
 
 			$criteria = new CDbCriteria;
@@ -242,6 +243,7 @@ class GEssController extends Controller {
             $model->attributes = $_POST['gPermission'];
             $model->parent_id = gPerson::model()->find('userid = ' . Yii::app()->user->id)->id;  //default PETER
             $model->approved_id = 1; ///request
+            $model->input_date=date('d-m-Y');
             if ($model->save())
                 $this->redirect(array('permission'));
         }

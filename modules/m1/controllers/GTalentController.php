@@ -216,7 +216,7 @@ class GTalentController extends Controller {
                 EQuickDlgs::checkDialogJsScript();
         }
 
-        EQuickDlgs::render('_formPerformance', array('model' => $model));
+        EQuickDlgs::render('_formFinalRating', array('model' => $model));
     }
 
     /**
@@ -331,10 +331,54 @@ class GTalentController extends Controller {
         return true;
     }
 
+	public function actionGenerateWorkResult($id)
+	{
+		$command=Yii::app()->db->createCommand('
+			INSERT INTO g_talent_work_result
+			 (parent_id, year, talent_template_id) VALUES 
+			 ('. $id .', '.date("Y").', 11),
+			 ('. $id .', '.date("Y").', 12),
+			 ('. $id .', '.date("Y").', 13),
+			 ('. $id .', '.date("Y").', 16),
+			 ('. $id .', '.date("Y").', 17)
+		');
+		$command->execute(); 
+		
+		$this->redirect(array('/m1/gTalent/view','id'=>$id, 'tab' => 'Work Result'));
+	}
 
-    /**
-     * Lists all models.
-     */
+	public function actionGenerateCoreCompetency($id)
+	{
+		$command=Yii::app()->db->createCommand('
+			INSERT INTO g_talent_core_competency
+			 (parent_id, year, talent_template_id) VALUES 
+			 ('. $id .', '.date("Y").', 1),
+			 ('. $id .', '.date("Y").', 2),
+			 ('. $id .', '.date("Y").', 3),
+			 ('. $id .', '.date("Y").', 4),
+			 ('. $id .', '.date("Y").', 5)
+		');
+		$command->execute(); 
+		
+		$this->redirect(array('/m1/gTalent/view','id'=>$id, 'tab' => 'Core Competency'));
+	}
+
+	public function actionGenerateLeadershipCompetency($id)
+	{
+		$command=Yii::app()->db->createCommand('
+			INSERT INTO g_talent_leadership_competency
+			 (parent_id, year, talent_template_id) VALUES 
+			 ('. $id .', '.date("Y").', 6),
+			 ('. $id .', '.date("Y").', 7),
+			 ('. $id .', '.date("Y").', 8),
+			 ('. $id .', '.date("Y").', 9),
+			 ('. $id .', '.date("Y").', 10)
+		');
+		$command->execute(); 
+		
+		$this->redirect(array('/m1/gTalent/view','id'=>$id, 'tab' => 'Leadership Compentency'));
+	}
+
     public function actionIndex() {
         $model = new gPerson('search');
         $model->unsetAttributes();
@@ -471,5 +515,16 @@ class GTalentController extends Controller {
 
         $pdf->Output();
     }
+
+    public function actionApproved($id) {
+        $model = $this->loadModelTargetSetting($id);
+        
+        $model->validate_id = 2; //approved
+        $model->save();
+        
+        return true;
+
+    }
+
 
 }

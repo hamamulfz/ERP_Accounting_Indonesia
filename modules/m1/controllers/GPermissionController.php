@@ -39,6 +39,7 @@ class GPermissionController extends Controller {
 
         if (isset($_POST['gPermission'])) {
             $model->attributes = $_POST['gPermission'];
+            $model->input_date=date('d-m-Y');
             $model->approved_id = 1; ///request
             if ($model->save())
                 $this->redirect(array('/m1/gPermission'));

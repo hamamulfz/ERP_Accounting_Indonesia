@@ -42,4 +42,4 @@ $this->widget('TbGridView', array(
 
 <?php
 if (isset($modelPerformanceR))
-	echo $this->renderPartial('_formPerformanceR', array('model' => $modelPerformanceR));
+	echo $this->renderPartial('_formFinalRating', array('model' => $modelPerformanceR));

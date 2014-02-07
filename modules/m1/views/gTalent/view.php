@@ -127,9 +127,9 @@ $this->widget('bootstrap.widgets.TbMenu', array(
     'stacked' => false, // whether this is a stacked menu
     'items' => array(
         array('label' => '<< Previous Year', 'url' => Yii::app()->createUrl("/m1/gTalent/view", array("id" => $model->id, "year" => $year - 1))),
-        array('label' => date("Y"),
+        array('label' => $year,
             'url' => Yii::app()->createUrl("/m1/gTalent/view", array("id" => $model->id, "year" => $year))),
-        array('label' => 'Next Year >>', 'url' => Yii::app()->createUrl("/m1/gTalent/view", array("id" => $model->id, "year" => $year + 1))),
+        array('label' => 'Next Year >>', 'visible'=> ($year != date("Y")),'url' => Yii::app()->createUrl("/m1/gTalent/view", array("id" => $model->id, "year" => $year + 1))),
     ),
             'htmlOptions'=>array(
                 'style'=>'padding:0',
@@ -146,17 +146,17 @@ $this->widget('bootstrap.widgets.TbMenu', array(
             'tabs' => array(
                 array('id' => 'tab70', 'label' => 'Target Setting', 'active' => true, 'items' => array(
 	                array('id' => 'tab73', 'label' => 'KPI', 'content' => $this->renderPartial("_tabTargetSetting", array("model" => $model, "modelTargetSetting" => $modelTargetSetting, "year" => $year), true), 'visible'=> $model->mGolonganId() >=10, 'active' => true ),
-	                array('id' => 'tab74', 'label' => 'Work Result', 'content' => $this->renderPartial("_tabWorkResult", array("model" => $model, "modelWorkResult" => $modelWorkResult), true), 'visible'=> $model->mGolonganId() < 10, 'active' => true ),
-	                array('id' => 'tab71', 'label' => 'Core Competency', 'content' => $this->renderPartial("_tabCoreCompetency", array("model" => $model, "modelCoreCompetency" => $modelCoreCompetency), true)),
-	                array('id' => 'tab72', 'label' => 'Leadership Competency', 'content' => $this->renderPartial("_tabLeadershipCompetency", array("model" => $model, "modelLeadershipCompetency" => $modelLeadershipCompetency), true)),
+	                array('id' => 'tab74', 'label' => 'Work Result', 'content' => $this->renderPartial("_tabWorkResult", array("model" => $model, "modelWorkResult" => $modelWorkResult, "year" => $year), true), 'visible'=> $model->mGolonganId() < 10, 'active' => true ),
+	                array('id' => 'tab71', 'label' => 'Core Competency', 'content' => $this->renderPartial("_tabCoreCompetency", array("model" => $model, "modelCoreCompetency" => $modelCoreCompetency, "year" => $year), true)),
+	                array('id' => 'tab72', 'label' => 'Leadership Competency', 'content' => $this->renderPartial("_tabLeadershipCompetency", array("model" => $model, "modelLeadershipCompetency" => $modelLeadershipCompetency, "year" => $year), true)),
                 )),
                 array('id' => 'tab40', 'label' => 'Performance Appraisal', 'items' => array(
-					array('id' => 'tab41', 'label' => 'KPI', 'content' => $this->renderPartial("_tabPerformanceA", array("model" => $model, "modelPerformanceP" => $modelPerformanceP, "year" => $year), true), 'visible'=> $model->mGolonganId() >=10 ),
-	                array('id' => 'tab44', 'label' => 'Work Result', 'content' => $this->renderPartial("_tabWorkResult2", array("model" => $model, "modelWorkResult" => $modelWorkResult), true), 'visible'=> $model->mGolonganId() < 10 ),
-	                array('id' => 'tab42', 'label' => 'Core Competency', 'content' => $this->renderPartial("_tabCoreCompetency2", array("model" => $model, "modelCoreCompetency" => $modelCoreCompetency), true)),
-	                array('id' => 'tab43', 'label' => 'Leadership Competency', 'content' => $this->renderPartial("_tabLeadershipCompetency2", array("model" => $model, "modelLeadershipCompetency" => $modelLeadershipCompetency), true)),
+					array('id' => 'tab41', 'label' => 'KPI', 'content' => $this->renderPartial("_tabTargetSetting2", array("model" => $model, "modelPerformanceP" => $modelPerformanceP, "year" => $year), true), 'visible'=> $model->mGolonganId() >=10 ),
+	                array('id' => 'tab44', 'label' => 'Work Result', 'content' => $this->renderPartial("_tabWorkResult2", array("model" => $model, "modelWorkResult" => $modelWorkResult, "year" => $year), true), 'visible'=> $model->mGolonganId() < 10 ),
+	                array('id' => 'tab42', 'label' => 'Core Competency', 'content' => $this->renderPartial("_tabCoreCompetency2", array("model" => $model, "modelCoreCompetency" => $modelCoreCompetency, "year" => $year), true)),
+	                array('id' => 'tab43', 'label' => 'Leadership Competency', 'content' => $this->renderPartial("_tabLeadershipCompetency2", array("model" => $model, "modelLeadershipCompetency" => $modelLeadershipCompetency, "year" => $year), true)),
 					//array('id' => 'tab7', 'label' => 'Performance Appraisal', 'items' => array(
-						//array('id' => 'tab3', 'label' => 'Potential', 'content' => $this->renderPartial("_tabPotential", array("model" => $model, "modelPotential" => $modelPotential), true)),
+						//array('id' => 'tab3', 'label' => 'Potential', 'content' => $this->renderPartial("_tabPotential", array("model" => $model, "modelPotential" => $modelPotential, "year" => $year), true)),
 					//)),
                 )),
 				array('id' => 'tab30', 'label' => 'Final Rating', 'content' => $this->renderPartial("_tabFinalRating", array("model" => $model, "modelPerformanceR" => $modelPerformanceR), true)),

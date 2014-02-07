@@ -23,6 +23,7 @@ Yii::app()->clientScript->registerScript('datepicker', "
 		
 		$( \"#" . CHtml::activeId($model, 'work_date') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
+		'minDate'	: +1,
 		});
 		
 		$( \"#" . CHtml::activeId($model, 'input_date') . "\" ).mask('99-99-9999');
@@ -51,7 +52,9 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->textFieldRow($model, 'input_date', array('class' => 'span2')); ?>
+<?php //echo $form->textFieldRow($model, 'input_date', array('class' => 'span2')); ?>
+<?php echo $form->textFieldRow($model, 'input_date', array('value' => date("d-m-Y"),'disabled'=>'disabled')); ?>
+
 
 <?php echo $form->textFieldRow($model, 'start_date', array('class' => 'span2', 'hint' => 'Date when your leave started')); ?>
 

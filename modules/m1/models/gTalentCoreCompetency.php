@@ -32,8 +32,8 @@ class gTalentCoreCompetency extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('talent_template_id,company_id, superior_score, personal_score, 
-			superior2_score, personal2_score, period_id, level_id,level2_id', 'numerical','integerOnly'=>true),
+			array('talent_template_id,company_id, year, period_id, superior_score, personal_score, 
+			superior2_score, personal2_score, level_id,level2_id', 'numerical','integerOnly'=>true),
 			array('remark', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -65,7 +65,8 @@ class gTalentCoreCompetency extends CActiveRecord
 			'id' => 'ID',
 			'parent_id' => 'Parent',
 			'company_id' => 'Company',
-			'period' => 'Period',
+			'year' => 'Year',
+			'period_id' => 'Period',
 			'level_id' => 'Level',
 			'talent_template_id' => 'Talent Template',
 			'personal_score' => 'Personal Score I',
@@ -90,13 +91,14 @@ class gTalentCoreCompetency extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search($id)
+	public function search($id,$year)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('parent_id',$id);
+		$criteria->compare('year',$year);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

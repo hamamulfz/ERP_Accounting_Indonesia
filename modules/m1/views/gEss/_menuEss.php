@@ -13,6 +13,7 @@ if (isset($mEss->employee_name)) {
         array('label' => 'Leave', 'icon' => 'plane', 'url' => array('/m1/gEss/leave')),
         array('label' => 'Permission', 'icon' => 'cog', 'url' => array('/m1/gEss/permission')),
         array('label' => 'Attendance', 'icon' => 'bell', 'url' => array('/m1/gEss/attendance')),
+        array('label' => 'Performance Appraisal (*soon)', 'icon' => 'thumbs-up', 'url' => '#'),
     );
 
     $this->menu = array(
