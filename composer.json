@@ -1,0 +1,5 @@
+{
+    "require": {
+        "square1-io/yii-framework": "dev-master"
+    }
+}
