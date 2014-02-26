@@ -29,9 +29,11 @@
     ?>
 
     <?php
-    $this->widget('bootstrap.widgets.TbCarousel', array(
-        'items' => $photo,
-    ));
+    if (!empty($photo)) {
+        $this->widget('bootstrap.widgets.TbCarousel', array(
+            'items' => $photo,
+        ));
+    }
     ?>
 </div>
 

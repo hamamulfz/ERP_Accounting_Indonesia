@@ -67,7 +67,7 @@ return array(
 
     // application components
     'components' => array(
-        //'widgetFactory'=>array(  
+        //'widgetFactory'=>array(
         //'widgets'=>array(
         //'CJuiAutoComplete'=>array(
         //	'options'=>array(
@@ -99,11 +99,11 @@ return array(
           			'js'=>array('jquery.min.js'),
         		)
 			),
-		),        
+		),
 		*/
-        'browser' => array(
-            'class' => 'ext.EWebBrowser',
-        ),
+        // 'browser' => array(
+        //     'class' => 'ext.EWebBrowser',
+        // ),
         //'jasPHP' => array(
         //	'class' => 'JasPHP',
         //'orientation'=>'portrait',
@@ -149,7 +149,7 @@ return array(
             'emulatePrepare' => true,
             //'username' => 'postgres',
             'username' => 'root',
-            'password' => '1234qwe',
+            'password' => 'root',
             'charset' => 'utf8',
             'tablePrefix' => '',
             'enableProfiling' => true,
@@ -200,14 +200,14 @@ return array(
             'routes' => array(
                 array(
                     'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning',
+                    'levels' => 'error, warning, trace, info, var_dump',
                 ),
                 // uncomment the following to show log messages on web pages
-                /*
-                  array(
-                  'class'=>'CWebLogRoute',
-                  ),
-                 */
+
+                array(
+                    'class'=>'CWebLogRoute',
+                ),
+
                 /**/
                 array(
                     'class' => 'ext.db_profiler.DbProfileLogRoute',

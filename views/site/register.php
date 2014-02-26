@@ -2,13 +2,13 @@
 /* @var $this SUserRegistrationController */
 /* @var $model sUserRegistration */
 
-$this->breadcrumbs = array(
+// $this->breadcrumbs = array(
 //	'Register'=>array('index'),
 //	'Create',
-);
+// );
 
-$this->menu = array(
-);
+// $this->menu = array(
+// );
 ?>
 
 

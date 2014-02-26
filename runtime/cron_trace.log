@@ -8706,3 +8706,5 @@
 			(9634,'2013-12-26','2013-12-26',
 			'2013-12-31',4,
 			'Cuti Masal Natal 2013',-4,0,-4,2)
+2014/02/26 22:22:16 [trace] [system.CModule] Loading "log" application component
+2014/02/26 22:22:36 [trace] [system.CModule] Loading "log" application component

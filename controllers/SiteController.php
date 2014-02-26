@@ -1,5 +1,5 @@
 <?php
-class SiteController extends Controller {
+class SiteController extends CController {
     public $layout = '//layouts/column1';
 
     public function init() {
@@ -56,7 +56,7 @@ class SiteController extends Controller {
         $this->layout = '//layouts/baseNotSupport';
         $this->render('notSupportedBrowser');
     }
-    
+
     public function actionLogin() {
         $this->redirect(array('/site'));
     }
@@ -216,11 +216,11 @@ class SiteController extends Controller {
                 $cekValidationCode->save(false);
 
 				Notification::newInbox(
-						$cekValidationCode->userid, "Welcome To APHRIS", "Dear " . $cekValidationCode->employee_name . ",<br/><br/> 
+						$cekValidationCode->userid, "Welcome To APHRIS", "Dear " . $cekValidationCode->employee_name . ",<br/><br/>
 					Welcome to Agung Podomoro Human Resources Information System or simply we called it: APHRIS.  You can use this application to
 					maintain your personal profile info and watch over your education background, work experience, etc. <br/><br/>
-					Here, you can also apply your leave, permission and watch your attendance information. APHRIS also have Training Schedule Information, 
-					so you can consult with your HR Manager if you want to attend some training event.<br/><br/> 
+					Here, you can also apply your leave, permission and watch your attendance information. APHRIS also have Training Schedule Information,
+					so you can consult with your HR Manager if you want to attend some training event.<br/><br/>
 					Thank You for joining... <br/><br/><br/>
 					APHRIS"
 				);
@@ -236,8 +236,8 @@ class SiteController extends Controller {
             }
         }
         Yii::app()->user->setFlash('info', '<strong>IMPORTANT INFO!!</strong>
-		This Page is dedicated FOR internal Employee !!!... 
-		before you activate your username and password, 
+		This Page is dedicated FOR internal Employee !!!...
+		before you activate your username and password,
 			step #1, ask your ACTIVATION CODE to HR Manager at your business unit. Otherwise, you can\'t continue to register.');
         $this->render('register', array(
             'model' => $model,
