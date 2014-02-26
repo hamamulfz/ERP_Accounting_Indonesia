@@ -1,3 +1,0 @@
-/usr/local/zend/apache2/htdocs/aphris/protected/yiic cron updateVacancyApplicantExpire
-/usr/local/zend/apache2/htdocs/aphris/protected/yiic cron deleteUserRegistrationExpire
-/usr/local/zend/apache2/htdocs/aphris/protected/yiic cron deleteNotificationOld
