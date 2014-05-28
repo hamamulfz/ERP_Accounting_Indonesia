@@ -12,9 +12,9 @@ How to install
 
 2. Jalankan `composer install`
 
-3. Konfigurasi database pada `protected/config/main.php`
+3. Konfigurasi database pada `protected/config/main.php` dan `protected/config/console.php`
 
-4. Migrate database `./vendor/bin/yiic migrate` <sup>[1]</sup>
+4. Migrate database `./protected/yiic migrate`
 
 
 TODO
@@ -31,9 +31,3 @@ TODO
 [ ] Periksa dan bersihkan semua file yang campur aduk
 
 [ ] After investigate this application, let ask a question to myself. Should I use this application instead of create the new one? :/
-
-
-***
-*[Note]:*
-
-<sup>[1]</sup> Tidak bisa jalan. Harus langsung dari folder protected? :/
